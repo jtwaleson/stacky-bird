@@ -62,6 +62,7 @@ class Factory {
     board: Field[][];
     stack: Stack;
     div: JQuery;
+    flappyDiv: JQuery;
 
     constructor (width: number, height: number, div: string) {
         if (width < 0 || width < 0) {
@@ -72,6 +73,7 @@ class Factory {
         this.stack = new Stack();
         this.board = [];
         this.div = $(div);
+        this.flappyDiv = this.div.find('.flappy');
         var gameContainer = $('<div class="grid-container">');
         gameContainer.appendTo(this.div);
         $(this.div).width(Math.floor(this.width * 120.25));
@@ -86,12 +88,33 @@ class Factory {
                 this.board[i][j] = newField;
             }
         }
-        this.place = new Place(5, 5, Direction.RIGHT);
+        this.place = new Place(4, 4, Direction.RIGHT);
     }
     step () {
-        this.div.find('.flappy').removeClass('flappy');
+        if (
+            this.place.left < 0
+            ||
+            this.place.top < 0
+            ||
+            this.place.left >= this.board[0].length
+            ||
+            this.place.top >= this.board.length
+        ) {
+            throw "out of bounds";
+        }
         var currentField = this.board[this.place.top][this.place.left];
-        if (currentField && currentField.action) {
+        this.flappyDiv.attr('class').split(/\s+/).forEach((_className: string) => {
+            if (_className.indexOf('tile-position') === 0) {
+                this.flappyDiv.removeClass(_className);
+            }
+            if (_className === 'flappy1') {
+                this.flappyDiv.addClass('flappy2').removeClass('flappy1');
+            } else if (_className === 'flappy2') {
+                this.flappyDiv.addClass('flappy1').removeClass('flappy2');
+            }
+        });
+        this.flappyDiv.addClass('tile-position-' + this.place.left + '-' + this.place.top);
+        if (currentField.action) {
             var direction = currentField.action.execute(this.stack)
             if (direction === Direction.UP)
                 this.place.top -= 1;
@@ -101,18 +124,22 @@ class Factory {
                 this.place.left -= 1;
             else
                 this.place.left += 1;
-            var nextField = this.board[this.place.top][this.place.left];
-            nextField.div.addClass('flappy');
         }
         
     }
 }
 class FactoryManager {
     factories: Factory[] = [];
+    currentInterval: number = -1;
     run () {
-        setInterval(() => {
+        this.currentInterval = setInterval(() => {
             this.factories.forEach((factory: Factory) => {
-                factory.step();
+                try {
+                    factory.step();
+                } catch(err) {
+                    clearInterval(this.currentInterval);
+                    throw err;
+                }
             });
         }, 200);
     }
