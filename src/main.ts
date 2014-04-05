@@ -117,6 +117,7 @@ class FactoryManager {
                     factory.step();
                 } catch(err) {
                     clearInterval(this.currentInterval);
+                    factory.flappy.die();
                     throw err;
                 }
             });

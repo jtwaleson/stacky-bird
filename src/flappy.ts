@@ -29,7 +29,6 @@ class Flappy {
             this.left += 1;
  
         if (this._isOutOfBounds()) {
-            this.div.addClass('dead');
             throw "out of bounds";
         }
         this.direction = direction;
@@ -62,6 +61,9 @@ class Flappy {
                 this.div.addClass('flappy1').removeClass('flappy2');
             }
         });
+    }
+    die() {
+        this.div.addClass('dead');
     }
 }
 
