@@ -100,6 +100,7 @@ class Factory {
             ||
             this.place.top >= this.board.length
         ) {
+            this.flappyDiv.addClass('dead');
             throw "out of bounds";
         }
         var currentField = this.board[this.place.top][this.place.left];
