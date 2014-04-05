@@ -54,16 +54,22 @@ class Factory {
 
     width: number;
     height: number;
+    startX: number;
+    startY: number;
+    startDirection: Direction;
     board: Field[][];
     stack: Stack;
     div: JQuery;
 
-    constructor (width: number, height: number, div: string) {
-        if (width <= 4 || width <= 4) {
-            throw "Sizing of Factory should be larger than 4";
+    constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
+        if (width <= 0 || width <= 0) {
+            throw "Sizing of Factory should be larger than 1";
         }
         this.width = Math.floor(width);
         this.height = Math.floor(height);
+        this.startX = Math.floor(startX);
+        this.startY = Math.floor(startY);
+        this.startDirection = startDirection;
         this.board = [];
         this.div = $(div);
         var gameContainer = $('<div class="grid-container">');
@@ -76,28 +82,21 @@ class Factory {
             var gridRow = $('<div class="grid-row">');
             gridRow.appendTo(gameContainer);
             for (var j = 0; j < this.width; j++) {
-                var newField = new Field(i, j);
-                $('<div class="grid-cell">').appendTo(gridRow);
-                this.board[i][j] = newField;
-                if (j == 6) {
-//                    newField.setAction(new RandomAction(this.div.find('.tile-container')));
+                var gridCell = $('<div class="grid-cell">').appendTo(gridRow);
+                this.board[i][j] = new Field(i, j);
+                if (i === this.startX && j === this.startY) {
+                    gridCell.css('background-color', 'black');
                 }
             }
         }
-        this.board[10][5].setAction(new UpAction(this.div.find('.tile-container')));
-        this.board[5][8].setAction(new SwapAction(this.div.find('.tile-container')));
-        this.board[5][10].setAction(new LeftAction(this.div.find('.tile-container')));
-        this.board[2][5].setAction(new DupAction(this.div.find('.tile-container')));
-        this.board[0][5].setAction(new DownAction(this.div.find('.tile-container')));
-        this.board[5][2].setAction(new AddAction(this.div.find('.tile-container')));
-        this.board[5][0].setAction(new RightAction(this.div.find('.tile-container')));
-        this.board[8][5].setAction(new SubtractAction(this.div.find('.tile-container')));
-        this.board[5][5].setAction(new RandomAction(this.div.find('.tile-container')));
-        this.flappy = new Flappy(5, 5, Direction.RIGHT, this);
+        this.flappy = null;
         this.stack.push(10);
         this.stack.push(20);
     }
     step () {
+        if (this.flappy === null) {
+            this.flappy = new Flappy(this.startX, this.startY, this.startDirection, this);
+        }
         var currentField = this.board[this.flappy.top][this.flappy.left];
         var direction = this.flappy.direction;
         if (currentField.action) {
@@ -111,24 +110,83 @@ class Factory {
 
 class FactoryManager {
     factories: Factory[] = [];
-    currentInterval: number = -1;
+    currentInterval: number = null;
     run () {
         this.currentInterval = setInterval(() => {
             this.factories.forEach((factory: Factory) => {
                 try {
                     factory.step();
                 } catch(err) {
-                    clearInterval(this.currentInterval);
+                    this.pause();
                     factory.flappy.die();
                     throw err;
                 }
             });
         }, 100);
     }
+    pause () {
+        if (this.currentInterval) {
+            clearInterval(this.currentInterval);
+            this.currentInterval = null;
+        }
+    }
+    stop () {
+        this.pause();
+        this.factories.forEach((factory: Factory) => {
+            factory.flappy.destroy();
+        });
+    }
 }
 
+interface LevelSerialized {
+    name: string;
+    order: number;
+    width: number;
+    height: number;
+    startX: number;
+    startY: number;
+    startDirection: Direction;
+    blocksAvailable: any;
+    testCases: any[];
+    description: string;
+}
+
+class Level {
+    factoryManager: FactoryManager;
+    name: string;
+    description: string;
+
+    constructor (levelObject: LevelSerialized) {
+        this.name = levelObject.name;
+        this.factoryManager = new FactoryManager();
+        this.factoryManager.factories.push(new Factory(
+            levelObject.width,
+            levelObject.height,
+            levelObject.startX,
+            levelObject.startY,
+            levelObject.startDirection,
+            '.factory1'
+        ));
+        this.description = levelObject.description;
+    }
+}
 $(function () {
-    var fm = new FactoryManager();
-    fm.factories.push(new Factory(11, 11, '.factory1'));
-    fm.run();
+    var fm = new Level({
+        name: 'MultiMeter',
+        order: 1,
+        width: 3,
+        height: 2,
+        startX: 0,
+        startY: 0,
+        startDirection: Direction.RIGHT,
+        blocksAvailable: {
+            'Add': 1,
+            'Return': 1,
+            'Down': 1,
+            'Left': 1,
+            'Up': 1,
+        },
+        testCases: [],
+        description: 'Multiply two numbers that will be put on the stack',
+    });
 });

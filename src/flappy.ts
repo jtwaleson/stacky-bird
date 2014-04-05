@@ -65,5 +65,8 @@ class Flappy {
     die() {
         this.div.addClass('dead');
     }
+    destroy() {
+        this.div.closest('.tile').remove();
+        this.factory.flappy = null;
+    }
 }
-
