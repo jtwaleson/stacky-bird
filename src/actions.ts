@@ -114,3 +114,16 @@ class SubtractAction extends Action {
         return null;
     }
 }
+class ReturnAction extends Action {
+    callback: (result: number) => any;
+    constructor(div: JQuery, callback: (result: number) => any) {
+        super(div);
+        this.div.html('RET');
+        this.callback = callback;
+    }
+    execute(stack: Stack) : Direction {
+        var val1 = stack.pop();
+        this.callback(val1);
+        return null;
+    }
+}
