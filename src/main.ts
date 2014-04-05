@@ -18,19 +18,19 @@ class Stack {
         this.factory.div.append(this.div);
     }
 
-    pop () {
+    pop (): number {
         if (this.div.children().length === 0) {
             throw "Stack is empty!";
         }
         var last = this.div.children(':last');
-        var value = last.data();
+        var value = last.data('value');
         last.remove();
-        return value;
+        return parseInt(value, 10);
     }
 
     push (item: number) {
         var li = $('<li>');
-        li.data(item + '');
+        li.data('value', item + '');
         li.text(item + '');
         this.div.append(li);
     }
