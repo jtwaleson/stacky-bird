@@ -85,9 +85,13 @@ class Factory {
             }
         }
         this.board[10][5].setAction(new UpAction(this.div.find('.tile-container')));
+        this.board[5][8].setAction(new SwapAction(this.div.find('.tile-container')));
         this.board[5][10].setAction(new LeftAction(this.div.find('.tile-container')));
+        this.board[2][5].setAction(new DupAction(this.div.find('.tile-container')));
         this.board[0][5].setAction(new DownAction(this.div.find('.tile-container')));
+        this.board[5][2].setAction(new AddAction(this.div.find('.tile-container')));
         this.board[5][0].setAction(new RightAction(this.div.find('.tile-container')));
+        this.board[8][5].setAction(new SubtractAction(this.div.find('.tile-container')));
         this.board[5][5].setAction(new RandomAction(this.div.find('.tile-container')));
         this.flappy = new Flappy(5, 5, Direction.RIGHT, this);
         this.stack.push(10);

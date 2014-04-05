@@ -65,3 +65,52 @@ class RightAction extends Action {
         return Direction.RIGHT;
     }
 }
+class DupAction extends Action {
+    constructor(div: JQuery) {
+        super(div);
+        this.div.html('DUP');
+    }
+    execute(stack: Stack) : Direction {
+        var val = stack.pop();
+        stack.push(val);
+        stack.push(val);
+        return null;
+    }
+}
+class SwapAction extends Action {
+    constructor(div: JQuery) {
+        super(div);
+        this.div.html('SWP');
+    }
+    execute(stack: Stack) : Direction {
+        var val1 = stack.pop();
+        var val2 = stack.pop();
+        stack.push(val1);
+        stack.push(val2);
+        return null;
+    }
+}
+class AddAction extends Action {
+    constructor(div: JQuery) {
+        super(div);
+        this.div.html('+');
+    }
+    execute(stack: Stack) : Direction {
+        var val1 = stack.pop();
+        var val2 = stack.pop();
+        stack.push(val1 + val2);
+        return null;
+    }
+}
+class SubtractAction extends Action {
+    constructor(div: JQuery) {
+        super(div);
+        this.div.html('-');
+    }
+    execute(stack: Stack) : Direction {
+        var val1 = stack.pop();
+        var val2 = stack.pop();
+        stack.push(val1 - val2);
+        return null;
+    }
+}
