@@ -1,11 +1,12 @@
 Stacky Bird
 ====
 
-Stacky Bird is a game where you learn to program using low level commands and a stack.
-
-I wrote it for my son.
+Stacky Bird is a game where you learn to program using low level commands and a stack. I wrote it for my son.
 
 This game was inspired by 2048, Flappy Bird, SpaceChem and my trusty old HP 49G+ calculator on which I used to program UserRPL.
+
+Compilation
+----
 
 You need to install Typescript and then compile the program with
 
