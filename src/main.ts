@@ -101,7 +101,9 @@ class Factory {
         var currentField = this.board[this.flappy.top][this.flappy.left];
         var direction = this.flappy.direction;
         if (currentField.action) {
-            direction = currentField.action.execute(this.stack);
+            var newDirection = currentField.action.execute(this.stack);
+            if (newDirection !== null)
+                direction = newDirection;
         }
         this.flappy.moveInDirection(direction);
     }
