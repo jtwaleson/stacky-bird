@@ -13,12 +13,13 @@ class Flappy {
     div: JQuery;
     factory: Factory;
 
-    constructor (top: number, left: number, direction: Direction, div: JQuery, factory: Factory) {
+    constructor (top: number, left: number, direction: Direction, factory: Factory) {
         this.top = top;
         this.left = left;
         this.direction = direction;
-        this.div = div;
         this.factory = factory;
+        this.div = $('<div class="flappy">');
+        this.factory.div.find('.tile-container').append($('<div class="tile">').addClass('tile-position-' + this.left + '-' + this.top).append(this.div));
     }
     moveInDirection (direction: Direction) {
         this.div.removeClass('flappy-up flappy-down flappy-right flappy-left').addClass('flappy-' + Direction[direction].toLowerCase());
@@ -38,13 +39,16 @@ class Flappy {
             throw "out of bounds";
         }
         this.direction = direction;
+        this.drawPosition();
+    }
+    drawPosition() {
         this.div.closest('.tile').attr('class').split(/\s+/).forEach((_className: string) => {
             if (_className.indexOf('tile-position') === 0) {
                 this.div.closest('.tile').removeClass(_className);
             }
         });
         this.div.closest('.tile').addClass('tile-position-' + this.left + '-' + this.top);
-    }
+     }
     _isOutOfBounds() {
         return (
             this.left < 0
@@ -136,7 +140,7 @@ class Factory {
                 this.board[i][j] = newField;
             }
         }
-        this.flappy = new Flappy(4, 4, Direction.RIGHT, this.div.find('.flappy'), this);
+        this.flappy = new Flappy(4, 4, Direction.RIGHT, this);
     }
     step () {
         var currentField = this.board[this.flappy.top][this.flappy.left];
