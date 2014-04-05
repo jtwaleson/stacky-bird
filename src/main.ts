@@ -9,15 +9,30 @@ enum Direction {
     RIGHT,
 }
 class Stack {
-    items: number[] = [];
+    factory: Factory;
+    div: JQuery;
+
+    constructor(factory: Factory) {
+        this.factory = factory;
+        this.div = $('<ul class="stack">');
+        this.factory.div.append(this.div);
+    }
+
     pop () {
-        if (this.items.length === 0) {
+        if (this.div.children().length === 0) {
             throw "Stack is empty!";
         }
-        return this.items.pop();
+        var last = this.div.children(':last');
+        var value = last.data();
+        last.remove();
+        return value;
     }
+
     push (item: number) {
-        this.items.push(item);
+        var li = $('<li>');
+        li.data(item + '');
+        li.text(item + '');
+        this.div.append(li);
     }
 }
 class Field {
@@ -49,11 +64,11 @@ class Factory {
         }
         this.width = Math.floor(width);
         this.height = Math.floor(height);
-        this.stack = new Stack();
         this.board = [];
         this.div = $(div);
         var gameContainer = $('<div class="grid-container">');
         gameContainer.appendTo(this.div);
+        this.stack = new Stack(this);
         $(this.div).width(Math.floor(this.width * 120.25));
         $(this.div).height(Math.floor(this.height * 120.25));
         for (var i = 0; i < this.height; i++) {
@@ -75,6 +90,8 @@ class Factory {
         this.board[5][0].setAction(new RightAction(this.div.find('.tile-container')));
         this.board[5][5].setAction(new RandomAction(this.div.find('.tile-container')));
         this.flappy = new Flappy(5, 5, Direction.RIGHT, this);
+        this.stack.push(10);
+        this.stack.push(20);
     }
     step () {
         var currentField = this.board[this.flappy.top][this.flappy.left];

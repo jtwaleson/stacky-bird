@@ -1798,3 +1798,11 @@ hr {
     margin-top: 90px !important; }
   .game-message .lower {
     margin-top: 30px !important; } }
+
+ul.stack {
+    position: absolute;
+    width: 200px;
+    height: 100%;
+    left: 1400px;
+    border: 1px solid black;
+}
