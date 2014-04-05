@@ -69,12 +69,12 @@ class Factory {
                 }
             }
         }
-        this.board[4][6].setAction(new UpAction(this.div.find('.tile-container')));
-        this.board[6][6].setAction(new UpAction(this.div.find('.tile-container')));
-        this.board[2][6].setAction(new LeftAction(this.div.find('.tile-container')));
-        this.board[2][2].setAction(new DownAction(this.div.find('.tile-container')));
-        this.board[6][2].setAction(new RightAction(this.div.find('.tile-container')));
-        this.flappy = new Flappy(4, 4, Direction.RIGHT, this);
+        this.board[10][5].setAction(new UpAction(this.div.find('.tile-container')));
+        this.board[5][10].setAction(new LeftAction(this.div.find('.tile-container')));
+        this.board[0][5].setAction(new DownAction(this.div.find('.tile-container')));
+        this.board[5][0].setAction(new RightAction(this.div.find('.tile-container')));
+        this.board[5][5].setAction(new RandomAction(this.div.find('.tile-container')));
+        this.flappy = new Flappy(5, 5, Direction.RIGHT, this);
     }
     step () {
         var currentField = this.board[this.flappy.top][this.flappy.left];
@@ -105,6 +105,6 @@ class FactoryManager {
 
 $(function () {
     var fm = new FactoryManager();
-    fm.factories.push(new Factory(10, 10, '.factory1'));
+    fm.factories.push(new Factory(11, 11, '.factory1'));
     fm.run();
 });
