@@ -18,7 +18,7 @@ class Flappy {
         this.left = left;
         this.direction = direction;
         this.factory = factory;
-        this.div = $('<div class="flappy">');
+        this.div = $('<div class="flappy flappy1">');
         this.factory.div.find('.tile-container').append($('<div class="tile">').addClass('tile-position-' + this.left + '-' + this.top).append(this.div));
     }
     moveInDirection (direction: Direction) {
@@ -83,11 +83,20 @@ class Stack {
     }
 }
 class Action {
+    div: JQuery;
+    constructor(div) {
+        this.div = $('<div class="tile-inner">');
+        this.div.appendTo($('<div class="tile">').appendTo(div));
+    }
     execute(stack: Stack) : Direction {
         return Direction.UP;
     }
 }
 class RandomAction extends Action {
+    constructor(div: JQuery) {
+        super(div);
+        this.div.text('?');
+    }
     execute(stack: Stack) : Direction {
         var r = Math.random();
         if (r < 0.25)
@@ -101,11 +110,17 @@ class RandomAction extends Action {
     }
 }
 class Field {
-    div: any;
+    div: JQuery;
     action: Action;
-    constructor() {
-        this.div = $('<div class="grid-cell">');
-        this.action = new RandomAction();
+    top: number;
+    left: number;
+    constructor(top: number, left: number) {
+        this.top = top;
+        this.left = left;
+    }
+    setAction(action: Action) {
+        this.action = action;
+        this.action.div.closest('.tile').addClass('tile-position-' + this.left + '-' + this.top);
     }
 }
 class Factory {
@@ -118,8 +133,8 @@ class Factory {
     div: JQuery;
 
     constructor (width: number, height: number, div: string) {
-        if (width < 0 || width < 0) {
-            throw "Sizing of Factory should be larger than 0";
+        if (width <= 4 || width <= 4) {
+            throw "Sizing of Factory should be larger than 4";
         }
         this.width = Math.floor(width);
         this.height = Math.floor(height);
@@ -135,18 +150,23 @@ class Factory {
             var gridRow = $('<div class="grid-row">');
             gridRow.appendTo(gameContainer);
             for (var j = 0; j < this.width; j++) {
-                var newField = new Field();
-                newField.div.appendTo(gridRow);
+                var newField = new Field(i, j);
+                $('<div class="grid-cell">').appendTo(gridRow);
                 this.board[i][j] = newField;
+                if (j == 6) {
+                    newField.setAction(new RandomAction(this.div.find('.tile-container')));
+                }
             }
         }
         this.flappy = new Flappy(4, 4, Direction.RIGHT, this);
     }
     step () {
         var currentField = this.board[this.flappy.top][this.flappy.left];
+        var direction = this.flappy.direction;
         if (currentField.action) {
-            this.flappy.moveInDirection(currentField.action.execute(this.stack));
+            direction = currentField.action.execute(this.stack);
         }
+        this.flappy.moveInDirection(direction);
         
     }
 }
@@ -169,6 +189,6 @@ class FactoryManager {
 
 $(function () {
     var fm = new FactoryManager();
-    fm.factories.push(new Factory(10, 10, '.factory'));
+    fm.factories.push(new Factory(10, 10, '.factory1'));
     fm.run();
 });
