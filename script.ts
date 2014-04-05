@@ -104,17 +104,20 @@ class Factory {
             throw "out of bounds";
         }
         var currentField = this.board[this.place.top][this.place.left];
-        this.flappyDiv.attr('class').split(/\s+/).forEach((_className: string) => {
+        this.flappyDiv.closest('.tile').attr('class').split(/\s+/).forEach((_className: string) => {
             if (_className.indexOf('tile-position') === 0) {
-                this.flappyDiv.removeClass(_className);
+                this.flappyDiv.closest('.tile').removeClass(_className);
             }
+        });
+        this.flappyDiv.attr('class').split(/\s+/).forEach((_className: string) => {
             if (_className === 'flappy1') {
                 this.flappyDiv.addClass('flappy2').removeClass('flappy1');
             } else if (_className === 'flappy2') {
                 this.flappyDiv.addClass('flappy1').removeClass('flappy2');
             }
         });
-        this.flappyDiv.addClass('tile-position-' + this.place.left + '-' + this.place.top);
+        this.flappyDiv.closest('.tile').addClass('tile-position-' + this.place.left + '-' + this.place.top);
+        this.flappyDiv.removeClass('flappy-up flappy-down flappy-right flappy-left').addClass('flappy-' + Direction[this.place.direction].toLowerCase());
         if (currentField.action) {
             var direction = currentField.action.execute(this.stack)
             if (direction === Direction.UP)
@@ -125,6 +128,7 @@ class Factory {
                 this.place.left -= 1;
             else
                 this.place.left += 1;
+            this.place.direction = direction;
         }
         
     }

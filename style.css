@@ -222,18 +222,36 @@ hr {
   background: rgba(238, 228, 218, 0.35); }
   .grid-cell:last-child {
     margin-right: 0; }
-  .tile.flappy.dead {
+  .tile .flappy.dead {
       -webkit-filter: invert(100%);
   }
-  .tile.flappy {
+  .tile .flappy {
     background-image: url(flappy1.png);
     background-repeat: no-repeat;
     background-size: 100px 100px;
     background-position: center;
+    height: 100%;
+    width: 100%;
   }
-  .tile.flappy.flappy2 {
+  .tile .flappy.flappy2 {
     background-image: url(flappy2.png);
   }
+  .tile .flappy-down {
+      transform:rotate(90deg);
+      -ms-transform:rotate(90deg); /* IE 9 */
+      -webkit-transform:rotate(90deg); /* Opera, Chrome, and Safari */
+  }
+  .tile .flappy-left {
+      transform:rotate(180deg);
+      -ms-transform:rotate(180deg); /* IE 9 */
+      -webkit-transform:rotate(180deg); /* Opera, Chrome, and Safari */
+  }
+  .tile .flappy-up {
+      transform:rotate(-90deg);
+      -ms-transform:rotate(-90deg); /* IE 9 */
+      -webkit-transform:rotate(9-0deg); /* Opera, Chrome, and Safari */
+  }
+
 .tile-container {
   position: absolute;
   z-index: 2; }
