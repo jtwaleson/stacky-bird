@@ -5,6 +5,11 @@ Stacky Bird is a game where you learn to program using low level commands and a 
 
 This game was inspired by 2048, Flappy Bird, SpaceChem and my trusty old HP 49G+ calculator on which I used to program UserRPL.
 
+See it in action!
+----
+[http://jtwaleson.github.io/stacky-bird/](http://jtwaleson.github.io/stacky-bird/ "It's really cool!")
+
+
 Compilation
 ----
 
