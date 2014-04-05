@@ -99,7 +99,7 @@ class FactoryManager {
                     throw err;
                 }
             });
-        }, 200);
+        }, 100);
     }
 }
 
