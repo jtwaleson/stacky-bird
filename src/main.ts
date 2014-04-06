@@ -60,6 +60,7 @@ class Factory {
     board: Field[][];
     stack: Stack;
     div: JQuery;
+    currentInterval: number = null;
 
     constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
         if (width <= 0 || width <= 0) {
@@ -90,8 +91,6 @@ class Factory {
             }
         }
         this.flappy = null;
-        this.stack.push(10);
-        this.stack.push(20);
     }
     step () {
         if (this.flappy === null) {
@@ -106,23 +105,20 @@ class Factory {
         }
         this.flappy.moveInDirection(direction);
     }
-}
-
-class FactoryManager {
-    factories: Factory[] = [];
-    currentInterval: number = null;
-    run () {
+    run (speed: number = 100) {
+        if (this.flappy && this.flappy.div.is('.dead')) {
+            this.stop();
+        }
         this.currentInterval = setInterval(() => {
-            this.factories.forEach((factory: Factory) => {
-                try {
-                    factory.step();
-                } catch(err) {
-                    this.pause();
-                    factory.flappy.die();
-                    throw err;
-                }
-            });
-        }, 100);
+            try {
+                this.step();
+            } catch(err) {
+                this.pause();
+                this.flappy.die();
+                throw err;
+            }
+        }, speed)
+
     }
     pause () {
         if (this.currentInterval) {
@@ -132,12 +128,11 @@ class FactoryManager {
     }
     stop () {
         this.pause();
-        this.factories.forEach((factory: Factory) => {
-            factory.flappy.destroy();
-        });
+        if (this.flappy) {
+            this.flappy.destroy();
+        }
     }
 }
-
 interface LevelSerialized {
     name: string;
     order: number;
@@ -150,28 +145,30 @@ interface LevelSerialized {
     testCases: any[];
     description: string;
 }
-
 class Level {
-    factoryManager: FactoryManager;
+    factory: Factory;
     name: string;
     description: string;
 
     constructor (levelObject: LevelSerialized) {
         this.name = levelObject.name;
-        this.factoryManager = new FactoryManager();
-        this.factoryManager.factories.push(new Factory(
+        this.factory = new Factory(
             levelObject.width,
             levelObject.height,
             levelObject.startX,
             levelObject.startY,
             levelObject.startDirection,
             '.factory1'
-        ));
+        );
         this.description = levelObject.description;
     }
+    run(speed: number = 100) {
+        this.factory.run(speed);
+    }
 }
+var level;
 $(function () {
-    var fm = new Level({
+    level = new Level({
         name: 'MultiMeter',
         order: 1,
         width: 3,
