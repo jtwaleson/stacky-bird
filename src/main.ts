@@ -63,6 +63,7 @@ class Factory {
     div: JQuery;
     currentInterval: number = null;
     tileContainer: JQuery;
+    gridContainer: JQuery;
 
     constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
         if (width <= 0 || width <= 0) {
@@ -76,7 +77,6 @@ class Factory {
         this.board = [];
         this.div = $(div);
         this.tileContainer = $('<div class="tile-container">').appendTo(this.div);;
-        var gameContainer = $('<div class="grid-container">').appendTo(this.div);;
         var buttons = $('<div class="btn-group btn-group-lg btn-group-justified game-controls"></div>');
         this.div.after(buttons);
         var addButton = (name, func) => {
@@ -95,20 +95,19 @@ class Factory {
         addButton('play', (event) => {
             this.run();
         });
-        gameContainer.appendTo(this.div);
         this.stack = new Stack(this);
+        this.gridContainer = $('<div class="grid-container editable">').appendTo(this.div);;
         for (var i = 0; i < this.height; i++) {
             this.board[i] = [];
-            var gridRow = $('<div class="grid-row">');
-            gridRow.appendTo(gameContainer);
+            var gridRow = $('<div class="grid-row">').appendTo(this.gridContainer);
             for (var j = 0; j < this.width; j++) {
-                var gridCell = $('<div class="grid-cell">').appendTo(gridRow).data('x', j).data('y', i);
+                $('<div class="grid-cell">').appendTo(gridRow).data('x', j).data('y', i);
                 this.board[i][j] = new Field(i, j);
-                gridCell.click(function (event) {
-                    alert($(this).data('x') + '-' + $(this).data('y'));
-                });
             }
         }
+        this.div.on('click', '.editable .grid-cell', function (event) {
+            alert($(this).data('x') + '-' + $(this).data('y'));
+        });
         this.board[0][3].setAction(new DownAction(this.tileContainer));
         this.board[3][3].setAction(new LeftAction(this.tileContainer));
         this.board[3][1].setAction(new UpAction(this.tileContainer));
@@ -149,7 +148,7 @@ class Factory {
                 throw err;
             }
         }, speed)
-
+        this.gridContainer.removeClass('editable');
     }
     pause () {
         if (this.currentInterval) {
@@ -162,6 +161,7 @@ class Factory {
         if (this.flappy) {
             this.flappy.destroy();
         }
+        this.gridContainer.addClass('editable');
     }
 }
 interface LevelSerialized {
