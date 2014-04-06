@@ -21,6 +21,7 @@ var allActions = {
     'ADD': AddAction,
     'SUB': SubtractAction,
     'RET': ReturnAction,
+    'INP': InputAction,
 }
 
 class Stack {
@@ -137,7 +138,14 @@ class Factory {
             $('.blockpicker .actions').off('click').on('click', '.btn', function () {
                 var chosenAction = $(this).data('action');
                 if (chosenAction && chosenAction in allActions) {
-                    var newAction = new allActions[chosenAction](self.tileContainer);
+                    if (chosenAction === 'RET') {
+                        var newAction = new allActions[chosenAction](self.tileContainer, function (value) {
+                            self.stop();
+                            alert('Return value: ' + value);
+                        });
+                    } else {
+                        var newAction = new allActions[chosenAction](self.tileContainer);
+                    }
                     field.setAction(newAction);
                 }
                 $('.blockpicker').modal('hide');

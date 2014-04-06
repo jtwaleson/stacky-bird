@@ -100,8 +100,8 @@ class AddAction extends Action {
         this.div.html('+');
     }
     execute(stack: Stack) : Direction {
-        var val1 = stack.pop();
         var val2 = stack.pop();
+        var val1 = stack.pop();
         stack.push(val1 + val2);
         return null;
     }
@@ -112,8 +112,8 @@ class SubtractAction extends Action {
         this.div.html('-');
     }
     execute(stack: Stack) : Direction {
-        var val1 = stack.pop();
         var val2 = stack.pop();
+        var val1 = stack.pop();
         stack.push(val1 - val2);
         return null;
     }
@@ -128,6 +128,21 @@ class ReturnAction extends Action {
     execute(stack: Stack) : Direction {
         var val1 = stack.pop();
         this.callback(val1);
+        return null;
+    }
+}
+class InputAction extends Action {
+    constructor(div: JQuery) {
+        super(div);
+        this.div.html('INP');
+    }
+    execute(stack: Stack) : Direction {
+        var val = parseInt(prompt('Enter whole number'));
+        if (isNaN(val)) {
+            throw 'invalid value';
+        } else {
+            stack.push(val);
+        }
         return null;
     }
 }
