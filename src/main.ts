@@ -61,6 +61,7 @@ class Factory {
     stack: Stack;
     div: JQuery;
     currentInterval: number = null;
+    tileContainer: JQuery;
 
     constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
         if (width <= 0 || width <= 0) {
@@ -73,7 +74,8 @@ class Factory {
         this.startDirection = startDirection;
         this.board = [];
         this.div = $(div);
-        var gameContainer = $('<div class="grid-container">');
+        this.tileContainer = $('<div class="tile-container">').appendTo(this.div);;
+        var gameContainer = $('<div class="grid-container">').appendTo(this.div);;
         gameContainer.appendTo(this.div);
         this.stack = new Stack(this);
         $(this.div).width(Math.floor(this.width * 120.25));
@@ -83,7 +85,7 @@ class Factory {
             var gridRow = $('<div class="grid-row">');
             gridRow.appendTo(gameContainer);
             for (var j = 0; j < this.width; j++) {
-                var gridCell = $('<div class="grid-cell">').appendTo(gridRow);
+                var gridCell = $('<div class="grid-cell">').appendTo(gridRow).data('x', j).data('y', i);
                 this.board[i][j] = new Field(i, j);
                 if (i === this.startX && j === this.startY) {
                     gridCell.css('background-color', 'black');
