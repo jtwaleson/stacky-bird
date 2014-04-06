@@ -98,9 +98,6 @@ class Factory {
         this.tileContainer.append(outerDiv);
     }
     step () {
-        if (this.flappy === null) {
-            this.flappy = new Flappy(this.startX, this.startY, this.startDirection, this);
-        }
         var currentField = this.board[this.flappy.top][this.flappy.left];
         var direction = this.flappy.direction;
         if (currentField.action) {
@@ -113,6 +110,9 @@ class Factory {
     run (speed: number = 100) {
         if (this.flappy && this.flappy.div.is('.dead')) {
             this.stop();
+        }
+        if (this.flappy === null) {
+            this.flappy = new Flappy(this.startX, this.startY, this.startDirection, this);
         }
         this.currentInterval = setInterval(() => {
             try {
