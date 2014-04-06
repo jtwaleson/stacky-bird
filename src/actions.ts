@@ -2,12 +2,16 @@
 
 class Action {
     div: JQuery;
+    field: Field;
     constructor(div) {
-        this.div = $('<div class="tile-inner">');
+        this.div = $('<div class="tile-inner action">');
         this.div.appendTo($('<div class="tile">').appendTo(div));
     }
     execute(stack: Stack) : Direction {
         return Direction.UP;
+    }
+    setField(field: Field) {
+        this.field = field;
     }
 }
 

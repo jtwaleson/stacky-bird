@@ -61,7 +61,14 @@ class Field {
     }
     setAction(action: Action) {
         this.action = action;
-        this.action.div.closest('.tile').addClass('tile-position-' + this.left + '-' + this.top);
+        this.action.div.closest('.tile').addClass('tile-position-' + this.left + '-' + this.top).data('x', this.left).data('y', this.top);
+        this.action.setField(this);
+    }
+    removeAction() {
+        if (this.action) {
+            this.action.div.closest('.tile').remove();
+        }
+        this.action = null;
     }
 }
 class Factory {
@@ -78,6 +85,7 @@ class Factory {
     currentInterval: number = null;
     tileContainer: JQuery;
     gridContainer: JQuery;
+    editable: boolean;
 
     constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
         if (width <= 0 || width <= 0) {
@@ -90,6 +98,7 @@ class Factory {
         this.startDirection = startDirection;
         this.board = [];
         this.div = $(div);
+        this.setEditable(true);
         this.tileContainer = $('<div class="tile-container">').appendTo(this.div);;
         var buttons = $('<div class="btn-group btn-group-lg btn-group-justified game-controls"></div>');
         this.div.after(buttons);
@@ -110,7 +119,7 @@ class Factory {
             this.run();
         });
         this.stack = new Stack(this);
-        this.gridContainer = $('<div class="grid-container editable">').appendTo(this.div);;
+        this.gridContainer = $('<div class="grid-container">').appendTo(this.div);;
         for (var i = 0; i < this.height; i++) {
             this.board[i] = [];
             var gridRow = $('<div class="grid-row">').appendTo(this.gridContainer);
@@ -120,7 +129,9 @@ class Factory {
             }
         }
         var self = this;
-        this.div.on('click', '.editable .grid-cell', function (event) {
+        this.gridContainer.on('click', '.grid-cell', function (event) {
+            if (!self.editable)
+                return;
             var field = self.board[$(this).data('y')][$(this).data('x')];
             $('.blockpicker').modal();
             $('.blockpicker .actions').off('click').on('click', '.btn', function () {
@@ -131,6 +142,13 @@ class Factory {
                 }
                 $('.blockpicker').modal('hide');
             });
+        });
+        this.tileContainer.on('click', '.action', function (event) {
+            if (!self.editable)
+                return;
+            var tile = $(this).closest('.tile');
+            var field = self.board[tile.data('y')][tile.data('x')];
+            field.removeAction();
         });
         this.addTile(this.startX, this.startY, 'START');
         this.flappy = null;
@@ -168,7 +186,7 @@ class Factory {
                 throw err;
             }
         }, speed)
-        this.gridContainer.removeClass('editable');
+        this.setEditable(false);
     }
     pause () {
         if (this.currentInterval) {
@@ -181,7 +199,18 @@ class Factory {
         if (this.flappy) {
             this.flappy.destroy();
         }
-        this.gridContainer.addClass('editable');
+        this.setEditable(true);
+    }
+    isEditable() {
+        return this.editable;
+    }
+    setEditable(editable: boolean) {
+        if (editable) {
+            this.div.addClass('editable');
+        } else {
+            this.div.removeClass('editable');
+        }
+        this.editable = editable;
     }
 }
 interface LevelSerialized {
