@@ -87,12 +87,17 @@ class Factory {
             for (var j = 0; j < this.width; j++) {
                 var gridCell = $('<div class="grid-cell">').appendTo(gridRow).data('x', j).data('y', i);
                 this.board[i][j] = new Field(i, j);
-                if (i === this.startX && j === this.startY) {
-                    gridCell.css('background-color', 'black');
-                }
             }
         }
+        this.addTile(this.startX, this.startY, 'START');
         this.flappy = null;
+    }
+    addTile(x: number, y: number, text: string) {
+        var outerDiv = $('<div>').addClass('tile-position-' + this.startX + '-' + this.startY).addClass('tile');
+        var innerDiv = $('<div>').addClass('tile-inner').appendTo(outerDiv);
+        innerDiv.text(text);
+        outerDiv.addClass('text-length-' + (text.length));
+        this.tileContainer.append(outerDiv);
     }
     step () {
         if (this.flappy === null) {

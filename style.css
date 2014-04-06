@@ -95,7 +95,7 @@ html, body {
   .tile .flappy {
     background-image: url(flappy1.png);
     background-repeat: no-repeat;
-    background-size: 100px 100px;
+    background-size: 100% 100%;
     background-position: center;
     height: 100%;
     width: 100%;
@@ -1334,6 +1334,23 @@ html, body {
       .tile.tile-super .tile-inner {
         font-size: 10px; } }
 
+   .tile.text-length-1 .tile-inner {
+       font-size: 45px;
+   }
+   .tile.text-length-2 .tile-inner {
+       font-size: 40px;
+   }
+   .tile.text-length-3 .tile-inner {
+       font-size: 35px;
+   }
+   .tile.text-length-4 .tile-inner {
+       font-size: 25px;
+   }
+   .tile.text-length-5 .tile-inner {
+       font-size: 20px;
+   }
+
+
 @-webkit-keyframes appear {
   0% {
     opacity: 0;
@@ -1429,41 +1446,8 @@ html, body {
   html, body {
     font-size: 15px; }
 
-  body {
-    margin: 20px 0;
-    padding: 0 20px; }
-
-  h1.title {
-    font-size: 27px;
-    margin-top: 15px; }
-
-  .container {
-    width: 280px;
-    margin: 0 auto; }
-
-  .score-container, .best-container {
-    margin-top: 0;
-    padding: 15px 10px;
-    min-width: 40px; }
-
-  .heading {
-    margin-bottom: 10px; }
-
-  .game-intro {
-    width: 55%;
-    display: block;
-    box-sizing: border-box;
-    line-height: 1.65; }
-
-  .restart-button {
-    width: 42%;
-    padding: 0;
-    display: block;
-    box-sizing: border-box;
-    margin-top: 2px; }
-
   .game-container {
-    margin-top: 17px;
+    margin-top: 60px;
     position: relative;
     padding: 10px;
     cursor: default;
