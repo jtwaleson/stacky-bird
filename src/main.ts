@@ -76,6 +76,24 @@ class Factory {
         this.div = $(div);
         this.tileContainer = $('<div class="tile-container">').appendTo(this.div);;
         var gameContainer = $('<div class="grid-container">').appendTo(this.div);;
+        var buttons = $('<div class="btn-group btn-group-lg btn-group-justified game-controls"></div>');
+        this.div.after(buttons);
+        var addButton = (name, func) => {
+            buttons.append($('<div class="btn-group">').append(
+                $('<button type="button" class="btn btn-default">').append(
+                    $('<span class="glyphicon glyphicon-' + name + '">')
+                )
+            ).click(func));
+        }
+        addButton('stop', (event) => {
+            this.stop();
+        });
+        addButton('pause', (event) => {
+            this.pause();
+        });
+        addButton('play', (event) => {
+            this.run();
+        });
         gameContainer.appendTo(this.div);
         this.stack = new Stack(this);
         for (var i = 0; i < this.height; i++) {
@@ -85,8 +103,15 @@ class Factory {
             for (var j = 0; j < this.width; j++) {
                 var gridCell = $('<div class="grid-cell">').appendTo(gridRow).data('x', j).data('y', i);
                 this.board[i][j] = new Field(i, j);
+                gridCell.click(function (event) {
+                    alert($(this).data('x') + '-' + $(this).data('y'));
+                });
             }
         }
+        this.board[0][3].setAction(new DownAction(this.tileContainer));
+        this.board[3][3].setAction(new LeftAction(this.tileContainer));
+        this.board[3][1].setAction(new UpAction(this.tileContainer));
+        this.board[0][1].setAction(new RightAction(this.tileContainer));
         this.addTile(this.startX, this.startY, 'START');
         this.flappy = null;
     }

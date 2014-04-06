@@ -32,7 +32,7 @@ class RandomAction extends Action {
 class UpAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('&#8593;');
+        this.div.html('<span class="glyphicon glyphicon-arrow-up">');
     }
     execute(stack: Stack) : Direction {
         return Direction.UP;
@@ -41,7 +41,7 @@ class UpAction extends Action {
 class DownAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('&#8595;');
+        this.div.html('<span class="glyphicon glyphicon-arrow-down">');
     }
     execute(stack: Stack) : Direction {
         return Direction.DOWN;
@@ -50,7 +50,7 @@ class DownAction extends Action {
 class LeftAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('&#8592;');
+        this.div.html('<span class="glyphicon glyphicon-arrow-left">');
     }
     execute(stack: Stack) : Direction {
         return Direction.LEFT;
@@ -59,7 +59,7 @@ class LeftAction extends Action {
 class RightAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('&#8594;');
+        this.div.html('<span class="glyphicon glyphicon-arrow-right">');
     }
     execute(stack: Stack) : Direction {
         return Direction.RIGHT;
