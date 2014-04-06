@@ -121,10 +121,16 @@ class Factory {
         }
         var self = this;
         this.div.on('click', '.editable .grid-cell', function (event) {
-            var chosenAction = prompt('Which action?');
-            if (chosenAction && chosenAction in allActions) {
-                self.board[$(this).data('y')][$(this).data('x')].setAction(new allActions[chosenAction](self.tileContainer));
-            }
+            var field = self.board[$(this).data('y')][$(this).data('x')];
+            $('.blockpicker').modal();
+            $('.blockpicker .actions').off('click').on('click', '.btn', function () {
+                var chosenAction = $(this).data('action');
+                if (chosenAction && chosenAction in allActions) {
+                    var newAction = new allActions[chosenAction](self.tileContainer);
+                    field.setAction(newAction);
+                }
+                $('.blockpicker').modal('hide');
+            });
         });
         this.addTile(this.startX, this.startY, 'START');
         this.flappy = null;
