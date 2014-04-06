@@ -78,8 +78,6 @@ class Factory {
         var gameContainer = $('<div class="grid-container">').appendTo(this.div);;
         gameContainer.appendTo(this.div);
         this.stack = new Stack(this);
-        $(this.div).width(Math.floor(this.width * 120.25));
-        $(this.div).height(Math.floor(this.height * 120.25));
         for (var i = 0; i < this.height; i++) {
             this.board[i] = [];
             var gridRow = $('<div class="grid-row">');
@@ -178,8 +176,8 @@ $(function () {
     level = new Level({
         name: 'MultiMeter',
         order: 1,
-        width: 3,
-        height: 2,
+        width: 4,
+        height: 4,
         startX: 0,
         startY: 0,
         startDirection: Direction.RIGHT,
