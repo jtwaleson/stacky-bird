@@ -9,6 +9,20 @@ enum Direction {
     LEFT,
     RIGHT,
 }
+
+var allActions = {
+    'DUP': DupAction,
+    'RND': RandomAction,
+    'UP': UpAction,
+    'DOWN': DownAction,
+    'LEFT': LeftAction,
+    'RIGHT': RightAction,
+    'SWP': SwapAction,
+    'ADD': AddAction,
+    'SUB': SubtractAction,
+    'RET': ReturnAction,
+}
+
 class Stack {
     factory: Factory;
     div: JQuery;
@@ -105,13 +119,13 @@ class Factory {
                 this.board[i][j] = new Field(i, j);
             }
         }
+        var self = this;
         this.div.on('click', '.editable .grid-cell', function (event) {
-            alert($(this).data('x') + '-' + $(this).data('y'));
+            var chosenAction = prompt('Which action?');
+            if (chosenAction && chosenAction in allActions) {
+                self.board[$(this).data('y')][$(this).data('x')].setAction(new allActions[chosenAction](self.tileContainer));
+            }
         });
-        this.board[0][3].setAction(new DownAction(this.tileContainer));
-        this.board[3][3].setAction(new LeftAction(this.tileContainer));
-        this.board[3][1].setAction(new UpAction(this.tileContainer));
-        this.board[0][1].setAction(new RightAction(this.tileContainer));
         this.addTile(this.startX, this.startY, 'START');
         this.flappy = null;
     }
