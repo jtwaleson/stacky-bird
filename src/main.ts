@@ -1,4 +1,5 @@
-/// <reference path="def/jquery.d.ts"/>
+/// <reference path="def/jquery/jquery.d.ts"/>
+/// <reference path="def/bootstrap/bootstrap.d.ts"/>
 /// <reference path="flappy.ts"/>
 /// <reference path="actions.ts"/>
 
