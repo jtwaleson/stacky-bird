@@ -91,7 +91,7 @@ class Factory {
         this.flappy = null;
     }
     addTile(x: number, y: number, text: string) {
-        var outerDiv = $('<div>').addClass('tile-position-' + this.startX + '-' + this.startY).addClass('tile');
+        var outerDiv = $('<div>').addClass('tile-position-' + x + '-' + y).addClass('tile');
         var innerDiv = $('<div>').addClass('tile-inner').appendTo(outerDiv);
         innerDiv.text(text);
         outerDiv.addClass('text-length-' + (text.length));
