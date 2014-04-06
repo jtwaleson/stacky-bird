@@ -16,3 +16,8 @@ Compilation
 You need to install Typescript and then compile the program with
 
 tsc src/main.ts --out bin/script.js
+
+Optionally use the Grunt task,
+
+    npm install
+    grunt typescript
