@@ -30,29 +30,34 @@ class Stack {
 
     constructor(factory: Factory) {
         this.factory = factory;
-        this.div = $('<ul class="stack">');
-        this.factory.div.append(this.div);
+        this.div = this.factory.div.find('.stack');
+        this.clear();
     }
 
     pop (): number {
-        if (this.div.children().length === 0) {
+        if (this.div.children('.item').length === 0) {
             throw "Stack is empty!";
         }
         var last = this.div.children(':last');
         var value = last.data('value');
         last.remove();
+        if (this.div.children('.item').length === 0) {
+            this.clear();
+        }
         return parseInt(value, 10);
     }
 
     push (item: number) {
-        var li = $('<li>');
-        li.data('value', item + '');
-        li.text(item + '');
-        this.div.append(li);
+        var elem = $('<a href="#" class="list-group-item item">');
+        elem.data('value', item + '');
+        elem.text(item + '');
+        this.div.append(elem);
+        this.div.find('.place-holder').remove();
     }
 
     clear () {
         this.div.empty();
+        this.div.append($('<a href="#" class="list-group-item place-holder">').text('The stack is empty'));
     }
 }
 class Field {
@@ -88,9 +93,6 @@ class Factory {
     stack: Stack;
     div: JQuery;
     currentInterval: number = null;
-    tileContainer: JQuery;
-    gridContainer: JQuery;
-    buttons: JQuery;
     editable: boolean;
 
     constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
@@ -105,11 +107,10 @@ class Factory {
         this.board = [];
         this.div = $(div);
         this.setEditable(true);
-        this.tileContainer = $('<div class="tile-container">').appendTo(this.div);;
-        this.buttons = $('<div class="btn-group btn-group-lg btn-group-justified game-controls"></div>');
-        this.div.after(this.buttons);
+        var tileContainer = $('<div class="tile-container">').appendTo(this.div.find('.game-container'));;
+        var buttons = this.div.find('.game-controls');
         var addButton = (name, func) => {
-            this.buttons.append($('<div class="btn-group">').append(
+            buttons.append($('<div class="btn-group">').append(
                 $('<button type="button" class="btn btn-default">').append(
                     $('<span class="glyphicon glyphicon-' + name + '">')
                 )
@@ -125,17 +126,17 @@ class Factory {
             this.run();
         });
         this.stack = new Stack(this);
-        this.gridContainer = $('<div class="grid-container">').appendTo(this.div);;
+        var gridContainer = $('<div class="grid-container">').appendTo(this.div.find('.game-container'));;
         for (var i = 0; i < this.height; i++) {
             this.board[i] = [];
-            var gridRow = $('<div class="grid-row">').appendTo(this.gridContainer);
+            var gridRow = $('<div class="grid-row">').appendTo(gridContainer);
             for (var j = 0; j < this.width; j++) {
                 $('<div class="grid-cell">').appendTo(gridRow).data('x', j).data('y', i);
                 this.board[i][j] = new Field(i, j);
             }
         }
         var self = this;
-        this.gridContainer.on('click', '.grid-cell', function (event) {
+        gridContainer.on('click', '.grid-cell', function (event) {
             if (!self.editable)
                 return;
             var field = self.board[$(this).data('y')][$(this).data('x')];
@@ -144,19 +145,19 @@ class Factory {
                 var chosenAction = $(this).data('action');
                 if (chosenAction && chosenAction in allActions) {
                     if (chosenAction === 'RET') {
-                        var newAction = new allActions[chosenAction](self.tileContainer, function (value) {
+                        var newAction = new allActions[chosenAction](tileContainer, function (value) {
                             self.stop();
                             alert('Return value: ' + value);
                         });
                     } else {
-                        var newAction = new allActions[chosenAction](self.tileContainer);
+                        var newAction = new allActions[chosenAction](tileContainer);
                     }
                     field.setAction(newAction);
                 }
                 $('.blockpicker').modal('hide');
             });
         });
-        this.tileContainer.on('click', '.action', function (event) {
+        tileContainer.on('click', '.action', function (event) {
             if (!self.editable)
                 return;
             var tile = $(this).closest('.tile');
@@ -171,7 +172,7 @@ class Factory {
         var innerDiv = $('<div>').addClass('tile-inner').appendTo(outerDiv);
         innerDiv.text(text);
         outerDiv.addClass('text-length-' + (text.length));
-        this.tileContainer.append(outerDiv);
+        this.div.find('.tile-container').append(outerDiv);
     }
     step () {
         var currentField = this.board[this.flappy.top][this.flappy.left];
@@ -218,7 +219,8 @@ class Factory {
     destroy () {
         this.stop();
         this.div.remove();
-        this.buttons.remove();
+        this.div = null;
+        this.board = [];
     }
     isEditable() {
         return this.editable;

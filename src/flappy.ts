@@ -13,7 +13,7 @@ class Flappy {
         this.direction = direction;
         this.factory = factory;
         this.div = $('<div class="flappy flappy1">');
-        this.factory.tileContainer.append($('<div class="tile">').addClass('tile-position-' + this.left + '-' + this.top).append(this.div));
+        this.factory.div.find('.tile-container').append($('<div class="tile">').addClass('tile-position-' + this.left + '-' + this.top).append(this.div));
     }
     moveInDirection (direction: Direction) {
         this.div.removeClass('flappy-up flappy-down flappy-right flappy-left').addClass('flappy-' + Direction[direction].toLowerCase());
