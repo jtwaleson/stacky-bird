@@ -50,6 +50,10 @@ class Stack {
         li.text(item + '');
         this.div.append(li);
     }
+
+    clear () {
+        this.div.empty();
+    }
 }
 class Field {
     div: JQuery;
@@ -86,6 +90,7 @@ class Factory {
     currentInterval: number = null;
     tileContainer: JQuery;
     gridContainer: JQuery;
+    buttons: JQuery;
     editable: boolean;
 
     constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
@@ -101,10 +106,10 @@ class Factory {
         this.div = $(div);
         this.setEditable(true);
         this.tileContainer = $('<div class="tile-container">').appendTo(this.div);;
-        var buttons = $('<div class="btn-group btn-group-lg btn-group-justified game-controls"></div>');
-        this.div.after(buttons);
+        this.buttons = $('<div class="btn-group btn-group-lg btn-group-justified game-controls"></div>');
+        this.div.after(this.buttons);
         var addButton = (name, func) => {
-            buttons.append($('<div class="btn-group">').append(
+            this.buttons.append($('<div class="btn-group">').append(
                 $('<button type="button" class="btn btn-default">').append(
                     $('<span class="glyphicon glyphicon-' + name + '">')
                 )
@@ -208,6 +213,12 @@ class Factory {
             this.flappy.destroy();
         }
         this.setEditable(true);
+        this.stack.clear();
+    }
+    destroy () {
+        this.stop();
+        this.div.remove();
+        this.buttons.remove();
     }
     isEditable() {
         return this.editable;
