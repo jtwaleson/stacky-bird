@@ -96,7 +96,7 @@ class Factory {
     currentInterval: number = null;
     editable: boolean;
 
-    constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string) {
+    constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string, name: string, description: string) {
         if (width <= 0 || width <= 0) {
             throw "Sizing of Factory should be larger than 1";
         }
@@ -107,6 +107,8 @@ class Factory {
         this.startDirection = startDirection;
         this.board = [];
         this.div = $(div);
+        this.div.find('.name').text(name);
+        this.div.find('.description').text(description);
         this.setEditable(true);
         var tileContainer = $('<div class="tile-container">').appendTo(this.div.find('.game-container'));;
         var buttons = this.div.find('.game-controls');
@@ -268,7 +270,9 @@ class Level {
             levelObject.startX,
             levelObject.startY,
             levelObject.startDirection,
-            '.factory1'
+            '.factory1',
+            levelObject.name,
+            levelObject.description
         );
         this.description = levelObject.description;
     }
@@ -286,6 +290,6 @@ $(function () {
         startX: 1,
         startY: 1,
         startDirection: Direction.RIGHT,
-        description: 'Multiply two numbers that will be put on the stack',
+        description: 'The button is below',
     });
 });
