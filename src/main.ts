@@ -285,16 +285,47 @@ class Level {
         this.factory.run(speed);
     }
 }
-var level;
-$(function () {
-    level = new Level({
+var levels = [
+    {
         name: 'Level 1: Just press play',
+        description: 'The button is below',
         code: '1',
         width: 4,
         height: 4,
         startX: 1,
         startY: 1,
         startDirection: Direction.RIGHT,
-        description: 'The button is below',
-    });
+    },
+    {
+        name: 'Level 2: One small step',
+        description: 'You need to add one block',
+        code: '2',
+        width: 4,
+        height: 4,
+        startX: 1,
+        startY: 1,
+        startDirection: Direction.RIGHT,
+    },
+    {
+        name: 'Level 3: Summer',
+        description: 'Re-create the entire puzzle from the previous level',
+        code: '3',
+        width: 4,
+        height: 4,
+        startX: 1,
+        startY: 1,
+        startDirection: Direction.RIGHT,
+    }
+];
+var levelsById = {};
+levels.forEach((level: LevelSerialized) => {
+    levelsById[level.code] = level;
+});
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+$(function () {
+    var levelCode = getParameterByName('level');
+    new Level(levelsById[levelCode]);
 });
