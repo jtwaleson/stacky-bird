@@ -64,6 +64,7 @@ class Flappy {
     }
     die() {
         this.div.addClass('dead');
+        this.div.slideUp();
     }
     destroy() {
         this.div.closest('.tile').remove();
