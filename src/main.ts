@@ -254,6 +254,11 @@ class Factory {
         this.editable = editable;
     }
 }
+interface BlockSerialized {
+    id: string;
+    x: number;
+    y: number;
+}
 interface LevelSerialized {
     name: string;
     code: string;
@@ -263,6 +268,7 @@ interface LevelSerialized {
     startY: number;
     startDirection: Direction;
     description: string;
+    blocks?: BlockSerialized[];
 }
 class Level {
     factory: Factory;
@@ -282,6 +288,12 @@ class Level {
             levelObject.description
         );
         this.description = levelObject.description;
+        if (levelObject.blocks) {
+            levelObject.blocks.forEach((block: BlockSerialized) => {
+                var action = allActionsById[block.id];
+                this.factory.board[block.y][block.x].setAction(new action(this.factory.div.find('.tile-container')), false);
+            });
+        }
     }
     run(speed: number = 100) {
         this.factory.run(speed);
@@ -297,6 +309,28 @@ var levels = [
         startX: 1,
         startY: 1,
         startDirection: Direction.RIGHT,
+        blocks: [
+            {
+                id: 'ADD',
+                y: 1,
+                x: 2,
+            },
+            {
+                id: 'DOWN',
+                y: 1,
+                x: 3,
+            },
+            {
+                id: 'LEFT',
+                y: 3,
+                x: 3,
+            },
+            {
+                id: 'UP',
+                y: 3,
+                x: 1,
+            },
+        ],
     },
     {
         name: 'Level 2: One small step',
@@ -307,6 +341,23 @@ var levels = [
         startX: 1,
         startY: 1,
         startDirection: Direction.RIGHT,
+        blocks: [
+            {
+                id: 'ADD',
+                y: 1,
+                x: 2,
+            },
+            {
+                id: 'LEFT',
+                y: 3,
+                x: 3,
+            },
+            {
+                id: 'UP',
+                y: 3,
+                x: 1,
+            },
+        ],
     },
     {
         name: 'Level 3: Summer',
