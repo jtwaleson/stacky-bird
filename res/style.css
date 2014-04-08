@@ -127,6 +127,8 @@ html, body {
 }
 
   .tile .flappy.dead {
+      filter: invert(100%);
+      -ms-filter: invert(100%);
       -webkit-filter: invert(100%);
   }
   .tile .flappy {
