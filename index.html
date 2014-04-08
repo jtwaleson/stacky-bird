@@ -9,7 +9,6 @@
         <link rel='stylesheet' href='res/style.css'>
         <script type='text/javascript' src='lib/jquery-2.1.0.min.js'></script>
         <script src='lib/bootstrap-3.1.1-dist/js/bootstrap.min.js'></script>
-        <script src='bin/script.js'></script>
     </head>
     <body>
         <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
@@ -25,50 +24,59 @@
                 </div>
                 <div class="navbar-collapse collapse" style="height: 1px;">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#">Levels</a></li>
-                        <li><a href="#blocks">Blocks</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li class="active"><a href="index.html">Levels</a></li>
+                        <li><a href="blocks.html">Blocks</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class='container factory1' style='margin-top: 80px;'>
-            <div class="row row-offcanvas row-offcanvas-right">
+        <div class='container' style='margin-top: 80px;'>
+            <div class="row">
                 <div class="col-xs-12 col-sm-9">
-                    <div class="game-container">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Level</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Summer</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>100</td>
+                                    <td><a class='btn btn-primary' href='level.html?level=1'>Play</a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Maximus</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>100</td>
+                                    <td><a class='btn btn-primary' href='level.html?level=2'>Play</a></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Miney Mouse</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>100</td>
+                                    <td><a class='btn btn-primary' href='level.html?level=3'>Play</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="btn-group btn-group-lg btn-group-justified game-controls">
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
-                    <div class="list-group stack"></div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade blockpicker" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Choose an action</h4>
-                    </div>
-                    <div class="modal-body actions">
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='UP'>UP</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='DOWN'>DOWN</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='RIGHT'>RIGHT</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='LEFT'>LEFT</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='RET'>RETURN</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='ADD'>ADD</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='SUB'>SUBTRACT</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='RND'>RANDOM</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='SWP'>SWAP</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='INP'>INPUT</button>
-                        <button type="button" class="btn btn-default btn-lg btn-block" data-action='DUP'>DUPLICATE</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+
                 </div>
             </div>
         </div>
