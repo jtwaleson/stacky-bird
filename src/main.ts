@@ -326,6 +326,25 @@ function getParameterByName(name) {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 $(function () {
-    var levelCode = getParameterByName('level');
-    new Level(levelsById[levelCode]);
+    if ($('.factory1').length > 0) {
+        var levelCode = getParameterByName('level');
+        new Level(levelsById[levelCode]);
+    } else if ($('.level-list').length > 0) {
+        levels.forEach((level: LevelSerialized) => {
+            $("<tr>")
+                .append($("<td>").text(level.code))
+                .append($("<td>").text(level.name))
+                .append($("<td>").text('-'))
+                .append($("<td>").text('-'))
+                .append($("<td>").text('-'))
+                .append($("<td>").text('100'))
+                .append($("<td>")
+                        .append($("<a>")
+                                .addClass('btn btn-primary')
+                                .attr('href', 'level.html?level=' + level.code)
+                                .text('Play')
+                                )
+                ).appendTo('.level-list');
+        });
+    }
 });
