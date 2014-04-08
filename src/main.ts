@@ -70,10 +70,13 @@ class Field {
         this.top = top;
         this.left = left;
     }
-    setAction(action: Action) {
+    setAction(action: Action, userEditable: boolean = true) {
         this.action = action;
         this.action.div.closest('.tile').addClass('tile-position-' + this.left + '-' + this.top).data('x', this.left).data('y', this.top);
         this.action.setField(this);
+        if (!userEditable) {
+            this.action.div.closest('.action').addClass('locked');
+        }
     }
     removeAction() {
         if (this.action) {
@@ -163,11 +166,13 @@ class Factory {
         tileContainer.on('click', '.action', function (event) {
             if (!self.editable)
                 return;
+            if ($(this).closest('.action').is('.locked'))
+                return;
             var tile = $(this).closest('.tile');
             var field = self.board[tile.data('y')][tile.data('x')];
             field.removeAction();
         });
-        this.board[this.startY][this.startX].setAction(new StartAction(tileContainer));
+        this.board[this.startY][this.startX].setAction(new StartAction(tileContainer), false);
         this.stop();
     }
     addTile(x: number, y: number, text: string) {

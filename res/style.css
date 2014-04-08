@@ -107,10 +107,10 @@ html, body {
   background: rgba(200, 255, 190, 0.35);
   cursor: pointer;
 }
-.editable .action:hover {
+.editable .action:not(.locked):hover {
     cursor: pointer;
 }
-.editable .action:hover:after {
+.editable .action:not(.locked):hover:after {
     content: "-";
     text-align: center;
     height: 100%;
