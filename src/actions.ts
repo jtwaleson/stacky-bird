@@ -47,7 +47,7 @@ class StartAction extends Action {
 class UpAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('<span class="glyphicon glyphicon-arrow-up">');
+        this.div.html('<span class="glyphicon glyphicon-circle-arrow-up">');
     }
     execute(stack: Stack) : Direction {
         return Direction.UP;
@@ -56,7 +56,7 @@ class UpAction extends Action {
 class DownAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('<span class="glyphicon glyphicon-arrow-down">');
+        this.div.html('<span class="glyphicon glyphicon-circle-arrow-down">');
     }
     execute(stack: Stack) : Direction {
         return Direction.DOWN;
@@ -65,7 +65,7 @@ class DownAction extends Action {
 class LeftAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('<span class="glyphicon glyphicon-arrow-left">');
+        this.div.html('<span class="glyphicon glyphicon-circle-arrow-left">');
     }
     execute(stack: Stack) : Direction {
         return Direction.LEFT;
@@ -74,7 +74,7 @@ class LeftAction extends Action {
 class RightAction extends Action {
     constructor(div: JQuery) {
         super(div);
-        this.div.html('<span class="glyphicon glyphicon-arrow-right">');
+        this.div.html('<span class="glyphicon glyphicon-circle-arrow-right">');
     }
     execute(stack: Stack) : Direction {
         return Direction.RIGHT;
