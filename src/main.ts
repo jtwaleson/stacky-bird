@@ -164,7 +164,7 @@ class Factory {
             var field = self.board[tile.data('y')][tile.data('x')];
             field.removeAction();
         });
-        this.addTile(this.startX, this.startY, 'START');
+        this.board[this.startY][this.startX].setAction(new StartAction(tileContainer));
         this.stop();
     }
     addTile(x: number, y: number, text: string) {

@@ -33,6 +33,16 @@ class RandomAction extends Action {
     }
 }
 
+class StartAction extends Action {
+    constructor(div: JQuery) {
+        super(div);
+        this.div.html('<span class="glyphicon glyphicon-home">');
+    }
+    execute(stack: Stack) : Direction {
+        return Direction.RIGHT;
+    }
+}
+
 class UpAction extends Action {
     constructor(div: JQuery) {
         super(div);
