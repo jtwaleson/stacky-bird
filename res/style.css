@@ -2677,6 +2677,9 @@ html, body {
    .tile.text-length-5 .tile-inner {
        font-size: 10px;
    }
+   .editable .grid-cell:hover:after {
+       line-height: 57px;
+   }
 }
 .stack .place-holder {
     font-style: italic;
