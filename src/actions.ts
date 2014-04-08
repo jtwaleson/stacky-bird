@@ -37,6 +37,7 @@ class StartAction extends Action {
     constructor(div: JQuery) {
         super(div);
         this.div.html('<span class="glyphicon glyphicon-home">');
+        this.div.closest('.tile').addClass('tile-8');
     }
     execute(stack: Stack) : Direction {
         return Direction.RIGHT;

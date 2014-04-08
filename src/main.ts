@@ -11,6 +11,7 @@ enum Direction {
 }
 
 var allActions = {
+    'START': StartAction,
     'DUP': DupAction,
     'RND': RandomAction,
     'UP': UpAction,
