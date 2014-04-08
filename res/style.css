@@ -107,6 +107,9 @@ html, body {
   background: rgba(200, 255, 190, 0.35);
   cursor: pointer;
 }
+.editable .action:hover {
+    cursor: pointer;
+}
 .editable .action:hover:after {
     content: "-";
     text-align: center;
@@ -125,7 +128,10 @@ html, body {
     width: 100%;
     line-height: 106px;
     display: block;
-    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    z-index: 10;
+    font-size: 55px;
 }
 
   .tile .flappy.dead {
