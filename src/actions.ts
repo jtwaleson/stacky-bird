@@ -3,6 +3,7 @@
 class Action {
     div: JQuery;
     field: Field;
+    static identifier: string = null;
     constructor(div) {
         this.div = $('<div class="tile-inner action">');
         this.div.appendTo($('<div class="tile">').appendTo(div));
@@ -16,6 +17,7 @@ class Action {
 }
 
 class RandomAction extends Action {
+    static identifier: string = 'RND';
     constructor(div: JQuery) {
         super(div);
         this.div.text('?');
@@ -34,6 +36,7 @@ class RandomAction extends Action {
 }
 
 class StartAction extends Action {
+    static identifier: string = 'START';
     constructor(div: JQuery) {
         super(div);
         this.div.html('<span class="glyphicon glyphicon-home">');
@@ -45,6 +48,7 @@ class StartAction extends Action {
 }
 
 class UpAction extends Action {
+    static identifier: string = 'UP';
     constructor(div: JQuery) {
         super(div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-up">');
@@ -54,6 +58,7 @@ class UpAction extends Action {
     }
 }
 class DownAction extends Action {
+    static identifier: string = 'DOWN';
     constructor(div: JQuery) {
         super(div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-down">');
@@ -63,6 +68,7 @@ class DownAction extends Action {
     }
 }
 class LeftAction extends Action {
+    static identifier: string = 'LEFT';
     constructor(div: JQuery) {
         super(div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-left">');
@@ -72,6 +78,7 @@ class LeftAction extends Action {
     }
 }
 class RightAction extends Action {
+    static identifier: string = 'RIGHT';
     constructor(div: JQuery) {
         super(div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-right">');
@@ -81,6 +88,7 @@ class RightAction extends Action {
     }
 }
 class DupAction extends Action {
+    static identifier: string = 'DUP';
     constructor(div: JQuery) {
         super(div);
         this.div.html('DUP');
@@ -93,6 +101,7 @@ class DupAction extends Action {
     }
 }
 class SwapAction extends Action {
+    static identifier: string = 'SWP';
     constructor(div: JQuery) {
         super(div);
         this.div.html('SWP');
@@ -106,6 +115,7 @@ class SwapAction extends Action {
     }
 }
 class AddAction extends Action {
+    static identifier: string = 'ADD';
     constructor(div: JQuery) {
         super(div);
         this.div.html('+');
@@ -118,6 +128,7 @@ class AddAction extends Action {
     }
 }
 class SubtractAction extends Action {
+    static identifier: string = 'SUB';
     constructor(div: JQuery) {
         super(div);
         this.div.html('-');
@@ -129,20 +140,8 @@ class SubtractAction extends Action {
         return null;
     }
 }
-class ReturnAction extends Action {
-    callback: (result: number) => any;
-    constructor(div: JQuery, callback: (result: number) => any) {
-        super(div);
-        this.div.html('RET');
-        this.callback = callback;
-    }
-    execute(stack: Stack) : Direction {
-        var val1 = stack.pop();
-        this.callback(val1);
-        return null;
-    }
-}
 class InputAction extends Action {
+    static identifier: string = 'INP';
     constructor(div: JQuery) {
         super(div);
         this.div.html('INP');

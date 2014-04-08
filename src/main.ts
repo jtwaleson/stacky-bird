@@ -10,20 +10,22 @@ enum Direction {
     RIGHT,
 }
 
-var allActions = {
-    'START': StartAction,
-    'DUP': DupAction,
-    'RND': RandomAction,
-    'UP': UpAction,
-    'DOWN': DownAction,
-    'LEFT': LeftAction,
-    'RIGHT': RightAction,
-    'SWP': SwapAction,
-    'ADD': AddAction,
-    'SUB': SubtractAction,
-    'RET': ReturnAction,
-    'INP': InputAction,
-}
+var allActionsById = {};
+var allActions: any[] = [];
+allActions.push(StartAction);
+allActions.push(DupAction);
+allActions.push(RandomAction);
+allActions.push(UpAction);
+allActions.push(DownAction);
+allActions.push(LeftAction);
+allActions.push(RightAction);
+allActions.push(SwapAction);
+allActions.push(AddAction);
+allActions.push(SubtractAction);
+allActions.push(InputAction);
+allActions.forEach((action: any) => {
+    allActionsById[action.identifier] = action;
+});
 
 class Stack {
     factory: Factory;
@@ -149,14 +151,14 @@ class Factory {
             $('.blockpicker').modal();
             $('.blockpicker .actions').off('click').on('click', '.btn', function () {
                 var chosenAction = $(this).data('action');
-                if (chosenAction && chosenAction in allActions) {
+                if (chosenAction && chosenAction in allActionsById) {
                     if (chosenAction === 'RET') {
-                        var newAction = new allActions[chosenAction](tileContainer, function (value) {
+                        var newAction = new allActionsById[chosenAction](tileContainer, function (value) {
                             self.stop();
                             alert('Return value: ' + value);
                         });
                     } else {
-                        var newAction = new allActions[chosenAction](tileContainer);
+                        var newAction = new allActionsById[chosenAction](tileContainer);
                     }
                     field.setAction(newAction);
                 }
@@ -345,6 +347,13 @@ $(function () {
                                 .text('Play')
                                 )
                 ).appendTo('.level-list');
+        });
+    }
+    if ($('.blockpicker .actions').length > 0) {
+        allActions.forEach((action) => {
+            $('.blockpicker .actions').append(
+                $('<button type="button" class="btn btn-default btn-lg btn-block" data-action="' + action.identifier + '">').text(action.identifier)
+            );
         });
     }
 });
