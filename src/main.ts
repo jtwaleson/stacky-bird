@@ -247,14 +247,12 @@ class Factory {
 }
 interface LevelSerialized {
     name: string;
-    order: number;
+    code: string;
     width: number;
     height: number;
     startX: number;
     startY: number;
     startDirection: Direction;
-    blocksAvailable: any;
-    testCases: any[];
     description: string;
 }
 class Level {
@@ -281,21 +279,13 @@ class Level {
 var level;
 $(function () {
     level = new Level({
-        name: 'MultiMeter',
-        order: 1,
+        name: 'Level 1: Just press play',
+        code: '1',
         width: 4,
         height: 4,
-        startX: 0,
-        startY: 0,
+        startX: 1,
+        startY: 1,
         startDirection: Direction.RIGHT,
-        blocksAvailable: {
-            'Add': 1,
-            'Return': 1,
-            'Down': 1,
-            'Left': 1,
-            'Up': 1,
-        },
-        testCases: [],
         description: 'Multiply two numbers that will be put on the stack',
     });
 });
