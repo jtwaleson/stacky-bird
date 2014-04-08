@@ -21,3 +21,13 @@ Optionally use the Grunt task,
 
     npm install
     grunt typescript
+
+
+To do
+----
+
+ * fix buttons (play, stop, pause)
+ * 3s after flappy crashes, stop the factory
+ * create first levels, with message popups etcetera
+ * save level in localStorage
+ * have example factories that just run
