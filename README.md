@@ -26,7 +26,6 @@ Optionally use the Grunt task,
 To do
 ----
 
- * fix buttons (play, stop, pause)
  * 3s after flappy crashes, stop the factory
  * create first levels, with message popups etcetera
  * save level in localStorage

@@ -82,7 +82,7 @@ class Field {
     }
 }
 class Factory {
-    flappy: Flappy;
+    flappy: Flappy = null;
 
     width: number;
     height: number;
@@ -110,7 +110,7 @@ class Factory {
         var tileContainer = $('<div class="tile-container">').appendTo(this.div.find('.game-container'));;
         var buttons = this.div.find('.game-controls');
         var addButton = (name, func) => {
-            buttons.append($('<div class="btn-group">').append(
+            buttons.append($('<div class="btn-group factory-' + name + '">').append(
                 $('<button type="button" class="btn btn-default">').append(
                     $('<span class="glyphicon glyphicon-' + name + '">')
                 )
@@ -165,7 +165,7 @@ class Factory {
             field.removeAction();
         });
         this.addTile(this.startX, this.startY, 'START');
-        this.flappy = null;
+        this.stop();
     }
     addTile(x: number, y: number, text: string) {
         var outerDiv = $('<div>').addClass('tile-position-' + x + '-' + y).addClass('tile');
@@ -196,25 +196,35 @@ class Factory {
                 this.step();
             } catch(err) {
                 this.pause();
-                this.flappy.die();
+                this.flappy && this.flappy.die();
                 throw err;
             }
         }, speed)
         this.setEditable(false);
+        this.div.find('.factory-play').hide();
+        this.div.find('.factory-pause').show();
+        this.div.find('.factory-stop').show();
     }
     pause () {
         if (this.currentInterval) {
             clearInterval(this.currentInterval);
             this.currentInterval = null;
         }
+        this.div.find('.factory-play').show();
+        this.div.find('.factory-pause').hide();
+        this.div.find('.factory-stop').show();
     }
     stop () {
         this.pause();
         if (this.flappy) {
             this.flappy.destroy();
+            this.flappy = null;
         }
         this.setEditable(true);
         this.stack.clear();
+        this.div.find('.factory-stop').hide();
+        this.div.find('.factory-play').show();
+        this.div.find('.factory-pause').hide();
     }
     destroy () {
         this.stop();
