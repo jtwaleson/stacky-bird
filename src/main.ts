@@ -205,8 +205,15 @@ class Factory {
             try {
                 this.step();
             } catch(err) {
-                this.pause();
                 this.flappy && this.flappy.die();
+                var flappy = this.flappy;
+                setTimeout(() => {
+                    if (flappy) {
+                        flappy.destroy();
+                    }
+                }, 2000);
+                this.flappy = null;
+                this.stop();
                 throw err;
             }
         }, speed)

@@ -67,6 +67,8 @@ class Flappy {
     }
     destroy() {
         this.div.closest('.tile').remove();
-        this.factory.flappy = null;
+        if (this.factory.flappy === this) {
+            this.factory.flappy = null;
+        }
     }
 }
