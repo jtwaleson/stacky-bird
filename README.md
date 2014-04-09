@@ -23,6 +23,22 @@ Optionally use the Grunt task,
     grunt typescript
 
 
+This is what kids said about Stacky Bird
+----
+
+My grades were pretty bad and I didn't really understand Maths. With Stacky Bird, I invented my own Maths with blackjack and hookers!
+(Heinrich, Germany, 10)
+
+I used to be lonely and sad, but since I discovered Stacky Bird, I just stopped caring.
+(Tim, UK, 11)
+
+My father didn't respect me because he's a programmer and I used to enjoy sports. Everything is better now that we've discovered Stacky Bird!
+(Suzanne, The Netherlands, 8)
+
+My girlfriend left me, I lost my job and my parents would't pick me up from school anymore. Since I've started using Stacky Bird I got a new girlfriend, I had a dozen job offers at top technology firms and I can pay a taxi to bring me home.
+(George, USA, 13)
+
+
 To do
 ----
 
