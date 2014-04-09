@@ -26,6 +26,8 @@ Optionally use the Grunt task,
 To do
 ----
 
+ * add step button
+ * add right arrow on home block
  * create first levels, with message popups etcetera
  * save level in localStorage
  * have example factories that just run
