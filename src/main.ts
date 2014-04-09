@@ -193,6 +193,7 @@ class Factory {
         }
         if (this.flappy === null) {
             this.flappy = new Flappy(this.startX, this.startY, this.startDirection, this);
+            return;
         }
         this.setEditable(false);
         try {
