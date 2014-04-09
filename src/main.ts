@@ -117,20 +117,23 @@ class Factory {
         this.setEditable(true);
         var tileContainer = $('<div class="tile-container">').appendTo(this.div.find('.game-container'));;
         var buttons = this.div.find('.game-controls');
-        var addButton = (name, func) => {
+        var addButton = (name, title, func) => {
             buttons.append($('<div class="btn-group factory-' + name + '">').append(
                 $('<button type="button" class="btn btn-default">').append(
                     $('<span class="glyphicon glyphicon-' + name + '">')
                 )
-            ).click(func));
+            ).click(func).attr('title', title));
         }
-        addButton('stop', (event) => {
+        addButton('stop', 'Stop', (event) => {
             this.stop();
         });
-        addButton('pause', (event) => {
+        addButton('pause', 'Pause', (event) => {
             this.pause();
         });
-        addButton('play', (event) => {
+        addButton('step-forward', 'Step', (event) => {
+            this.stepExternal();
+        });
+        addButton('play', 'Play', (event) => {
             this.run();
         });
         this.stack = new Stack(this);
@@ -185,40 +188,47 @@ class Factory {
         this.div.find('.tile-container').append(outerDiv);
     }
     step () {
-        var currentField = this.board[this.flappy.top][this.flappy.left];
-        var direction = this.flappy.direction;
-        if (currentField.action) {
-            var newDirection = currentField.action.execute(this.stack);
-            if (newDirection !== null)
-                direction = newDirection;
-        }
-        this.flappy.moveInDirection(direction);
-    }
-    run (speed: number = 100) {
         if (this.flappy && this.flappy.div.is('.dead')) {
             this.stop();
         }
         if (this.flappy === null) {
             this.flappy = new Flappy(this.startX, this.startY, this.startDirection, this);
         }
-        this.currentInterval = setInterval(() => {
-            try {
-                this.step();
-            } catch(err) {
-                this.flappy && this.flappy.die();
-                var flappy = this.flappy;
-                setTimeout(() => {
-                    if (flappy) {
-                        flappy.destroy();
-                    }
-                }, 2000);
-                this.flappy = null;
-                this.stop();
-                throw err;
-            }
-        }, speed)
         this.setEditable(false);
+        try {
+            var currentField = this.board[this.flappy.top][this.flappy.left];
+            var direction = this.flappy.direction;
+            if (currentField.action) {
+                var newDirection = currentField.action.execute(this.stack);
+                if (newDirection !== null)
+                    direction = newDirection;
+            }
+            this.flappy.moveInDirection(direction);
+        } catch (err) {
+            this.flappy && this.flappy.die();
+            var flappy = this.flappy;
+            setTimeout(() => {
+                if (flappy) {
+                    flappy.destroy();
+                }
+            }, 2000);
+            this.flappy = null;
+            this.stop();
+        }
+    }
+    stepExternal () {
+        this.div.find('.factory-play').show();
+        this.div.find('.factory-step-forward').show();
+        this.div.find('.factory-pause').hide();
+        this.div.find('.factory-stop').show();
+        this.step()
+    }
+    run (speed: number = 100) {
+        this.currentInterval = setInterval(() => {
+            this.step();
+        }, speed)
         this.div.find('.factory-play').hide();
+        this.div.find('.factory-step-forward').hide();
         this.div.find('.factory-pause').show();
         this.div.find('.factory-stop').show();
     }
@@ -228,6 +238,7 @@ class Factory {
             this.currentInterval = null;
         }
         this.div.find('.factory-play').show();
+        this.div.find('.factory-step-forward').show();
         this.div.find('.factory-pause').hide();
         this.div.find('.factory-stop').show();
     }
@@ -239,9 +250,10 @@ class Factory {
         }
         this.setEditable(true);
         this.stack.clear();
-        this.div.find('.factory-stop').hide();
         this.div.find('.factory-play').show();
+        this.div.find('.factory-step-forward').show();
         this.div.find('.factory-pause').hide();
+        this.div.find('.factory-stop').hide();
     }
     destroy () {
         this.stop();
