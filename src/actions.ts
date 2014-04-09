@@ -4,7 +4,9 @@ class Action {
     div: JQuery;
     field: Field;
     static identifier: string = null;
-    constructor(div) {
+    factory: Factory;
+    constructor(factory, div) {
+        this.factory = factory;
         this.div = $('<div class="tile-inner action">');
         this.div.appendTo($('<div class="tile">').appendTo(div));
     }
@@ -18,8 +20,8 @@ class Action {
 
 class RandomAction extends Action {
     static identifier: string = 'RND';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.text('?');
     }
     execute(stack: Stack) : Direction {
@@ -37,8 +39,8 @@ class RandomAction extends Action {
 
 class StartAction extends Action {
     static identifier: string = 'START';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-home">');
         this.div.closest('.tile').addClass('tile-8');
     }
@@ -52,8 +54,8 @@ class StartAction extends Action {
 
 class UpAction extends Action {
     static identifier: string = 'UP';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-up">');
     }
     execute(stack: Stack) : Direction {
@@ -62,8 +64,8 @@ class UpAction extends Action {
 }
 class DownAction extends Action {
     static identifier: string = 'DOWN';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-down">');
     }
     execute(stack: Stack) : Direction {
@@ -72,8 +74,8 @@ class DownAction extends Action {
 }
 class LeftAction extends Action {
     static identifier: string = 'LEFT';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-left">');
     }
     execute(stack: Stack) : Direction {
@@ -82,8 +84,8 @@ class LeftAction extends Action {
 }
 class RightAction extends Action {
     static identifier: string = 'RIGHT';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-right">');
     }
     execute(stack: Stack) : Direction {
@@ -92,8 +94,8 @@ class RightAction extends Action {
 }
 class DupAction extends Action {
     static identifier: string = 'DUP';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('DUP');
     }
     execute(stack: Stack) : Direction {
@@ -105,8 +107,8 @@ class DupAction extends Action {
 }
 class SwapAction extends Action {
     static identifier: string = 'SWP';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('SWP');
     }
     execute(stack: Stack) : Direction {
@@ -119,8 +121,8 @@ class SwapAction extends Action {
 }
 class AddAction extends Action {
     static identifier: string = 'ADD';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('+');
     }
     execute(stack: Stack) : Direction {
@@ -132,8 +134,8 @@ class AddAction extends Action {
 }
 class SubtractAction extends Action {
     static identifier: string = 'SUB';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('-');
     }
     execute(stack: Stack) : Direction {
@@ -145,8 +147,8 @@ class SubtractAction extends Action {
 }
 class InputAction extends Action {
     static identifier: string = 'INP';
-    constructor(div: JQuery) {
-        super(div);
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
         this.div.html('INP');
     }
     execute(stack: Stack) : Direction {

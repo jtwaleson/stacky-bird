@@ -155,7 +155,7 @@ class Factory {
             $('.blockpicker .actions').off('click').on('click', '.btn', function () {
                 var chosenAction = $(this).data('action');
                 if (chosenAction && chosenAction in allActionsById) {
-                    var newAction = new allActionsById[chosenAction](tileContainer);
+                    var newAction = new allActionsById[chosenAction](self, tileContainer);
                     field.setAction(newAction);
                 }
                 $('.blockpicker').modal('hide');
@@ -170,7 +170,7 @@ class Factory {
             var field = self.board[tile.data('y')][tile.data('x')];
             field.removeAction();
         });
-        this.board[this.startY][this.startX].setAction(new StartAction(tileContainer), false);
+        this.board[this.startY][this.startX].setAction(new StartAction(this, tileContainer), false);
         this.stop();
     }
     addTile(x: number, y: number, text: string) {
@@ -305,7 +305,7 @@ class Level {
         if (levelObject.blocks) {
             levelObject.blocks.forEach((block: BlockSerialized) => {
                 var action = allActionsById[block.id];
-                this.factory.board[block.y][block.x].setAction(new action(this.factory.div.find('.tile-container')), false);
+                this.factory.board[block.y][block.x].setAction(new action(this.factory, this.factory.div.find('.tile-container')), false);
             });
         }
     }
