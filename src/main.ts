@@ -155,14 +155,7 @@ class Factory {
             $('.blockpicker .actions').off('click').on('click', '.btn', function () {
                 var chosenAction = $(this).data('action');
                 if (chosenAction && chosenAction in allActionsById) {
-                    if (chosenAction === 'RET') {
-                        var newAction = new allActionsById[chosenAction](tileContainer, function (value) {
-                            self.stop();
-                            alert('Return value: ' + value);
-                        });
-                    } else {
-                        var newAction = new allActionsById[chosenAction](tileContainer);
-                    }
+                    var newAction = new allActionsById[chosenAction](tileContainer);
                     field.setAction(newAction);
                 }
                 $('.blockpicker').modal('hide');
