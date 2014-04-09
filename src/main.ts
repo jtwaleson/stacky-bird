@@ -215,6 +215,7 @@ class Factory {
             }, 2000);
             this.flappy = null;
             this.stop();
+            throw err;
         }
     }
     stepExternal () {
