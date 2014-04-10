@@ -90,28 +90,24 @@ class Field {
 class Factory {
     flappy: Flappy = null;
 
-    width: number;
-    height: number;
-    startX: number;
-    startY: number;
-    startDirection: Direction;
-    board: Field[][];
-    stack: Stack;
-    div: JQuery;
+    board: Field[][] = [];
     currentInterval: number = null;
+    stack: Stack = new Stack(this);
     editable: boolean;
 
-    constructor (width: number, height: number, startX: number, startY: number, startDirection: Direction, div: string, name: string, description: string) {
-        if (width <= 0 || width <= 0) {
+    constructor (
+        public width: number,
+        public height: number,
+        public startX: number,
+        public startY: number,
+        public startDirection: Direction,
+        public div: JQuery,
+        name: string,
+        description: string
+    ) {
+        if (width <= 1 || width <= 1) {
             throw "Sizing of Factory should be larger than 1";
         }
-        this.width = Math.floor(width);
-        this.height = Math.floor(height);
-        this.startX = Math.floor(startX);
-        this.startY = Math.floor(startY);
-        this.startDirection = startDirection;
-        this.board = [];
-        this.div = $(div);
         this.div.find('.name').text(name);
         this.div.find('.description').text(description);
         this.setEditable(true);
@@ -297,7 +293,7 @@ class Level {
             levelObject.startX,
             levelObject.startY,
             levelObject.startDirection,
-            '.factory1',
+            $('.factory1'),
             levelObject.name,
             levelObject.description
         );
