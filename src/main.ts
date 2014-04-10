@@ -2,6 +2,7 @@
 /// <reference path="def/bootstrap/bootstrap.d.ts"/>
 /// <reference path="flappy.ts"/>
 /// <reference path="actions.ts"/>
+/// <reference path="levels.ts"/>
 
 enum Direction {
     UP,
@@ -94,6 +95,8 @@ class Factory {
     currentInterval: number = null;
     stack: Stack = new Stack(this);
     editable: boolean;
+    currentAssignment: Assignment = null;
+    points: number = 0;
 
     constructor (
         public width: number,
@@ -103,7 +106,8 @@ class Factory {
         public startDirection: Direction,
         public div: JQuery,
         name: string,
-        description: string
+        description: string,
+        public assignmentGenerator: () => Assignment
     ) {
         if (width <= 1 || width <= 1) {
             throw "Sizing of Factory should be larger than 1";
@@ -241,6 +245,8 @@ class Factory {
         }
         this.setEditable(true);
         this.stack.clear();
+        this.currentAssignment = null;
+        this.points = 0;
         this.div.find('.factory-play').show();
         this.div.find('.factory-step-forward').show();
         this.div.find('.factory-pause').hide();
@@ -251,6 +257,28 @@ class Factory {
         this.div.remove();
         this.div = null;
         this.board = [];
+    }
+    getNextAssignment(stack: Stack) {
+        this.currentAssignment = this.assignmentGenerator();
+        for (var i = 0; i < this.currentAssignment.input.length; i++) {
+            stack.push(this.currentAssignment.input[i]);
+        }
+    }
+    submitAssignment(stack: Stack) {
+        if (this.currentAssignment === null) {
+            return;
+        }
+        var output = [];
+        try {
+            while (true)
+                output.push(stack.pop());
+        } catch (err) {
+        }
+        if (!this.currentAssignment.comparator(output, this.currentAssignment.output)) {
+            throw "answer not correct: got " + output + ' while expecting ' + this.currentAssignment.output;
+        }
+        this.points += 10;
+        console.log(this.points);
     }
     isEditable() {
         return this.editable;
@@ -269,6 +297,11 @@ interface BlockSerialized {
     x: number;
     y: number;
 }
+interface Assignment {
+    input: number[];
+    output: number[];
+    comparator: (given: number[], expected: number[]) => boolean;
+}
 interface LevelSerialized {
     name: string;
     code: string;
@@ -279,6 +312,7 @@ interface LevelSerialized {
     startDirection: Direction;
     description: string;
     blocks?: BlockSerialized[];
+    assignmentGenerator: () => Assignment;
 }
 class Level {
     factory: Factory;
@@ -295,7 +329,8 @@ class Level {
             levelObject.startDirection,
             $('.factory1'),
             levelObject.name,
-            levelObject.description
+            levelObject.description,
+            levelObject.assignmentGenerator
         );
         this.description = levelObject.description;
         if (levelObject.blocks) {
@@ -309,81 +344,6 @@ class Level {
         this.factory.run(speed);
     }
 }
-var levels = [
-    {
-        name: 'Level 1: Just press play',
-        description: 'The button is below',
-        code: '1',
-        width: 4,
-        height: 4,
-        startX: 1,
-        startY: 1,
-        startDirection: Direction.RIGHT,
-        blocks: [
-            {
-                id: 'ADD',
-                y: 1,
-                x: 2,
-            },
-            {
-                id: 'DOWN',
-                y: 1,
-                x: 3,
-            },
-            {
-                id: 'LEFT',
-                y: 3,
-                x: 3,
-            },
-            {
-                id: 'UP',
-                y: 3,
-                x: 1,
-            },
-        ],
-    },
-    {
-        name: 'Level 2: One small step',
-        description: 'You need to add one block',
-        code: '2',
-        width: 4,
-        height: 4,
-        startX: 1,
-        startY: 1,
-        startDirection: Direction.RIGHT,
-        blocks: [
-            {
-                id: 'ADD',
-                y: 1,
-                x: 2,
-            },
-            {
-                id: 'LEFT',
-                y: 3,
-                x: 3,
-            },
-            {
-                id: 'UP',
-                y: 3,
-                x: 1,
-            },
-        ],
-    },
-    {
-        name: 'Level 3: Summer',
-        description: 'Re-create the entire puzzle from the previous level',
-        code: '3',
-        width: 4,
-        height: 4,
-        startX: 1,
-        startY: 1,
-        startDirection: Direction.RIGHT,
-    }
-];
-var levelsById = {};
-levels.forEach((level: LevelSerialized) => {
-    levelsById[level.code] = level;
-});
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -391,9 +351,9 @@ function getParameterByName(name) {
 $(function () {
     if ($('.factory1').length > 0) {
         var levelCode = getParameterByName('level');
-        new Level(levelsById[levelCode]);
+        new Level(Levels.byId[levelCode]);
     } else if ($('.level-list').length > 0) {
-        levels.forEach((level: LevelSerialized) => {
+        Levels.list.forEach((level: LevelSerialized) => {
             $("<tr>")
                 .append($("<td>").text(level.code))
                 .append($("<td>").text(level.name))

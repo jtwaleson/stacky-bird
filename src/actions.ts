@@ -45,9 +45,8 @@ class StartAction extends Action {
         this.div.closest('.tile').addClass('tile-8');
     }
     execute(stack: Stack) : Direction {
-        stack.clear();
-        stack.push(Math.floor(Math.random() * 200 - 100));
-        stack.push(Math.floor(Math.random() * 200 - 100));
+        this.factory.submitAssignment(stack);
+        this.factory.getNextAssignment(stack);
         return Direction.RIGHT;
     }
 }
