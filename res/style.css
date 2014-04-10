@@ -50,8 +50,10 @@ html, body {
 .game-controls {
     margin-top: 30px;
 }
-
-.game-container, .game-controls {
+.game-progress {
+    margin-top: 30px;
+}
+.game-container, .game-controls, .game-progress {
     width: 500px;
     display: block;
     margin-left: auto;
@@ -1493,7 +1495,7 @@ html, body {
   html, body {
     font-size: 15px; }
 
-  .game-container, .game-controls {
+  .game-container, .game-controls, .game-progress {
     width: 280px;
   }
   .game-container {

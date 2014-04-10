@@ -97,6 +97,7 @@ class Factory {
     editable: boolean;
     currentAssignment: Assignment = null;
     points: number = 0;
+    progress: number = 0;
 
     constructor (
         public width: number,
@@ -247,6 +248,7 @@ class Factory {
         this.stack.clear();
         this.currentAssignment = null;
         this.points = 0;
+        this.setProgress(0);
         this.div.find('.factory-play').show();
         this.div.find('.factory-step-forward').show();
         this.div.find('.factory-pause').hide();
@@ -257,6 +259,10 @@ class Factory {
         this.div.remove();
         this.div = null;
         this.board = [];
+    }
+    setProgress (progress: number) {
+        this.progress = progress;
+        this.div.find('.game-progress .progress-bar').css('width', this.progress * 10 + '%');
     }
     getNextAssignment(stack: Stack) {
         this.currentAssignment = this.assignmentGenerator();
@@ -278,7 +284,10 @@ class Factory {
             throw "answer not correct: got " + output + ' while expecting ' + this.currentAssignment.output;
         }
         this.points += 10;
-        console.log(this.points);
+        this.setProgress(this.progress + 1);
+        if (this.progress === 10) {
+            this.stop();
+        }
     }
     isEditable() {
         return this.editable;
