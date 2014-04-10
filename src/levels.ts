@@ -14,8 +14,8 @@ module Levels {
             }
             return true;
         }
-        var a = Math.floor(Math.random() * 200 - 100);
-        var b = Math.floor(Math.random() * 200 - 100);
+        var a = Math.floor(Math.random() * 10);
+        var b = Math.floor(Math.random() * 10);
         return {
             input: [a, b],
             output: [a + b],
