@@ -67,25 +67,28 @@ class Stack {
 class Field {
     div: JQuery;
     action: Action;
-    top: number;
-    left: number;
-    constructor(top: number, left: number) {
-        this.top = top;
-        this.left = left;
+    userEditable: boolean;
+
+    constructor(public top: number, public left: number) {
     }
+
     setAction(action: Action, userEditable: boolean = true) {
         this.action = action;
+        this.userEditable = userEditable;
         this.action.div.closest('.tile').addClass('tile-position-' + this.left + '-' + this.top).data('x', this.left).data('y', this.top);
         this.action.setField(this);
         if (!userEditable) {
             this.action.div.closest('.action').addClass('locked');
         }
+
     }
+
     removeAction() {
         if (this.action) {
             this.action.div.closest('.tile').remove();
         }
         this.action = null;
+        delete this.userEditable;
     }
 }
 class Factory {
@@ -98,6 +101,7 @@ class Factory {
     currentAssignment: Assignment = null;
     points: number = 0;
     progress: number = 0;
+    handlers: any = {};
 
     constructor (
         public width: number,
@@ -160,6 +164,7 @@ class Factory {
                     field.setAction(newAction);
                 }
                 $('.blockpicker').modal('hide');
+                self.trigger('change');
             });
         });
         tileContainer.on('click', '.action', function (event) {
@@ -170,9 +175,21 @@ class Factory {
             var tile = $(this).closest('.tile');
             var field = self.board[tile.data('y')][tile.data('x')];
             field.removeAction();
+            self.trigger('change');
         });
         this.board[this.startY][this.startX].setAction(new StartAction(this, tileContainer), false);
         this.stop();
+    }
+    on(name: string, func: () => void) {
+        this.handlers[name] = this.handlers[name] || [];
+        this.handlers[name].push(func);
+    }
+    trigger(name: string) {
+        if (this.handlers[name]) {
+            this.handlers[name].forEach(function (func) {
+                func();
+            });
+        }
     }
     addTile(x: number, y: number, text: string) {
         var outerDiv = $('<div>').addClass('tile-position-' + x + '-' + y).addClass('tile');
@@ -327,9 +344,11 @@ class Level {
     factory: Factory;
     name: string;
     description: string;
+    code: string;
 
     constructor (levelObject: LevelSerialized) {
         this.name = levelObject.name;
+        this.code = levelObject.code;
         this.factory = new Factory(
             levelObject.width,
             levelObject.height,
@@ -348,6 +367,30 @@ class Level {
                 this.factory.board[block.y][block.x].setAction(new action(this.factory, this.factory.div.find('.tile-container')), false);
             });
         }
+        var savedState = JSON.parse(localStorage.getItem('stackybird.levels.' + this.code + '.state'));
+        if (savedState) {
+            savedState.forEach((block: BlockSerialized) => {
+                var action = allActionsById[block.id];
+                if (action) {
+                    this.factory.board[block.y][block.x].setAction(new action(this.factory, this.factory.div.find('.tile-container')), true);
+                }
+            });
+        }
+        this.factory.on('change', () => {
+            var state = [];
+            this.factory.board.forEach((row) => {
+                row.forEach((cell) => {
+                    if (cell.action && cell.userEditable) {
+                        state.push({
+                            id: cell.action.constructor.identifier,
+                            x: cell.left,
+                            y: cell.top,
+                        });
+                    }
+                });
+            });
+            localStorage.setItem('stackybird.levels.' + this.code + '.state', JSON.stringify(state));
+        });
     }
     run(speed: number = 100) {
         this.factory.run(speed);
