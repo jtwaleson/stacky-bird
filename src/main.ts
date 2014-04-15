@@ -225,6 +225,7 @@ class Factory {
             }, 2000);
             this.flappy = null;
             this.stop();
+            this.setMessage('danger', err);
             throw err;
         }
     }
@@ -233,7 +234,7 @@ class Factory {
         this.div.find('.factory-step-forward').show();
         this.div.find('.factory-pause').hide();
         this.div.find('.factory-stop').show();
-        this.step()
+        this.step();
     }
     run (speed: number = 100) {
         this.currentInterval = setInterval(() => {
@@ -243,6 +244,7 @@ class Factory {
         this.div.find('.factory-step-forward').hide();
         this.div.find('.factory-pause').show();
         this.div.find('.factory-stop').show();
+        this.hideMessage();
     }
     pause () {
         if (this.currentInterval) {
@@ -267,6 +269,7 @@ class Factory {
         this.div.find('.factory-step-forward').show();
         this.div.find('.factory-pause').hide();
         this.div.find('.factory-stop').hide();
+        this.hideMessage();
         this.trigger('stop');
     }
     destroy () {
@@ -288,6 +291,16 @@ class Factory {
             this.div.removeClass('editable');
         }
         this.editable = editable;
+    }
+    setMessage(type: string, message: string) {
+        var messageDiv = this.div.find('.alert');
+        messageDiv.removeClass('alert-success alert-info alert-warning alert-danger');
+        messageDiv.text(message);
+        messageDiv.addClass('alert-' + type);
+        messageDiv.show();
+    }
+    hideMessage() {
+        this.div.find('.alert').hide();
     }
 }
 interface BlockSerialized {
@@ -381,7 +394,8 @@ class Level {
                 this.progress += 10;
                 this.factory.setProgress(this.progress);
                 if (this.progress === 100) {
-                    throw "level completed!";
+                    this.factory.setMessage('success', 'You won!');
+                    this.factory.pause();
                 }
             }
 
