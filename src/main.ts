@@ -12,18 +12,19 @@ enum Direction {
 }
 
 var allActionsById = {};
-var allActions: any[] = [];
-allActions.push(StartAction);
-allActions.push(DupAction);
-allActions.push(RandomAction);
-allActions.push(UpAction);
-allActions.push(DownAction);
-allActions.push(LeftAction);
-allActions.push(RightAction);
-allActions.push(SwapAction);
-allActions.push(AddAction);
-allActions.push(SubtractAction);
-allActions.push(InputAction);
+var allActions: any[] = [
+    StartAction,
+    DupAction,
+    RandomAction,
+    UpAction,
+    DownAction,
+    LeftAction,
+    RightAction,
+    SwapAction,
+    AddAction,
+    SubtractAction,
+    InputAction,
+];
 allActions.forEach((action: any) => {
     allActionsById[action.identifier] = action;
 });
