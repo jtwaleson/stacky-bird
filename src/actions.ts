@@ -18,6 +18,25 @@ class Action {
     }
 }
 
+class UTurnAction extends Action {
+    static identifier: string = 'UTURN';
+    constructor(factory: Factory, div: JQuery) {
+        super(factory, div);
+        this.div.html('<span class="glyphicon glyphicon-repeat">');
+    }
+    execute(stack: Stack, currentDirection: Direction) : Direction {
+        if (currentDirection === Direction.UP)
+            return Direction.DOWN;
+        else if (currentDirection === Direction.DOWN)
+            return Direction.UP;
+        else if (currentDirection === Direction.RIGHT)
+            return Direction.LEFT;
+        else if (currentDirection === Direction.LEFT)
+            return Direction.RIGHT;
+        else
+            throw "UTurn exception: current direction is invalid";
+    }
+}
 class RandomAction extends Action {
     static identifier: string = 'RND';
     constructor(factory: Factory, div: JQuery) {

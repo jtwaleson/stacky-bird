@@ -24,6 +24,7 @@ var allActions: any[] = [
     AddAction,
     SubtractAction,
     InputAction,
+    UTurnAction,
 ];
 allActions.forEach((action: any) => {
     allActionsById[action.identifier] = action;
