@@ -45,3 +45,11 @@ To do
  * add right arrow on home block
  * create first levels, with message popups etcetera
  * have example factories that just run
+ * store scores
+ * unlock blocks at level
+ * current level + two levels in advance can be played
+ * specify which blocks can be used in level
+ * show which blocks can be unlocked for each level
+ * block picker should use same block icons
+ * make it possible to have non 4x4 grids
+ * add a clear all state button
