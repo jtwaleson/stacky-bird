@@ -201,19 +201,20 @@ class Factory {
         if (this.flappy && this.flappy.div.is('.dead')) {
             this.stop();
         }
-        if (this.flappy === null) {
-            this.flappy = new Flappy(this.startX, this.startY, this.startDirection, this);
-            return;
-        }
-        this.setEditable(false);
         try {
+            if (this.flappy === null) {
+                this.flappy = new Flappy(this.startX, this.startY, this.startDirection, this);
+            } else {
+                this.flappy.moveInDirection(this.flappy.direction);
+            }
+            this.setEditable(false);
             var currentField = this.board[this.flappy.top][this.flappy.left];
             var direction = this.flappy.direction;
             if (currentField.action) {
                 direction = currentField.action.execute(this.stack, this.flappy.direction);
             }
             if (direction !== null)
-                this.flappy.moveInDirection(direction);
+                this.flappy.direction = direction;
         } catch (err) {
             this.flappy && this.flappy.die();
             var flappy = this.flappy;
