@@ -10,7 +10,7 @@ class Action {
         this.div = $('<div class="tile-inner action">');
         this.div.appendTo($('<div class="tile">').appendTo(div));
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         return Direction.UP;
     }
     setField(field: Field) {
@@ -24,7 +24,7 @@ class RandomAction extends Action {
         super(factory, div);
         this.div.text('?');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         var r = Math.random();
         if (r < 0.25)
             return Direction.UP;
@@ -44,7 +44,7 @@ class StartAction extends Action {
         this.div.html('<span class="glyphicon glyphicon-home">');
         this.div.closest('.tile').addClass('tile-8');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         this.factory.submitAssignment(stack);
         this.factory.getNextAssignment(stack);
         return Direction.RIGHT;
@@ -57,7 +57,7 @@ class UpAction extends Action {
         super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-up">');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         return Direction.UP;
     }
 }
@@ -67,7 +67,7 @@ class DownAction extends Action {
         super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-down">');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         return Direction.DOWN;
     }
 }
@@ -77,7 +77,7 @@ class LeftAction extends Action {
         super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-left">');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         return Direction.LEFT;
     }
 }
@@ -87,7 +87,7 @@ class RightAction extends Action {
         super(factory, div);
         this.div.html('<span class="glyphicon glyphicon-circle-arrow-right">');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         return Direction.RIGHT;
     }
 }
@@ -97,11 +97,11 @@ class DupAction extends Action {
         super(factory, div);
         this.div.html('DUP');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         var val = stack.pop();
         stack.push(val);
         stack.push(val);
-        return null;
+        return currentDirection;
     }
 }
 class SwapAction extends Action {
@@ -110,12 +110,12 @@ class SwapAction extends Action {
         super(factory, div);
         this.div.html('SWP');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         var val1 = stack.pop();
         var val2 = stack.pop();
         stack.push(val1);
         stack.push(val2);
-        return null;
+        return currentDirection;
     }
 }
 class AddAction extends Action {
@@ -124,11 +124,11 @@ class AddAction extends Action {
         super(factory, div);
         this.div.html('+');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         var val2 = stack.pop();
         var val1 = stack.pop();
         stack.push(val1 + val2);
-        return null;
+        return currentDirection;
     }
 }
 class SubtractAction extends Action {
@@ -137,11 +137,11 @@ class SubtractAction extends Action {
         super(factory, div);
         this.div.html('-');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         var val2 = stack.pop();
         var val1 = stack.pop();
         stack.push(val1 - val2);
-        return null;
+        return currentDirection;
     }
 }
 class InputAction extends Action {
@@ -150,13 +150,13 @@ class InputAction extends Action {
         super(factory, div);
         this.div.html('INP');
     }
-    execute(stack: Stack) : Direction {
+    execute(stack: Stack, currentDirection: Direction) : Direction {
         var val = parseInt(prompt('Enter whole number'));
         if (isNaN(val)) {
             throw 'invalid value';
         } else {
             stack.push(val);
         }
-        return null;
+        return currentDirection;
     }
 }
