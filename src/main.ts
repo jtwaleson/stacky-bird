@@ -100,9 +100,6 @@ class Factory {
     currentInterval: number = null;
     stack: Stack = new Stack(this);
     editable: boolean;
-    currentAssignment: Assignment = null;
-    points: number = 0;
-    progress: number = 0;
     handlers: any = {};
 
     constructor (
@@ -264,13 +261,12 @@ class Factory {
         }
         this.setEditable(true);
         this.stack.clear();
-        this.currentAssignment = null;
-        this.points = 0;
         this.setProgress(0);
         this.div.find('.factory-play').show();
         this.div.find('.factory-step-forward').show();
         this.div.find('.factory-pause').hide();
         this.div.find('.factory-stop').hide();
+        this.trigger('stop');
     }
     destroy () {
         this.stop();
@@ -279,33 +275,7 @@ class Factory {
         this.board = [];
     }
     setProgress (progress: number) {
-        this.progress = progress;
-        this.div.find('.game-progress .progress-bar').css('width', this.progress * 10 + '%');
-    }
-    getNextAssignment(stack: Stack) {
-        this.currentAssignment = this.assignmentGenerator();
-        for (var i = 0; i < this.currentAssignment.input.length; i++) {
-            stack.push(this.currentAssignment.input[i]);
-        }
-    }
-    submitAssignment(stack: Stack) {
-        if (this.currentAssignment === null) {
-            return;
-        }
-        var output = [];
-        try {
-            while (true)
-                output.push(stack.pop());
-        } catch (err) {
-        }
-        if (!this.currentAssignment.comparator(output, this.currentAssignment.output)) {
-            throw "answer not correct: got " + output + ' while expecting ' + this.currentAssignment.output;
-        }
-        this.points += 10;
-        this.setProgress(this.progress + 1);
-        if (this.progress === 10) {
-            this.stop();
-        }
+        this.div.find('.game-progress .progress-bar').css('width', progress + '%');
     }
     isEditable() {
         return this.editable;
@@ -346,6 +316,9 @@ class Level {
     name: string;
     description: string;
     code: string;
+    currentAssignment: Assignment = null;
+    points: number = 0;
+    progress: number = 0;
 
     constructor (levelObject: LevelSerialized) {
         this.name = levelObject.name;
@@ -391,6 +364,35 @@ class Level {
                 });
             });
             localStorage.setItem('stackybird.levels.' + this.code + '.state', JSON.stringify(state));
+        });
+        this.factory.on('start', () => {
+            if (this.currentAssignment !== null) {
+                var output = [];
+                try {
+                    while (true)
+                        output.push(this.factory.stack.pop());
+                } catch (err) {
+                }
+                if (!this.currentAssignment.comparator(output, this.currentAssignment.output)) {
+                    throw "answer not correct: got " + output + ' while expecting ' + this.currentAssignment.output;
+                }
+                this.points += 10;
+                this.progress += 10;
+                this.factory.setProgress(this.progress);
+                if (this.progress === 100) {
+                    throw "level completed!";
+                }
+            }
+
+            this.currentAssignment = levelObject.assignmentGenerator();
+            for (var i = 0; i < this.currentAssignment.input.length; i++) {
+                this.factory.stack.push(this.currentAssignment.input[i]);
+            }
+        });
+        this.factory.on('stop', () => {
+            this.points = 0;
+            this.progress = 0;
+            this.currentAssignment = null;
         });
     }
     run(speed: number = 100) {

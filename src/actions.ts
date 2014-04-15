@@ -64,8 +64,7 @@ class StartAction extends Action {
         this.div.closest('.tile').addClass('tile-8');
     }
     execute(stack: Stack, currentDirection: Direction) : Direction {
-        this.factory.submitAssignment(stack);
-        this.factory.getNextAssignment(stack);
+        this.factory.trigger('start');
         return Direction.RIGHT;
     }
 }
