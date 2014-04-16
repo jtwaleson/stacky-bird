@@ -313,6 +313,11 @@ interface Assignment {
     output: number[];
     comparator: (given: number[], expected: number[]) => boolean;
 }
+interface MaxScores {
+    bronze: number;
+    silver: number;
+    gold: number;
+}
 interface LevelSerialized {
     name: string;
     code: string;
@@ -324,6 +329,7 @@ interface LevelSerialized {
     description: string;
     blocks?: BlockSerialized[];
     assignmentGenerator: () => Assignment;
+    points: MaxScores;
 }
 class Level {
     factory: Factory;
@@ -395,6 +401,7 @@ class Level {
                 this.factory.setProgress(this.progress);
                 if (this.progress === 100) {
                     this.factory.setMessage('success', 'You won!');
+                    localStorage.setItem('stackybird.levels.' + this.code + '.score', this.points + '');
                     this.factory.pause();
                 }
             }
@@ -427,10 +434,10 @@ $(function () {
             $("<tr>")
                 .append($("<td>").text(level.code))
                 .append($("<td>").text(level.name))
-                .append($("<td>").text('-'))
-                .append($("<td>").text('-'))
-                .append($("<td>").text('-'))
-                .append($("<td>").text('100'))
+                .append($("<td>").text(level.points.bronze))
+                .append($("<td>").text(level.points.silver))
+                .append($("<td>").text(level.points.gold))
+                .append($("<td>").text(localStorage.getItem('stackybird.levels.' + level.code + '.score') || '-'))
                 .append($("<td>")
                         .append($("<a>")
                                 .addClass('btn btn-primary')

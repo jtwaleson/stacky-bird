@@ -33,6 +33,11 @@ module Levels {
             height: 4,
             startX: 1,
             startY: 1,
+            points: {
+                bronze: 10,
+                silver: 50,
+                gold: 100,
+            },
             startDirection: Direction.RIGHT,
             blocks: [
                 {
@@ -66,6 +71,11 @@ module Levels {
             height: 4,
             startX: 1,
             startY: 1,
+            points: {
+                bronze: 10,
+                silver: 50,
+                gold: 100,
+            },
             startDirection: Direction.RIGHT,
             blocks: [
                 {
@@ -94,6 +104,11 @@ module Levels {
             height: 4,
             startX: 1,
             startY: 1,
+            points: {
+                bronze: 10,
+                silver: 50,
+                gold: 100,
+            },
             startDirection: Direction.RIGHT,
             assignmentGenerator: sumAssignmentGenerator,
         }
