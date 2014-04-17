@@ -1,5 +1,31 @@
 /// <reference path="main.ts"/>
 
+interface Assignment {
+    input: number[];
+    output: number[];
+    comparator: (given: number[], expected: number[]) => boolean;
+}
+
+interface MaxScores {
+    bronze: number;
+    silver: number;
+    gold: number;
+}
+
+interface LevelSerialized {
+    name: string;
+    code: string;
+    width: number;
+    height: number;
+    startX: number;
+    startY: number;
+    startDirection: Direction;
+    description: string;
+    blocks?: BlockSerialized[];
+    assignmentGenerator: () => Assignment;
+    points: MaxScores;
+}
+
 module Levels {
 
     var sumAssignmentGenerator = function () : Assignment {
