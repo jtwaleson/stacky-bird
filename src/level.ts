@@ -1,5 +1,11 @@
 /// <reference path="main.ts"/>
 
+interface BlockSerialized {
+    id: string;
+    x: number;
+    y: number;
+}
+
 class Level {
     factory: Factory;
     name: string;
