@@ -51,7 +51,7 @@ class Level {
                 row.forEach((cell) => {
                     if (cell.action && cell.userEditable) {
                         state.push({
-                            id: cell.action.constructor.identifier,
+                            id: (<any>cell.action.constructor).identifier,
                             x: cell.left,
                             y: cell.top,
                         });
