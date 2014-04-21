@@ -24,6 +24,7 @@ interface LevelSerialized {
     blocks?: BlockSerialized[];
     assignmentGenerator: () => Assignment;
     points: MaxScores;
+    unlocked?: boolean;
 }
 
 module Levels {
@@ -140,7 +141,16 @@ module Levels {
         }
     ];
     export var byId = {};
+    var lastLevelUnlocked = true;
     list.forEach((level: LevelSerialized) => {
         byId[level.code] = level;
+        if (lastLevelUnlocked) {
+            level.unlocked = true;
+            lastLevelUnlocked = false;
+        }
+        var score = localStorage.getItem('stackybird.levels.' + level.code + '.score');
+        if (score && score > level.points.bronze) {
+            lastLevelUnlocked = true;
+        }
     });
 }

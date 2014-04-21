@@ -14,10 +14,15 @@ function getParameterByName(name) {
 $(function () {
     if ($('.factory1').length > 0) {
         var levelCode = getParameterByName('level');
-        new Level(Levels.byId[levelCode]);
+        var level = Levels.byId[levelCode]; 
+        if (level && level.unlocked) {
+            new Level(level);
+        } else {
+            alert('invalid or not-yet unlocked level selected');
+        }
     } else if ($('.level-list').length > 0) {
         Levels.list.forEach((level: LevelSerialized) => {
-            $("<tr>")
+            $("<tr>").addClass(level.unlocked ? '': ' danger')
                 .append($("<td>").text(level.code))
                 .append($("<td>").text(level.name))
                 .append($("<td>").text(level.points.bronze))
@@ -26,7 +31,7 @@ $(function () {
                 .append($("<td>").text(localStorage.getItem('stackybird.levels.' + level.code + '.score') || '-'))
                 .append($("<td>")
                         .append($("<a>")
-                                .addClass('btn btn-primary')
+                                .addClass('btn btn-primary' + (level.unlocked ? '' : ' disabled'))
                                 .attr('href', 'level.html?level=' + level.code)
                                 .text('Play')
                                 )
