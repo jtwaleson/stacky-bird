@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LevelIndex from '@/components/LevelIndex';
+import NotFound from '@/components/NotFound';
 import Level from '@/components/Level';
 
 Vue.use(Router);
@@ -15,6 +16,10 @@ export default new Router({
         {
             path: '/level/:id',
             component: Level,
+        },
+        {
+            path: '*',
+            component: NotFound,
         },
     ],
 });

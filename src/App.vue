@@ -27,7 +27,7 @@ export default {
         return {
             icon: 0,
             timer: null,
-        }
+        };
     },
     mounted() {
         this.timer = setInterval(() => {
