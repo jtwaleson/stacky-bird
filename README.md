@@ -1,26 +1,36 @@
 Stacky Bird
 ====
 
-Stacky Bird is a game where you learn to program using low level commands and a stack. I'm writing it for my son. It is currently under construction and not playable yet.
+Stacky Bird is a game where you learn to program using low level commands and a stack without realizing that you're actually learning it.
 
-This game was inspired by 2048, Flappy Bird, SpaceChem and my trusty old HP 49G+ calculator on which I used to program UserRPL.
+This game was inspired by:
+- [2048](https://play2048.co/)
+- [Flappy Bird](https://flappybird.io/)
+- [SpaceChem](http://www.zachtronics.com/spacechem/)
+- [Universal Paperclips](http://www.decisionproblem.com/paperclips/index2.html)
+- my trusty old [HP 49G+](https://en.wikipedia.org/wiki/HP_49/50_series) calculator on which I used to program UserRPL
+
+I started this game in 2014 when my son was just born. Now that he's 5 he could actually start playing it so I revived the project.
 
 See it in action!
 ----
 [http://jtwaleson.github.io/stacky-bird/](http://jtwaleson.github.io/stacky-bird/ "It's really cool!")
 
 
-Compilation
+Usage
 ----
 
-You need to install Typescript and then compile the program with
+Install yarn.
 
-tsc src/main.ts --out bin/script.js
+`yarn dev` to try it locally.
 
-Optionally use the Grunt task,
+`yarn build` to create a production build.
 
-    npm install
-    grunt typescript
+
+Design Principles
+---
+- Players unlock more operations and tools as they progress.
+- Players can go back to previous levels to create better solutions.
 
 
 This is what kids said about Stacky Bird
@@ -41,15 +51,3 @@ My girlfriend left me, I lost my job and my parents would't pick me up from scho
 
 To do
 ----
-
- * add right arrow on home block
- * create first levels, with message popups etcetera
- * have example factories that just run
- * store scores
- * unlock blocks at level
- * current level + two levels in advance can be played
- * specify which blocks can be used in level
- * show which blocks can be unlocked for each level
- * block picker should use same block icons
- * make it possible to have non 4x4 grids
- * add a clear all state button
