@@ -1,6 +1,6 @@
 <template>
     <div>Hello!</div>
-    <Board cols="4" rows="4"/>
+    <Board :cols="4" :rows="4"/>
 </template>
 
 <script>
