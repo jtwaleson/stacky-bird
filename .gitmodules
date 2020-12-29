@@ -1,3 +1,0 @@
-[submodule "src/def"]
-	path = src/def
-	url = https://github.com/borisyankov/DefinitelyTyped.git
