@@ -4,12 +4,17 @@
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}"></div>
             </template>
-            <div class="field thebird" :class="birdClasses" :style="birdStyle">B</div>
+            <div class="field thebird" :class="birdClasses" :style="birdStyle">
+                <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
+                <img v-else src="@/assets/flappy2.png"/>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+const SPEED = 100;
+
 export default {
     name: 'Board',
     props: {
@@ -22,6 +27,7 @@ export default {
             bird: {
                 x: 2,
                 y: 2,
+                flappingImage: true,
             },
             birdClasses: [],
         }
@@ -66,11 +72,10 @@ export default {
             }
             this.birdClasses.push("moving");
             this.birdClasses.push(`moving-${direction}`);
-            if (newX <= 0 || newY <= 0 || newX >= this.cols || newY >= this.rows) {
+            if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
                 setTimeout(() => {
                     this.birdClasses.push("dead");
-                    this.birdIsMoving = false;
-                }, 300);
+                }, 0.5 * SPEED);
             } else {
                 setTimeout(() => {
                     this.birdClasses.pop();
@@ -78,23 +83,17 @@ export default {
                     this.bird.x += xDiff;
                     this.bird.y += yDiff;
                     this.birdIsMoving = false;
-                }, 1000);
+                }, 2 * SPEED);
             }
         }
     },
     mounted() {
-        setTimeout(() => {
-            this.moveBird(0, -1);
-            setTimeout(() => {
-                this.moveBird(0, -1);
-                setTimeout(() => {
-                    this.moveBird(0, -1);
-                    setTimeout(() => {
-                        this.moveBird(0, -1);
-                    }, 1500);
-                }, 1500);
-            }, 1500);
-        }, 1000);
+        setInterval(() => {
+            this.moveBird(1, 0);
+        }, 3 * SPEED);
+        setInterval(() => {
+            this.bird.flappingImage = !this.bird.flappingImage;
+        }, SPEED);
     },
 }
 </script>
@@ -130,9 +129,13 @@ export default {
     width: 107px;
     height: 107px;
 }
+.thebird img {
+    width: 100%;
+    height: 100%;
+}
 .moving {
     transition:
-        margin ease-in-out 1s,
+        margin ease-in-out 100ms; /* 2X SPEED */
 }
 .moving-left {
     margin-left:-122px;
