@@ -2,11 +2,8 @@
     <div>
         <div>
             <h2>These are the instructions</h2>
-            <ul>
-                <li>ADD</li>
-                <li>MUL</li>
-                <li><i>SRT</i></li> <!-- not unlocked -->
-            </ul>
+            <component v-for="(instruction, instructionName) in instructions" :key="instructionName" :is="instruction"></component>
+
         </div>
         <div>
             <h2>These are the levels</h2>
@@ -17,10 +14,11 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
     name: 'MainMenu',
-    props: {
-    },
+    computed: mapState(['instructions']),
 }
 </script>
 <style>
