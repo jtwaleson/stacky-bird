@@ -15,7 +15,9 @@
         <div>
             <h2>These are the levels</h2>
             <ul>
-                <li><a @click='$store.commit("openLevel")'>Level 1</a></li>
+                <template v-for="(level, levelName) in levels" :key="levelName">
+                    <li><a @click='$store.commit("openLevel", levelName)'>{{ levelName }}</a></li>
+                </template>
             </ul>
         </div>
     </div>
@@ -25,7 +27,7 @@ import { mapState } from 'vuex'
 
 export default {
     name: 'MainMenu',
-    computed: mapState(['instructions']),
+    computed: mapState(['instructions', 'levels']),
 }
 </script>
 <style>
