@@ -48,11 +48,13 @@ export default createStore({
             }
 
             let unlockedLevels = localStorage.getItem("unlockedLevels") || [];
+            let completedLevels = localStorage.getItem("completedLevels") || [];
 
             state.levels[levelName] = {
                 name: levelName,
                 component: levelComponent,
                 unlocked: unlockedLevels.indexOf(levelName) > -1,
+                completed: completedLevels.indexOf(levelName) > -1,
             };
         },
         unlockLevel(state, levelName) {
@@ -67,6 +69,19 @@ export default createStore({
                 }
             }
             localStorage.setItem("unlockedLevels", unlockedLevels);
+        },
+        completeLevel(state, levelName) {
+            if (!(levelName in state.levels)) {
+                throw new Error(`level ${levelName} not found, can not unlock`);
+            }
+            state.levels[levelName].completed = true;
+            let completedLevels = [];
+            for (let level of Object.values(state.levels)) {
+                if (level.completed) {
+                    completedLevels.push(level.name);
+                }
+            }
+            localStorage.setItem("completedLevels", completedLevels);
         },
     },
     getters: {
