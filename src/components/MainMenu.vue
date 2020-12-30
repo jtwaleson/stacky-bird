@@ -8,7 +8,7 @@
         <div>
             <h2>These are the levels</h2>
             <ul>
-                <li>Level 1</li>
+                <li><a @click='$store.commit("openLevel")'>Level 1</a></li>
             </ul>
         </div>
     </div>

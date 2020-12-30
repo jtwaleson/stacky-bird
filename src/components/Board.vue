@@ -1,5 +1,6 @@
 <template>
     <div class="board-container">
+        <button @click="$store.commit('openMenu')">Back</button>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}"></div>
@@ -101,6 +102,9 @@ export default {
         this.flappingInterval = setInterval(() => {
             this.bird.flappingImage = !this.bird.flappingImage;
         }, SPEED);
+    },
+    beforeUnmount() {
+        clearInterval(this.flappingInterval);
     },
 }
 </script>
