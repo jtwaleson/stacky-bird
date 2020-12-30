@@ -2,7 +2,14 @@
     <div>
         <div>
             <h2>These are the instructions</h2>
-            <component v-for="(instruction, instructionName) in instructions" :key="instructionName" :is="instruction"></component>
+            <template v-for="(instruction, instructionName) in instructions" :key="instructionName">
+                <div v-if="instruction.unlocked" style="color: #000">
+                    <component :is="instruction.component"/>
+                </div>
+                <div v-else style="color: #555">
+                    <component :is="instruction.component"/>
+                </div>
+            </template>
 
         </div>
         <div>

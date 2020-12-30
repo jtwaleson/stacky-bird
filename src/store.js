@@ -6,11 +6,18 @@ export default createStore({
         instructions: {},
     },
     mutations: {
-        registerInstructionComponent (state, {componentName, componentConfig}) {
-            if (componentName in state.instructions) {
-                throw new Error("component already registered");
+        registerInstructionComponent (state, {instructionName, instructionComponent}) {
+            if (instructionName in state.instructions) {
+                throw new Error(`instruction ${instructionName} is already registered`);
             }
-            state.instructions[componentName] = componentConfig;
+
+            let unlockedInstructions = localStorage.getItem("unlockedInstructions") || [];
+
+            state.instructions[instructionName] = {
+                name: instructionName,
+                component: instructionComponent,
+                unlocked: unlockedInstructions.indexOf(instructionName) > -1,
+            };
         },
         openLevel(state) {
             state.appMode = 'level';
@@ -18,6 +25,20 @@ export default createStore({
         openMenu(state) {
             state.appMode = 'menu';
         },
+        unlockInstruction(state, instructionName) {
+            if (!(instructionName in state.instructions)) {
+                throw new Error(`instruction ${instructionName} not found, can not unlock`);
+            }
+            state.instructions[instructionName].unlocked = true;
+            let unlockedInstructions = [];
+            for (let instruction of Object.values(state.instructions)) {
+                if (instruction.unlocked) {
+                    unlockedInstructions.push(instruction.name);
+                }
+            }
+            localStorage.setItem("unlockedInstructions", unlockedInstructions);
+        },
+
     },
     getters: {
     },

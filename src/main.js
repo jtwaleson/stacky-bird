@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, markRaw } from 'vue'
 import App from './App.vue'
 import store from './store'
 import upperFirst from 'lodash/upperFirst'
@@ -28,8 +28,8 @@ requireComponent.keys().forEach(fileName => {
         )
     )
     store.commit('registerInstructionComponent', {
-        componentName,
-        componentConfig: componentConfig.default || componentConfig,
+        instructionName: componentName,
+        instructionComponent: markRaw(componentConfig.default || componentConfig),
     });
 })
 
