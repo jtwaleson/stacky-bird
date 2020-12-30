@@ -9,6 +9,9 @@
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
+            <div v-for="(gridObject, index) in gridObjects" :key="index" class="field" :style="{'grid-column': gridObject.x, 'grid-row': gribObject.y}">
+                X
+            </div>
         </div>
     </div>
 </template>
@@ -21,13 +24,16 @@ export default {
     props: {
         cols: Number,
         rows: Number,
+        gridObjects: Array,
+        birdX: Number,
+        birdY: Number,
     },
     data() {
         return {
             birdIsMoving: false,
             bird: {
-                x: 2,
-                y: 2,
+                x: this.birdX,
+                y: this.birdY,
                 flappingImage: true,
                 direction: "right",
             },
