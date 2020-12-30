@@ -28,8 +28,10 @@ export default {
                 x: 2,
                 y: 2,
                 flappingImage: true,
+                direction: "right",
             },
             birdClasses: [],
+            flappingInterval: null,
         }
     },
     computed: {
@@ -70,28 +72,33 @@ export default {
             } else if (yDiff > 0) {
                 direction = "down";
             }
+            this.birdClasses.length = 0;
+            this.birdClasses.push(direction);
             this.birdClasses.push("moving");
-            this.birdClasses.push(`moving-${direction}`);
             if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
-                setTimeout(() => {
-                    this.birdClasses.push("dead");
-                }, 0.5 * SPEED);
+                this.dieBird();
             } else {
                 setTimeout(() => {
-                    this.birdClasses.pop();
                     this.birdClasses.pop();
                     this.bird.x += xDiff;
                     this.bird.y += yDiff;
                     this.birdIsMoving = false;
                 }, 2 * SPEED);
             }
-        }
+        },
+        dieBird() {
+            clearInterval(this.flappingInterval);
+            setTimeout(() => {
+                this.birdClasses.push("dead");
+            }, 0.5 * SPEED);
+        },
+
     },
     mounted() {
         setInterval(() => {
-            this.moveBird(1, 0);
+            this.moveBird(0, -1);
         }, 3 * SPEED);
-        setInterval(() => {
+        this.flappingInterval = setInterval(() => {
             this.bird.flappingImage = !this.bird.flappingImage;
         }, SPEED);
     },
@@ -137,19 +144,34 @@ export default {
     transition:
         margin ease-in-out 100ms; /* 2X SPEED */
 }
-.moving-left {
+.left {
+    transform: rotate(180deg);
+}
+.right {
+    transform: rotate(0deg);
+}
+.up {
+    transform: rotate(270deg);
+}
+.down {
+    transform: rotate(90deg);
+}
+.moving.left {
     margin-left:-122px;
 }
-.moving-right {
+.moving.right {
     margin-left: 122px;
 }
-.moving-up {
+.moving.up {
     margin-top: -122px;
 }
-.moving-down {
+.moving.down {
     margin-top: 122px;
 }
 .dead {
-    background-color: red;
+    filter: invert(1);
+    height: 0px;
+    transition:
+        height ease-in-out 500ms;
 }
 </style>
