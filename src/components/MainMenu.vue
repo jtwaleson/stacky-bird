@@ -16,7 +16,7 @@
             <h2>These are the levels</h2>
             <ul>
                 <template v-for="(level, levelName) in levels" :key="levelName">
-                    <li><a @click='$store.commit("openLevel", levelName)'>{{ levelName }}</a></li>
+                    <li><a @click='$store.commit("openLevel", levelName)'>{{ level.component.displayName }} - {{ level.component.description }}</a></li>
                 </template>
             </ul>
         </div>

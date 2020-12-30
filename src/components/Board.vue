@@ -9,7 +9,7 @@
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
-            <div v-for="(gridObject, index) in gridObjects" :key="index" class="field" :style="{'grid-column': gridObject.x, 'grid-row': gribObject.y}">
+            <div v-for="(gridObject, index) in boardObjects" :key="index" class="field" :style="{'grid-column': gridObject.x, 'grid-row': gridObject.y}">
                 X
             </div>
         </div>
@@ -39,6 +39,7 @@ export default {
             },
             birdClasses: [],
             flappingInterval: null,
+            boardObjects: this.gridObjects,
         }
     },
     computed: {
