@@ -8,18 +8,18 @@ export default createStore({
         level: null,
     },
     mutations: {
-        registerInstructionComponent (state, {instructionName, instructionComponent}) {
-            if (instructionName in state.instructions) {
-                throw new Error(`instruction ${instructionName} is already registered`);
+        registerInstruction(state, instruction) {
+            if (instruction.name in state.instructions) {
+                throw new Error(`instruction ${instruction.name} is already registered`);
             }
 
             let unlockedInstructions = localStorage.getItem("unlockedInstructions") || [];
 
-            state.instructions[instructionName] = {
-                name: instructionName,
-                component: instructionComponent,
-                unlocked: unlockedInstructions.indexOf(instructionName) > -1,
-            };
+            instruction.unlocked = unlockedInstructions.indexOf(instruction.name) > -1;
+            if (instruction.name === "START") {
+                instruction.unlocked = true;
+            }
+            state.instructions[instruction.name] = instruction;
         },
         unlockInstruction(state, instructionName) {
             if (!(instructionName in state.instructions)) {
