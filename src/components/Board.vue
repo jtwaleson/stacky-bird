@@ -1,7 +1,12 @@
 <template>
-    <div class="board-container">
-        <button @click="$store.commit('openMenu')">Back</button>
-        <div class="board" :style="boardStyle">
+    <div class="instruction-grid-container">
+        <div class="menu-container">
+            <div @click="$store.commit('openMenu')">BACK</div>
+            <div @click="reset">RSET</div>
+            <div @click="step">STEP</div>
+            <div @click="fast">FAST</div>
+        </div>
+        <div class="instruction-grid board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}"></div>
             </template>
@@ -9,15 +14,14 @@
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
-            <div v-for="(gridObject, index) in boardObjects" :key="index" class="field" :style="{'grid-column': gridObject.x, 'grid-row': gridObject.y}">
-                X
-            </div>
+            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject"/>
         </div>
     </div>
 </template>
 
 <script>
 const SPEED = 100;
+import Instruction from "./Instruction.vue"
 
 export default {
     name: 'Board',
@@ -27,6 +31,9 @@ export default {
         gridObjects: Array,
         birdX: Number,
         birdY: Number,
+    },
+    components: {
+        Instruction,
     },
     data() {
         return {
@@ -114,17 +121,28 @@ export default {
 </script>
 
 <style scoped>
-.board-container {
-    width: fit-content;
-    margin: 0 auto;
-    margin-top: 200px;
-}
-.board {
+.menu-container {
     display:  grid;
     border-radius: 6px;
     grid-gap: 15px;
-    background-color: #bbada0;
+    background-color: #bbb;
     padding: 15px;
+    grid-template-columns: repeat(4, 107px);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.menu-container div {
+    display: grid;
+    border-radius: 3px;
+    justify-content: center;
+    align-items: center;
+    background-color: #999;
+    padding: 30px 0;
+    user-select: none;
+}
+.menu-container div:hover {
+    cursor: pointer;
+    background-color: #aaa;
 }
 .field {
     display: grid;
@@ -132,17 +150,16 @@ export default {
     justify-content: center;
     align-items: center;
     background-color: #eee4da;
-    color: #776e65;
-    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-    font-size: 55px;
-    z-index: 0;
+    opacity: 40%;
 }
 .thebird {
     display: none;
+    opacity: 100%;
     background: none;
     z-index: 100;
     width: 107px;
     height: 107px;
+    user-select: none;
 }
 .thebird img {
     width: 100%;

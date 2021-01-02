@@ -1,46 +1,52 @@
+/*
+ * Miscellaneous Technical
+ * Geometric Shapes
+ * */
+
+
 export default {
-    "START": {
-        symbol: "🌍",
+    "STRT": {
+        symbol: "○", // maybe ⌂
         description: "Initial position of the bird, bird starts going to the right.",
         execute() {
         },
     },
-    "FIN": {
-        symbol: "🏁",
+    "FINI": {
+        symbol: "◍",
         description: "Finishes this round",
         execute(board) {
             board.finish();
         },
     },
-    "UP": {
-        symbol: "⇑",
+    "UPWD": {
+        symbol: "▲",
         description: "Go UP",
         execute(board) {
             board.bird.direction = "up";
         },
     },
     "DOWN": {
-        symbol: "↴",
+        symbol: "▼",
         description: "Go DOWN",
         execute(board) {
             board.bird.direction = "down";
         },
     },
     "LEFT": {
-        symbol: "↰",
+        symbol: "◀",
         description: "Go LEFT",
         execute(board) {
             board.bird.direction = "left";
         },
     },
-    "RIGHT": {
-        symbol: "↱",
+    "RGHT": {
+        symbol: "▶",
         description: "Go RIGHT",
         execute(board) {
             board.bird.direction = "right";
         },
     },
-    "REV": {
+    "REVR": {
         symbol: "↺",
         description: "Revert the direction of the bird",
         execute(board) {
