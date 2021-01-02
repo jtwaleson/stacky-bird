@@ -45,8 +45,8 @@ export default {
     computed: {
         boardStyle() {
             return {
-                "grid-template-columns": `repeat(${this.cols}, 107px`,
-                "grid-template-rows": `repeat(${this.rows}, 107px`,
+                "grid-template-columns": `repeat(${this.cols}, 107px)`,
+                "grid-template-rows": `repeat(${this.rows}, 107px)`,
             }
         },
         birdStyle() {
