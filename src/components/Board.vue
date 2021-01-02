@@ -103,9 +103,6 @@ export default {
 
     },
     mounted() {
-        setInterval(() => {
-            this.moveBird(0, -1);
-        }, 3 * SPEED);
         this.flappingInterval = setInterval(() => {
             this.bird.flappingImage = !this.bird.flappingImage;
         }, SPEED);
