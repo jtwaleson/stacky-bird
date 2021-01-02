@@ -1,5 +1,5 @@
 <template>
-    <div class="instruction" :class="{unlocked: unlocked}" :style="boardLocationStyle">
+    <div class="instruction" :class="{unlocked: unlocked}" :style="boardLocationStyle" draggable="true" @dragstart="dragstart">
         <div class="symbol">{{ symbol }}</div>
         <div class="code">{{ name }}</div>
     </div>
@@ -19,6 +19,11 @@ export default {
         y: {
             required: false,
             default: null,
+        },
+    },
+    methods: {
+        dragstart(e) {
+            e.dataTransfer.setData("text", this.name);
         },
     },
     computed: {
