@@ -59,4 +59,36 @@ export default {
             board.bird.direction = rev[board.bird.direction];
         },
     },
+    "READ": {
+        symbol: "⌬",
+        description: "Read a number input onto the stack",
+        execute(board) {
+            board.stack.push(Math.floor(Math.random() * 10));
+        },
+    },
+    "DUP1": {
+        symbol: "ↀ",
+        description: "Read a number input onto the stack",
+        execute(board) {
+            if (board.stack.length < 1) {
+                return board.dieBird();
+            }
+            let x = board.stack.pop();
+            board.stack.push(x);
+            board.stack.push(x);
+        },
+    },
+    "SWAP": {
+        symbol: "⎌",
+        description: "Read a number input onto the stack",
+        execute(board) {
+            if (board.stack.length < 2) {
+                return board.dieBird();
+            }
+            let x = board.stack.pop();
+            let y = board.stack.pop();
+            board.stack.push(x);
+            board.stack.push(y);
+        },
+    },
 };
