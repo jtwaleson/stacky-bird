@@ -16,6 +16,11 @@
             </div>
             <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject"/>
         </div>
+        <ul class="stack">
+            <li v-for="(item, index) in stack" :key="index">
+                {{ item }}
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -49,6 +54,7 @@ export default {
             birdClasses: [],
             flappingInterval: null,
             boardObjects: this.gridObjects,
+            stack: [],
         }
     },
     computed: {
@@ -149,6 +155,7 @@ export default {
             this.birdClasses = [];
             this.flappingInterval = null;
             this.boardObjects = this.gridObjects;
+            this.stack = [];
             clearInterval(this.flappingInterval);
         },
     },
@@ -238,5 +245,23 @@ export default {
     height: 0px;
     transition:
         height ease-in-out 500ms;
+}
+.stack {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    position: absolute;
+    right: 10px;
+    width: 100px;
+    top: 10px;
+    min-height: 100px;
+    border-radius: 6px;
+    background-color: #bbb;
+}
+.stack li {
+    background-color: #999;
+    display: block;
+    border-radius: 3px;
 }
 </style>
