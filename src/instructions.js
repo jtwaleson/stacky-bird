@@ -1,6 +1,7 @@
 /*
  * Miscellaneous Technical
  * Geometric Shapes
+ * Number Forms -> ↂ and ↈ for DUP2 and DUP3
  * */
 
 
@@ -68,7 +69,7 @@ export default {
     },
     "DUP1": {
         symbol: "ↀ",
-        description: "Read a number input onto the stack",
+        description: "Duplicate the last number on the stack",
         execute(board) {
             if (board.stack.length < 1) {
                 return board.dieBird();
@@ -80,7 +81,7 @@ export default {
     },
     "SWAP": {
         symbol: "⎌",
-        description: "Read a number input onto the stack",
+        description: "Swap the top two numbers on the stack",
         execute(board) {
             if (board.stack.length < 2) {
                 return board.dieBird();
@@ -89,6 +90,49 @@ export default {
             let y = board.stack.pop();
             board.stack.push(x);
             board.stack.push(y);
+        },
+    },
+    "YOLO": {
+        symbol: "※",
+        description: "Go into a random direction",
+        execute(board) {
+            const directions = ["up", "down", "left", "right"];
+            board.bird.direction = directions[Math.floor(Math.random() * 4)];
+        },
+    },
+    "EMPT": {
+        symbol: "⌿",
+        description: "Check if the stack is empty",
+        execute(board) {
+            if (board.stack.length > 0) {
+                board.stack.push(0);
+            } else {
+                board.stack.push(1);
+            }
+        },
+    },
+    "VOID": {
+        symbol: "⌽",
+        description: "Clear the top item on the stack",
+        execute(board) {
+            if (board.stack.length < 1) {
+                return board.dieBird();
+            }
+            board.stack.pop();
+        },
+    },
+    "CLER": {
+        symbol: "⌀",
+        description: "Clear the stack",
+        execute(board) {
+            board.stack = [];
+        },
+    },
+    "SIZE": {
+        symbol: "⍗",
+        description: "Return the amount of items on the stack",
+        execute(board) {
+            board.stack.push(board.stack.length);
         },
     },
 };
