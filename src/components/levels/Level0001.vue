@@ -12,7 +12,10 @@ export default {
     unlocksInstructions: ["DOWN"],
     data() {
         return {
-            gridObjects: [{x: 3, y: 3}],
+            gridObjects: [
+                {x: 3, y: 3, ...this.$store.state.instructions["STRT"]},
+                {x: 7, y: 3, ...this.$store.state.instructions["FINI"]},
+            ],
         }
     },
     components: {

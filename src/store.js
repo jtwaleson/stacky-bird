@@ -16,9 +16,6 @@ export default createStore({
             let unlockedInstructions = localStorage.getItem("unlockedInstructions") || [];
 
             instruction.unlocked = unlockedInstructions.indexOf(instruction.name) > -1;
-            if (instruction.name === "START") {
-                instruction.unlocked = true;
-            }
             state.instructions[instruction.name] = instruction;
         },
         unlockInstruction(state, instructionName) {
