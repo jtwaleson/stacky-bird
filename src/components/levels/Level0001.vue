@@ -1,5 +1,5 @@
 <template>
-    <Board :cols="7" :rows="7" :birdX="4" :birdY="4" :gridObjects="gridObjects"/>
+    <Board :cols="7" :rows="7" :gridObjects="gridObjects" :finishLevel="finishLevel"/>
 </template>
 <script>
 import Board from '@/components/Board.vue'
@@ -20,6 +20,15 @@ export default {
     },
     components: {
         Board
+    },
+    methods: {
+        finishLevel() {
+            this.$store.commit("unlockInstruction", "DOWN");
+            this.$store.commit("completeLevel", "Level0001");
+            this.$store.commit("unlockLevel", "Level0002");
+            this.$store.commit("openMenu");
+            alert("you won");
+        }
     },
 }
 </script>
