@@ -6,9 +6,14 @@
             <div v-if="!birdIsMoving" @click="step">STEP</div>
             <div @click="fast">FAST</div>
         </div>
+        <div class="instruction-grid">
+            <template v-for="(instruction, instructionName) in instructions" :key="instructionName">
+                <Instruction v-if="instruction.unlocked" v-bind="instruction"/>
+            </template>
+        </div>
         <div class="instruction-grid board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
-                <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}"></div>
+                <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="dropWrapper(col, row, event)" @dragover="allowDrop"></div>
             </template>
             <div v-if="bird.x !== null && bird.y !== null" class="field thebird" :class="birdClasses" :style="birdStyle">
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
@@ -26,6 +31,7 @@
 
 <script>
 const SPEED = 100;
+import { mapState } from 'vuex'
 import { toRaw } from 'vue'
 import Instruction from "./Instruction.vue"
 
@@ -58,6 +64,7 @@ export default {
         }
     },
     computed: {
+        ...mapState(['instructions']),
         boardStyle() {
             return {
                 "grid-template-columns": `repeat(${this.cols}, 107px)`,
@@ -73,6 +80,20 @@ export default {
         },
     },
     methods: {
+        dropWrapper(x, y, event) {
+            console.log(x,y, event);
+            event.preventDefault();
+            console.log("dropped", event.dataTransfer.getData("text"), x, y);
+            return true;
+        },
+        drop(event) {
+            event.preventDefault();
+            console.log("dropped", event, event.dataTransfer.getData("text"));
+            return true;
+        },
+        allowDrop(event) {
+            event.preventDefault();
+        },
         async moveBird() {
             this.birdIsMoving = true;
             let xDiff = 0;
