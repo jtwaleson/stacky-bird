@@ -3,14 +3,14 @@
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
             <div @click="reset">RSET</div>
-            <div @click="step">STEP</div>
+            <div v-if="!birdIsMoving" @click="step">STEP</div>
             <div @click="fast">FAST</div>
         </div>
         <div class="instruction-grid board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}"></div>
             </template>
-            <div class="field thebird" :class="birdClasses" :style="birdStyle">
+            <div v-if="bird.x !== null && bird.y !== null" class="field thebird" :class="birdClasses" :style="birdStyle">
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
@@ -21,7 +21,10 @@
 
 <script>
 const SPEED = 100;
+import { toRaw } from 'vue'
 import Instruction from "./Instruction.vue"
+
+const sleep = m => new Promise(r => setTimeout(r, m))
 
 export default {
     name: 'Board',
@@ -29,8 +32,7 @@ export default {
         cols: Number,
         rows: Number,
         gridObjects: Array,
-        birdX: Number,
-        birdY: Number,
+        finishLevel: Function,
     },
     components: {
         Instruction,
@@ -39,8 +41,8 @@ export default {
         return {
             birdIsMoving: false,
             bird: {
-                x: this.birdX,
-                y: this.birdY,
+                x: null,
+                y: null,
                 flappingImage: true,
                 direction: "right",
             },
@@ -65,54 +67,92 @@ export default {
         },
     },
     methods: {
-        moveBird(xDiff, yDiff) {
-            if (this.birdIsMoving) {
-                console.error("can not move bird while still moving");
-                return;
-            }
+        async moveBird() {
             this.birdIsMoving = true;
+            let xDiff = 0;
+            let yDiff = 0;
+            if (this.bird.direction === "up") {
+                yDiff = -1;
+            } else if (this.bird.direction === "down") {
+                yDiff = 1;
+            } else if (this.bird.direction === "left") {
+                xDiff = -1;
+            } else if (this.bird.direction === "right") {
+                xDiff = 1;
+            } else {
+                throw new Error(`invalid direction of bird ${this.bird.direction}`);
+            }
             let newX = this.bird.x + xDiff;
             let newY = this.bird.y + yDiff;
 
-            if (!(xDiff === 0 || yDiff === 0)) {
-                throw new Error("can only move in one direction at the same time");
-            }
-            let direction = null;
-            if (xDiff < 0) {
-                direction = "left";
-            } else if (xDiff > 0) {
-                direction = "right";
-            } else if (yDiff < 0) {
-                direction = "up";
-            } else if (yDiff > 0) {
-                direction = "down";
-            }
+
             this.birdClasses.length = 0;
-            this.birdClasses.push(direction);
+            this.birdClasses.push(toRaw(this.bird.direction));
             this.birdClasses.push("moving");
             if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
-                this.dieBird();
+                await this.dieBird();
             } else {
-                setTimeout(() => {
-                    this.birdClasses.pop();
-                    this.bird.x += xDiff;
-                    this.bird.y += yDiff;
-                    this.birdIsMoving = false;
-                }, 2 * SPEED);
+                await sleep(2 * SPEED);
+                this.birdClasses.pop();
+                this.bird.x += xDiff;
+                this.bird.y += yDiff;
             }
         },
-        dieBird() {
+        async dieBird() {
             clearInterval(this.flappingInterval);
-            setTimeout(() => {
-                this.birdClasses.push("dead");
-            }, 0.5 * SPEED);
+            await sleep(0.5 * SPEED);
+            this.birdClasses.push("dead");
+            await sleep(4 * SPEED);
+            this.reset();
         },
+        finish() {
+            this.finishLevel();
+        },
+        async step() {
+            if (this.birdIsMoving) {
+                console.error("can not step while still stepping");
+                return;
+            }
+            this.birdIsMoving = true;
 
+            if (this.bird.x === null || this.bird.y === null) {
+                for (let boardObject of this.boardObjects) {
+                    if (boardObject.name === "STRT") {
+                        this.bird.x = boardObject.x;
+                        this.bird.y = boardObject.y;
+                    }
+                }
+                this.flappingInterval = setInterval(() => {
+                    this.bird.flappingImage = !this.bird.flappingImage;
+                }, SPEED);
+            } else {
+                await this.moveBird();
+                let instruction = null;
+                for (let boardObject of this.boardObjects) {
+                    if (boardObject.x === this.bird.x && boardObject.y === this.bird.y) {
+                        instruction = boardObject;
+                        break
+                    }
+                }
+                if (instruction) {
+                    instruction.execute(this);
+                }
+            }
+            this.birdIsMoving = false;
+        },
+        reset() {
+            this.birdIsMoving = false;
+            this.bird.x = null;
+            this.bird.y = null;
+            this.bird.flappingImage = true;
+            this.bird.direction = "right";
+            this.birdClasses = [];
+            this.flappingInterval = null;
+            this.boardObjects = this.gridObjects;
+            clearInterval(this.flappingInterval);
+        },
     },
     mounted() {
-        this.flappingInterval = setInterval(() => {
-            this.bird.flappingImage = !this.bird.flappingImage;
-        }, SPEED);
     },
     beforeUnmount() {
         clearInterval(this.flappingInterval);
