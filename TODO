@@ -32,3 +32,4 @@
 * [ ] visualize the amount of levels remaining, and hide them fog-of-war style
 * [ ] add a favicon
 * [ ] instruction: JUMP to physically jump over two fields
+* [ ] instruction: LTCH flip-flop
