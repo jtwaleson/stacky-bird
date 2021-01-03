@@ -13,9 +13,13 @@ export default {
     data() {
         return {
             gridObjects: [
-                {x: 1, y: 3, ...this.$store.state.instructions["STRT"]},
-                {x: 3, y: 3, ...this.$store.state.instructions["YOLO"]},
-                {x: 7, y: 3, ...this.$store.state.instructions["FINI"]},
+                {x: 1, y: 4, ...this.$store.state.instructions["STRT"]},
+                {x: 4, y: 4, ...this.$store.state.instructions["YOLO"]},
+                {x: 2, y: 4, ...this.$store.state.instructions["RGHT"]},
+                {x: 6, y: 4, ...this.$store.state.instructions["LEFT"]},
+                {x: 4, y: 6, ...this.$store.state.instructions["UPWD"]},
+                {x: 4, y: 2, ...this.$store.state.instructions["DOWN"]},
+                {x: 7, y: 4, ...this.$store.state.instructions["FINI"]},
             ],
         }
     },
