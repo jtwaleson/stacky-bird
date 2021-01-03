@@ -227,6 +227,10 @@ export default {
 .menu-container div.disabled {
     opacity: 20%;
 }
+.menu-container div.disabled:hover {
+    cursor: not-allowed;
+    background-color: #999;
+}
 .field {
     display: grid;
     border-radius: 3px;
