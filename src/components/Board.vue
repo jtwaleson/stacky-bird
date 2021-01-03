@@ -1,5 +1,6 @@
 <template>
     <div class="instruction-grid-container">
+        <h2>Menu</h2>
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
             <div @click="clear">CLER</div>
@@ -8,7 +9,11 @@
             <div @click="play" :class="{disabled: playing}">PLAY</div>
             <div @click="playing = false" :class="{disabled: !playing}">STOP</div>
         </div>
+        <h2>Available Instruction Blocks</h2>
+        <p>Drag to the board below.</p>
         <InstructionList draggable unlockedOnly/>
+        <h2>Board</h2>
+        <p>To get started, hit STEP or PLAY in the menu.</p>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
