@@ -62,7 +62,7 @@ ul.levels {
     justify-content: space-between;
     align-items: flex-start;
     background-color: #ccc;
-    padding: 10px;
+    padding: 10px 20px;
     border-radius: 7px;
     margin-bottom: 7px;
 }
@@ -91,5 +91,9 @@ ul.levels {
     margin-left: 10px;
     display: grid;
     grid-gap: 15px;
+    transform: scale(0.7);
+}
+.level .unlocks .instruction {
+    box-shadow: 0px 0px 7px 0px green;
 }
 </style>
