@@ -5,7 +5,7 @@
 import Board from '@/components/Board.vue'
 
 export default {
-    name: 'Level0003',
+    name: 'Level0004',
     displayName: "Level 0004 - Do The Work",
     description: "In this level we have to pick up some numbers and deliver them to the finish line",
     unlocksLevels: ["Level0005"],

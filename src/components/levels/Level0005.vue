@@ -5,7 +5,7 @@
 import Board from '@/components/Board.vue'
 
 export default {
-    name: 'Level0003',
+    name: 'Level0005',
     displayName: "Level 0005 - You Only Live Once",
     description: "In this level we introduce randomness",
     unlocksLevels: ["Level0006"],
