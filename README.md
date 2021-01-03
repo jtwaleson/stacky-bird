@@ -14,7 +14,8 @@ I started this game in 2014 when my son was just born. Every few years I do some
 
 See it in action!
 ----
-* Sorry, not yet available.
+
+[game.stackybird.com on GitHub Pages](https://game.stackybird.com/)
 
 Usage
 ----
