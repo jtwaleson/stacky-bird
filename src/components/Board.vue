@@ -225,7 +225,7 @@ export default {
     background-color: #aaa;
 }
 .menu-container div.disabled {
-    opacity: 20%;
+    opacity: 0.2;
 }
 .menu-container div.disabled:hover {
     cursor: not-allowed;
@@ -237,11 +237,11 @@ export default {
     justify-content: center;
     align-items: center;
     background-color: #eee4da;
-    opacity: 40%;
+    opacity: 0.4;
 }
 .thebird {
     display: none;
-    opacity: 100%;
+    opacity: 1.0;
     background: none;
     z-index: 100;
     width: 107px;

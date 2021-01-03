@@ -56,17 +56,17 @@ export default {
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 55px;
     z-index: 0;
-    opacity: 30%;
+    opacity: 0.3;
     user-select: none;
 }
 
 .instruction.unlocked {
-    opacity: 100%;
+    opacity: 1.0;
 }
 .board .instruction {
     /* if on the board, it is always unlocked */
     box-shadow: 0px 0px 7px 0px black;
-    opacity: 100%;
+    opacity: 1.0;
 }
 .instruction-grid .instruction:hover {
     box-shadow: 0px 0px 7px 0px blue;
