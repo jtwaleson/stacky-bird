@@ -2,6 +2,7 @@
     <div class="instruction-grid-container">
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
+            <div @click="clear">CLER</div>
             <div @click="reset">RSET</div>
             <div @click="!birdIsMoving && step()" :class="{disabled: birdIsMoving}">STEP</div>
             <div @click="play" :class="{disabled: playing}">PLAY</div>
@@ -9,12 +10,12 @@
         </div>
         <div class="instruction-grid">
             <template v-for="(instruction, instructionName) in instructions" :key="instructionName">
-                <Instruction v-if="instruction.unlocked" v-bind="instruction"/>
+                <Instruction v-if="instruction.unlocked" v-bind="instruction" draggable />
             </template>
         </div>
-        <div class="instruction-grid board" :style="boardStyle">
+        <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
-                <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="dropWrapper(col, row, event)" @dragover="allowDrop"></div>
+                <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
             </template>
             <div v-if="bird.x !== null && bird.y !== null" class="field thebird" :class="birdClasses" :style="birdStyle">
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
@@ -61,7 +62,7 @@ export default {
             },
             birdClasses: [],
             flappingInterval: null,
-            boardObjects: this.gridObjects,
+            placedObjects: [],
             stack: [],
         }
     },
@@ -80,18 +81,19 @@ export default {
                 "display": "grid",
             }
         },
+        boardObjects() {
+            return this.gridObjects.concat(this.placedObjects);
+        }
     },
     methods: {
-        dropWrapper(x, y, event) {
-            console.log(x,y, event);
+        drop(x, y, event) {
             event.preventDefault();
-            console.log("dropped", event.dataTransfer.getData("text"), x, y);
-            return true;
-        },
-        drop(event) {
-            event.preventDefault();
-            console.log("dropped", event, event.dataTransfer.getData("text"));
-            return true;
+            this.placedObjects.push({
+                x,
+                y,
+                userPlaced: true,
+                ...this.$store.state.instructions[event.dataTransfer.getData("text")],
+            });
         },
         allowDrop(event) {
             event.preventDefault();
@@ -184,10 +186,13 @@ export default {
             this.bird.direction = "right";
             this.birdClasses = [];
             this.flappingInterval = null;
-            this.boardObjects = this.gridObjects;
             this.stack = [];
             clearInterval(this.flappingInterval);
         },
+        clear() {
+            this.placedObjects = [];
+            this.reset();
+        }
     },
     mounted() {
     },
