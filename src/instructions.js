@@ -59,6 +59,7 @@ export default {
             };
             board.bird.direction = rev[board.bird.direction];
         },
+        instructionClass: "B",
     },
     "READ": {
         symbol: "⌬",
@@ -66,6 +67,7 @@ export default {
         execute(board) {
             board.stack.push(Math.floor(Math.random() * 10));
         },
+        instructionClass: "C",
     },
     "DUP1": {
         symbol: "ↀ",
@@ -78,6 +80,7 @@ export default {
             board.stack.push(x);
             board.stack.push(x);
         },
+        instructionClass: "D",
     },
     "SWAP": {
         symbol: "⎌",
@@ -91,6 +94,7 @@ export default {
             board.stack.push(x);
             board.stack.push(y);
         },
+        instructionClass: "B",
     },
     "YOLO": {
         symbol: "※",
@@ -99,6 +103,7 @@ export default {
             const directions = ["up", "down", "left", "right"];
             board.bird.direction = directions[Math.floor(Math.random() * 4)];
         },
+        instructionClass: "D",
     },
     "EMPT": {
         symbol: "⌿",
@@ -110,6 +115,7 @@ export default {
                 board.stack.push(1);
             }
         },
+        instructionClass: "F",
     },
     "VOID": {
         symbol: "⌽",
@@ -120,6 +126,7 @@ export default {
             }
             board.stack.pop();
         },
+        instructionClass: "F",
     },
     "CLER": {
         symbol: "⌀",
@@ -127,6 +134,7 @@ export default {
         execute(board) {
             board.stack = [];
         },
+        instructionClass: "G",
     },
     "SIZE": {
         symbol: "⍗",
@@ -134,5 +142,6 @@ export default {
         execute(board) {
             board.stack.push(board.stack.length);
         },
+        instructionClass: "G",
     },
 };

@@ -1,5 +1,5 @@
 <template>
-    <div class="instruction" :class="{unlocked, draggable, userPlaced}" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart">
+    <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart">
         <div class="symbol">{{ symbol }}</div>
         <div class="code">{{ name }}</div>
     </div>
@@ -22,6 +22,10 @@ export default {
         },
         draggable: Boolean,
         userPlaced: Boolean,
+        instructionClass: {
+            type: String,
+            default: "A",
+        },
     },
     methods: {
         dragstart(e) {
@@ -37,7 +41,17 @@ export default {
                 }
             }
             return {};
-        }
+        },
+        classObject() {
+            let result = {
+                unlocked: this.unlocked,
+                draggable: this.draggable,
+                userPlaced: this.userPlaced,
+            };
+            result[`field-style-${this.instructionClass}`] = true;
+            return result;
+        },
+
     },
 }
 </script>
