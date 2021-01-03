@@ -1,5 +1,5 @@
 <template>
-    <div class="instruction" :class="{unlocked: unlocked}" :style="boardLocationStyle" draggable="true" @dragstart="dragstart">
+    <div class="instruction" :class="{unlocked, draggable, userPlaced}" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart">
         <div class="symbol">{{ symbol }}</div>
         <div class="code">{{ name }}</div>
     </div>
@@ -20,6 +20,8 @@ export default {
             required: false,
             default: null,
         },
+        draggable: Boolean,
+        userPlaced: Boolean,
     },
     methods: {
         dragstart(e) {
@@ -57,12 +59,23 @@ export default {
     opacity: 30%;
     user-select: none;
 }
+
 .instruction.unlocked {
     opacity: 100%;
 }
 .board .instruction {
     /* if on the board, it is always unlocked */
+    box-shadow: 0px 0px 7px 0px black;
     opacity: 100%;
+}
+.instruction-grid .instruction:hover {
+    box-shadow: 0px 0px 7px 0px blue;
+}
+.instruction-grid .instruction.draggable:hover {
+    box-shadow: 0px 0px 7px 0px blue;
+}
+.instruction.userPlaced {
+    box-shadow: 0px 0px 7px 0px blue;
 }
 .instruction .symbol {
     line-height: 70px;

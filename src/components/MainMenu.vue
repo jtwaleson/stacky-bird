@@ -33,7 +33,7 @@ export default {
     width: fit-content;
     margin: 0 auto;
 }
-.instruction-grid {
+.instruction-grid, .board {
     display:  grid;
     margin-top: 20px;
     border-radius: 6px;
