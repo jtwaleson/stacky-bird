@@ -2,9 +2,7 @@
     <div>
         <div class="instruction-grid-container">
             <h2>These are the instructions</h2>
-            <div class="instruction-grid">
-                <Instruction v-for="(instruction, instructionName) in instructions" :key="instructionName" v-bind="instruction"/>
-            </div>
+            <InstructionList/>
         </div>
         <div>
             <h2>These are the levels</h2>
@@ -18,12 +16,12 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import Instruction from "./Instruction.vue"
+import InstructionList from "./InstructionList.vue"
 
 export default {
     name: 'MainMenu',
     components: {
-        Instruction,
+        InstructionList,
     },
     computed: mapState(['instructions', 'levels']),
 }
@@ -32,14 +30,5 @@ export default {
 .instruction-grid-container {
     width: fit-content;
     margin: 0 auto;
-}
-.instruction-grid, .board {
-    display:  grid;
-    margin-top: 20px;
-    border-radius: 6px;
-    grid-gap: 15px;
-    background-color: #bbada0;
-    padding: 15px;
-    grid-template-columns: repeat(5, 107px);
 }
 </style>

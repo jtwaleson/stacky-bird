@@ -8,11 +8,7 @@
             <div @click="play" :class="{disabled: playing}">PLAY</div>
             <div @click="playing = false" :class="{disabled: !playing}">STOP</div>
         </div>
-        <div class="instruction-grid">
-            <template v-for="(instruction, instructionName) in instructions" :key="instructionName">
-                <Instruction v-if="instruction.unlocked" v-bind="instruction" draggable />
-            </template>
-        </div>
+        <InstructionList draggable unlockedOnly/>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
@@ -36,6 +32,7 @@ const SPEED = 100;
 import { mapState } from 'vuex'
 import { toRaw } from 'vue'
 import Instruction from "./Instruction.vue"
+import InstructionList from "./InstructionList.vue"
 
 const sleep = m => new Promise(r => setTimeout(r, m))
 
@@ -49,6 +46,7 @@ export default {
     },
     components: {
         Instruction,
+        InstructionList,
     },
     data() {
         return {
