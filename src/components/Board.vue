@@ -3,8 +3,9 @@
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
             <div @click="reset">RSET</div>
-            <div v-if="!birdIsMoving" @click="step">STEP</div>
-            <div @click="fast">FAST</div>
+            <div @click="!birdIsMoving && step()" :class="{disabled: birdIsMoving}">STEP</div>
+            <div @click="play" :class="{disabled: playing}">PLAY</div>
+            <div @click="playing = false" :class="{disabled: !playing}">STOP</div>
         </div>
         <div class="instruction-grid">
             <template v-for="(instruction, instructionName) in instructions" :key="instructionName">
@@ -51,6 +52,7 @@ export default {
     data() {
         return {
             birdIsMoving: false,
+            playing: false,
             bird: {
                 x: null,
                 y: null,
@@ -115,12 +117,12 @@ export default {
 
             this.birdClasses.length = 0;
             this.birdClasses.push(toRaw(this.bird.direction));
-            this.birdClasses.push("moving");
+            // this.birdClasses.push("moving");
             if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
                 await this.dieBird();
             } else {
                 await sleep(2 * SPEED);
-                this.birdClasses.pop();
+                // this.birdClasses.pop();
                 this.bird.x += xDiff;
                 this.bird.y += yDiff;
             }
@@ -134,6 +136,12 @@ export default {
         },
         finish() {
             this.finishLevel();
+        },
+        async play() {
+            this.playing = true;
+            while (this.playing) {
+                await this.step();
+            }
         },
         async step() {
             if (this.birdIsMoving) {
@@ -162,13 +170,14 @@ export default {
                     }
                 }
                 if (instruction) {
-                    instruction.execute(this);
+                    await instruction.execute(this);
                 }
             }
             this.birdIsMoving = false;
         },
         reset() {
             this.birdIsMoving = false;
+            this.playing = false;
             this.bird.x = null;
             this.bird.y = null;
             this.bird.flappingImage = true;
@@ -195,7 +204,7 @@ export default {
     grid-gap: 15px;
     background-color: #bbb;
     padding: 15px;
-    grid-template-columns: repeat(4, 107px);
+    grid-template-columns: repeat(7, 107px);
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -211,6 +220,9 @@ export default {
 .menu-container div:hover {
     cursor: pointer;
     background-color: #aaa;
+}
+.menu-container div.disabled {
+    opacity: 20%;
 }
 .field {
     display: grid;

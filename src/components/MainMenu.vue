@@ -35,6 +35,7 @@ export default {
 }
 .instruction-grid {
     display:  grid;
+    margin-top: 20px;
     border-radius: 6px;
     grid-gap: 15px;
     background-color: #bbada0;
