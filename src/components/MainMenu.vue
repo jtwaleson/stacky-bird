@@ -1,6 +1,8 @@
 <template>
     <div>
         <div class="instruction-grid-container fixedwidth">
+            <h1>Stacky Bird</h1>
+            <p>This is Stacky Bird, a game to learn programming as well as a revolutionary programming language by itself.</p>
             <h2>Levels</h2>
             <p>Complete these levels to unlock new instructions. Later on, you can come back and improve your solutions! Click a level to start playing.</p>
             <LevelList hideFinished hideNotReachable/>
