@@ -1,5 +1,7 @@
 Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 
+* [ ] 1 2 add + - operators PLUS MINU, ⊕, ⊖
+* [ ] 1 2 add SUMA to SUM the entire list: ∑
 * [ ] 1 2 add a validator for levels
 * [ ] 1 2 instruction: IFTE go left/right depending on truth value of stack
 * [ ] 1 2 position the stack next to the bird
