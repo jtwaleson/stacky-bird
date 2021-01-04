@@ -1,7 +1,8 @@
 <template>
-    <div class="instruction-grid">
-        <Instruction v-for="(instruction, instructionName) in filteredInstructions" :key="instructionName" v-bind="instruction" :draggable="draggable"/>
+    <div v-if="filteredInstructions.length > 0" class="instruction-grid">
+        <Instruction v-for="instruction in filteredInstructions" :key="instruction.name" v-bind="instruction" :draggable="draggable"/>
     </div>
+    <p v-else><em>{{ $t("no-instructions-available") }}</em></p>
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -19,10 +20,10 @@ export default {
     computed: {
         ...mapState(['instructions']),
         filteredInstructions() {
-            let result = {}
-            for (const [instructionName, instruction] of Object.entries(this.instructions)) {
+            let result = []
+            for (const instruction of Object.values(this.instructions)) {
                 if (!this.unlockedOnly || instruction.unlocked) {
-                    result[instructionName] = instruction;
+                    result.push(instruction);
                 }
             }
             return result;
