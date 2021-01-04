@@ -23,16 +23,16 @@
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
             </template>
             <div v-if="bird.x !== null && bird.y !== null" class="field thebird" :class="birdClasses" :style="birdStyle">
+                <ul class="stack">
+                    <li v-for="(item, index) in stack" :key="index" class="field-style-F">
+                        {{ item }}
+                    </li>
+                </ul>
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
             <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
         </div>
-        <ul class="stack">
-            <li v-for="(item, index) in stack" :key="index">
-                {{ item }}
-            </li>
-        </ul>
     </div>
 </template>
 
@@ -294,6 +294,7 @@ export default {
 }
 .thebird {
     display: none;
+    position: relative;
     opacity: 1.0;
     background: none;
     z-index: 100;
@@ -309,16 +310,16 @@ export default {
     transition:
         margin ease-in-out 100ms; /* 2X SPEED */
 }
-.left {
+.left img {
     transform: rotate(180deg);
 }
-.right {
+.right img {
     transform: rotate(0deg);
 }
-.up {
+.up img {
     transform: rotate(270deg);
 }
-.down {
+.down img {
     transform: rotate(90deg);
 }
 .moving.left {
@@ -340,6 +341,9 @@ export default {
         height ease-in-out 500ms;
 }
 .stack {
+    position: absolute;
+    left: -100px;
+    top: 80px;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -347,14 +351,16 @@ export default {
     position: absolute;
     right: 10px;
     width: 100px;
-    top: 10px;
-    min-height: 100px;
     border-radius: 6px;
     background-color: #bbb;
 }
 .stack li {
-    background-color: #999;
     display: block;
     border-radius: 3px;
+    text-align: center;
+    margin: 4px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 4px;
 }
 </style>
