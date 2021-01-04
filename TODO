@@ -21,7 +21,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 3 2 nice in-game menu with icons
 * [ ] 3 3 add efficiency meters and scoring per level
 * [ ] 3 3 instruction: PRTL to jump to another place on the board
-* [ ] 3 3 instruction: inc current register
+* [ ] 3 3 instruction: inc/dev current register
 * [ ] 3 3 instruction: pop number on register
 * [ ] 3 3 visualize the amount of levels remaining, and hide them fog-of-war style
 * [ ] 3 4 compare solutions with friends / share screen with teachers etc.
