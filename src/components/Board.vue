@@ -222,7 +222,6 @@ export default {
             }
             let placedObjects = [];
             for (const placedObject of this.placedObjects) {
-                console.log(placedObject);
                 placedObjects.push({
                     x: placedObject.x,
                     y: placedObject.y,
