@@ -1,7 +1,5 @@
 Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 
-* [ ] 1 1 add ROTA operator to rotate put the top item of the stack on the bottom
-* [ ] 1 1 remove the blocks from the levels to make them playable
 * [ ] 1 2 actually put all the content in the translation file
 * [ ] 1 2 add a validator for levels
 * [ ] 1 2 instruction: IFTE go left/right depending on truth value of stack
@@ -26,6 +24,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 3 3 visualize the amount of levels remaining, and hide them fog-of-war style
 * [ ] 3 4 create a shitload of levels
 * [ ] 3 4 register over multiple fields (instructions affects field next to it)
+* [ ] 4 1 add ROTA operator to rotate put the top item of the stack on the bottom
 * [ ] 4 2 move board item by dragging it
 * [ ] 4 2 only show directly reachable instructions
 * [ ] 4 3 create static integrity checks so that compilation fails if not all information is correct
@@ -35,6 +34,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 4 4 instruction: JMPB to go to a named sub-board
 * [ ] 4 4 instruction: SPWN to create a new bird (multi-processing)
 * [x] 1 1 link stackybird.com
+* [x] 1 1 remove the blocks from the levels to make them playable
 * [x] 1 2 add + - operators PLUS MINU, ⊕, ⊖
 * [x] 1 2 add SUMA to SUM the entire list: ∑
 * [x] 1 2 design the level selector

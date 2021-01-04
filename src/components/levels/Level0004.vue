@@ -15,10 +15,7 @@ export default {
             gridObjects: [
                 {x: 1, y: 3, ...this.$store.state.instructions["STRT"]},
                 {x: 2, y: 3, ...this.$store.state.instructions["READ"]},
-                {x: 3, y: 3, ...this.$store.state.instructions["DUP1"]},
-                {x: 4, y: 3, ...this.$store.state.instructions["READ"]},
-                {x: 5, y: 3, ...this.$store.state.instructions["SWAP"]},
-                {x: 7, y: 3, ...this.$store.state.instructions["FINI"]},
+                {x: 7, y: 7, ...this.$store.state.instructions["FINI"]},
             ],
         }
     },

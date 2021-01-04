@@ -7,7 +7,7 @@ import Board from '@/components/Board.vue'
 export default {
     name: 'Level0005',
     displayName: "Level 0005 - You Only Live Once",
-    description: "In this level we introduce randomness",
+    description: "In this level we introduce randomness, you have to escape it!",
     unlocksLevels: ["Level0006"],
     unlocksInstructions: ["YOLO"],
     data() {
@@ -28,11 +28,7 @@ export default {
     },
     methods: {
         finishLevel() {
-            this.$store.commit("unlockInstruction", "READ");
-            this.$store.commit("completeLevel", "Level0004");
-            this.$store.commit("unlockLevel", "Level0005");
-            this.$store.commit("openMenu");
-            alert("you won");
+            alert("For now, this is the end of stacky bird!");
         }
     },
 }
