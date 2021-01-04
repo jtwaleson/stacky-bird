@@ -5,7 +5,7 @@
     <p v-else><em>{{ $t("no-instructions-available") }}</em></p>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import Instruction from "./Instruction.vue"
 
 export default {
@@ -18,15 +18,13 @@ export default {
         unlockedOnly: Boolean,
     },
     computed: {
-        ...mapState(['instructions']),
+        ...mapGetters(['unavailableButReachableInstructions', 'availableInstructions']),
         filteredInstructions() {
-            let result = []
-            for (const instruction of Object.values(this.instructions)) {
-                if (!this.unlockedOnly || instruction.unlocked) {
-                    result.push(instruction);
-                }
+            if (this.unlockedOnly) {
+                return this.availableInstructions;
+            } else {
+                return this.availableInstructions.concat(this.unavailableButReachableInstructions);
             }
-            return result;
         },
     },
 }

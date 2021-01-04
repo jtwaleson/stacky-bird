@@ -82,6 +82,45 @@ export default createStore({
         },
     },
     getters: {
+        availableLevels(state) {
+            let result = [];
+            for (const level of Object.values(state.levels)) {
+                if (!level.completed && level.unlocked) {
+                    result.push(level);
+                }
+            }
+            return result;
+        },
+        completedLevels(state) {
+            let result = [];
+            for (const level of Object.values(state.levels)) {
+                if (level.completed) {
+                    result.push(level);
+                }
+            }
+            return result;
+        },
+        availableInstructions(state) {
+            let result = [];
+            for (const instruction of Object.values(state.instructions)) {
+                if (instruction.unlocked) {
+                    result.push(instruction)
+                }
+            }
+            return result;
+        },
+        unavailableButReachableInstructions(state, getters) {
+            let result = [];
+            for (const level of getters.availableLevels) {
+                for (const instructionName of level.component.unlocksInstructions) {
+                    const instruction = state.instructions[instructionName];
+                    if (!instruction.unlocked) {
+                        result.push(instruction);
+                    }
+                }
+            }
+            return result;
+        },
     },
     actions: {
     },

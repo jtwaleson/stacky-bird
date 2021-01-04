@@ -24,7 +24,6 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 3 3 instruction: PRTL to jump to another place on the board
 * [ ] 3 3 instruction: inc/dev current register
 * [ ] 3 3 instruction: pop number on register
-* [ ] 3 3 visualize the amount of levels remaining, and hide them fog-of-war style
 * [ ] 3 4 compare solutions with friends / share screen with teachers etc.
 * [ ] 3 4 create a shitload of levels
 * [ ] 3 4 register over multiple fields (instructions affects field next to it)
@@ -53,4 +52,5 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [x] 2 1 use tooltips to show information about instructions
 * [x] 3 1 add "factory reset" menu button to clear everything
 * [x] 3 2 think about level tech tree (0xxx -> movement, 1xxx -> stack, 2xxx multi-bird)
+* [x] 3 3 visualize the amount of levels remaining, and hide them fog-of-war style
 * [x] 4 3 save level design in localStorage

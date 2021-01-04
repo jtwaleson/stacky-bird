@@ -1,7 +1,7 @@
 <template>
     <ul class="levels">
-        <template v-for="(level, levelName) in filteredLevels" :key="levelName">
-            <li class="level" :class="{completed: level.completed}" @click='$store.commit("openLevel", levelName)'>
+        <template v-for="level in levels" :key="level.name">
+            <li class="level" :class="{completed: level.completed}" @click='$store.commit("openLevel", level.name)'>
                 <div class="code">{{ level.component.name.replace(/Level/, "") }}</div>
                 <div class="description">
                     <b>{{ level.component.displayName }}</b>
@@ -18,7 +18,6 @@
     </ul>
 </template>
 <script>
-import { mapState } from 'vuex'
 import Instruction from "./Instruction.vue"
 
 export default {
@@ -30,25 +29,7 @@ export default {
         hideFinished: Boolean,
         hideUnfinished: Boolean,
         hideNotReachable: Boolean,
-    },
-    computed: {
-        ...mapState(['levels']),
-        filteredLevels() {
-            let result = {};
-            for (const [levelName, level] of Object.entries(this.levels)) {
-                if (this.hideFinished && level.completed) {
-                    continue;
-                } else if (!level.completed && this.hideUnfinished) {
-                    continue;
-                } else if (!level.unlocked && this.hideNotReachable) {
-                    continue;
-                } else {
-                    // TODO: implement hideNotReachable
-                    result[levelName] = level;
-                }
-            }
-            return result
-        },
+        levels: Array,
     },
 }
 </script>
