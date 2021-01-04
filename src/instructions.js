@@ -144,4 +144,42 @@ export default {
         },
         instructionClass: "G",
     },
+    "PLUS": {
+        symbol: "⊕",
+        description: "Add the top two numbers on the stack",
+        execute(board) {
+            if (board.stack.length < 2) {
+                return board.dieBird();
+            }
+            let x = board.stack.pop();
+            let y = board.stack.pop();
+            board.stack.push(y + x);
+        },
+        instructionClass: "B",
+    },
+    "MINU": {
+        symbol: "⊖",
+        description: "Subtract the top item from the stack from the number below",
+        execute(board) {
+            if (board.stack.length < 2) {
+                return board.dieBird();
+            }
+            let x = board.stack.pop();
+            let y = board.stack.pop();
+            board.stack.push(y - x);
+        },
+        instructionClass: "B",
+    },
+    "SUMA": {
+        symbol: "∑",
+        description: "Sum all the items on the stack",
+        execute(board) {
+            let sum = 0;
+            while (board.stack.length > 0) {
+                sum += board.stack.pop();
+            }
+            board.stack.push(sum);
+        },
+        instructionClass: "G",
+    },
 };
