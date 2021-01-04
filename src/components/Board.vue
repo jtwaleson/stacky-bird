@@ -26,7 +26,7 @@
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
-            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject"/>
+            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
         </div>
         <ul class="stack">
             <li v-for="(item, index) in stack" :key="index">
@@ -115,6 +115,10 @@ export default {
         },
         allowDrop(event) {
             event.preventDefault();
+        },
+        deletePlacedInstruction(item) {
+            this.placedObjects.splice(item);
+            this.saveBoardToLocalStorage();
         },
         async moveBird() {
             this.birdIsMoving = true;
