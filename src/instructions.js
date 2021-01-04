@@ -190,4 +190,20 @@ export default {
         },
         instructionClass: "Z",
     },
+    "GEQ1": {
+        symbol: "⌥",
+        description: "Go right if the number is 1 or greater, if not, go down",
+        execute(board) {
+            if (board.stack.length < 1) {
+                return board.dieBird();
+            }
+            let x = board.stack.pop();
+            if (x <= 0) {
+                board.bird.direction = "down";
+            } else {
+                board.bird.direction = "right";
+            }
+        },
+        instructionClass: "C",
+    },
 };
