@@ -7,6 +7,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 2 1 double click board item to remove
 * [ ] 2 1 use tooltips to show information about instructions
 * [ ] 2 2 animations / messages when level is completed or the bird dies
+* [ ] 2 2 refactor levels so that they are just javascript files instead of Vue components
 * [ ] 2 3 add a favicon
 * [ ] 2 3 add music / effects
 * [ ] 2 4 add animations when hovering over instructions
