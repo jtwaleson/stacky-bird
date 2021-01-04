@@ -4,6 +4,7 @@ import store from './store'
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 import instructions from './instructions'
+import translate from './translate'
 
 for (const [instructionName, instruction] of Object.entries(instructions)) {
     instruction.name = instructionName
@@ -39,4 +40,12 @@ requireLevelComponent.keys().forEach(fileName => {
     });
 })
 
-createApp(App).use(store).mount('#app')
+let app = createApp(App)
+
+app.mixin({
+    methods: {
+        $t: translate
+    },
+});
+
+app.use(store).mount('#app')

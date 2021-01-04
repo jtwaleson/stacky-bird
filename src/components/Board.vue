@@ -1,6 +1,6 @@
 <template>
     <div class="instruction-grid-container">
-        <h2>Menu</h2>
+        <h2>{{ $t("menu") }}</h2>
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
             <div @click="clear">CLER</div>
