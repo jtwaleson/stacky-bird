@@ -12,7 +12,11 @@
         <h2>Available Instruction Blocks</h2>
         <p>Drag to the board below.</p>
         <InstructionList draggable unlockedOnly/>
-        <h2>Board</h2>
+        <template v-if="levelCode">
+            <h2>{{ levelDetails.component.displayName }}</h2>
+            <p>{{ levelDetails.component.description }}</p>
+        </template>
+        <h2 v-else>Board</h2>
         <p>To get started, hit STEP or PLAY in the menu.</p>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
@@ -48,6 +52,7 @@ export default {
         rows: Number,
         gridObjects: Array,
         finishLevel: Function,
+        levelCode: String,
     },
     components: {
         Instruction,
@@ -86,7 +91,15 @@ export default {
         },
         boardObjects() {
             return this.gridObjects.concat(this.placedObjects);
-        }
+        },
+        levelDetails() {
+            if (this.levelCode) {
+                return this.$store.state.levels[this.levelCode];
+            } else {
+                return {}
+            }
+        },
+
     },
     methods: {
         drop(x, y, event) {

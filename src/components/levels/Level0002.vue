@@ -1,5 +1,5 @@
 <template>
-    <Board :cols="7" :rows="7" :gridObjects="gridObjects" :finishLevel="finishLevel"/>
+    <Board :cols="7" :rows="7" :gridObjects="gridObjects" :finishLevel="finishLevel" :levelCode="$options.name"/>
 </template>
 <script>
 import Board from '@/components/Board.vue'
