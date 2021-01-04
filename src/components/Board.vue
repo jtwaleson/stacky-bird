@@ -104,12 +104,14 @@ export default {
     methods: {
         drop(x, y, event) {
             event.preventDefault();
+            // TODO this needs guarding
             this.placedObjects.push({
                 x,
                 y,
                 userPlaced: true,
                 ...this.$store.state.instructions[event.dataTransfer.getData("text")],
             });
+            this.saveBoardToLocalStorage();
         },
         allowDrop(event) {
             event.preventDefault();
@@ -208,9 +210,38 @@ export default {
         clear() {
             this.placedObjects = [];
             this.reset();
-        }
+        },
+        saveBoardToLocalStorage() {
+            if (!this.levelCode) {
+                return;
+            }
+            let placedObjects = [];
+            for (const placedObject of this.placedObjects) {
+                console.log(placedObject);
+                placedObjects.push({
+                    x: placedObject.x,
+                    y: placedObject.y,
+                    code: placedObject.name,
+                });
+            }
+            localStorage.setItem(this.levelCode, JSON.stringify(placedObjects));
+        },
     },
     mounted() {
+        this.clear();
+        if (!this.levelCode) {
+            return;
+        }
+        let placedObjects = JSON.parse(localStorage.getItem(this.levelCode) || "[]");
+        // TODO this needs guarding
+        for (let placedObject of placedObjects) {
+            this.placedObjects.push({
+                x: placedObject.x,
+                y: placedObject.y,
+                userPlaced: true,
+                ...this.$store.state.instructions[placedObject.code],
+            });
+        }
     },
     beforeUnmount() {
         clearInterval(this.flappingInterval);
