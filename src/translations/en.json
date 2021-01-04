@@ -1,4 +1,7 @@
 {
     "no-instructions-available": "There are no instructions available.",
+    "factory-reset-link": "RESET THE GAME - FACTORY RESET",
+    "factory-reset-alert": "ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?",
+    "factory-reset-done": "Ok, everything is wiped. Reloading from scratch.",
     "menu": "Menu"
 }
