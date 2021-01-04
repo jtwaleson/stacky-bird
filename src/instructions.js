@@ -182,4 +182,12 @@ export default {
         },
         instructionClass: "G",
     },
+    "BLCK": {
+        symbol: "█",
+        description: "Don't hit this block, it will kill you",
+        execute(board) {
+            return board.dieBird();
+        },
+        instructionClass: "Z",
+    },
 };

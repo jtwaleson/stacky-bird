@@ -67,4 +67,9 @@ export default {
     background: #edc22e;
     box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.5555555556), inset 0 0 0 1px rgba(255, 255, 255, 0.3333333333);
 }
+.field-style-Z {
+    color: #000;
+    background: #000;
+    box-shadow: 0 0 30px 10px #000, inset 0 0 0 1px #000;
+}
 </style>

@@ -29,6 +29,9 @@ export default {
     methods: {
         finishLevel() {
             alert("For now, this is the end of stacky bird!");
+            this.$store.commit("completeLevel", "Level0005");
+            this.$store.commit("unlockLevel", "Level0006");
+            this.$store.commit("openMenu");
         }
     },
 }
