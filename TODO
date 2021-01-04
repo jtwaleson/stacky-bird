@@ -4,6 +4,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 1 2 add a validator for levels
 * [ ] 1 2 instruction: IFTE go left/right depending on truth value of stack
 * [ ] 1 2 position the stack next to the bird
+* [ ] 1 2 the bird is not on finished when the level is finished
 * [ ] 2 1 double click board item to remove
 * [ ] 2 1 use tooltips to show information about instructions
 * [ ] 2 2 animations / messages when level is completed or the bird dies
@@ -12,6 +13,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 2 3 add music / effects
 * [ ] 2 4 add animations when hovering over instructions
 * [ ] 3 2 add LICENSE
+* [ ] 3 2 add vue router??
 * [ ] 3 2 droppable indicator on the board (highlight where instructions can be placed)
 * [ ] 3 2 instruction: JUMP to physically jump over two fields
 * [ ] 3 2 instruction: LTCH flip-flop
