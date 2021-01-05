@@ -156,7 +156,6 @@ export default {
             if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
                 await this.dieBird();
             } else {
-                await sleep(1 * SPEED);
                 // this.birdClasses.pop();
                 this.bird.x += xDiff;
                 this.bird.y += yDiff;
@@ -207,8 +206,6 @@ export default {
                     this.bird.flappingImage = !this.bird.flappingImage;
                 }, SPEED);
             } else {
-                await this.moveBird();
-                await sleep(1 * SPEED);
                 let instruction = null;
                 for (let boardObject of this.boardObjects) {
                     if (boardObject.x === this.bird.x && boardObject.y === this.bird.y) {
@@ -219,6 +216,8 @@ export default {
                 if (instruction) {
                     await instruction.execute(this);
                 }
+                await this.moveBird();
+                await sleep(1 * SPEED);
             }
             this.birdIsMoving = false;
         },

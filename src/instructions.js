@@ -215,4 +215,20 @@ export default {
         },
         instructionClass: "C",
     },
+    "JMP1": {
+        symbol: "⤼",
+        description: "Jump over the next block",
+        execute(board) {
+            if (board.bird.direction === "down") {
+                board.bird.y += 1;
+            } else if (board.bird.direction === "up") {
+                board.bird.y -= 1;
+            } else if (board.bird.direction === "left") {
+                board.bird.x -= 1;
+            } else if (board.bird.direction === "right") {
+                board.bird.x += 1;
+            }
+        },
+        instructionClass: "C",
+    },
 };
