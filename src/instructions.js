@@ -2,6 +2,15 @@
  * Miscellaneous Technical
  * Geometric Shapes
  * Number Forms -> ↂ and ↈ for DUP2 and DUP3
+ * Ornamental Dingbats
+ * Transport and Map Symbols 🚩
+ * Supplemental Arrows-C
+ * Geometric Shapes Extended
+ * Alchemical Symbols 🜹
+ * Miscellaneous Symbols and Pictographs 🏲 🗑
+ * Enclosed Alphanumeric Supplement
+ * Mende Kikakui
+ * Byzantine Musical Symbols
  * */
 
 
