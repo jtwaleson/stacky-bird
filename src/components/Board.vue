@@ -1,6 +1,6 @@
 <template>
     <div class="instruction-grid-container">
-        <h2>{{ $t("menu") }}</h2>
+        <h2><T textKey="Menu"/></h2>
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
             <div @click="clear">CLER</div>
@@ -9,15 +9,15 @@
             <div @click="play" :class="{disabled: playing}">PLAY</div>
             <div @click="playing = false" :class="{disabled: !playing}">STOP</div>
         </div>
-        <h2>Available Instruction Blocks</h2>
-        <p>Drag to the board below.</p>
+        <h2><T textKey="Available Instruction Blocks"/></h2>
+        <p><T textKey="Drag to the board below."/></p>
         <InstructionList draggable unlockedOnly/>
-        <template v-if="levelCode">
-            <h2>{{ levelDetails.displayName }}</h2>
-            <p>{{ levelDetails.description }}</p>
+        <template v-if="name">
+            <h2><T :textKey="displayName"/></h2>
+            <p><T :textKey="description"/></p>
         </template>
-        <h2 v-else>Board</h2>
-        <p>To get started, hit STEP or PLAY in the menu.</p>
+        <h2 v-else><T textKey="Board"/></h2>
+        <p><T textKey="To get started, hit STEP or PLAY in the menu."/></p>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
@@ -178,7 +178,7 @@ export default {
             for (const levelName of this.unlocksLevels) {
                 this.$store.commit("unlockLevel", levelName);
             }
-            alert("Level completed");
+            alert(this.$tr("Level completed"));
         },
         async play() {
             this.playing = true;

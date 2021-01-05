@@ -4,9 +4,9 @@
             <li class="level" :class="{completed: level.completed}" @click='$store.commit("openLevel", level.name)'>
                 <div class="code">{{ level.name.replace(/Level/, "") }}</div>
                 <div class="description">
-                    <b>{{ level.displayName }}</b>
+                    <b>{{level.name}} - <T :textKey="level.displayName"/></b>
                     <br/>
-                    {{ level.description }}
+                    <T :textKey="level.description"/>
                 </div>
                 <div class="unlocks">
                     <template v-for="instructionName in level.unlocksInstructions" :key="instructionName">

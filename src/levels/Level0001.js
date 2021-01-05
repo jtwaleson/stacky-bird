@@ -2,7 +2,7 @@ import instructions from '../instructions.js';
 
 export default {
     name: 'Level0001',
-    displayName: "Level 0001 - And So It Begins",
+    displayName: "And So It Begins",
     description: "In this level we don't have to build anything yet",
     unlocksLevels: ["Level0002"],
     unlocksInstructions: ["DOWN"],

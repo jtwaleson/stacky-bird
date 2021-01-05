@@ -1,11 +1,14 @@
 import { createStore } from 'vuex'
 
+let languageCode = localStorage.getItem("language") || "en";
+
 export default createStore({
     state: {
         appMode: 'menu',
         instructions: {},
         levels: {},
         level: null,
+        locale: languageCode,
     },
     mutations: {
         registerInstruction(state, instruction) {
@@ -38,6 +41,10 @@ export default createStore({
         openMenu(state) {
             state.appMode = 'menu';
             state.level = null;
+        },
+        setLanguage(state, languageCode) {
+            state.locale = languageCode;
+            localStorage.setItem("language", languageCode);
         },
         registerLevel (state, level) {
             if (level.name in state.levels) {
@@ -81,6 +88,12 @@ export default createStore({
         },
     },
     getters: {
+        languages() {
+            return {
+                en: "English",
+                nl: "Nederlands",
+            };
+        },
         availableLevels(state) {
             let result = [];
             for (const level of Object.values(state.levels)) {

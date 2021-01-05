@@ -2,7 +2,7 @@ import instructions from '../instructions.js';
 
 export default {
     name: 'Level0006',
-    displayName: "Level 0006 - Survive The Maze",
+    displayName: "Survive The Maze",
     description: "Get your way around the maze",
     unlocksLevels: ["Level0007"],
     unlocksInstructions: [],

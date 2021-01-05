@@ -2,7 +2,7 @@ import instructions from '../instructions.js';
 
 export default {
     name: 'Level0002',
-    displayName: "Level 0002 - And It Goes Down",
+    displayName: "And It Goes Down",
     description: "In this level we have to place one arrow",
     unlocksLevels: ["Level0003"],
     unlocksInstructions: ["LEFT"],

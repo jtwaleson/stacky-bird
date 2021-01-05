@@ -2,7 +2,7 @@
     <div v-if="filteredInstructions.length > 0" class="instruction-grid">
         <Instruction v-for="instruction in filteredInstructions" :key="instruction.name" v-bind="instruction" :draggable="draggable"/>
     </div>
-    <p v-else><em>{{ $t("no-instructions-available") }}</em></p>
+    <p v-else><em><T textKey="There are no instructions available."/></em></p>
 </template>
 <script>
 import { mapGetters } from 'vuex'

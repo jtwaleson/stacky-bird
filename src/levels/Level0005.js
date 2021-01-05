@@ -2,7 +2,7 @@ import instructions from '../instructions.js';
 
 export default {
     name: 'Level0005',
-    displayName: "Level 0005 - You Only Live Once",
+    displayName: "You Only Live Once",
     description: "In this level we introduce randomness, you have to escape it!",
     unlocksLevels: ["Level0006"],
     unlocksInstructions: ["YOLO"],

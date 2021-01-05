@@ -1,5 +1,5 @@
 <template>
-    <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart" :title="description" >
+    <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart" :title="$tr(description)" >
         <button @click="deleteMe" v-if="userPlaced" class="delete">✖</button>
         <div class="symbol">{{ symbol }}</div>
         <div class="code">{{ name }}</div>

@@ -2,7 +2,8 @@ import { createApp, markRaw } from 'vue'
 import App from './App.vue'
 import store from './store'
 import instructions from './instructions'
-import translate from './translate'
+
+import T from './components/T.vue'
 
 for (const [instructionName, instruction] of Object.entries(instructions)) {
     instruction.name = instructionName
@@ -23,11 +24,53 @@ requireLevel.keys().forEach(fileName => {
     store.commit('registerLevel', markRaw(level));
 })
 
-let app = createApp(App)
+
+const localeTranslations = {};
+
+const translationFiles = require.context('./translations', false, /\w+\.(json)$/);
+
+translationFiles.keys().forEach(fileName => {
+    localeTranslations[fileName.replace(/.json/, "").replace(/\.\//, "")] = translationFiles(fileName);
+})
+
+let app = createApp(App);
+
+app.component('T', T);
 
 app.mixin({
     methods: {
-        $t: translate
+        $tr: function (key) {
+            if (this.$store.state.locale == "en") {
+                return key;
+            }
+            let found = localeTranslations[this.$store.state.locale][key];
+            if (found) {
+                return found;
+            }
+            let translation = prompt(`How do you translate "${key}" into ${this.$store.state.locale}?`, key);
+            localeTranslations[this.$store.state.locale][key] = translation;
+            if (translation) {
+                fetch("http://localhost:5000/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        language: this.$store.state.locale,
+                        key,
+                        value: translation,
+                    }),
+                });
+                return translation;
+            }
+            return key;
+        },
+        $t: function (key) {
+            if (this.$store.state.locale == "en") {
+                return key;
+            }
+            return localeTranslations[this.$store.state.locale][key];
+        },
     },
 });
 
