@@ -2,14 +2,14 @@
     <ul class="levels">
         <template v-for="level in levels" :key="level.name">
             <li class="level" :class="{completed: level.completed}" @click='$store.commit("openLevel", level.name)'>
-                <div class="code">{{ level.component.name.replace(/Level/, "") }}</div>
+                <div class="code">{{ level.name.replace(/Level/, "") }}</div>
                 <div class="description">
-                    <b>{{ level.component.displayName }}</b>
+                    <b>{{ level.displayName }}</b>
                     <br/>
-                    {{ level.component.description }}
+                    {{ level.description }}
                 </div>
                 <div class="unlocks">
-                    <template v-for="instructionName in level.component.unlocksInstructions" :key="instructionName">
+                    <template v-for="instructionName in level.unlocksInstructions" :key="instructionName">
                         <Instruction v-bind="$store.state.instructions[instructionName]" unlocked/>
                     </template>
                 </div>

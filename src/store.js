@@ -33,25 +33,24 @@ export default createStore({
         },
         openLevel(state, levelName) {
             state.appMode = 'level';
-            state.level = state.levels[levelName].component;
+            state.level = state.levels[levelName];
         },
         openMenu(state) {
             state.appMode = 'menu';
             state.level = null;
         },
-        registerLevelComponent (state, {levelName, levelComponent}) {
-            if (levelName in state.levels) {
-                throw new Error(`level ${levelName} is already registered`);
+        registerLevel (state, level) {
+            if (level.name in state.levels) {
+                throw new Error(`level ${level.name} is already registered`);
             }
 
             let unlockedLevels = localStorage.getItem("unlockedLevels") || ["Level0001"];
             let completedLevels = localStorage.getItem("completedLevels") || [];
 
-            state.levels[levelName] = {
-                name: levelName,
-                component: levelComponent,
-                unlocked: unlockedLevels.indexOf(levelName) > -1,
-                completed: completedLevels.indexOf(levelName) > -1,
+            state.levels[level.name] = {
+                ...level,
+                unlocked: unlockedLevels.indexOf(level.name) > -1,
+                completed: completedLevels.indexOf(level.name) > -1,
             };
         },
         unlockLevel(state, levelName) {
@@ -112,7 +111,7 @@ export default createStore({
         unavailableButReachableInstructions(state, getters) {
             let result = [];
             for (const level of getters.availableLevels) {
-                for (const instructionName of level.component.unlocksInstructions) {
+                for (const instructionName of level.unlocksInstructions) {
                     const instruction = state.instructions[instructionName];
                     if (!instruction.unlocked) {
                         result.push(instruction);

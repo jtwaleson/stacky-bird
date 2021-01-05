@@ -13,8 +13,8 @@
         <p>Drag to the board below.</p>
         <InstructionList draggable unlockedOnly/>
         <template v-if="levelCode">
-            <h2>{{ levelDetails.component.displayName }}</h2>
-            <p>{{ levelDetails.component.description }}</p>
+            <h2>{{ levelDetails.displayName }}</h2>
+            <p>{{ levelDetails.description }}</p>
         </template>
         <h2 v-else>Board</h2>
         <p>To get started, hit STEP or PLAY in the menu.</p>
@@ -48,11 +48,22 @@ const sleep = m => new Promise(r => setTimeout(r, m))
 export default {
     name: 'Board',
     props: {
-        cols: Number,
-        rows: Number,
+        cols: {
+            type: Number,
+            default: 7,
+        },
+        rows: {
+            type: Number,
+            default: 7,
+        },
         gridObjects: Array,
         finishLevel: Function,
         levelCode: String,
+        unlocksLevels: Array,
+        unlocksInstructions: Array,
+        description: String,
+        displayName: String,
+        name: String,
     },
     components: {
         Instruction,
@@ -159,7 +170,15 @@ export default {
             this.reset();
         },
         finish() {
-            this.finishLevel();
+            this.$store.commit("openMenu");
+            this.$store.commit("completeLevel", this.name);
+            for (const instructionName of this.unlocksInstructions) {
+                this.$store.commit("unlockInstruction", instructionName);
+            }
+            for (const levelName of this.unlocksLevels) {
+                this.$store.commit("unlockLevel", levelName);
+            }
+            alert("Level completed");
         },
         async play() {
             this.playing = true;

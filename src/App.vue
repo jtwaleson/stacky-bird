@@ -1,16 +1,18 @@
 <template>
     <MainMenu v-if="appMode === 'menu'"/>
-    <component v-else :is="level"/>
+    <Board v-else v-bind="level"/>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import MainMenu from './components/MainMenu.vue'
+import Board from './components/Board.vue'
 
 export default {
     name: 'App',
     components: {
         MainMenu,
+        Board,
     },
     computed: mapState(['appMode', 'level']),
 }
