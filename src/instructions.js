@@ -15,6 +15,8 @@
  * https://www.fileformat.info/info/unicode/block/miscellaneous_symbols_and_arrows/utf8test.htm
  * https://www.fileformat.info/info/unicode/block/supplemental_mathematical_operators/utf8test.htm
  * https://www.fileformat.info/info/unicode/block/miscellaneous_mathematical_symbols_b/utf8test.htm
+ * https://www.fileformat.info/info/unicode/block/miscellaneous_mathematical_symbols_a/utf8test.htm
+ * https://www.fileformat.info/info/unicode/block/miscellaneous_symbols/utf8test.htm
  * */
 
 
