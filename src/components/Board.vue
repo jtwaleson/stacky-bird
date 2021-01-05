@@ -13,7 +13,7 @@
         <p><T textKey="Drag to the board below."/></p>
         <InstructionList draggable unlockedOnly/>
         <template v-if="name">
-            <h2><T :textKey="displayName"/></h2>
+            <h2>{{ name }} - <T :textKey="displayName"/></h2>
             <p><T :textKey="description"/></p>
         </template>
         <h2 v-else><T textKey="Board"/></h2>
@@ -58,7 +58,6 @@ export default {
         },
         gridObjects: Array,
         finishLevel: Function,
-        levelCode: String,
         unlocksLevels: Array,
         unlocksInstructions: Array,
         description: String,
@@ -103,14 +102,6 @@ export default {
         boardObjects() {
             return this.gridObjects.concat(this.placedObjects);
         },
-        levelDetails() {
-            if (this.levelCode) {
-                return this.$store.state.levels[this.levelCode];
-            } else {
-                return {}
-            }
-        },
-
     },
     methods: {
         drop(x, y, event) {
@@ -127,8 +118,8 @@ export default {
         allowDrop(event) {
             event.preventDefault();
         },
-        deletePlacedInstruction(item) {
-            this.placedObjects.splice(item);
+        deletePlacedInstruction(placedInstruction) {
+            this.placedObjects = this.placedObjects.filter(item => item !== placedInstruction);
             this.saveBoardToLocalStorage();
         },
         async moveBird() {
@@ -236,7 +227,7 @@ export default {
             this.reset();
         },
         saveBoardToLocalStorage() {
-            if (!this.levelCode) {
+            if (!this.name) {
                 return;
             }
             let placedObjects = [];
@@ -247,15 +238,15 @@ export default {
                     code: placedObject.name,
                 });
             }
-            localStorage.setItem(this.levelCode, JSON.stringify(placedObjects));
+            localStorage.setItem(this.name, JSON.stringify(placedObjects));
         },
     },
     mounted() {
         this.clear();
-        if (!this.levelCode) {
+        if (!this.name) {
             return;
         }
-        let placedObjects = JSON.parse(localStorage.getItem(this.levelCode) || "[]");
+        let placedObjects = JSON.parse(localStorage.getItem(this.name) || "[]");
         // TODO this needs guarding
         for (let placedObject of placedObjects) {
             this.placedObjects.push({
