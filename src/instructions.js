@@ -11,18 +11,22 @@
  * Enclosed Alphanumeric Supplement
  * Mende Kikakui
  * Byzantine Musical Symbols
+ * Supplemental Punctuation
+ * https://www.fileformat.info/info/unicode/block/miscellaneous_symbols_and_arrows/utf8test.htm
+ * https://www.fileformat.info/info/unicode/block/supplemental_mathematical_operators/utf8test.htm
+ * https://www.fileformat.info/info/unicode/block/miscellaneous_mathematical_symbols_b/utf8test.htm
  * */
 
 
 export default {
     "STRT": {
-        symbol: "○", // maybe ⌂
+        symbol: "⭗", // maybe ⌂
         description: "Initial position of the bird, bird starts going to the right.",
         execute() {
         },
     },
     "FINI": {
-        symbol: "◍",
+        symbol: "🏲",
         description: "Finishes this round",
         execute(board) {
             board.finish();
@@ -192,7 +196,7 @@ export default {
         instructionClass: "G",
     },
     "BLCK": {
-        symbol: "█",
+        symbol: "⬛",
         description: "Don't hit this block, it will kill you",
         execute(board) {
             return board.dieBird();
@@ -200,7 +204,7 @@ export default {
         instructionClass: "Z",
     },
     "GEQ1": {
-        symbol: "⌥",
+        symbol: "⬖",
         description: "Go right if the number is 1 or greater, if not, go down",
         execute(board) {
             if (board.stack.length < 1) {
