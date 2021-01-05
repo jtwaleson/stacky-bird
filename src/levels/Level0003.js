@@ -7,7 +7,8 @@ export default {
     unlocksLevels: ["Level0004"],
     unlocksInstructions: ["UPWD", "RGHT"],
     gridObjects: [
-        {x: 3, y: 3, ...instructions["STRT"]},
-        {x: 1, y: 7, ...instructions["FINI"]},
+        {x: 4, y: 2, ...instructions["STRT"]},
+        {x: 5, y: 1, ...instructions["BLCK"]},
+        {x: 4, y: 1, ...instructions["FINI"]},
     ],
 }
