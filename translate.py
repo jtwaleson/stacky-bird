@@ -21,4 +21,5 @@ def translate():
     current[key] = value
     with open(filename, "w") as fh:
         json.dump(current, fh, indent=4, sort_keys=True)
+        fh.write("\n")
     return "OK"
