@@ -57,3 +57,8 @@ The idea behind stacky bird levels is that each "chapter" uses a certain kind of
 8xxx - Algorithms
 ====
 - At some point it may be possible to implement basic Google CodeJam algorithms, that would be amazing
+
+
+9xxx - Arrays ?
+====
+- Add an array for addressable storage

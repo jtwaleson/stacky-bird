@@ -6,10 +6,13 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 2 1 put start/stop buttons on the STRT tile
 * [ ] 2 1 refactor grid layout for buttons on tiles
 * [ ] 2 2 animations / messages when level is completed or the bird dies
+* [ ] 2 2 fix level structure for arrows
 * [ ] 2 3 add a favicon
 * [ ] 2 3 add music / effects
 * [ ] 2 3 show modal block selector when clicking on an empty tile
 * [ ] 2 4 add animations when hovering over instructions
+* [ ] 2 4 create a new bird icon
+* [ ] 2 4 mobile friendly
 * [ ] 3 2 add LICENSE
 * [ ] 3 2 add vue router??
 * [ ] 3 2 droppable indicator on the board (highlight where instructions can be placed)
