@@ -242,6 +242,7 @@ export default {
         clear() {
             this.placedObjects = [];
             this.reset();
+            this.saveBoardToLocalStorage();
         },
         saveBoardToLocalStorage() {
             if (!this.name) {
@@ -259,7 +260,6 @@ export default {
         },
     },
     mounted() {
-        this.clear();
         if (!this.name) {
             return;
         }
