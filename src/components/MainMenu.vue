@@ -3,7 +3,8 @@
         <h1>Stacky Bird</h1>
         <p>This is Stacky Bird, a game to learn programming as well as a revolutionary programming language by itself.</p>
         <h2>Levels</h2>
-        <p>Complete these levels to unlock new instructions. Later on, you can come back and improve your solutions! Click a level to start playing.</p>
+        <p v-if="$store.getters.availableLevels.length > 0">Complete these levels to unlock new instructions. Later on, you can come back and improve your solutions! Click a level to start playing.</p>
+        <p v-else>You finished all the levels!</p>
         <LevelList :levels="$store.getters.availableLevels"/>
         <p v-if="hiddenLevelCount > 0"><i>There are {{ hiddenLevelCount }} more levels still hidden</i></p>
         <h2>Instruction Blocks</h2>
@@ -11,7 +12,8 @@
         <InstructionList/>
         <p>There are {{ hiddenInstructionCount }} more instruction blocks to be discovered. Finish levels to unlock them.</p>
         <h2>Completed Levels ({{$store.getters.completedLevels.length}} / {{Object.keys($store.state.levels).length}} total)</h2>
-        <LevelList :levels="$store.getters.completedLevels"/>
+        <p v-if="$store.getters.completedLevels.length === 0">You have not finished any levels yet!</p>
+        <LevelList v-else :levels="$store.getters.completedLevels"/>
         <a href="#" style="text-decoration: underline; display: block; margin-top: 200px; color: black;" @click="factoryReset">{{ $t("factory-reset-link") }}</a>
     </div>
 </template>
