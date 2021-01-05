@@ -3,15 +3,15 @@
         <h2><T textKey="Menu"/></h2>
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
-            <div @click="clear">CLER</div>
-            <div @click="reset">RSET</div>
+            <div @click="clearWithWarning">CLER</div>
+            <div @click="reset" :class="{disabled: !birdIsLoaded}">RSET</div>
             <div @click="!birdIsMoving && step()" :class="{disabled: birdIsMoving}">STEP</div>
             <div @click="play" :class="{disabled: playing}">PLAY</div>
             <div @click="playing = false" :class="{disabled: !playing}">STOP</div>
         </div>
         <h2><T textKey="Available Instruction Blocks"/></h2>
         <p><T textKey="Drag to the board below."/></p>
-        <InstructionList draggable unlockedOnly/>
+        <InstructionList :draggable="!birdIsLoaded" unlockedOnly/>
         <template v-if="name">
             <h2>{{ name }} - <T :textKey="displayName"/></h2>
             <p><T :textKey="description"/></p>
@@ -22,7 +22,7 @@
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
             </template>
-            <div v-if="bird.x !== null && bird.y !== null" class="field thebird" :class="birdClasses" :style="birdStyle">
+            <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
                 <ul class="stack">
                     <li v-for="(item, index) in stack" :key="index" class="field-style-F">
                         {{ item }}
@@ -99,6 +99,9 @@ export default {
                 "display": "grid",
             }
         },
+        birdIsLoaded() {
+            return this.bird.x !== null && this.bird.y !== null;
+        },
         boardObjects() {
             return this.gridObjects.concat(this.placedObjects);
         },
@@ -106,6 +109,9 @@ export default {
     methods: {
         drop(x, y, event) {
             event.preventDefault();
+            if (this.birdIsLoaded) {
+                return;
+            }
             // TODO this needs guarding
             this.placedObjects.push({
                 x,
@@ -116,6 +122,9 @@ export default {
             this.saveBoardToLocalStorage();
         },
         allowDrop(event) {
+            if (this.birdIsLoaded) {
+                return;
+            }
             event.preventDefault();
         },
         deletePlacedInstruction(placedInstruction) {
@@ -172,6 +181,9 @@ export default {
             alert(this.$tr("Level completed"));
         },
         async play() {
+            if (this.playing) {
+                return;
+            }
             this.playing = true;
             while (this.playing) {
                 await this.step();
@@ -221,6 +233,11 @@ export default {
             this.flappingInterval = null;
             this.stack = [];
             clearInterval(this.flappingInterval);
+        },
+        clearWithWarning() {
+            if (confirm(this.$tr("This will reset your level, are you sure?"))) {
+                this.clear();
+            }
         },
         clear() {
             this.placedObjects = [];
@@ -321,7 +338,7 @@ export default {
         margin ease-in-out 100ms; /* 2X SPEED */
 }
 .left img {
-    transform: rotate(180deg);
+    transform: scaleX(-1);
 }
 .right img {
     transform: rotate(0deg);

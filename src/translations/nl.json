@@ -37,7 +37,9 @@
     "There are {hiddenInstructionCount} more instruction blocks to be discovered. Finish levels to unlock them.": "Er zijn nog {hiddenInstructionCount} meer blokken te ontdekken. Maak levels af om ze te verdienen.",
     "There are {hiddenLevelCount} more levels still hidden": "Er zijn nog {hiddenLevelCount} levels onzichtbaar",
     "This is Stacky Bird, a game to learn programming as well as a revolutionary programming language by itself.": "Dit is Stacky Bird. Een spel om te leren programmeren, en ook een super interessante programmeertaal.",
+    "This will reset your level, are you sure?": "Dit verwijdert alles van het bord, weet je het zeker?",
     "To get started, hit STEP or PLAY in the menu.": "Klik op STEP of PLAY in het menu om te beginnen.",
     "You Only Live Once": "Je leeft maar een keer",
+    "You finished all the levels!": "Je hebt alle levels uit!",
     "You have not finished any levels yet!": "Je hebt nog geen levels afgemaakt."
 }
