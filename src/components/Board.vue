@@ -3,11 +3,11 @@
         <h2><T textKey="Menu"/></h2>
         <div class="menu-container">
             <div @click="$store.commit('openMenu')">BACK</div>
-            <div @click="clearWithWarning">CLER</div>
-            <div @click="reset" :class="{disabled: !birdIsLoaded}">RSET</div>
+            <div @click="clearWithWarning">CLEAR</div>
+            <div @click="reset" :class="{disabled: !birdIsLoaded}">STOP</div>
             <div @click="!birdIsMoving && step()" :class="{disabled: birdIsMoving}">STEP</div>
             <div @click="play" :class="{disabled: playing}">PLAY</div>
-            <div @click="playing = false" :class="{disabled: !playing}">STOP</div>
+            <div @click="playing = false" :class="{disabled: !playing}">PAUSE</div>
         </div>
         <h2><T textKey="Available Instruction Blocks"/></h2>
         <p><T textKey="Drag to the board below."/></p>
