@@ -2,7 +2,7 @@
     <div class="instruction-grid-container">
         <h2><T textKey="Menu"/></h2>
         <div class="menu-container">
-            <div @click="$store.commit('openMenu')">BACK</div>
+            <div @click="$router.push({ path: '/' })">BACK</div>
             <div @click="clearWithWarning">CLEAR</div>
         </div>
         <h2><T textKey="Available Instruction Blocks"/></h2>

@@ -4,10 +4,8 @@ let languageCode = localStorage.getItem("language") || "en";
 
 export default createStore({
     state: {
-        appMode: 'menu',
         instructions: {},
         levels: {},
-        level: null,
         locale: languageCode,
     },
     mutations: {
@@ -33,14 +31,6 @@ export default createStore({
                 }
             }
             localStorage.setItem("unlockedInstructions", unlockedInstructions);
-        },
-        openLevel(state, levelName) {
-            state.appMode = 'level';
-            state.level = state.levels[levelName];
-        },
-        openMenu(state) {
-            state.appMode = 'menu';
-            state.level = null;
         },
         setLanguage(state, languageCode) {
             state.locale = languageCode;

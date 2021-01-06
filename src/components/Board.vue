@@ -2,7 +2,7 @@
     <div class="instruction-grid-container">
         <h2><T textKey="Menu"/></h2>
         <div class="menu-container">
-            <div @click="$store.commit('openMenu')">BACK</div>
+            <div @click="$router.push({ path: '/' })">BACK</div>
             <div @click="clearWithWarning">CLEAR</div>
             <div @click="reset" :class="{disabled: !birdIsLoaded}">STOP</div>
             <div @click="!birdIsMoving && step()" :class="{disabled: birdIsMoving}">STEP</div>
@@ -63,6 +63,8 @@ export default {
         description: String,
         displayName: String,
         name: String,
+        unlocked: Boolean,
+        completed: Boolean,
     },
     components: {
         Instruction,
@@ -174,7 +176,7 @@ export default {
             this.reset();
         },
         finish() {
-            this.$store.commit("openMenu");
+            this.$router.push({ path: "/" });
             this.$store.commit("completeLevel", this.name);
             for (const instructionName of this.unlocksInstructions) {
                 this.$store.commit("unlockInstruction", instructionName);
