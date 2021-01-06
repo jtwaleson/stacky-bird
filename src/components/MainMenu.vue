@@ -19,12 +19,16 @@
         <p v-if="$store.getters.completedLevels.length === 0"><T textKey="You have not finished any levels yet!"/></p>
         <LevelList v-else :levels="$store.getters.completedLevels"/>
         <a href="#" style="text-decoration: underline; display: block; margin-top: 200px; color: black;" @click="factoryReset"><T textKey="RESET THE GAME - FACTORY RESET"/></a>
+        <br/>
+        <router-link to="/level-editor/" v-if="NODE_ENV == 'development'">Level Editor</router-link>
     </div>
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex'
 import InstructionList from "./InstructionList.vue"
 import LevelList from "./LevelList.vue"
+
+const NODE_ENV = process.env.NODE_ENV;
 
 export default {
     name: 'MainMenu',
@@ -40,6 +44,9 @@ export default {
         },
         hiddenInstructionCount() {
             return Object.keys(this.instructions).length - (this.$store.getters.availableInstructions.length + this.$store.getters.completedLevels.length);
+        },
+        NODE_ENV() {
+            return NODE_ENV;
         },
     },
     methods: {

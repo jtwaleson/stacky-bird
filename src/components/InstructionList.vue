@@ -1,5 +1,5 @@
 <template>
-    <div v-if="filteredInstructions.length > 0" class="instruction-grid">
+    <div v-if="filteredInstructions.length > 0" class="instruction-grid" :style="boardStyle">
         <Instruction v-for="instruction in filteredInstructions" :key="instruction.name" v-bind="instruction" :draggable="draggable"/>
     </div>
     <p v-else><em><T textKey="There are no instructions available."/></em></p>
@@ -17,6 +17,10 @@ export default {
         draggable: Boolean,
         unlockedOnly: Boolean,
         showAll: Boolean,
+        cols: {
+            type: Number,
+            default: 5,
+        },
     },
     computed: {
         ...mapState(['instructions']),
@@ -30,6 +34,11 @@ export default {
                 return this.availableInstructions.concat(this.unavailableButReachableInstructions);
             }
         },
+        boardStyle() {
+            return {
+                "grid-template-columns": `repeat(${this.cols}, 107px)`,
+            }
+        },
     },
 }
 </script>
@@ -41,6 +50,5 @@ export default {
     grid-gap: 15px;
     background-color: #bbada0;
     padding: 15px;
-    grid-template-columns: repeat(5, 107px);
 }
 </style>

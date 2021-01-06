@@ -1,0 +1,11 @@
+import instructions from '../instructions.js';
+
+export default {
+    displayName: "TITLE",
+    description: "DESCRIPTION",
+    unlocksLevels: [UNLOCKS_LEVELS],
+    unlocksInstructions: [UNLOCKS_INSTRUCTIONS],
+    gridObjects: [
+OBJECTS
+    ],
+}

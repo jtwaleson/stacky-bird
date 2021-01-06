@@ -6,7 +6,18 @@
             <div @click="clearWithWarning">CLEAR</div>
         </div>
         <h2><T textKey="Available Instruction Blocks"/></h2>
-        <InstructionList draggable showAll/>
+        <InstructionList draggable showAll :cols="cols"/>
+        <br/>
+        <div>
+            Name: <input v-model="name">
+        </div>
+        <div>
+            Title: <input v-model="displayName">
+        </div>
+        <div>
+            Description: <input v-model="description">
+        </div>
+        <button @click="save">Save</button>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
@@ -33,9 +44,9 @@ export default {
             cols: 7,
             rows: 7,
             gridObjects: [],
-            name: String,
-            description: String,
-            displayName: String,
+            name: "",
+            description: "",
+            displayName: "",
             birdIsMoving: false,
             playing: false,
             bird: {
@@ -63,6 +74,33 @@ export default {
         },
     },
     methods: {
+        save() {
+            let code = this.name;
+            let title = this.displayName;
+            let description = this.description;
+            let objects = [];
+            for (let ob of this.placedObjects) {
+                objects.push({
+                    x: ob.x,
+                    y: ob.y,
+                    code: ob.name,
+                })
+            }
+
+
+            fetch("http://localhost:5000/leveledit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    code,
+                    title,
+                    description,
+                    objects,
+                }),
+            });
+        },
         drop(x, y, event) {
             event.preventDefault();
             if (this.birdIsLoaded) {
@@ -85,7 +123,6 @@ export default {
         },
         deletePlacedInstruction(placedInstruction) {
             this.placedObjects = this.placedObjects.filter(item => item !== placedInstruction);
-            this.saveBoardToLocalStorage();
         },
         // saveBoardToLocalStorage() {
         //     if (!this.name) {

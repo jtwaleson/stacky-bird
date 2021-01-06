@@ -52,7 +52,7 @@ app.mixin({
             let translation = prompt(`How do you translate "${key}" into ${this.$store.state.locale}?`, key);
             localeTranslations[this.$store.state.locale][key] = translation;
             if (translation) {
-                fetch("http://localhost:5000/", {
+                fetch("http://localhost:5000/translate", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
