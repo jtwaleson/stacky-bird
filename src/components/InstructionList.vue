@@ -5,7 +5,7 @@
     <p v-else><em><T textKey="There are no instructions available."/></em></p>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Instruction from "./Instruction.vue"
 
 export default {
@@ -16,11 +16,15 @@ export default {
     props: {
         draggable: Boolean,
         unlockedOnly: Boolean,
+        showAll: Boolean,
     },
     computed: {
+        ...mapState(['instructions']),
         ...mapGetters(['unavailableButReachableInstructions', 'availableInstructions']),
         filteredInstructions() {
-            if (this.unlockedOnly) {
+            if (this.showAll) {
+                return Object.values(this.instructions);
+            } else if (this.unlockedOnly) {
                 return this.availableInstructions;
             } else {
                 return this.availableInstructions.concat(this.unavailableButReachableInstructions);

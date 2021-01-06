@@ -9,7 +9,7 @@
         <h2><T textKey="Levels"/></h2>
         <p v-if="$store.getters.availableLevels.length > 0"><T textKey="Complete these levels to unlock new instructions. Later on, you can come back and improve your solutions! Click a level to start playing."/></p>
         <p v-else><T textKey="You finished all the levels!"/></p>
-        <LevelList :levels="$store.getters.availableLevels"/>
+        <LevelList :levels="Object.values($store.state.levels)"/>
         <p v-if="hiddenLevelCount > 0"><i><T textKey="There are {hiddenLevelCount} more levels still hidden" :replacements="{hiddenLevelCount}"/></i></p>
         <h2><T textKey="Instruction Blocks"/></h2>
         <p><T textKey="The following blocks are available in your solutions. If they are greyed out, you still have to unlock them. Hover over the instructions to see what they do."/></p>

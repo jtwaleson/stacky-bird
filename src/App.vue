@@ -1,5 +1,6 @@
 <template>
-    <MainMenu v-if="appMode === 'menu'"/>
+    <LevelEditor v-if="appMode === 'menu'"/>
+    <MainMenu v-else-if="appMode === 'leveledit'"/>
     <Board v-else v-bind="level"/>
 </template>
 
@@ -7,11 +8,13 @@
 import { mapState } from 'vuex'
 import MainMenu from './components/MainMenu.vue'
 import Board from './components/Board.vue'
+import LevelEditor from './components/LevelEditor.vue'
 
 export default {
     name: 'App',
     components: {
         MainMenu,
+        LevelEditor,
         Board,
     },
     computed: mapState(['appMode', 'level']),
