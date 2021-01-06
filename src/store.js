@@ -51,7 +51,7 @@ export default createStore({
                 throw new Error(`level ${level.name} is already registered`);
             }
 
-            let unlockedLevels = localStorage.getItem("unlockedLevels") || ["Level0001"];
+            let unlockedLevels = localStorage.getItem("unlockedLevels") || ["0001"];
             let completedLevels = localStorage.getItem("completedLevels") || [];
 
             state.levels[level.name] = {

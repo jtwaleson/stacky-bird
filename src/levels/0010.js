@@ -1,11 +1,10 @@
 import instructions from '../instructions.js';
 
 export default {
-    name: 'Level0005',
     displayName: "You Only Live Once",
     description: "In this level we introduce randomness, you have to escape it!",
-    unlocksLevels: ["Level0006"],
-    unlocksInstructions: ["YOLO"],
+    unlocksLevels: [],
+    unlocksInstructions: ["JMP1"],
     gridObjects: [
         {x: 1, y: 4, ...instructions["STRT"]},
         {x: 4, y: 4, ...instructions["YOLO"]},

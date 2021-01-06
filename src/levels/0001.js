@@ -1,10 +1,9 @@
 import instructions from '../instructions.js';
 
 export default {
-    name: 'Level0001',
     displayName: "And So It Begins",
     description: "In this level we don't have to build anything yet",
-    unlocksLevels: ["Level0002"],
+    unlocksLevels: ["0002"],
     unlocksInstructions: ["DOWN"],
     gridObjects: [
         {x: 3, y: 3, ...instructions["STRT"]},

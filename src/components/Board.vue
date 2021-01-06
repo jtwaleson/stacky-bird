@@ -13,7 +13,7 @@
         <p><T textKey="Drag to the board below."/></p>
         <InstructionList :draggable="!birdIsLoaded" unlockedOnly/>
         <template v-if="name">
-            <h2>{{ name }} - <T :textKey="displayName"/></h2>
+            <h2><T textKey="Level"/> {{ name }} - <T :textKey="displayName"/></h2>
             <p><T :textKey="description"/></p>
         </template>
         <h2 v-else><T textKey="Board"/></h2>
@@ -157,6 +157,11 @@ export default {
                 await this.dieBird();
             } else {
                 // this.birdClasses.pop();
+                for (let boardObject of this.boardObjects) {
+                    if (boardObject.name === "BLCK" && boardObject.x === this.bird.x + xDiff && boardObject.y === this.bird.y + yDiff) {
+                        return await this.dieBird();
+                    }
+                }
                 this.bird.x += xDiff;
                 this.bird.y += yDiff;
             }
@@ -217,13 +222,12 @@ export default {
                     await instruction.execute(this);
                 }
                 await this.moveBird();
-                await sleep(1 * SPEED);
+                await sleep(6 * SPEED);
             }
             this.birdIsMoving = false;
         },
         reset() {
             this.birdIsMoving = false;
-            this.playing = false;
             this.bird.x = null;
             this.bird.y = null;
             this.bird.flappingImage = true;
@@ -232,6 +236,7 @@ export default {
             this.flappingInterval = null;
             this.stack = [];
             clearInterval(this.flappingInterval);
+            this.playing = false;
         },
         clearWithWarning() {
             if (confirm(this.$tr("This will reset your level, are you sure?"))) {

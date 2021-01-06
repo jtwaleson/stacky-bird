@@ -1,10 +1,9 @@
 import instructions from '../instructions.js';
 
 export default {
-    name: 'Level0006',
     displayName: "Survive The Maze",
     description: "Get your way around the maze",
-    unlocksLevels: ["Level0007"],
+    unlocksLevels: ["0009", "0010"],
     unlocksInstructions: [],
     gridObjects: [
         {x: 1, y: 1, ...instructions["STRT"]},

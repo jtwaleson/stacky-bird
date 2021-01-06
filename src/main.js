@@ -16,11 +16,12 @@ const requireLevel = require.context(
     // Whether or not to look in subfolders
     false,
     // The regular expression used to match base component filenames
-    /[A-Z]\w+\.(vue|js)$/
+    /\w+\.(vue|js)$/
 )
 
 requireLevel.keys().forEach(fileName => {
     const level = requireLevel(fileName).default;
+    level.name = fileName.replace(/\.\//, "").replace(/\.js/, "");
     store.commit('registerLevel', markRaw(level));
 })
 

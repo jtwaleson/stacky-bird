@@ -2,9 +2,9 @@
     <ul class="levels">
         <template v-for="level in levels" :key="level.name">
             <li class="level" :class="{completed: level.completed}" @click='$store.commit("openLevel", level.name)'>
-                <div class="code">{{ level.name.replace(/Level/, "") }}</div>
+                <div class="code">{{ level.name }}</div>
                 <div class="description">
-                    <b>{{level.name}} - <T :textKey="level.displayName"/></b>
+                    <b><T textKey="Level"/> {{level.name}} - <T :textKey="level.displayName"/></b>
                     <br/>
                     <T :textKey="level.description"/>
                 </div>
