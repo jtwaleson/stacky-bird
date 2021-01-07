@@ -1,0 +1,30 @@
+import instructions from '../instructions.js';
+
+export default {
+    displayName: "Hugos Level",
+    description: "Hugo is cool",
+    unlocksLevels: [],
+    unlocksInstructions: [],
+    gridObjects: [
+        { x: 1, y: 1, ...instructions["STRT"] },
+        { x: 7, y: 7, ...instructions["FINI"] },
+        { x: 3, y: 1, ...instructions["BLCK"] },
+        { x: 3, y: 2, ...instructions["BLCK"] },
+        { x: 1, y: 3, ...instructions["BLCK"] },
+        { x: 3, y: 3, ...instructions["BLCK"] },
+        { x: 4, y: 3, ...instructions["BLCK"] },
+        { x: 4, y: 4, ...instructions["BLCK"] },
+        { x: 4, y: 5, ...instructions["BLCK"] },
+        { x: 3, y: 5, ...instructions["BLCK"] },
+        { x: 1, y: 5, ...instructions["BLCK"] },
+        { x: 2, y: 5, ...instructions["BLCK"] },
+        { x: 3, y: 4, ...instructions["JMP1"] },
+        { x: 7, y: 1, ...instructions["FINI"] },
+        { x: 6, y: 4, ...instructions["YOLO"] },
+        { x: 6, y: 3, ...instructions["DOWN"] },
+        { x: 5, y: 4, ...instructions["RGHT"] },
+        { x: 6, y: 5, ...instructions["UPWD"] },
+        { x: 7, y: 4, ...instructions["UPWD"] },
+        { x: 2, y: 1, ...instructions["DOWN"] },
+    ],
+}
