@@ -1,14 +1,6 @@
 <template>
     <div class="instruction-grid-container">
-        <h2><T textKey="Menu"/></h2>
-        <div class="menu-container">
-            <div @click="$router.push({ path: '/' })">BACK</div>
-            <div @click="clearWithWarning">CLEAR</div>
-            <div @click="reset" :class="{disabled: !birdIsLoaded}">STOP</div>
-            <div @click="!birdIsMoving && step()" :class="{disabled: birdIsMoving}">STEP</div>
-            <div @click="play" :class="{disabled: playing}">PLAY</div>
-            <div @click="playing = false" :class="{disabled: !playing}">PAUSE</div>
-        </div>
+        <div @click="$router.push({ path: '/' })">BACK</div>
         <h2><T textKey="Available Instruction Blocks"/></h2>
         <p><T textKey="Drag to the board below."/></p>
         <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="cols"/>
@@ -18,6 +10,13 @@
         </template>
         <h2 v-else><T textKey="Board"/></h2>
         <p><T textKey="To get started, hit STEP or PLAY in the menu."/></p>
+        <div class="control-container">
+            <button class="delete" @click="clearWithWarning">🗑</button>
+            <button @click="reset" :disabled="!birdIsLoaded">⏹</button>
+            <button @click="step" :disabled="birdIsMoving">⏯</button>
+            <button @click="play" :disabled="playing">⏵</button>
+            <button @click="shouldStopPlaying = true" :disabled="!playing">⏸</button>
+        </div>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
@@ -31,7 +30,7 @@
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
-            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
+            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :userPlaced="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
         </div>
     </div>
 </template>
@@ -74,6 +73,7 @@ export default {
         return {
             birdIsMoving: false,
             playing: false,
+            shouldStopPlaying: false,
             bird: {
                 x: null,
                 y: null,
@@ -130,6 +130,9 @@ export default {
             event.preventDefault();
         },
         deletePlacedInstruction(placedInstruction) {
+            if (this.birdIsLoaded) {
+                return;
+            }
             this.placedObjects = this.placedObjects.filter(item => item !== placedInstruction);
             this.saveBoardToLocalStorage();
         },
@@ -170,6 +173,7 @@ export default {
         },
         async dieBird() {
             clearInterval(this.flappingInterval);
+            this.shouldStopPlaying = true;
             await sleep(0.5 * SPEED);
             this.birdClasses.push("dead");
             await sleep(4 * SPEED);
@@ -191,9 +195,11 @@ export default {
                 return;
             }
             this.playing = true;
-            while (this.playing) {
+            while (this.playing && !this.shouldStopPlaying) {
                 await this.step();
             }
+            this.playing = false;
+            this.shouldStopPlaying = false;
         },
         async step() {
             if (this.birdIsMoving) {
@@ -224,8 +230,8 @@ export default {
                     await instruction.execute(this);
                 }
                 await this.moveBird();
-                await sleep(6 * SPEED);
             }
+            await sleep(2 * SPEED);
             this.birdIsMoving = false;
         },
         reset() {
@@ -235,10 +241,9 @@ export default {
             this.bird.flappingImage = true;
             this.bird.direction = "right";
             this.birdClasses = [];
-            this.flappingInterval = null;
             this.stack = [];
             clearInterval(this.flappingInterval);
-            this.playing = false;
+            this.flappingInterval = null;
         },
         clearWithWarning() {
             if (confirm(this.$tr("This will reset your level, are you sure?"))) {
@@ -287,6 +292,26 @@ export default {
 </script>
 
 <style scoped>
+.control-container {
+    display: inline-block;
+    background-color: #bbb;
+    padding: 5px;
+    border-radius: 7px;
+    margin-bottom: 3px;
+}
+.control-container button:hover {
+    cursor: pointer;
+}
+.control-container button {
+    margin: 0 5px;
+    font-size: 20px;
+    width: 35px;
+    height: 35px;
+}
+.control-container button.delete {
+    margin-right: 35px;
+    background-color: #f3b27a;
+}
 .menu-container {
     display:  grid;
     border-radius: 6px;

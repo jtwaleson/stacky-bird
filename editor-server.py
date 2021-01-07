@@ -33,6 +33,8 @@ def leveledit():
     description = data["description"]
 #    unlocks_levels = data["unlocksLevels"]
 #    unlocks_instructions = data["unlocksInstructions"]
+    rows = data["rows"]
+    cols = data["cols"]
     objects = data["objects"]
 
     filename = os.path.join("src", "levels", "template")
@@ -43,6 +45,8 @@ def leveledit():
     template = template.replace("DESCRIPTION", description)
     template = template.replace("UNLOCKS_LEVELS", "")
     template = template.replace("UNLOCKS_INSTRUCTIONS", "")
+    template = template.replace("ROWS", str(rows))
+    template = template.replace("COLS", str(cols))
     template = template.replace("OBJECTS", "\n".join([f'        {{ x: {o["x"]}, y: {o["y"]}, ...instructions["{o["code"]}"] }},' for o in objects]))
     with open(os.path.join("src", "levels", f"{code}.js"), "w") as fh:
         fh.write(template)

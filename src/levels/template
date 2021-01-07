@@ -4,6 +4,8 @@ export default {
     displayName: "TITLE",
     description: "DESCRIPTION",
     unlocksLevels: [UNLOCKS_LEVELS],
+    rows: ROWS,
+    cols: COLS,
     unlocksInstructions: [UNLOCKS_INSTRUCTIONS],
     gridObjects: [
 OBJECTS

@@ -1,23 +1,30 @@
 <template>
-    <div class="instruction-grid-container">
-        <h2><T textKey="Menu"/></h2>
+    <header>
         <div class="menu-container">
             <div @click="$router.push({ path: '/' })">BACK</div>
             <div @click="clearWithWarning">CLEAR</div>
         </div>
+    </header>
+    <div class="instruction-grid-container">
         <h2><T textKey="Available Instruction Blocks"/></h2>
         <InstructionList draggable showAll :cols="cols"/>
         <br/>
         <div>
-            Name: <input v-model="name">
+            <T textKey="Level Code"/>: <input v-model="name">
         </div>
         <div>
-            Title: <input v-model="displayName">
+            <T textKey="Level Title"/>: <input v-model="displayName">
         </div>
         <div>
-            Description: <input v-model="description">
+            <T textKey="Level Description"/>: <input v-model="description">
         </div>
-        <button @click="save">Save</button>
+        <div>
+            <T textKey="Height"/>: {{ rows }} <button :disabled="rows <= 7" @click="rows -= 1">-</button> / <button @click="rows += 1">+</button>
+        </div>
+        <div>
+            <T textKey="Width"/>: {{ cols }} / <button :disabled="cols <= 7" @click="cols -= 1">-</button> / <button @click="cols += 1">+</button>
+        </div>
+        <button @click="save"><T textKey="Save"/></button>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
                 <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
@@ -80,15 +87,17 @@ export default {
             let description = this.description;
             let objects = [];
             for (let ob of this.placedObjects) {
-                objects.push({
-                    x: ob.x,
-                    y: ob.y,
-                    code: ob.name,
-                })
+                if (ob.x <= this.cols && ob.y <= this.rows) {
+                    objects.push({
+                        x: ob.x,
+                        y: ob.y,
+                        code: ob.name,
+                    });
+                }
             }
 
 
-            fetch("http://localhost:5000/leveledit", {
+            fetch("http://192.168.1.69:5000/leveledit", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -98,7 +107,11 @@ export default {
                     title,
                     description,
                     objects,
+                    cols: this.cols,
+                    rows: this.rows,
                 }),
+            }).then(() => {
+                this.$route.push({ path: "/" });
             });
         },
         drop(x, y, event) {
@@ -124,20 +137,6 @@ export default {
         deletePlacedInstruction(placedInstruction) {
             this.placedObjects = this.placedObjects.filter(item => item !== placedInstruction);
         },
-        // saveBoardToLocalStorage() {
-        //     if (!this.name) {
-        //         return;
-        //     }
-        //     let placedObjects = [];
-        //     for (const placedObject of this.placedObjects) {
-        //         placedObjects.push({
-        //             x: placedObject.x,
-        //             y: placedObject.y,
-        //             code: placedObject.name,
-        //         });
-        //     }
-        //     localStorage.setItem(this.name, JSON.stringify(placedObjects));
-        // },
     },
     mounted() {
     },
