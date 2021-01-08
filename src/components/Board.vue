@@ -236,6 +236,7 @@ export default {
             this.stack = [];
             clearInterval(this.flappingInterval);
             this.flappingInterval = null;
+            this.playing = false;
         },
         clearWithWarning() {
             if (confirm(this.$tr("This will reset your level, are you sure?"))) {
