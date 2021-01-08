@@ -3,7 +3,7 @@ import instructions from '../instructions.js';
 export default {
     displayName: "You Only Live Once",
     description: "In this level we introduce randomness, you have to escape it!",
-    unlocksLevels: [],
+    unlocksLevels: ["0101"],
     unlocksInstructions: ["JMP1"],
     gridObjects: [
         {x: 1, y: 4, ...instructions["STRT"]},
