@@ -10,7 +10,6 @@ export default {
     gridObjects: [
         { x: 1, y: 1, ...instructions["FINI"] },
         { x: 2, y: 1, ...instructions["BLCK"] },
-        { x: 6, y: 1, ...instructions["BLCK"] },
         { x: 2, y: 2, ...instructions["BLCK"] },
         { x: 4, y: 2, ...instructions["BLCK"] },
         { x: 5, y: 2, ...instructions["BLCK"] },

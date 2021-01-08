@@ -27,6 +27,6 @@ export default {
         { x: 4, y: 6, ...instructions["BLCK"] },
         { x: 5, y: 6, ...instructions["BLCK"] },
         { x: 6, y: 6, ...instructions["BLCK"] },
-        { x: 3, y: 7, ...instructions["FINI"] },
+        { x: 5, y: 5, ...instructions["FINI"] },
     ],
 }

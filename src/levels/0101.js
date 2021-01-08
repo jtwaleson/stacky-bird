@@ -8,6 +8,7 @@ export default {
     cols: 7,
     unlocksInstructions: [],
     gridObjects: [
+        { x: 1, y: 1, ...instructions["STRT"] },
         { x: 4, y: 1, ...instructions["BLCK"] },
         { x: 1, y: 2, ...instructions["BLCK"] },
         { x: 2, y: 2, ...instructions["BLCK"] },
@@ -15,7 +16,6 @@ export default {
         { x: 5, y: 2, ...instructions["BLCK"] },
         { x: 6, y: 2, ...instructions["BLCK"] },
         { x: 4, y: 3, ...instructions["BLCK"] },
-        { x: 5, y: 3, ...instructions["STRT"] },
         { x: 2, y: 4, ...instructions["BLCK"] },
         { x: 3, y: 4, ...instructions["BLCK"] },
         { x: 4, y: 4, ...instructions["BLCK"] },

@@ -15,7 +15,7 @@ export default {
         { x: 4, y: 2, ...instructions["BLCK"] },
         { x: 5, y: 2, ...instructions["BLCK"] },
         { x: 6, y: 2, ...instructions["BLCK"] },
-        { x: 5, y: 3, ...instructions["STRT"] },
+        { x: 3, y: 7, ...instructions["STRT"] },
         { x: 1, y: 4, ...instructions["BLCK"] },
         { x: 2, y: 4, ...instructions["BLCK"] },
         { x: 3, y: 4, ...instructions["BLCK"] },
