@@ -222,8 +222,8 @@ export default {
                     await instruction.execute(this);
                 }
                 await this.moveBird();
-                await sleep(6 * SPEED);
             }
+            await sleep(2 * SPEED);
             this.birdIsMoving = false;
         },
         reset() {
@@ -233,10 +233,9 @@ export default {
             this.bird.flappingImage = true;
             this.bird.direction = "right";
             this.birdClasses = [];
-            this.flappingInterval = null;
             this.stack = [];
             clearInterval(this.flappingInterval);
-            this.playing = false;
+            this.flappingInterval = null;
         },
         clearWithWarning() {
             if (confirm(this.$tr("This will reset your level, are you sure?"))) {
