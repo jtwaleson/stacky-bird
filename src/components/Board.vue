@@ -1,4 +1,7 @@
 <template>
+    <vue-final-modal v-model="showModal">
+        Modal Content Here
+    </vue-final-modal>
     <div class="main">
         <div class="instructions1">
             <div>
@@ -85,6 +88,7 @@ export default {
     data() {
         return {
             birdIsMoving: false,
+            showModal: false,
             playing: false,
             shouldStopPlaying: false,
             bird: {
@@ -297,6 +301,9 @@ export default {
         if (!this.name) {
             return;
         }
+        setTimeout(() => {
+            this.showModal = true;
+        }, 400);
         let placedObjects = JSON.parse(localStorage.getItem(this.name) || "[]");
         // TODO this needs guarding
         for (let placedObject of placedObjects) {
