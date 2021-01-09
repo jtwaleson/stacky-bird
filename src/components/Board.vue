@@ -63,6 +63,8 @@ export default {
         description: String,
         displayName: String,
         name: String,
+        unlocked: Boolean,
+        completed: Boolean,
     },
     components: {
         Instruction,
