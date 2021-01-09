@@ -8,14 +8,17 @@
             <p><T :textKey="description"/></p>
         </template>
         <h2 v-else><T textKey="Board"/></h2>
-        <p><T textKey="To get started, hit STEP or PLAY in the menu."/></p>
-        <button class="back" @click="$router.push({ path: '/' })"><i class="bi-arrow-left"/></button>
-        <div class="control-container">
-            <button class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
-            <button @click="reset" :disabled="!birdIsLoaded"><i class="bi-stop-circle"/></button>
-            <button @click="step" :disabled="birdIsMoving"><i class="bi-skip-end-circle"/></button>
-            <button @click="play" :disabled="playing"><i class="bi-play-circle"/></button>
-            <button @click="shouldStopPlaying = true" :disabled="!playing"><i class="bi-pause-circle"/></button>
+        <div class="board-menu">
+            <div>
+                <button class="back" @click="$router.push({ path: '/' })"><i class="bi-arrow-left"/></button>
+            </div>
+            <div class="control-container">
+                <button class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
+                <button @click="reset" :disabled="!birdIsLoaded"><i class="bi-stop-fill"/></button>
+                <button @click="step" :disabled="birdIsMoving"><i class="bi-skip-end-fill"/></button>
+                <button @click="play" :disabled="playing"><i class="bi-play-fill"/></button>
+                <button @click="shouldStopPlaying = true" :disabled="!playing"><i class="bi-pause-fill"/></button>
+            </div>
         </div>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
@@ -302,62 +305,31 @@ export default {
 </script>
 
 <style scoped>
-.control-container {
+.board-menu>div {
     display: inline-block;
-    background-color: #bbb;
-    padding: 5px;
+    padding: 8px 4px;
     border-radius: 7px;
-    margin-bottom: 3px;
+    margin-bottom: 7px;
 }
-.control-container button:hover {
-    cursor: pointer;
-}
-.control-container button {
-    margin: 0 5px;
-    font-size: 20px;
-    width: 35px;
-    height: 35px;
-}
-.control-container button.delete {
-    margin-right: 35px;
-    background-color: #f3b27a;
-}
-button.back {
-    margin: 0 5px;
-    margin-right: 35px;
-    font-size: 20px;
-    width: 35px;
-    height: 35px;
-}
-.menu-container {
-    display:  grid;
-    border-radius: 6px;
-    grid-gap: 15px;
+.control-container {
     background-color: #bbb;
-    padding: 15px;
-    grid-template-columns: repeat(7, 107px);
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
-.menu-container div {
-    display: grid;
-    border-radius: 3px;
-    justify-content: center;
-    align-items: center;
-    background-color: #999;
-    padding: 30px 0;
-    user-select: none;
+.board-menu {
+    display: flex;
+    justify-content: space-between;
 }
-.menu-container div:hover {
+.board-menu button:hover {
     cursor: pointer;
-    background-color: #aaa;
 }
-.menu-container div.disabled {
-    opacity: 0.2;
+.board-menu button {
+    margin: 0 5px;
+    font-size: 34px;
+    padding: 5px;
+    width: 54px;
+    height: 54px;
 }
-.menu-container div.disabled:hover {
-    cursor: not-allowed;
-    background-color: #999;
+.board-menu button.delete {
+    margin-right: 55px;
 }
 .field {
     display: grid;
