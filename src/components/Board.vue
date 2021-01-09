@@ -127,7 +127,7 @@ export default {
             if (this.birdIsLoaded) {
                 return;
             }
-            event.toElement.classList.remove("droppable");
+            event.target.classList.remove("droppable");
             // TODO this needs guarding
             let deleteX = parseInt(event.dataTransfer.getData("deleteX"));
             let deleteY = parseInt(event.dataTransfer.getData("deleteY"));
@@ -146,11 +146,11 @@ export default {
             if (this.birdIsLoaded) {
                 return;
             }
-            event.toElement.classList.add("droppable");
+            event.target.classList.add("droppable");
             event.preventDefault();
         },
         removeDrop(event) {
-            event.toElement.classList.remove("droppable");
+            event.target.classList.remove("droppable");
         },
         deletePlacedInstruction(placedInstruction) {
             if (this.birdIsLoaded) {
