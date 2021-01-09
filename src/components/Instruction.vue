@@ -1,5 +1,5 @@
 <template>
-    <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart" :title="$tr(description)" >
+    <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart" :title="$tr(description)" @dragend="dragend">
         <button @click="deleteMe" v-if="userPlaced" class="delete">✖</button>
         <div class="symbol">{{ symbol }}</div>
         <div class="code">{{ name }}</div>
@@ -8,6 +8,11 @@
 <script>
 export default {
     name: 'Instruction',
+    data() {
+        return {
+            draggingAway: false,
+        }
+    },
     props: {
         symbol: String,
         name: String,
@@ -33,6 +38,14 @@ export default {
     methods: {
         dragstart(e) {
             e.dataTransfer.setData("text", this.name);
+            if (this.userPlaced) {
+                e.dataTransfer.setData("deleteX", this.x);
+                e.dataTransfer.setData("deleteY", this.y);
+                this.draggingAway = true;
+            }
+        },
+        dragend() {
+            this.draggingAway = false;
         },
         deleteMe() {
             if (this.deleteMethod) {
@@ -55,6 +68,7 @@ export default {
                 unlocked: this.unlocked,
                 draggable: this.draggable,
                 userPlaced: this.userPlaced,
+                "hide-dragging": this.draggingAway,
             };
             result[`field-style-${this.instructionClass}`] = true;
             return result;
@@ -82,7 +96,9 @@ export default {
     opacity: 0.3;
     user-select: none;
 }
-
+.board .instruction.hide-dragging {
+    opacity: 0.1;
+}
 .instruction.unlocked {
     opacity: 1.0;
 }

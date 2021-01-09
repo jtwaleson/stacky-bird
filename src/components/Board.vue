@@ -30,7 +30,7 @@
                 <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                 <img v-else src="@/assets/flappy2.png"/>
             </div>
-            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :userPlaced="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
+            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
         </div>
     </div>
 </template>
@@ -116,6 +116,11 @@ export default {
             }
             event.toElement.classList.remove("droppable");
             // TODO this needs guarding
+            let deleteX = parseInt(event.dataTransfer.getData("deleteX"));
+            let deleteY = parseInt(event.dataTransfer.getData("deleteY"));
+            if (deleteX && deleteY) {
+                this.placedObjects = this.placedObjects.filter(item => !(item.x === deleteX && item.y === deleteY));
+            }
             this.placedObjects.push({
                 x,
                 y,
@@ -128,13 +133,11 @@ export default {
             if (this.birdIsLoaded) {
                 return;
             }
-            console.log(event);
             event.toElement.classList.add("droppable");
             event.preventDefault();
         },
         removeDrop(event) {
             event.toElement.classList.remove("droppable");
-            console.log(event);
         },
         deletePlacedInstruction(placedInstruction) {
             if (this.birdIsLoaded) {
