@@ -74,8 +74,8 @@ export default {
     text-align: center;
     justify-content: center;
     align-items: center;
-    background-color: #eee4da;
-    color: #776e65;
+/*    background-color: #eee4da;
+    color: #776e65; */
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 55px;
     z-index: 0;
