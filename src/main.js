@@ -2,6 +2,7 @@ import { createApp, markRaw } from 'vue'
 import App from './App.vue'
 import store from './store'
 import instructions from './instructions'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import T from './components/T.vue'
 import router from './router'
