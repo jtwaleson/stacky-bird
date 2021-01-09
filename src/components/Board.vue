@@ -291,6 +291,7 @@ export default {
             this.birdIsMoving = false;
         },
         reset() {
+            this.shouldStopPlaying = true;
             this.birdIsMoving = false;
             this.bird.x = null;
             this.bird.y = null;
