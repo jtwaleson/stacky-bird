@@ -1,39 +1,49 @@
 <template>
-    <div class="instruction-grid-container">
-        <h2><T textKey="Available Instruction Blocks"/></h2>
-        <p><T textKey="Drag to the board below."/></p>
-        <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="cols" :locked="birdIsLoaded"/>
-        <template v-if="name">
-            <h2><T textKey="Level"/> {{ name }} - <T :textKey="displayName"/></h2>
-            <p><T :textKey="description"/></p>
-        </template>
-        <h2 v-else><T textKey="Board"/></h2>
-        <div class="board-menu">
+    <div class="main">
+        <div class="instructions1">
             <div>
                 <button class="back" @click="$router.push({ path: '/' })"><i class="bi-arrow-left"/></button>
             </div>
-            <div class="control-container">
-                <button class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
-                <button @click="reset" :disabled="!birdIsLoaded"><i class="bi-stop-fill"/></button>
-                <button @click="step" :disabled="birdIsMoving"><i class="bi-skip-end-fill"/></button>
-                <button @click="play" :disabled="playing"><i class="bi-play-fill"/></button>
-                <button @click="shouldStopPlaying = true" :disabled="!playing"><i class="bi-pause-fill"/></button>
+            <h2><T textKey="Available Instruction Blocks"/></h2>
+            <p><T textKey="Drag to the board on the right."/></p>
+        </div>
+        <div class="boardd">
+            <div class="board-menu">
+                <div>
+                    <template v-if="name">
+                        <h2><T textKey="Level"/> {{ name }} - <T :textKey="displayName"/></h2>
+                        <p><T :textKey="description"/></p>
+                    </template>
+                    <h2 v-else><T textKey="Board"/></h2>
+                </div>
+                <div class="control-container">
+                    <button :disabled="birdIsLoaded" class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
+                    <button @click="reset" :disabled="!birdIsLoaded"><i class="bi-stop-fill"/></button>
+                    <button @click="step" :disabled="birdIsMoving"><i class="bi-skip-end-fill"/></button>
+                    <button @click="play" :disabled="playing"><i class="bi-play-fill"/></button>
+                    <button @click="shouldStopPlaying = true" :disabled="!playing"><i class="bi-pause-fill"/></button>
+                </div>
             </div>
         </div>
-        <div class="board" :style="boardStyle">
-            <template v-for="col in cols" :key="col">
-                <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop" @dragleave="removeDrop"></div>
-            </template>
-            <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
-                <ul class="stack">
-                    <li v-for="(item, index) in stack" :key="index" class="field-style-F">
-                        {{ item }}
-                    </li>
-                </ul>
-                <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
-                <img v-else src="@/assets/flappy2.png"/>
+        <div class="instructions2">
+            <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="3" :locked="birdIsLoaded"/>
+        </div>
+        <div class="boarddd">
+            <div class="board" :style="boardStyle">
+                <template v-for="col in cols" :key="col">
+                    <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop" @dragleave="removeDrop"></div>
+                </template>
+                <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
+                    <ul class="stack">
+                        <li v-for="(item, index) in stack" :key="index" class="field-style-F">
+                            {{ item }}
+                        </li>
+                    </ul>
+                    <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
+                    <img v-else src="@/assets/flappy2.png"/>
+                </div>
+                <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
             </div>
-            <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
         </div>
     </div>
 </template>
@@ -305,11 +315,30 @@ export default {
 </script>
 
 <style scoped>
+.main {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 15px;
+    width: fit-content;
+}
+.instructions1 {
+    justify-self: end;
+}
+.main>div {
+    justify-self: stretch;
+}
+.main .boardd {
+    align-self: end;
+}
+.main .boarddd {
+    width: fit-content;
+}
 .board-menu>div {
     display: inline-block;
     padding: 8px 4px;
     border-radius: 7px;
-    margin-bottom: 7px;
+    height: fit-content;
+    width: fit-content;
 }
 .control-container {
     background-color: #bbb;
@@ -317,11 +346,12 @@ export default {
 .board-menu {
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
 }
-.board-menu button:hover {
+button:hover {
     cursor: pointer;
 }
-.board-menu button {
+button {
     margin: 0 5px;
     font-size: 34px;
     padding: 5px;
