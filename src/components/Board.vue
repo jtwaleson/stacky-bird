@@ -271,7 +271,9 @@ export default {
                 if (instruction) {
                     await instruction.execute(this);
                 }
-                await this.moveBird();
+                if (!instruction || instruction.name !== "FINI") {
+                    await this.moveBird();
+                }
             }
             await sleep(2 * SPEED);
             this.birdIsMoving = false;
