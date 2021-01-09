@@ -38,7 +38,7 @@ export default {
             event.stopPropagation();
             let translation = prompt(`How do you translate "${this.textKey}" into ${this.$store.state.locale}?`, this.textKey);
             if (translation) {
-                fetch("http://localhost:5000/", {
+                fetch("http://192.168.1.69:5000/translate", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

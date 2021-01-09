@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/', methods=["POST"])
+@app.route('/translate', methods=["POST"])
 def translate():
     data = request.json
     language = data["language"]
