@@ -26,6 +26,9 @@ export default {
             return result;
         },
         fallbackUsed() {
+            if (process.env.NODE_ENV === "production") {
+                return false;
+            }
             return !this.rawText;
         },
     },
