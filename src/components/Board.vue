@@ -2,7 +2,7 @@
     <div class="main">
         <div class="instructions1">
             <div>
-                <button class="back" @click="$router.push({ path: '/' })"><i class="bi-arrow-left"/></button>
+                <button class="back bi-arrow-left" @click="$router.push({ path: '/' })"></button>
             </div>
             <h2><T textKey="Available Instruction Blocks"/></h2>
             <p><T textKey="Drag to the board on the right."/></p>
@@ -350,13 +350,14 @@ export default {
 }
 button:hover {
     cursor: pointer;
+    background-color: rgb(249, 249, 249);
 }
 button {
     margin: 0 5px;
-    font-size: 34px;
-    padding: 5px;
-    width: 54px;
-    height: 54px;
+    font-size: 20px;
+    padding: 7px 7px;
+    border: 1px solid gray;
+    background-color: rgb(239, 239, 239);
 }
 .board-menu button.delete {
     margin-right: 55px;
