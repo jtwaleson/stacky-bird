@@ -54,7 +54,7 @@
                 </template>
                 <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
                     <ul class="stack">
-                        <li v-for="(item, index) in stack" :key="index" class="field-style-F">
+                        <li v-for="(item, index) in stack.slice().reverse()" :key="index" class="field-style-F">
                             {{ item }}
                         </li>
                     </ul>
