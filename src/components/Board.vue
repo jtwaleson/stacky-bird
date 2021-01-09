@@ -19,7 +19,7 @@
         </div>
         <div class="board" :style="boardStyle">
             <template v-for="col in cols" :key="col">
-                <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop"></div>
+                <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop" @dragleave="removeDrop"></div>
             </template>
             <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
                 <ul class="stack">
@@ -114,6 +114,7 @@ export default {
             if (this.birdIsLoaded) {
                 return;
             }
+            event.toElement.classList.remove("droppable");
             // TODO this needs guarding
             this.placedObjects.push({
                 x,
@@ -127,7 +128,13 @@ export default {
             if (this.birdIsLoaded) {
                 return;
             }
+            console.log(event);
+            event.toElement.classList.add("droppable");
             event.preventDefault();
+        },
+        removeDrop(event) {
+            event.toElement.classList.remove("droppable");
+            console.log(event);
         },
         deletePlacedInstruction(placedInstruction) {
             if (this.birdIsLoaded) {
@@ -427,5 +434,8 @@ button.back {
     font-size: 20px;
     font-weight: bold;
     padding: 4px;
+}
+.field.droppable {
+    border: 3px solid blue;
 }
 </style>
