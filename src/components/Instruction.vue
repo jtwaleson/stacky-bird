@@ -38,7 +38,7 @@ export default {
     methods: {
         dragstart(e) {
             e.dataTransfer.setData("text", this.name);
-            if (this.userPlaced) {
+            if (this.userPlaced && !e.ctrlKey) {
                 e.dataTransfer.setData("deleteX", this.x);
                 e.dataTransfer.setData("deleteY", this.y);
                 this.draggingAway = true;
