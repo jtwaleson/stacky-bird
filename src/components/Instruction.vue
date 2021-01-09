@@ -63,7 +63,7 @@ export default {
     },
 }
 </script>
-<style>
+<style scoped>
 .instruction {
     display: grid;
     position: relative;

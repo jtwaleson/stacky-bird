@@ -1,11 +1,11 @@
 <template>
-    <div v-if="filteredInstructions.length > 0" class="instruction-grid">
+    <div v-if="filteredInstructions.length > 0" class="instruction-grid" :style="boardStyle">
         <Instruction v-for="instruction in filteredInstructions" :key="instruction.name" v-bind="instruction" :draggable="draggable"/>
     </div>
     <p v-else><em><T textKey="There are no instructions available."/></em></p>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import Instruction from "./Instruction.vue"
 
 export default {
@@ -16,14 +16,27 @@ export default {
     props: {
         draggable: Boolean,
         unlockedOnly: Boolean,
+        showAll: Boolean,
+        cols: {
+            type: Number,
+            default: 5,
+        },
     },
     computed: {
+        ...mapState(['instructions']),
         ...mapGetters(['unavailableButReachableInstructions', 'availableInstructions']),
         filteredInstructions() {
-            if (this.unlockedOnly) {
+            if (this.showAll) {
+                return Object.values(this.instructions);
+            } else if (this.unlockedOnly) {
                 return this.availableInstructions;
             } else {
                 return this.availableInstructions.concat(this.unavailableButReachableInstructions);
+            }
+        },
+        boardStyle() {
+            return {
+                "grid-template-columns": `repeat(${this.cols}, 107px)`,
             }
         },
     },
@@ -32,11 +45,9 @@ export default {
 <style>
 .instruction-grid, .board {
     display:  grid;
-    margin-top: 20px;
     border-radius: 6px;
     grid-gap: 15px;
     background-color: #bbada0;
     padding: 15px;
-    grid-template-columns: repeat(5, 107px);
 }
 </style>
