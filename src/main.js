@@ -7,6 +7,17 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import T from './components/T.vue'
 import router from './router'
 
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){
+    window.dataLayer.push(arguments);
+}
+window.gtag = gtag;
+if (process.env.NODE_ENV === "production") {
+    gtag('js', new Date());
+    gtag('config', 'G-Y6L1MNNJ5V' , { anonymize_ip: true });
+}
+
 for (const [instructionName, instruction] of Object.entries(instructions)) {
     instruction.name = instructionName
     store.commit('registerInstruction', instruction);
