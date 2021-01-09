@@ -4,6 +4,7 @@ import store from './store'
 import instructions from './instructions'
 
 import T from './components/T.vue'
+import router from './router'
 
 for (const [instructionName, instruction] of Object.entries(instructions)) {
     instruction.name = instructionName
@@ -34,7 +35,7 @@ translationFiles.keys().forEach(fileName => {
     localeTranslations[fileName.replace(/.json/, "").replace(/\.\//, "")] = translationFiles(fileName);
 })
 
-let app = createApp(App);
+let app = createApp(App).use(router);
 
 app.component('T', T);
 

@@ -1,7 +1,7 @@
 <template>
     <ul class="levels">
         <template v-for="level in levels" :key="level.name">
-            <li class="level" :class="{completed: level.completed}" @click='$store.commit("openLevel", level.name)'>
+            <li class="level" :class="{completed: level.completed}" @click='$router.push({ name: "Level Player", params: { levelName: level.name }})'>
                 <div class="code">{{ level.name }}</div>
                 <div class="description">
                     <b><T textKey="Level"/> {{level.name}} - <T :textKey="level.displayName"/></b>
