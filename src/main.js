@@ -49,6 +49,9 @@ app.mixin({
             if (found) {
                 return found;
             }
+            if (process.env.NODE_ENV === "production") {
+                return key;
+            }
             let translation = prompt(`How do you translate "${key}" into ${this.$store.state.locale}?`, key);
             localeTranslations[this.$store.state.locale][key] = translation;
             if (translation) {

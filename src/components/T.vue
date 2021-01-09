@@ -34,6 +34,9 @@ export default {
             if (!this.fallbackUsed) {
                 return;
             }
+            if (process.env.NODE_ENV === "production") {
+                return;
+            }
             event.preventDefault();
             event.stopPropagation();
             let translation = prompt(`How do you translate "${this.textKey}" into ${this.$store.state.locale}?`, this.textKey);
