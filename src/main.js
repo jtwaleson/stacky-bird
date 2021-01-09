@@ -3,6 +3,8 @@ import App from './App.vue'
 import store from './store'
 import instructions from './instructions'
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import VueFinalModal from 'vue-final-modal';
+
 
 import T from './components/T.vue'
 import router from './router'
@@ -50,6 +52,7 @@ translationFiles.keys().forEach(fileName => {
 let app = createApp(App).use(router);
 
 app.component('T', T);
+app.use(VueFinalModal())
 
 app.mixin({
     methods: {

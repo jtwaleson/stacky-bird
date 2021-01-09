@@ -1,4 +1,23 @@
 <template>
+    <vue-final-modal v-model="showLevelCompletedModal">
+        <div class="levelfinishpopup">
+            <div>
+                <h2><T textKey="You finished the level, great job!"/></h2>
+            </div>
+            <div v-if="unlocksLevels.length > 0">
+                <T textKey="You have unlocked the following levels"/>: <span style="font-weight: bold" v-for="level in unlocksLevels" :key="level">{{ level }} </span>
+            </div>
+            <div v-if="unlocksInstructions.length > 0">
+                <T textKey="You have unlocked the following blocks"/>:
+            </div>
+            <div class="unlocks-instructions">
+                <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index" v-bind="$store.state.instructions[instructionCode]"/>
+            </div>
+            <div>
+                <button @click="$router.push({ path: '/' })">OK</button>
+            </div>
+        </div>
+    </vue-final-modal>
     <div class="main">
         <div class="instructions1">
             <div>
@@ -85,6 +104,7 @@ export default {
     data() {
         return {
             birdIsMoving: false,
+            showLevelCompletedModal: false,
             playing: false,
             shouldStopPlaying: false,
             bird: {
@@ -203,7 +223,7 @@ export default {
             this.reset();
         },
         finish() {
-            this.$router.push({ path: "/" });
+            this.showLevelCompletedModal = true;
             this.$store.commit("completeLevel", this.name);
             for (const instructionName of this.unlocksInstructions) {
                 this.$store.commit("unlockInstruction", instructionName);
@@ -211,7 +231,6 @@ export default {
             for (const levelName of this.unlocksLevels) {
                 this.$store.commit("unlockLevel", levelName);
             }
-            alert(this.$tr("Level completed"));
         },
         async play() {
             if (this.playing) {
@@ -362,6 +381,18 @@ button {
 .board-menu button.delete {
     margin-right: 55px;
 }
+.levelfinishpopup {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background: #fff;
+    width: 350px;
+    min-height: 450px;
+    margin: 100px auto;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
 .field {
     display: grid;
     border-radius: 3px;
@@ -443,5 +474,10 @@ button {
 }
 .field.droppable {
     border: 3px solid blue;
+}
+.unlocks-instructions > .instruction {
+    display: inline-block !important;
+    margin: 5px;
+    opacity: 1.0 !important;
 }
 </style>
