@@ -19,6 +19,8 @@
  * https://www.fileformat.info/info/unicode/block/miscellaneous_symbols/utf8test.htm
  * */
 
+import { toRaw } from 'vue';
+import isEqual from 'lodash.isequal';
 
 export default {
     "STRT": {
@@ -31,7 +33,17 @@ export default {
         symbol: "◍",
         description: "Finishes this round",
         execute(board) {
-            board.finish();
+            if (board.validation) {
+                let expected = toRaw(board.validation[0].finalStack || []);
+                let stack = toRaw(board.stack);
+                if (isEqual(expected, stack)) {
+                    return board.finish();
+                } else {
+                    return board.dieBird();
+                }
+            } else {
+                board.finish();
+            }
         },
     },
     "UPWD": {
@@ -80,7 +92,11 @@ export default {
         symbol: "⌬",
         description: "Read a number input onto the stack",
         execute(board) {
-            board.stack.push(Math.floor(Math.random() * 10));
+            if (board.input.length == 0) {
+                return board.dieBird();
+            }
+            let input = toRaw(board.input.pop());
+            board.stack.push(input);
         },
         instructionClass: "C",
     },

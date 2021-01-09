@@ -10,4 +10,10 @@ export default {
         {x: 4, y: 1, ...instructions["READ"]},
         {x: 7, y: 7, ...instructions["FINI"]},
     ],
+    validation: [
+        {
+            "input": [10],
+            "finalStack": [10],
+        }
+    ],
 }

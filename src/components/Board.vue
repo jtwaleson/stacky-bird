@@ -96,6 +96,7 @@ export default {
         name: String,
         unlocked: Boolean,
         completed: Boolean,
+        validation: Array,
     },
     components: {
         Instruction,
@@ -113,6 +114,7 @@ export default {
                 flappingImage: true,
                 direction: "right",
             },
+            input: [],
             birdClasses: [],
             flappingInterval: null,
             placedObjects: [],
@@ -251,12 +253,22 @@ export default {
             this.birdIsMoving = true;
 
             if (this.bird.x === null || this.bird.y === null) {
+                let found = false;
                 for (let boardObject of this.boardObjects) {
                     if (boardObject.name === "STRT") {
                         this.bird.x = boardObject.x;
                         this.bird.y = boardObject.y;
+                        found = true;
                     }
                 }
+                if (!found) {
+                    throw new Error("no STRT block found!");
+                }
+                this.input = [];
+                if (this.validation) {
+                    this.input = [...toRaw(this.validation[0].input)];
+                }
+
                 this.flappingInterval = setInterval(() => {
                     this.bird.flappingImage = !this.bird.flappingImage;
                 }, SPEED);
