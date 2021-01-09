@@ -17,6 +17,7 @@ export default {
         draggable: Boolean,
         unlockedOnly: Boolean,
         showAll: Boolean,
+        locked: Boolean,
         cols: {
             type: Number,
             default: 5,
@@ -37,6 +38,7 @@ export default {
         boardStyle() {
             return {
                 "grid-template-columns": `repeat(${this.cols}, 107px)`,
+                "opacity": this.locked ? 0.2 : 1.0,
             }
         },
     },

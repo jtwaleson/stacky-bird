@@ -9,6 +9,9 @@ export default {
 </script>
 
 <style>
+body {
+    user-select: none;
+}
 /* for now use the beautiful 2048 colors */
 .field-style-A {
     background: #eee4da;

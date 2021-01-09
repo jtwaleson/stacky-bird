@@ -2,7 +2,7 @@
     <div class="instruction-grid-container">
         <h2><T textKey="Available Instruction Blocks"/></h2>
         <p><T textKey="Drag to the board below."/></p>
-        <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="cols"/>
+        <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="cols" :locked="birdIsLoaded"/>
         <template v-if="name">
             <h2><T textKey="Level"/> {{ name }} - <T :textKey="displayName"/></h2>
             <p><T :textKey="description"/></p>
