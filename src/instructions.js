@@ -26,58 +26,58 @@ export default {
     "STRT": {
         symbol: "○", // maybe ⌂
         description: "Initial position of the bird, bird starts going to the right.",
-        execute() {
+        async execute() {
         },
     },
     "FINI": {
         symbol: "◍",
         description: "Finishes this round",
-        execute(board) {
+        async execute(board) {
             if (board.validation) {
                 let expected = toRaw(board.validation[0].finalStack || []);
                 let stack = toRaw(board.stack);
                 if (isEqual(expected, stack)) {
-                    return board.finish();
+                    return await board.finish();
                 } else {
-                    return board.dieBird("You did not finish with the expected result on the stack");
+                    return await board.dieBird("You did not finish with the expected result on the stack");
                 }
             } else {
-                board.finish();
+                return await board.finish();
             }
         },
     },
     "UPWD": {
         symbol: "▲",
         description: "Go UP",
-        execute(board) {
+        async execute(board) {
             board.bird.direction = "up";
         },
     },
     "DOWN": {
         symbol: "▼",
         description: "Go DOWN",
-        execute(board) {
+        async execute(board) {
             board.bird.direction = "down";
         },
     },
     "LEFT": {
         symbol: "◀",
         description: "Go LEFT",
-        execute(board) {
+        async execute(board) {
             board.bird.direction = "left";
         },
     },
     "RGHT": {
         symbol: "▶",
         description: "Go RIGHT",
-        execute(board) {
+        async execute(board) {
             board.bird.direction = "right";
         },
     },
     "REVR": {
         symbol: "↺",
         description: "Revert the direction of the bird",
-        execute(board) {
+        async execute(board) {
             let rev = {
                 "up": "down",
                 "left": "right",
@@ -91,9 +91,9 @@ export default {
     "READ": {
         symbol: "⌬",
         description: "Read a number input onto the stack",
-        execute(board) {
+        async execute(board) {
             if (board.input.length == 0) {
-                return board.dieBird("There are no more numbers to read");
+                return await board.dieBird("There are no more numbers to read");
             }
             let input = toRaw(board.input.pop());
             board.stack.push(input);
@@ -103,9 +103,9 @@ export default {
     "DUP1": {
         symbol: "ↀ",
         description: "Duplicate the last number on the stack",
-        execute(board) {
+        async execute(board) {
             if (board.stack.length < 1) {
-                return board.dieBird("The stack is empty, can not duplicate the last number.");
+                return await board.dieBird("The stack is empty, can not duplicate the last number.");
             }
             let x = board.stack.pop();
             board.stack.push(x);
@@ -116,9 +116,9 @@ export default {
     "SWAP": {
         symbol: "⎌",
         description: "Swap the top two numbers on the stack",
-        execute(board) {
+        async execute(board) {
             if (board.stack.length < 2) {
-                return board.dieBird("There are less than two numbers on the stack");
+                return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
             let y = board.stack.pop();
@@ -130,7 +130,7 @@ export default {
     "YOLO": {
         symbol: "※",
         description: "Go into a random direction",
-        execute(board) {
+        async execute(board) {
             const directions = ["up", "down", "left", "right"];
             board.bird.direction = directions[Math.floor(Math.random() * 4)];
         },
@@ -139,7 +139,7 @@ export default {
     "EMPT": {
         symbol: "⌿",
         description: "Check if the stack is empty",
-        execute(board) {
+        async execute(board) {
             if (board.stack.length > 0) {
                 board.stack.push(0);
             } else {
@@ -151,9 +151,9 @@ export default {
     "VOID": {
         symbol: "⌽",
         description: "Clear the top item on the stack",
-        execute(board) {
+        async execute(board) {
             if (board.stack.length < 1) {
-                return board.dieBird("The stack is empty");
+                return await board.dieBird("The stack is empty");
             }
             board.stack.pop();
         },
@@ -162,7 +162,7 @@ export default {
     "CLER": {
         symbol: "⌀",
         description: "Clear the stack",
-        execute(board) {
+        async execute(board) {
             board.stack = [];
         },
         instructionClass: "G",
@@ -170,7 +170,7 @@ export default {
     "SIZE": {
         symbol: "⍗",
         description: "Return the amount of items on the stack",
-        execute(board) {
+        async execute(board) {
             board.stack.push(board.stack.length);
         },
         instructionClass: "G",
@@ -178,9 +178,9 @@ export default {
     "PLUS": {
         symbol: "⊕",
         description: "Add the top two numbers on the stack",
-        execute(board) {
+        async execute(board) {
             if (board.stack.length < 2) {
-                return board.dieBird("There are less than two numbers on the stack");
+                return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
             let y = board.stack.pop();
@@ -191,9 +191,9 @@ export default {
     "MINU": {
         symbol: "⊖",
         description: "Subtract the top item from the stack from the number below",
-        execute(board) {
+        async execute(board) {
             if (board.stack.length < 2) {
-                return board.dieBird("There are less than two numbers on the stack");
+                return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
             let y = board.stack.pop();
@@ -204,7 +204,7 @@ export default {
     "SUMA": {
         symbol: "∑",
         description: "Sum all the items on the stack",
-        execute(board) {
+        async execute(board) {
             let sum = 0;
             while (board.stack.length > 0) {
                 sum += board.stack.pop();
@@ -216,17 +216,17 @@ export default {
     "BLCK": {
         symbol: "█",
         description: "Don't hit this block, it will kill you",
-        execute(board) {
-            return board.dieBird("You hit a wall");
+        async execute(board) {
+            return await board.dieBird("You hit a wall");
         },
         instructionClass: "Z",
     },
     "GEQ1": {
         symbol: "⌥",
         description: "Go right if the number is 1 or greater, if not, go down",
-        execute(board) {
+        async execute(board) {
             if (board.stack.length < 1) {
-                return board.dieBird("There should be at least one number on the stack");
+                return await board.dieBird("There should be at least one number on the stack");
             }
             let x = board.stack.pop();
             if (x <= 0) {
@@ -240,7 +240,7 @@ export default {
     "JMP1": {
         symbol: "⤼",
         description: "Jump over the next block",
-        execute(board) {
+        async execute(board) {
             if (board.bird.direction === "down") {
                 board.bird.y += 1;
             } else if (board.bird.direction === "up") {
