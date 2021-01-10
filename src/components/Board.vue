@@ -280,6 +280,7 @@ export default {
                 for (let testCaseIndex in this.validation) {
                     if (this.validation[testCaseIndex] === this.selectedTestCase) {
                         this.completedTestCases[testCaseIndex] = true;
+                        toast.info(this.$tr(`Test case {testCaseIndex} done!`, {testCaseIndex: parseInt(testCaseIndex) + 1}));
                     }
                 }
                 for (let testCaseIndex in this.validation) {

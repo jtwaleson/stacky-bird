@@ -57,18 +57,26 @@ app.component('T', T);
 app.use(VueFinalModal());
 app.use(Toast, {});
 
+function applyReplacements(text, replacements) {
+    let result = text;
+    for (const [key, value] of Object.entries(replacements || {})) {
+        result = result.replace(new RegExp(`{${key}}`), value);
+    }
+    return result;
+}
+
 app.mixin({
     methods: {
-        $tr: function (key) {
+        $tr: function (key, replacements) {
             if (this.$store.state.locale == "en") {
-                return key;
+                return applyReplacements(key, replacements);
             }
             let found = localeTranslations[this.$store.state.locale][key];
             if (found) {
-                return found;
+                return applyReplacements(found, replacements);
             }
             if (process.env.NODE_ENV === "production") {
-                return key;
+                return applyReplacements(key, replacements);
             }
             let translation = prompt(`How do you translate "${key}" into ${this.$store.state.locale}?`, key);
             localeTranslations[this.$store.state.locale][key] = translation;
@@ -84,9 +92,9 @@ app.mixin({
                         value: translation,
                     }),
                 });
-                return translation;
+                return applyReplacements(translation, replacements);
             }
-            return key;
+            return applyReplacements(key, replacements);
         },
         $t: function (key) {
             if (this.$store.state.locale == "en") {
