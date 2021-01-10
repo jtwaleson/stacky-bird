@@ -13,24 +13,7 @@ export default createStore({
             if (instruction.name in state.instructions) {
                 throw new Error(`instruction ${instruction.name} is already registered`);
             }
-
-            let unlockedInstructions = localStorage.getItem("unlockedInstructions") || [];
-
-            instruction.unlocked = unlockedInstructions.indexOf(instruction.name) > -1;
             state.instructions[instruction.name] = instruction;
-        },
-        unlockInstruction(state, instructionName) {
-            if (!(instructionName in state.instructions)) {
-                throw new Error(`instruction ${instructionName} not found, can not unlock`);
-            }
-            state.instructions[instructionName].unlocked = true;
-            let unlockedInstructions = [];
-            for (let instruction of Object.values(state.instructions)) {
-                if (instruction.unlocked) {
-                    unlockedInstructions.push(instruction.name);
-                }
-            }
-            localStorage.setItem("unlockedInstructions", unlockedInstructions);
         },
         setLanguage(state, languageCode) {
             state.locale = languageCode;
@@ -41,27 +24,12 @@ export default createStore({
                 throw new Error(`level ${level.name} is already registered`);
             }
 
-            let unlockedLevels = localStorage.getItem("unlockedLevels") || ["0001"];
             let completedLevels = localStorage.getItem("completedLevels") || [];
 
             state.levels[level.name] = {
                 ...level,
-                unlocked: unlockedLevels.indexOf(level.name) > -1,
                 completed: completedLevels.indexOf(level.name) > -1,
             };
-        },
-        unlockLevel(state, levelName) {
-            if (!(levelName in state.levels)) {
-                throw new Error(`level ${levelName} not found, can not unlock`);
-            }
-            state.levels[levelName].unlocked = true;
-            let unlockedLevels = [];
-            for (let level of Object.values(state.levels)) {
-                if (level.unlocked) {
-                    unlockedLevels.push(level.name);
-                }
-            }
-            localStorage.setItem("unlockedLevels", unlockedLevels);
         },
         completeLevel(state, levelName) {
             if (!(levelName in state.levels)) {
@@ -84,14 +52,17 @@ export default createStore({
                 nl: "Nederlands",
             };
         },
-        availableLevels(state) {
-            let result = [];
-            for (const level of Object.values(state.levels)) {
-                if (!level.completed && level.unlocked) {
-                    result.push(level);
+        availableLevels(state, getters) {
+            let result = {};
+            for (let level of getters.completedLevels) {
+                for (let unlocksLevelCode of level.unlocksLevels) {
+                    let unlocksLevel = state.levels[unlocksLevelCode];
+                    if (unlocksLevel && !unlocksLevel.completed) {
+                        result[unlocksLevelCode] = unlocksLevel;
+                    }
                 }
             }
-            return result;
+            return Object.values(result);
         },
         completedLevels(state) {
             let result = [];
@@ -102,14 +73,14 @@ export default createStore({
             }
             return result;
         },
-        availableInstructions(state) {
-            let result = [];
-            for (const instruction of Object.values(state.instructions)) {
-                if (instruction.unlocked) {
-                    result.push(instruction)
+        availableInstructions(state, getters) {
+            let result = {};
+            for (let level of getters.completedLevels) {
+                for (let instructionCode of level.unlocksInstructions || []) {
+                    result[instructionCode] = state.instructions[instructionCode];
                 }
             }
-            return result;
+            return Object.values(result);
         },
         unavailableButReachableInstructions(state, getters) {
             let result = [];

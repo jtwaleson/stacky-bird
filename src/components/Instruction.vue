@@ -103,9 +103,7 @@ export default {
     opacity: 1.0;
 }
 .board .instruction {
-    /* if on the board, it is always unlocked */
     box-shadow: 0px 0px 7px 0px black;
-    opacity: 1.0;
 }
 .instruction-grid .instruction:hover {
     box-shadow: 0px 0px 7px 0px blue;

@@ -1,6 +1,6 @@
 <template>
     <div v-if="filteredInstructions.length > 0" class="instruction-grid" :style="boardStyle">
-        <Instruction v-for="instruction in filteredInstructions" :key="instruction.name" v-bind="instruction" :draggable="draggable"/>
+        <Instruction v-for="instruction in filteredInstructions" :key="instruction.name" v-bind="instruction" :draggable="draggable" :unlocked="instruction.name in unlockedInstructionCodes"/>
     </div>
     <p v-else><em><T textKey="There are no instructions available."/></em></p>
 </template>
@@ -34,6 +34,13 @@ export default {
             } else {
                 return this.availableInstructions.concat(this.unavailableButReachableInstructions);
             }
+        },
+        unlockedInstructionCodes() {
+            let result = {};
+            for (let instruction of this.availableInstructions) {
+                result[instruction.name] = true;
+            }
+            return result;
         },
         boardStyle() {
             return {

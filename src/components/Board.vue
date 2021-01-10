@@ -11,7 +11,7 @@
                 <T textKey="You have unlocked the following blocks"/>:
             </div>
             <div class="unlocks-instructions">
-                <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index" v-bind="$store.state.instructions[instructionCode]"/>
+                <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index" v-bind="$store.state.instructions[instructionCode]" unlocked/>
             </div>
             <div>
                 <button @click="$router.push({ path: '/' })">OK</button>
@@ -61,7 +61,7 @@
                     <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                     <img v-else src="@/assets/flappy2.png"/>
                 </div>
-                <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
+                <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" unlocked :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
             </div>
         </div>
     </div>
@@ -225,14 +225,8 @@ export default {
             this.reset();
         },
         finish() {
-            this.showLevelCompletedModal = true;
             this.$store.commit("completeLevel", this.name);
-            for (const instructionName of this.unlocksInstructions) {
-                this.$store.commit("unlockInstruction", instructionName);
-            }
-            for (const levelName of this.unlocksLevels) {
-                this.$store.commit("unlockLevel", levelName);
-            }
+            this.showLevelCompletedModal = true;
         },
         async play() {
             if (this.playing) {
@@ -291,7 +285,6 @@ export default {
             this.birdIsMoving = false;
         },
         reset() {
-            this.shouldStopPlaying = true;
             this.birdIsMoving = false;
             this.bird.x = null;
             this.bird.y = null;
