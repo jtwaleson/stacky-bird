@@ -1,4 +1,5 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import { toRaw } from 'vue';
 
 let languageCode = localStorage.getItem("language") || "en";
 
@@ -35,7 +36,7 @@ export default createStore({
             if (!(levelName in state.levels)) {
                 throw new Error(`level ${levelName} not found, can not unlock`);
             }
-            state.levels[levelName].completed = isCompleted;
+            state.levels[levelName].completed = toRaw(isCompleted);
             let completedLevels = [];
             for (let level of Object.values(state.levels)) {
                 if (level.completed) {
