@@ -47,6 +47,13 @@
                 </div>
             </div>
             <div v-if="validation">
+                <T textKey="Test cases"/>
+                <ul class="test-case-selector">
+                    <li @click="selectedTestCase = testCase" v-for="(testCase, idx) in validation" :key="idx" :class="{ selected: testCase === selectedTestCase, completed: idx in completedTestCases }">
+                        {{ idx + 1 }}
+                    </li>
+                </ul>
+                <hr/>
                 <T textKey="Input"/>
                 <ul class="test-case-selector" v-if="selectedTestCase && birdIsLoaded">
                     <li v-for="(input, idx) in input" :key="idx">
@@ -63,13 +70,6 @@
                 <ul class="test-case-selector" v-if="selectedTestCase">
                     <li v-for="(output, idx) in selectedTestCase.finalStack" :key="idx">
                         {{ output }}
-                    </li>
-                </ul>
-                <hr/>
-                <T textKey="Test cases"/>
-                <ul class="test-case-selector">
-                    <li @click="selectedTestCase = testCase" v-for="(testCase, idx) in validation" :key="idx" :class="{ selected: testCase === selectedTestCase, completed: idx in completedTestCases }">
-                        {{ idx + 1 }}
                     </li>
                 </ul>
             </div>
@@ -569,6 +569,7 @@ button {
 .test-case-selector {
     margin: 0;
     padding: 0;
+    min-height: 40px;
 }
 .test-case-selector li {
     display: inline-block;
