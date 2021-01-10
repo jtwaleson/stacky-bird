@@ -72,12 +72,15 @@
 
 <script>
 const SPEED = 100;
-import { mapState } from 'vuex'
-import { toRaw } from 'vue'
-import Instruction from "./Instruction.vue"
-import InstructionList from "./InstructionList.vue"
+import { mapState } from 'vuex';
+import { toRaw } from 'vue';
+import Instruction from "./Instruction.vue";
+import InstructionList from "./InstructionList.vue";
+import { useToast } from "vue-toastification";
 
 const sleep = m => new Promise(r => setTimeout(r, m))
+
+const toast = useToast();
 
 export default {
     name: 'Board',
@@ -234,7 +237,7 @@ export default {
             await sleep(0.5 * SPEED);
             this.birdClasses.push("dead");
             await sleep(4 * SPEED);
-            alert(message);
+            toast.warning(this.$tr(message));
             this.reset();
         },
         finish() {

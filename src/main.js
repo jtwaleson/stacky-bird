@@ -4,6 +4,8 @@ import store from './store'
 import instructions from './instructions'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import VueFinalModal from 'vue-final-modal';
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 
 import T from './components/T.vue'
@@ -52,7 +54,8 @@ translationFiles.keys().forEach(fileName => {
 let app = createApp(App).use(router);
 
 app.component('T', T);
-app.use(VueFinalModal())
+app.use(VueFinalModal());
+app.use(Toast, {});
 
 app.mixin({
     methods: {
