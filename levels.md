@@ -34,6 +34,15 @@ The idea behind stacky bird levels is that each "chapter" uses a certain kind of
 - can unlock larger stacks
 - ...
 
+levels:
+---
+
+- check if a list is sorted
+- sum a list
+- filter a list (greater than 0)
+- revert a list
+- create a list 1..10 without any input
+
 4xxx - Advanced Stacks
 ====
 - sorting stacks
