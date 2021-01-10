@@ -46,9 +46,36 @@
                     <button @click="shouldStopPlaying = true" :disabled="!playing"><i class="bi-pause-fill"/></button>
                 </div>
             </div>
+            <div v-if="validation">
+                <T textKey="Input"/>
+                <ul class="test-case-selector" v-if="selectedTestCase && birdIsLoaded">
+                    <li v-for="(input, idx) in input" :key="idx">
+                        {{ input }}
+                    </li>
+                </ul>
+                <ul class="test-case-selector" v-else-if="selectedTestCase">
+                    <li v-for="(input, idx) in selectedTestCase.input" :key="idx">
+                        {{ input }}
+                    </li>
+                </ul>
+                <hr/>
+                <T textKey="Expected output"/>
+                <ul class="test-case-selector" v-if="selectedTestCase">
+                    <li v-for="(output, idx) in selectedTestCase.finalStack" :key="idx">
+                        {{ output }}
+                    </li>
+                </ul>
+                <hr/>
+                <T textKey="Test cases"/>
+                <ul class="test-case-selector">
+                    <li @click="selectedTestCase = testCase" v-for="(testCase, idx) in validation" :key="idx" :class="{ selected: testCase === selectedTestCase, completed: idx in completedTestCases }">
+                        {{ idx + 1 }}
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="instructions2">
-            <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="3" :locked="birdIsLoaded"/>
+            <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="3" :locked="birdIsLoaded || playing"/>
         </div>
         <div class="boarddd">
             <div class="board" :style="boardStyle">
@@ -110,6 +137,7 @@ export default {
     },
     data() {
         return {
+            selectedTestCase: null,
             birdIsMoving: false,
             showLevelCompletedModal: false,
             playing: false,
@@ -125,6 +153,7 @@ export default {
             flappingInterval: null,
             placedObjects: [],
             stack: [],
+            completedTestCases: {},
         }
     },
     computed: {
@@ -177,6 +206,7 @@ export default {
                 userPlaced: true,
                 ...this.$store.state.instructions[event.dataTransfer.getData("text")],
             });
+            this.completedTestCases = {};
             this.saveBoardToLocalStorage();
         },
         allowDrop(event) {
@@ -232,7 +262,6 @@ export default {
             }
         },
         async dieBird(message) {
-            clearInterval(this.flappingInterval);
             this.shouldStopPlaying = true;
             await sleep(0.5 * SPEED);
             this.birdClasses.push("dead");
@@ -241,11 +270,36 @@ export default {
             this.reset();
         },
         finish() {
-            this.$store.commit("completeLevel", {
-                levelName: this.name,
-                isCompleted: true,
-            });
-            this.showLevelCompletedModal = true;
+            let x = toRaw(this.shouldStopPlaying);
+            this.reset();
+            this.shouldStopPlaying = x;
+            let allLevelsFinished = true;
+            let nextTestCase = false
+
+            if (this.validation) {
+                for (let testCaseIndex in this.validation) {
+                    if (this.validation[testCaseIndex] === this.selectedTestCase) {
+                        this.completedTestCases[testCaseIndex] = true;
+                    }
+                }
+                for (let testCaseIndex in this.validation) {
+                    if (!(testCaseIndex in this.completedTestCases)) {
+                        allLevelsFinished = false;
+                        nextTestCase = this.validation[testCaseIndex];
+                        break
+                    }
+                }
+            }
+            if (allLevelsFinished) {
+                this.shouldStopPlaying = true;
+                this.$store.commit("completeLevel", {
+                    levelName: this.name,
+                    isCompleted: true,
+                });
+                this.showLevelCompletedModal = true;
+            } else {
+                this.selectedTestCase = nextTestCase;
+            }
         },
         async play() {
             if (this.playing) {
@@ -278,8 +332,8 @@ export default {
                     throw new Error("no STRT block found!");
                 }
                 this.input = [];
-                if (this.validation) {
-                    this.input = [...toRaw(this.validation[0].input)];
+                if (this.selectedTestCase) {
+                    this.input = [...toRaw(this.selectedTestCase.input)];
                 }
 
                 this.flappingInterval = setInterval(() => {
@@ -304,6 +358,7 @@ export default {
             this.birdIsMoving = false;
         },
         reset() {
+            this.shouldStopPlaying = true;
             this.birdIsMoving = false;
             this.bird.x = null;
             this.bird.y = null;
@@ -342,6 +397,9 @@ export default {
     mounted() {
         if (!this.name) {
             return;
+        }
+        if (this.validation) {
+            this.selectedTestCase = this.validation[0];
         }
         let placedObjects = JSON.parse(localStorage.getItem(this.name) || "[]");
         // TODO this needs guarding
@@ -506,5 +564,25 @@ button {
     display: inline-block !important;
     margin: 5px;
     opacity: 1.0 !important;
+}
+.test-case-selector {
+    margin: 0;
+    padding: 0;
+}
+.test-case-selector li {
+    display: inline-block;
+    border-radius: 3px;
+    text-align: center;
+    margin: 4px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 4px 20px;
+    background: #bbb;
+}
+.test-case-selector li.selected {
+    background: #ddd;
+}
+.test-case-selector li.completed {
+    border: 3px solid green;
 }
 </style>

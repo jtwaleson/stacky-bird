@@ -16,6 +16,38 @@ export default {
         {
             "input": [1],
             "finalStack": [1],
-        }
+        },
+        {
+            "input": [0],
+            "finalStack": [],
+        },
+        {
+            "input": [8],
+            "finalStack": [8],
+        },
+        {
+            "input": [-5],
+            "finalStack": [],
+        },
+        {
+            "input": [99],
+            "finalStack": [99],
+        },
+        {
+            "input": [1],
+            "finalStack": [1],
+        },
+        {
+            "input": [-10],
+            "finalStack": [],
+        },
+        {
+            "input": [-20],
+            "finalStack": [],
+        },
+        {
+            "input": [20],
+            "finalStack": [20],
+        },
     ],
 }

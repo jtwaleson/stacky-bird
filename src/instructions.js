@@ -33,8 +33,8 @@ export default {
         symbol: "◍",
         description: "Finishes this round",
         async execute(board) {
-            if (board.validation) {
-                let expected = toRaw(board.validation[0].finalStack || []);
+            if (board.selectedTestCase) {
+                let expected = toRaw(board.selectedTestCase.finalStack || []);
                 let stack = toRaw(board.stack);
                 if (isEqual(expected, stack)) {
                     return await board.finish();
