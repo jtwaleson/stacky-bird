@@ -39,7 +39,7 @@ export default {
                 if (isEqual(expected, stack)) {
                     return board.finish();
                 } else {
-                    return board.dieBird();
+                    return board.dieBird("You did not finish with the expected result on the stack");
                 }
             } else {
                 board.finish();
@@ -93,7 +93,7 @@ export default {
         description: "Read a number input onto the stack",
         execute(board) {
             if (board.input.length == 0) {
-                return board.dieBird();
+                return board.dieBird("There are no more numbers to read");
             }
             let input = toRaw(board.input.pop());
             board.stack.push(input);
@@ -105,7 +105,7 @@ export default {
         description: "Duplicate the last number on the stack",
         execute(board) {
             if (board.stack.length < 1) {
-                return board.dieBird();
+                return board.dieBird("The stack is empty, can not duplicate the last number.");
             }
             let x = board.stack.pop();
             board.stack.push(x);
@@ -118,7 +118,7 @@ export default {
         description: "Swap the top two numbers on the stack",
         execute(board) {
             if (board.stack.length < 2) {
-                return board.dieBird();
+                return board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
             let y = board.stack.pop();
@@ -153,7 +153,7 @@ export default {
         description: "Clear the top item on the stack",
         execute(board) {
             if (board.stack.length < 1) {
-                return board.dieBird();
+                return board.dieBird("The stack is empty");
             }
             board.stack.pop();
         },
@@ -180,7 +180,7 @@ export default {
         description: "Add the top two numbers on the stack",
         execute(board) {
             if (board.stack.length < 2) {
-                return board.dieBird();
+                return board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
             let y = board.stack.pop();
@@ -193,7 +193,7 @@ export default {
         description: "Subtract the top item from the stack from the number below",
         execute(board) {
             if (board.stack.length < 2) {
-                return board.dieBird();
+                return board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
             let y = board.stack.pop();
@@ -217,7 +217,7 @@ export default {
         symbol: "█",
         description: "Don't hit this block, it will kill you",
         execute(board) {
-            return board.dieBird();
+            return board.dieBird("You hit a wall");
         },
         instructionClass: "Z",
     },
@@ -226,7 +226,7 @@ export default {
         description: "Go right if the number is 1 or greater, if not, go down",
         execute(board) {
             if (board.stack.length < 1) {
-                return board.dieBird();
+                return board.dieBird("There should be at least one number on the stack");
             }
             let x = board.stack.pop();
             if (x <= 0) {

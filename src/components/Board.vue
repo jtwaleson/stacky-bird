@@ -204,24 +204,25 @@ export default {
             this.birdClasses.push(toRaw(this.bird.direction));
             // this.birdClasses.push("moving");
             if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
-                await this.dieBird();
+                await this.dieBird("You are out of the board");
             } else {
                 // this.birdClasses.pop();
                 for (let boardObject of this.boardObjects) {
                     if (boardObject.name === "BLCK" && boardObject.x === this.bird.x + xDiff && boardObject.y === this.bird.y + yDiff) {
-                        return await this.dieBird();
+                        return await this.dieBird("You hit the wall");
                     }
                 }
                 this.bird.x += xDiff;
                 this.bird.y += yDiff;
             }
         },
-        async dieBird() {
+        async dieBird(message) {
             clearInterval(this.flappingInterval);
             this.shouldStopPlaying = true;
             await sleep(0.5 * SPEED);
             this.birdClasses.push("dead");
             await sleep(4 * SPEED);
+            alert(message);
             this.reset();
         },
         finish() {
