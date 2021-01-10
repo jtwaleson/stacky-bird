@@ -25,6 +25,9 @@
             </div>
             <h2><T textKey="Available Instruction Blocks"/></h2>
             <p><T textKey="Drag to the board on the right."/></p>
+            <div v-if="devMode">
+                <button @click="toggleLevelCompleteDevMode">{{ completed ? "Uncomplete" : "Complete" }}</button>
+            </div>
         </div>
         <div class="boardd">
             <div class="board-menu">
@@ -142,8 +145,17 @@ export default {
         boardObjects() {
             return this.gridObjects.concat(this.placedObjects);
         },
+        devMode() {
+            return process.env.NODE_ENV !== "production";
+        },
     },
     methods: {
+        toggleLevelCompleteDevMode() {
+            this.$store.commit("completeLevel", {
+                levelName: this.name,
+                isCompleted: !this.completed,
+            });
+        },
         drop(x, y, event) {
             event.preventDefault();
             if (this.birdIsLoaded) {
@@ -226,7 +238,10 @@ export default {
             this.reset();
         },
         finish() {
-            this.$store.commit("completeLevel", this.name);
+            this.$store.commit("completeLevel", {
+                levelName: this.name,
+                isCompleted: true,
+            });
             this.showLevelCompletedModal = true;
         },
         async play() {

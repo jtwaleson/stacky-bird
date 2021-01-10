@@ -31,11 +31,11 @@ export default createStore({
                 completed: completedLevels.indexOf(level.name) > -1,
             };
         },
-        completeLevel(state, levelName) {
+        completeLevel(state, {levelName, isCompleted}) {
             if (!(levelName in state.levels)) {
                 throw new Error(`level ${levelName} not found, can not unlock`);
             }
-            state.levels[levelName].completed = true;
+            state.levels[levelName].completed = isCompleted;
             let completedLevels = [];
             for (let level of Object.values(state.levels)) {
                 if (level.completed) {
