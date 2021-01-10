@@ -73,21 +73,24 @@ export default createStore({
             }
             return result;
         },
-        availableInstructions(state, getters) {
+        availableInstructionsMap(state, getters) {
             let result = {};
             for (let level of getters.completedLevels) {
                 for (let instructionCode of level.unlocksInstructions || []) {
                     result[instructionCode] = state.instructions[instructionCode];
                 }
             }
-            return Object.values(result);
+            return result;
+        },
+        availableInstructions(state, getters) {
+            return Object.values(getters.availableInstructionsMap);
         },
         unavailableButReachableInstructions(state, getters) {
             let result = [];
             for (const level of getters.availableLevels) {
                 for (const instructionName of level.unlocksInstructions) {
                     const instruction = state.instructions[instructionName];
-                    if (!instruction.unlocked) {
+                    if (!(instruction.name in getters.availableInstructionsMap)) {
                         result.push(instruction);
                     }
                 }

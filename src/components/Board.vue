@@ -278,7 +278,7 @@ export default {
                 if (instruction) {
                     await instruction.execute(this);
                 }
-                if (!instruction || instruction.name !== "FINI") {
+                if (!this.shouldStopPlaying && (!instruction || instruction.name !== "FINI")) {
                     await this.moveBird();
                 }
             }
