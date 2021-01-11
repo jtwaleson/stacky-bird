@@ -35,7 +35,7 @@ export default {
         async execute(board) {
             if (board.selectedTestCase) {
                 let expected = toRaw(board.selectedTestCase.finalStack || []);
-                let stack = toRaw(board.stack);
+                let stack = toRaw(board.stack).slice().reverse();
                 if (isEqual(expected, stack)) {
                     return await board.finish();
                 } else {
@@ -95,7 +95,7 @@ export default {
             if (board.input.length == 0) {
                 return await board.dieBird("There are no more numbers to read");
             }
-            let input = toRaw(board.input.pop());
+            let input = toRaw(board.input.shift());
             board.stack.push(input);
         },
         instructionClass: "C",
