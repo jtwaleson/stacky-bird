@@ -339,6 +339,9 @@ export default {
                     this.input = [...toRaw(this.selectedTestCase.input)];
                 }
 
+                if (this.flappingInterval) {
+                    clearInterval(this.flappingInterval);
+                }
                 this.flappingInterval = setInterval(() => {
                     this.bird.flappingImage = !this.bird.flappingImage;
                 }, SPEED);
@@ -369,7 +372,6 @@ export default {
             this.birdClasses = [];
             this.stack = [];
             clearInterval(this.flappingInterval);
-            this.flappingInterval = null;
         },
         clearWithWarning() {
             if (confirm(this.$tr("This will reset your level, are you sure?"))) {
