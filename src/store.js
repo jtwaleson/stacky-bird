@@ -55,6 +55,9 @@ export default createStore({
         },
         availableLevels(state, getters) {
             let result = {};
+            if (!state.levels["0001"].completed) {
+                result["0001"] = state.levels["0001"];
+            }
             for (let level of getters.completedLevels) {
                 for (let unlocksLevelCode of level.unlocksLevels) {
                     let unlocksLevel = state.levels[unlocksLevelCode];
