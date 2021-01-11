@@ -67,4 +67,12 @@ body {
     background: #000;
     box-shadow: 0 0 30px 10px #000, inset 0 0 0 1px #000;
 }
+.field-style-F1 {
+    color: #ff9a00;
+    background: #f75f3b;
+}
+.field-style-F2 {
+    color: #0065ff;
+    background: #f75f3b;
+}
 </style>

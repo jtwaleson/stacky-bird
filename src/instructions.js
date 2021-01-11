@@ -279,4 +279,74 @@ export default {
         },
         instructionClass: "C",
     },
+    "INSZ": {
+        symbol: "⍗",
+        description: "Get the amount of items still in the input queue.",
+        async execute(board) {
+            board.stack.push(board.input.length);
+        },
+        instructionClass: "C",
+    },
+    "DUP2": {
+        symbol: "ↂ",
+        description: "Copy the last two numbers on the stack again.",
+        async execute(board) {
+            if (board.stack.length < 2) {
+                return await board.dieBird("There are less than two numbers on the stack");
+            }
+            let x = board.stack.pop();
+            let y = board.stack.pop();
+            board.stack.push(y);
+            board.stack.push(x);
+            board.stack.push(y);
+            board.stack.push(x);
+        },
+        instructionClass: "D",
+    },
+    "ROT1": {
+        symbol: "⮃",
+        description: "Swap the top two numbers in the stack.",
+        async execute(board) {
+            if (board.stack.length < 2) {
+                return await board.dieBird("There are less than two numbers on the stack");
+            }
+            let x = board.stack.pop();
+            let y = board.stack.pop();
+            board.stack.push(x);
+            board.stack.push(y);
+        },
+        instructionClass: "C",
+    },
+    "PRTI": {
+        symbol: "⬯",
+        description: "Teleport to the blue portal",
+        async execute(board) {
+            const foundPortals = board.boardObjects.filter(bo => bo.name === "PRTO");
+            if (foundPortals.length > 1) {
+                return await board.dieBird("Found more than one blue portal.");
+            }
+            if (foundPortals.length < 1) {
+                return await board.dieBird("Did not find a blue portal.");
+            }
+            board.bird.x = foundPortals[0].x;
+            board.bird.y = foundPortals[0].y;
+        },
+        instructionClass: "F2",
+    },
+    "PRTO": {
+        symbol: "⬯",
+        description: "Teleport to the orange portal",
+        async execute(board) {
+            const foundPortals = board.boardObjects.filter(bo => bo.name === "PRTI");
+            if (foundPortals.length > 1) {
+                return await board.dieBird("Found more than one orange portal.");
+            }
+            if (foundPortals.length < 1) {
+                return await board.dieBird("Did not find a orange portal.");
+            }
+            board.bird.x = foundPortals[0].x;
+            board.bird.y = foundPortals[0].y;
+        },
+        instructionClass: "F1",
+    }
 };
