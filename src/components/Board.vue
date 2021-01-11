@@ -306,6 +306,7 @@ export default {
             if (this.playing) {
                 return;
             }
+            this.shouldStopPlaying = false;
             this.playing = true;
             while (this.playing && !this.shouldStopPlaying) {
                 await this.step();
@@ -318,6 +319,7 @@ export default {
                 console.error("can not step while still stepping");
                 return;
             }
+            this.shouldStopPlaying = false;
             this.birdIsMoving = true;
 
             if (this.bird.x === null || this.bird.y === null) {
@@ -359,7 +361,6 @@ export default {
             this.birdIsMoving = false;
         },
         reset() {
-            this.shouldStopPlaying = true;
             this.birdIsMoving = false;
             this.bird.x = null;
             this.bird.y = null;
