@@ -235,7 +235,7 @@ export default {
                 board.bird.direction = "right";
             }
         },
-        instructionClass: "C",
+        instructionClass: "D",
     },
     "JMP1": {
         symbol: "⤼",
@@ -250,6 +250,32 @@ export default {
             } else if (board.bird.direction === "right") {
                 board.bird.x += 1;
             }
+        },
+        instructionClass: "C",
+    },
+    "ADD1": {
+        symbol: "++",
+        description: "Add 1 to the first number on the stack",
+        async execute(board) {
+            if (board.stack.length < 1) {
+                return await board.dieBird("There should be at least one number on the stack");
+            }
+            let x = board.stack.pop();
+            x += 1;
+            board.stack.push(x);
+        },
+        instructionClass: "C",
+    },
+    "SUB1": {
+        symbol: "--",
+        description: "Reduce the first number on the stack by one",
+        async execute(board) {
+            if (board.stack.length < 1) {
+                return await board.dieBird("There should be at least one number on the stack");
+            }
+            let x = board.stack.pop();
+            x -= 1;
+            board.stack.push(x);
         },
         instructionClass: "C",
     },
