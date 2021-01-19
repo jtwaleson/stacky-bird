@@ -1,4 +1,6 @@
 <template>
+
+    <!-- Level Finish Pop-up -->
     <vue-final-modal v-model="showLevelCompletedModal">
         <div class="levelfinishpopup">
             <div>
@@ -18,7 +20,9 @@
             </div>
         </div>
     </vue-final-modal>
+
     <div class="main">
+        <!-- instructions -->
         <div class="instructions1">
             <div>
                 <button class="back bi-arrow-left" @click="$router.push({ path: '/' })"></button>
@@ -29,6 +33,8 @@
                 <button @click="toggleLevelCompleteDevMode">{{ completed ? "Uncomplete" : "Complete" }}</button>
             </div>
         </div>
+
+        <!-- board-menu -->
         <div class="boardd">
             <div class="board-menu">
                 <div>
@@ -73,9 +79,13 @@
                 </ul>
             </div>
         </div>
+
+        <!-- available instructions -->
         <div class="instructions2">
             <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="3" :locked="birdIsLoaded || playing"/>
         </div>
+
+        <!-- the actual board -->
         <div class="boarddd">
             <div class="board" :style="boardStyle">
                 <template v-for="col in cols" :key="col">
