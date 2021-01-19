@@ -39,12 +39,14 @@ export default {
                 let expected = toRaw(board.selectedTestCase.finalStack || []);
                 let stack = toRaw(board.stack).slice().reverse();
                 if (isEqual(expected, stack)) {
-                    return await board.finish();
+                    await board.finish();
+                    return "NOMOVE";
                 } else {
-                    return await board.dieBird("You did not finish with the expected result on the stack");
+                    await board.dieBird("You did not finish with the expected result on the stack");
                 }
             } else {
-                return await board.finish();
+                await board.finish();
+                return "NOMOVE";
             }
         },
     },
@@ -99,6 +101,7 @@ export default {
             }
             let input = toRaw(board.input.shift());
             board.stack.push(input);
+            await sleep(SPEED * 2);
         },
         instructionClass: "C",
     },
@@ -110,8 +113,11 @@ export default {
                 return await board.dieBird("The stack is empty, can not duplicate the last number.");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             board.stack.push(x);
+            await sleep(SPEED * 2);
             board.stack.push(x);
+            await sleep(SPEED * 2);
         },
         instructionClass: "D",
     },
@@ -123,8 +129,11 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             let y = board.stack.pop();
+            await sleep(SPEED * 2);
             board.stack.push(x);
+            await sleep(SPEED * 2);
             board.stack.push(y);
         },
         instructionClass: "B",
@@ -147,6 +156,7 @@ export default {
             } else {
                 board.stack.push(1);
             }
+            await sleep(SPEED * 2);
         },
         instructionClass: "F",
     },
@@ -158,6 +168,7 @@ export default {
                 return await board.dieBird("The stack is empty");
             }
             board.stack.pop();
+            await sleep(SPEED * 2);
         },
         instructionClass: "F",
     },
@@ -174,6 +185,7 @@ export default {
         description: "Return the amount of items on the stack",
         async execute(board) {
             board.stack.push(board.stack.length);
+            await sleep(SPEED * 2);
         },
         instructionClass: "G",
     },
@@ -185,8 +197,11 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             let y = board.stack.pop();
+            await sleep(SPEED * 2);
             board.stack.push(y + x);
+            await sleep(SPEED * 2);
         },
         instructionClass: "B",
     },
@@ -198,8 +213,11 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             let y = board.stack.pop();
+            await sleep(SPEED * 2);
             board.stack.push(y - x);
+            await sleep(SPEED * 2);
         },
         instructionClass: "B",
     },
@@ -210,8 +228,10 @@ export default {
             let sum = 0;
             while (board.stack.length > 0) {
                 sum += board.stack.pop();
+                await sleep(SPEED * 2);
             }
             board.stack.push(sum);
+            await sleep(SPEED * 2);
         },
         instructionClass: "G",
     },
@@ -263,8 +283,10 @@ export default {
                 return await board.dieBird("There should be at least one number on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             x += 1;
             board.stack.push(x);
+            await sleep(SPEED * 2);
         },
         instructionClass: "C",
     },
@@ -276,8 +298,10 @@ export default {
                 return await board.dieBird("There should be at least one number on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             x -= 1;
             board.stack.push(x);
+            await sleep(SPEED * 2);
         },
         instructionClass: "C",
     },
@@ -286,6 +310,7 @@ export default {
         description: "Get the amount of items still in the input queue.",
         async execute(board) {
             board.stack.push(board.input.length);
+            await sleep(SPEED * 2);
         },
         instructionClass: "C",
     },
@@ -297,11 +322,17 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             let y = board.stack.pop();
+            await sleep(SPEED * 2);
             board.stack.push(y);
+            await sleep(SPEED * 2);
             board.stack.push(x);
+            await sleep(SPEED * 2);
             board.stack.push(y);
+            await sleep(SPEED * 2);
             board.stack.push(x);
+            await sleep(SPEED * 2);
         },
         instructionClass: "D",
     },
@@ -313,9 +344,13 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             let y = board.stack.pop();
+            await sleep(SPEED * 2);
             board.stack.push(x);
+            await sleep(SPEED * 2);
             board.stack.push(y);
+            await sleep(SPEED * 2);
         },
         instructionClass: "C",
     },
@@ -332,8 +367,9 @@ export default {
             }
             board.bird.x = foundPortals[0].x;
             board.bird.y = foundPortals[0].y;
+            return "SKIP";
         },
-        instructionClass: "F2",
+        instructionClass: "A2",
     },
     "PRTO": {
         symbol: "⬯",
@@ -348,7 +384,8 @@ export default {
             }
             board.bird.x = foundPortals[0].x;
             board.bird.y = foundPortals[0].y;
+            return "SKIP";
         },
-        instructionClass: "F1",
+        instructionClass: "A1",
     }
 };

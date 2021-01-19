@@ -75,4 +75,14 @@ body {
     color: #0065ff;
     background: #f75f3b;
 }
+.field-style-A1 {
+    color: #ff9a00;
+    background: #eee4da;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+}
+.field-style-A2 {
+    color: #0065ff;
+    background: #eee4da;
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+}
 </style>
