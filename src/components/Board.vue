@@ -92,11 +92,11 @@
                     <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop" @dragleave="removeDrop"></div>
                 </template>
                 <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
-                    <ul class="stack">
-                        <li v-for="(item, index) in stack.slice().reverse()" :key="index" class="field-style-F">
+                    <transition-group name="stackies" class="stack" tag="ul">
+                        <li v-for="(item, index) in stack.slice().reverse()" :key="stack.length - index" class="field-style-F">
                             {{ item }}
                         </li>
-                    </ul>
+                    </transition-group>
                     <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
                     <img v-else src="@/assets/flappy2.png"/>
                 </div>
@@ -625,5 +625,14 @@ button {
 }
 .test-case-selector li.completed {
     border: 3px solid green;
+}
+
+.stack .stackies-enter-active,
+.stack .stackies-leave-active {
+    transition: opacity 0.15s;
+}
+.stack .stackies-enter-from,
+.stack .stackies-leave-to {
+    opacity: 0;
 }
 </style>
