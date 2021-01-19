@@ -21,6 +21,8 @@
 
 import { toRaw } from 'vue';
 import isEqual from 'lodash.isequal';
+import { SPEED, sleep } from './util.js';
+
 
 export default {
     "STRT": {

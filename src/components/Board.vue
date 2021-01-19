@@ -40,10 +40,9 @@
                 </div>
                 <div class="control-container">
                     <button :disabled="birdIsLoaded" class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
-                    <button @click="reset" :disabled="!birdIsLoaded"><i class="bi-stop-fill"/></button>
-                    <button @click="step" :disabled="birdIsMoving"><i class="bi-skip-end-fill"/></button>
-                    <button @click="play" :disabled="playing"><i class="bi-play-fill"/></button>
-                    <button @click="shouldStopPlaying = true" :disabled="!playing"><i class="bi-pause-fill"/></button>
+                    <button @click="resetButton" :disabled="!birdIsLoaded"><i class="bi-stop-fill"/></button>
+                    <button @click="stepButton"><i class="bi-skip-end-fill"/></button>
+                    <button @click="playButton" :disabled="playing"><i class="bi-play-fill"/></button>
                 </div>
             </div>
             <div v-if="validation">
@@ -98,14 +97,12 @@
 </template>
 
 <script>
-const SPEED = 100;
+import { SPEED, sleep } from '../util.js';
 import { mapState } from 'vuex';
 import { toRaw } from 'vue';
 import Instruction from "./Instruction.vue";
 import InstructionList from "./InstructionList.vue";
 import { useToast } from "vue-toastification";
-
-const sleep = m => new Promise(r => setTimeout(r, m))
 
 const toast = useToast();
 
@@ -224,10 +221,11 @@ export default {
                 return;
             }
             this.placedObjects = this.placedObjects.filter(item => item !== placedInstruction);
+            this.completedTestCases = {};
             this.saveBoardToLocalStorage();
         },
-        async moveBird() {
-            this.birdIsMoving = true;
+        moveBird() {
+            // can return a promise or undefined
             let xDiff = 0;
             let yDiff = 0;
             if (this.bird.direction === "up") {
@@ -249,12 +247,12 @@ export default {
             this.birdClasses.push(toRaw(this.bird.direction));
             // this.birdClasses.push("moving");
             if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
-                await this.dieBird("You are out of the board");
+                return this.dieBird("You are out of the board");
             } else {
                 // this.birdClasses.pop();
                 for (let boardObject of this.boardObjects) {
                     if (boardObject.name === "BLCK" && boardObject.x === this.bird.x + xDiff && boardObject.y === this.bird.y + yDiff) {
-                        return await this.dieBird("You hit the wall");
+                        return this.dieBird("You hit the wall");
                     }
                 }
                 this.bird.x += xDiff;
@@ -270,9 +268,7 @@ export default {
             this.reset();
         },
         finish() {
-            let x = toRaw(this.shouldStopPlaying);
             this.reset();
-            this.shouldStopPlaying = x;
             let allLevelsFinished = true;
             let nextTestCase = false
 
@@ -302,14 +298,31 @@ export default {
                 this.selectedTestCase = nextTestCase;
             }
         },
-        async play() {
+        playButton() {
             if (this.playing) {
                 return;
             }
             this.shouldStopPlaying = false;
+            this.play();
+        },
+        async stepButton() {
+            this.shouldStopPlaying = true;
+            if (this.playing) {
+                return;
+            }
+            await this.play();
+        },
+        async play() {
+            if (this.playing) {
+                return;
+            }
             this.playing = true;
-            while (this.playing && !this.shouldStopPlaying) {
+            while (this.playing) {
                 await this.step();
+                if (this.shouldStopPlaying) {
+                    break;
+                }
+                await sleep(SPEED);
             }
             this.playing = false;
             this.shouldStopPlaying = false;
@@ -319,7 +332,6 @@ export default {
                 console.error("can not step while still stepping");
                 return;
             }
-            this.shouldStopPlaying = false;
             this.birdIsMoving = true;
 
             if (this.bird.x === null || this.bird.y === null) {
@@ -353,15 +365,25 @@ export default {
                         break
                     }
                 }
+                let shouldMove = null;
                 if (instruction) {
-                    await instruction.execute(this);
+                    shouldMove = await instruction.execute(this);
                 }
-                if (!this.shouldStopPlaying && (!instruction || instruction.name !== "FINI")) {
+                if (shouldMove === "SKIP") {
+                    await sleep(2 * SPEED);
+                }
+                if (this.birdIsLoaded && shouldMove !== "NOMOVE") {
                     await this.moveBird();
                 }
             }
-            await sleep(2 * SPEED);
             this.birdIsMoving = false;
+        },
+        async resetButton() {
+            this.shouldStopPlaying = true;
+            while (this.playing) {
+                await sleep(100);
+            }
+            this.reset();
         },
         reset() {
             this.birdIsMoving = false;
