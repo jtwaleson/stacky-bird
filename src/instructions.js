@@ -251,6 +251,7 @@ export default {
                 return await board.dieBird("There should be at least one number on the stack");
             }
             let x = board.stack.pop();
+            await sleep(SPEED * 2);
             if (x <= 0) {
                 board.bird.direction = "down";
             } else {
@@ -387,5 +388,21 @@ export default {
             return "SKIP";
         },
         instructionClass: "A1",
-    }
+    },
+    "DUMP": {
+        symbol: "⬚",
+        description: "Dump an item from the stack, or pick it up.",
+        async execute(board, boardObject) {
+            if (boardObject.state === null || typeof boardObject.state === "undefined") {
+                if (board.stack.length === 0) {
+                    return await board.dieBird("There should be at least one number on the stack");
+                }
+                boardObject.state = board.stack.pop();
+            } else {
+                board.stack.push(boardObject.state);
+                boardObject.state = null;
+            }
+        },
+        instructionClass: "D",
+    },
 };

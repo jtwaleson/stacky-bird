@@ -3,6 +3,7 @@
         <button @click="deleteMe" v-if="userPlaced" class="delete">✖</button>
         <div class="symbol">{{ symbol }}</div>
         <div class="code">{{ name }}</div>
+        <div class="state" v-if="state !== null">{{ state }}</div>
     </div>
 </template>
 <script>
@@ -33,6 +34,10 @@ export default {
         instructionClass: {
             type: String,
             default: "A",
+        },
+        state: {
+            type: Number,
+            default: null,
         },
     },
     methods: {
@@ -95,6 +100,18 @@ export default {
     z-index: 0;
     opacity: 0.3;
     user-select: none;
+}
+.instruction .state {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    width: 87px;
+    height: 47px;
+    line-height: 100%;
+    font-size: 40px;
+    color: black;
 }
 .board .instruction.hide-dragging {
     opacity: 0.1;

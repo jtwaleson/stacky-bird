@@ -45,7 +45,7 @@
                     <h2 v-else><T textKey="Board"/></h2>
                 </div>
                 <div class="control-container">
-                    <button :disabled="birdIsLoaded" class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
+                    <button :disabled="birdIsLoaded || playing" class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
                     <button @click="resetButton" :disabled="!birdIsLoaded"><i class="bi-stop-fill"/></button>
                     <button @click="stepButton"><i class="bi-skip-end-fill"/></button>
                     <button @click="playButton" :disabled="playing"><i class="bi-play-fill"/></button>
@@ -82,7 +82,7 @@
 
         <!-- available instructions -->
         <div class="instructions2">
-            <InstructionList :draggable="!birdIsLoaded" unlockedOnly :cols="3" :locked="birdIsLoaded || playing"/>
+            <InstructionList :draggable="!birdIsLoaded && !playing" unlockedOnly :cols="3" :locked="birdIsLoaded || playing"/>
         </div>
 
         <!-- the actual board -->
@@ -212,6 +212,7 @@ export default {
                 y,
                 userPlaced: true,
                 ...this.$store.state.instructions[event.dataTransfer.getData("text")],
+                state: null,
             });
             this.completedTestCases = {};
             this.saveBoardToLocalStorage();
@@ -377,7 +378,7 @@ export default {
                 }
                 let shouldMove = null;
                 if (instruction) {
-                    shouldMove = await instruction.execute(this);
+                    shouldMove = await instruction.execute(this, instruction);
                 }
                 if (shouldMove === "SKIP") {
                     await sleep(2 * SPEED);
@@ -403,6 +404,9 @@ export default {
             this.bird.direction = "right";
             this.birdClasses = [];
             this.stack = [];
+            for (let boardObject of this.boardObjects) {
+                boardObject.state = null;
+            }
             clearInterval(this.flappingInterval);
         },
         clearWithWarning() {
