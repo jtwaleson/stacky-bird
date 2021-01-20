@@ -91,15 +91,17 @@
                 <template v-for="col in cols" :key="col">
                     <div v-for="row in rows" :key="row" class="field" :style="{'grid-column': col, 'grid-row': row}" @drop="drop(col, row, $event)" @dragover="allowDrop" @dragleave="removeDrop"></div>
                 </template>
-                <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
-                    <transition-group name="stackies" class="stack" tag="ul">
-                        <li v-for="(item, index) in bird.stack.slice().reverse()" :key="bird.stack.length - index" class="field-style-F">
-                            {{ item }}
-                        </li>
-                    </transition-group>
-                    <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
-                    <img v-else src="@/assets/flappy2.png"/>
-                </div>
+                <template v-if="birdIsLoaded">
+                    <div v-for="(bird, index) in birds" :key="index" class="field thebird" :class="bird.birdClasses" :style="birdStyle(bird)">
+                        <transition-group name="stackies" class="stack" tag="ul">
+                            <li v-for="(item, index) in bird.stack.slice().reverse()" :key="bird.stack.length - index" class="field-style-F">
+                                {{ item }}
+                            </li>
+                        </transition-group>
+                        <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
+                        <img v-else src="@/assets/flappy2.png"/>
+                    </div>
+                </template>
                 <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" unlocked :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
             </div>
         </div>
@@ -149,15 +151,15 @@ export default {
             showLevelCompletedModal: false,
             playing: false,
             shouldStopPlaying: false,
-            bird: {
+            birds: [{
                 x: null,
                 y: null,
                 flappingImage: true,
                 direction: "right",
                 stack: [],
-            },
+                birdClasses: [],
+            }],
             input: [],
-            birdClasses: [],
             flappingInterval: null,
             placedObjects: [],
             completedTestCases: {},
@@ -171,15 +173,13 @@ export default {
                 "grid-template-rows": `repeat(${this.rows}, 107px)`,
             }
         },
-        birdStyle() {
-            return {
-                "grid-column": this.bird.x,
-                "grid-row": this.bird.y,
-                "display": "grid",
-            }
-        },
         birdIsLoaded() {
-            return this.bird.x !== null && this.bird.y !== null;
+            for (const bird of this.birds) {
+                if (bird.x !== null && bird.y !== null) {
+                    return true;
+                }
+            }
+            return false;
         },
         boardObjects() {
             return this.gridObjects.concat(this.placedObjects);
@@ -194,6 +194,13 @@ export default {
                 levelName: this.name,
                 isCompleted: !this.completed,
             });
+        },
+        birdStyle(bird) {
+            return {
+                "grid-column": bird.x,
+                "grid-row": bird.y,
+                "display": "grid",
+            }
         },
         drop(x, y, event) {
             event.preventDefault();
@@ -235,45 +242,45 @@ export default {
             this.completedTestCases = {};
             this.saveBoardToLocalStorage();
         },
-        moveBird() {
+        moveBird(bird) {
             // can return a promise or undefined
             let xDiff = 0;
             let yDiff = 0;
-            if (this.bird.direction === "up") {
+            if (bird.direction === "up") {
                 yDiff = -1;
-            } else if (this.bird.direction === "down") {
+            } else if (bird.direction === "down") {
                 yDiff = 1;
-            } else if (this.bird.direction === "left") {
+            } else if (bird.direction === "left") {
                 xDiff = -1;
-            } else if (this.bird.direction === "right") {
+            } else if (bird.direction === "right") {
                 xDiff = 1;
             } else {
-                throw new Error(`invalid direction of bird ${this.bird.direction}`);
+                throw new Error(`invalid direction of bird ${bird.direction}`);
             }
-            let newX = this.bird.x + xDiff;
-            let newY = this.bird.y + yDiff;
+            let newX = bird.x + xDiff;
+            let newY = bird.y + yDiff;
 
 
-            this.birdClasses.length = 0;
-            this.birdClasses.push(toRaw(this.bird.direction));
+            bird.birdClasses.length = 0;
+            bird.birdClasses.push(toRaw(bird.direction));
             // this.birdClasses.push("moving");
             if (newX <= 0 || newY <= 0 || newX > this.cols || newY > this.rows) {
-                return this.dieBird("You are out of the board");
+                return this.dieBird("You are out of the board", bird);
             } else {
                 // this.birdClasses.pop();
                 for (let boardObject of this.boardObjects) {
-                    if (boardObject.name === "BLCK" && boardObject.x === this.bird.x + xDiff && boardObject.y === this.bird.y + yDiff) {
-                        return this.dieBird("You hit the wall");
+                    if (boardObject.name === "BLCK" && boardObject.x === bird.x + xDiff && boardObject.y === bird.y + yDiff) {
+                        return this.dieBird("You hit the wall", bird);
                     }
                 }
-                this.bird.x += xDiff;
-                this.bird.y += yDiff;
+                bird.x += xDiff;
+                bird.y += yDiff;
             }
         },
-        async dieBird(message) {
+        async dieBird(message, bird) {
             this.shouldStopPlaying = true;
             await sleep(0.5 * SPEED);
-            this.birdClasses.push("dead");
+            bird.birdClasses.push("dead");
             await sleep(4 * SPEED);
             toast.warning(this.$tr(message));
             this.reset();
@@ -344,47 +351,49 @@ export default {
                 return;
             }
             this.birdIsMoving = true;
-
-            if (this.bird.x === null || this.bird.y === null) {
-                let found = false;
-                for (let boardObject of this.boardObjects) {
-                    if (boardObject.name === "STRT") {
-                        this.bird.x = boardObject.x;
-                        this.bird.y = boardObject.y;
-                        found = true;
+            for (const bird of this.birds) {
+                if (bird.x === null || bird.y === null) {
+                    let found = false;
+                    for (let boardObject of this.boardObjects) {
+                        if (boardObject.name === "STRT") {
+                            bird.x = boardObject.x;
+                            bird.y = boardObject.y;
+                            found = true;
+                        }
                     }
-                }
-                if (!found) {
-                    throw new Error("no STRT block found!");
-                }
-                this.input = [];
-                if (this.selectedTestCase) {
-                    this.input = [...toRaw(this.selectedTestCase.input)];
-                }
-
-                if (this.flappingInterval) {
-                    clearInterval(this.flappingInterval);
-                }
-                this.flappingInterval = setInterval(() => {
-                    this.bird.flappingImage = !this.bird.flappingImage;
-                }, SPEED);
-            } else {
-                let instruction = null;
-                for (let boardObject of this.boardObjects) {
-                    if (boardObject.x === this.bird.x && boardObject.y === this.bird.y) {
-                        instruction = boardObject;
-                        break
+                    if (!found) {
+                        throw new Error("no STRT block found!");
                     }
-                }
-                let shouldMove = null;
-                if (instruction) {
-                    shouldMove = await instruction.execute(this, instruction);
-                }
-                if (shouldMove === "SKIP") {
-                    await sleep(2 * SPEED);
-                }
-                if (this.birdIsLoaded && shouldMove !== "NOMOVE") {
-                    await this.moveBird();
+                    this.input = [];
+                    if (this.selectedTestCase) {
+                        this.input = [...toRaw(this.selectedTestCase.input)];
+                    }
+
+                    if (this.flappingInterval) {
+                        clearInterval(this.flappingInterval);
+                    }
+                    this.flappingInterval = setInterval(() => {
+                        // TODO make all birds flap
+                        bird.flappingImage = !bird.flappingImage;
+                    }, SPEED);
+                } else {
+                    let instruction = null;
+                    for (let boardObject of this.boardObjects) {
+                        if (boardObject.x === bird.x && boardObject.y === bird.y) {
+                            instruction = boardObject;
+                            break
+                        }
+                    }
+                    let shouldMove = null;
+                    if (instruction) {
+                        shouldMove = await instruction.execute(bird, this, instruction);
+                    }
+                    if (shouldMove === "SKIP") {
+                        await sleep(2 * SPEED);
+                    }
+                    if (this.birdIsLoaded && shouldMove !== "NOMOVE") {
+                        await this.moveBird(bird);
+                    }
                 }
             }
             this.birdIsMoving = false;
@@ -398,12 +407,14 @@ export default {
         },
         reset() {
             this.birdIsMoving = false;
-            this.bird.x = null;
-            this.bird.y = null;
-            this.bird.flappingImage = true;
-            this.bird.direction = "right";
-            this.birdClasses = [];
-            this.bird.stack = [];
+            this.birds = [{
+                x: null,
+                y: null,
+                flappingImage: true,
+                direction: "right",
+                birdClasses: [],
+                stack: [],
+            }];
             for (let boardObject of this.boardObjects) {
                 boardObject.state = null;
             }
