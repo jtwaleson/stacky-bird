@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import { SPEED, sleep } from '../util.js';
+import { SPEED, sleep, oppositeDirection } from '../util.js';
 import { mapState } from 'vuex';
 import { toRaw } from 'vue';
 import Instruction from "./Instruction.vue";
@@ -160,7 +160,10 @@ export default {
         unlocked: Boolean,
         completed: Boolean,
         validation: Array,
-        creeps: Array,
+        creeps: {
+            type: Array,
+            default: () => [],
+        },
     },
     components: {
         Instruction,
@@ -309,6 +312,12 @@ export default {
                 }
                 bird.x += xDiff;
                 bird.y += yDiff;
+                for (let creep of this.loadedCreeps) {
+                    console.log("creep check", creep.x, creep.y, bird.x, bird.y);
+                    if (creep.x === bird.x && creep.y === bird.y) {
+                        return this.dieBird("You hit the ghost", bird);
+                    }
+                }
             }
         },
         async dieBird(message, bird) {
@@ -421,17 +430,21 @@ export default {
                 const [xDiff, yDiff] = getXYDiff(creep.direction);
                 let newX = creep.x + xDiff;
                 let newY = creep.y + yDiff;
-                if (newY === 0) {
-                    creep.direction = "down";
-                } else if (newX === 0) {
-                    creep.direction = "right";
-                } else if (newY === this.rows + 1) {
-                    creep.direction = "up";
-                } else if (newX === this.cols + 1) {
-                    creep.direction = "left";
+                if (newY <= 0 || newY > this.rows || newX <= 0 || newX > this.cols) {
+                    creep.direction = oppositeDirection[creep.direction];
                 } else {
-                    creep.x = newX;
-                    creep.y = newY;
+                    let hitBlock = false;
+                    for (const boardObject of this.boardObjects) {
+                        if (newX === boardObject.x && newY === boardObject.y && boardObject.name === "BLCK") {
+                            hitBlock = true;
+                        }
+                    }
+                    if (hitBlock) {
+                        creep.direction = oppositeDirection[creep.direction];
+                    } else {
+                        creep.x = newX;
+                        creep.y = newY;
+                    }
                 }
                 for (const bird of this.birds) {
                     if (bird.x === creep.x && bird.y === creep.y) {
