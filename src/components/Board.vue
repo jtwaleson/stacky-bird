@@ -93,7 +93,7 @@
                 </template>
                 <div v-if="birdIsLoaded" class="field thebird" :class="birdClasses" :style="birdStyle">
                     <transition-group name="stackies" class="stack" tag="ul">
-                        <li v-for="(item, index) in stack.slice().reverse()" :key="stack.length - index" class="field-style-F">
+                        <li v-for="(item, index) in bird.stack.slice().reverse()" :key="bird.stack.length - index" class="field-style-F">
                             {{ item }}
                         </li>
                     </transition-group>
@@ -154,12 +154,12 @@ export default {
                 y: null,
                 flappingImage: true,
                 direction: "right",
+                stack: [],
             },
             input: [],
             birdClasses: [],
             flappingInterval: null,
             placedObjects: [],
-            stack: [],
             completedTestCases: {},
         }
     },
@@ -403,7 +403,7 @@ export default {
             this.bird.flappingImage = true;
             this.bird.direction = "right";
             this.birdClasses = [];
-            this.stack = [];
+            this.bird.stack = [];
             for (let boardObject of this.boardObjects) {
                 boardObject.state = null;
             }
