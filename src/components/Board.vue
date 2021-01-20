@@ -102,6 +102,9 @@
                         <img v-else src="@/assets/flappy2.png"/>
                     </div>
                 </template>
+                <div v-for="(creep, index) in loadedCreeps" :key="index" class="field creep" :class="creep.direction" :style="birdStyle(creep)">
+                    <img src="@/assets/flappy1.png"/>
+                </div>
                 <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" unlocked :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
             </div>
         </div>
@@ -117,6 +120,24 @@ import InstructionList from "./InstructionList.vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
+
+
+function getXYDiff(direction) {
+    let xDiff = 0;
+    let yDiff = 0;
+    if (direction === "up") {
+        yDiff = -1;
+    } else if (direction === "down") {
+        yDiff = 1;
+    } else if (direction === "left") {
+        xDiff = -1;
+    } else if (direction === "right") {
+        xDiff = 1;
+    } else {
+        throw new Error(`invalid direction ${direction}`);
+    }
+    return [xDiff, yDiff];
+}
 
 export default {
     name: 'Board',
@@ -139,6 +160,7 @@ export default {
         unlocked: Boolean,
         completed: Boolean,
         validation: Array,
+        creeps: Array,
     },
     components: {
         Instruction,
@@ -156,6 +178,7 @@ export default {
             flappingInterval: null,
             placedObjects: [],
             completedTestCases: {},
+            loadedCreeps: JSON.parse(JSON.stringify(this.creeps)),
         }
     },
     computed: {
@@ -268,22 +291,9 @@ export default {
         },
         moveBird(bird) {
             // can return a promise or undefined
-            let xDiff = 0;
-            let yDiff = 0;
-            if (bird.direction === "up") {
-                yDiff = -1;
-            } else if (bird.direction === "down") {
-                yDiff = 1;
-            } else if (bird.direction === "left") {
-                xDiff = -1;
-            } else if (bird.direction === "right") {
-                xDiff = 1;
-            } else {
-                throw new Error(`invalid direction of bird ${bird.direction}`);
-            }
+            const [xDiff, yDiff] = getXYDiff(bird.direction);
             let newX = bird.x + xDiff;
             let newY = bird.y + yDiff;
-
 
             bird.birdClasses.length = 0;
             bird.birdClasses.push(toRaw(bird.direction));
@@ -397,10 +407,39 @@ export default {
                 if (shouldMove === "SKIP") {
                     await sleep(2 * SPEED);
                 }
+                if (!this.birdIsLoaded) {
+                    break;
+                }
                 if (this.birdIsLoaded && shouldMove !== "NOMOVE") {
                     await this.moveBird(bird);
                 }
             }
+            for (const creep of this.loadedCreeps) {
+                if (!this.birdIsLoaded) {
+                    break;
+                }
+                const [xDiff, yDiff] = getXYDiff(creep.direction);
+                let newX = creep.x + xDiff;
+                let newY = creep.y + yDiff;
+                if (newY === 0) {
+                    creep.direction = "down";
+                } else if (newX === 0) {
+                    creep.direction = "right";
+                } else if (newY === this.rows + 1) {
+                    creep.direction = "up";
+                } else if (newX === this.cols + 1) {
+                    creep.direction = "left";
+                } else {
+                    creep.x = newX;
+                    creep.y = newY;
+                }
+                for (const bird of this.birds) {
+                    if (bird.x === creep.x && bird.y === creep.y) {
+                        return await this.dieBird("A ghost caught a bird", bird);
+                    }
+                }
+            }
+
             this.stepFunctionMutex = false;
         },
         async resetButton() {
@@ -412,6 +451,7 @@ export default {
         },
         reset() {
             this.stepFunctionMutex = false;
+            this.loadedCreeps = JSON.parse(JSON.stringify(this.creeps));
             this.birds = [];
             for (let boardObject of this.boardObjects) {
                 boardObject.state = null;
@@ -545,6 +585,18 @@ button {
     height: 107px;
     user-select: none;
 }
+.creep {
+    position: relative;
+    opacity: 1.0;
+    background: none;
+    z-index: 100;
+    width: 107px;
+    height: 107px;
+    user-select: none;
+
+    filter: invert(1);
+}
+.creep img,
 .thebird img {
     width: 100%;
     height: 100%;
