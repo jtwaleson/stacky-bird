@@ -147,18 +147,11 @@ export default {
     data() {
         return {
             selectedTestCase: null,
-            birdIsMoving: false,
+            stepFunctionMutex: false,
             showLevelCompletedModal: false,
             playing: false,
             shouldStopPlaying: false,
-            birds: [{
-                x: null,
-                y: null,
-                flappingImage: true,
-                direction: "right",
-                stack: [],
-                birdClasses: [],
-            }],
+            birds: [],
             input: [],
             flappingInterval: null,
             placedObjects: [],
@@ -189,6 +182,37 @@ export default {
         },
     },
     methods: {
+        spawnBird() {
+            let found = false;
+            const newBird = {
+                x: null,
+                y: null,
+                flappingImage: true,
+                direction: "right",
+                stack: [],
+                birdClasses: [],
+            };
+            for (let boardObject of this.boardObjects) {
+                if (boardObject.name === "STRT") {
+                    newBird.x = boardObject.x;
+                    newBird.y = boardObject.y;
+                    found = true;
+                }
+            }
+            if (!found) {
+                throw new Error("no STRT block found!");
+            }
+
+            if (this.flappingInterval) {
+                clearInterval(this.flappingInterval);
+            }
+            this.flappingInterval = setInterval(() => {
+                for (const bird of this.birds) {
+                    bird.flappingImage = !bird.flappingImage;
+                }
+            }, SPEED);
+            this.birds.push(newBird);
+        },
         toggleLevelCompleteDevMode() {
             this.$store.commit("completeLevel", {
                 levelName: this.name,
@@ -346,57 +370,38 @@ export default {
             this.shouldStopPlaying = false;
         },
         async step() {
-            if (this.birdIsMoving) {
+            if (this.stepFunctionMutex) {
                 console.error("can not step while still stepping");
                 return;
             }
-            this.birdIsMoving = true;
+            this.stepFunctionMutex = true;
+            if (this.birds.length === 0) {
+                this.input = [];
+                if (this.selectedTestCase) {
+                    this.input = [...toRaw(this.selectedTestCase.input)];
+                }
+                this.spawnBird();
+            }
             for (const bird of this.birds) {
-                if (bird.x === null || bird.y === null) {
-                    let found = false;
-                    for (let boardObject of this.boardObjects) {
-                        if (boardObject.name === "STRT") {
-                            bird.x = boardObject.x;
-                            bird.y = boardObject.y;
-                            found = true;
-                        }
-                    }
-                    if (!found) {
-                        throw new Error("no STRT block found!");
-                    }
-                    this.input = [];
-                    if (this.selectedTestCase) {
-                        this.input = [...toRaw(this.selectedTestCase.input)];
-                    }
-
-                    if (this.flappingInterval) {
-                        clearInterval(this.flappingInterval);
-                    }
-                    this.flappingInterval = setInterval(() => {
-                        // TODO make all birds flap
-                        bird.flappingImage = !bird.flappingImage;
-                    }, SPEED);
-                } else {
-                    let instruction = null;
-                    for (let boardObject of this.boardObjects) {
-                        if (boardObject.x === bird.x && boardObject.y === bird.y) {
-                            instruction = boardObject;
-                            break
-                        }
-                    }
-                    let shouldMove = null;
-                    if (instruction) {
-                        shouldMove = await instruction.execute(bird, this, instruction);
-                    }
-                    if (shouldMove === "SKIP") {
-                        await sleep(2 * SPEED);
-                    }
-                    if (this.birdIsLoaded && shouldMove !== "NOMOVE") {
-                        await this.moveBird(bird);
+                let instruction = null;
+                for (let boardObject of this.boardObjects) {
+                    if (boardObject.x === bird.x && boardObject.y === bird.y) {
+                        instruction = boardObject;
+                        break
                     }
                 }
+                let shouldMove = null;
+                if (instruction) {
+                    shouldMove = await instruction.execute(bird, this, instruction);
+                }
+                if (shouldMove === "SKIP") {
+                    await sleep(2 * SPEED);
+                }
+                if (this.birdIsLoaded && shouldMove !== "NOMOVE") {
+                    await this.moveBird(bird);
+                }
             }
-            this.birdIsMoving = false;
+            this.stepFunctionMutex = false;
         },
         async resetButton() {
             this.shouldStopPlaying = true;
@@ -406,15 +411,8 @@ export default {
             this.reset();
         },
         reset() {
-            this.birdIsMoving = false;
-            this.birds = [{
-                x: null,
-                y: null,
-                flappingImage: true,
-                direction: "right",
-                birdClasses: [],
-                stack: [],
-            }];
+            this.stepFunctionMutex = false;
+            this.birds = [];
             for (let boardObject of this.boardObjects) {
                 boardObject.state = null;
             }

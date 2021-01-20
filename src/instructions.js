@@ -405,4 +405,12 @@ export default {
         },
         instructionClass: "D",
     },
+    "SPWN": {
+        symbol: "x",
+        description: "Spawn an additional bird",
+        async execute(bird, board) {
+            board.spawnBird();
+        },
+        instructionClass: "D",
+    },
 };
