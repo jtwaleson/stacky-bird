@@ -39,7 +39,7 @@ export default {
             return Object.keys(this.levels).length - (this.$store.getters.completedLevels.length + Object.keys(this.$store.getters.availableLevels).length);
         },
         hiddenInstructionCount() {
-            return Object.keys(this.instructions).length - (this.$store.getters.availableInstructions.length + this.$store.getters.completedLevels.length);
+            return Object.keys(this.instructions).length - (this.$store.getters.availableInstructions.length);
         },
     },
     methods: {
