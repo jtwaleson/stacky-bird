@@ -48,7 +48,9 @@
                     <button :disabled="birdIsLoaded || playing" class="delete" @click="clearWithWarning"><i class="bi-trash"/></button>
                     <button @click="resetButton" :disabled="!birdIsLoaded"><i class="bi-stop-fill"/></button>
                     <button @click="stepButton"><i class="bi-skip-end-fill"/></button>
-                    <button @click="playButton" :disabled="playing"><i class="bi-play-fill"/></button>
+                    <button @click="playButton" :disabled="playing && !multiplePlayButtons"><i class="bi-play-fill"/></button>
+                    <button v-if="fastButtonUnlocked" @click="fastButton" :disabled="playing && !multiplePlayButtons"><i class="bi-skip-forward-fill"/></button>
+                    <button v-if="ultraFastButtonUnlocked" @click="ultraFastButton" :disabled="playing && !multiplePlayButtons"><i class="bi-lightning-fill"/></button>
                 </div>
             </div>
             <div v-if="validation">
@@ -112,7 +114,7 @@
 </template>
 
 <script>
-import { SPEED, sleep, oppositeDirection } from '../util.js';
+import { sleep, oppositeDirection } from '../util.js';
 import { mapState } from 'vuex';
 import { toRaw } from 'vue';
 import Instruction from "./Instruction.vue";
@@ -172,6 +174,7 @@ export default {
     data() {
         return {
             selectedTestCase: null,
+            speed: 100,
             stepFunctionMutex: false,
             showLevelCompletedModal: false,
             playing: false,
@@ -191,6 +194,15 @@ export default {
                 "grid-template-columns": `repeat(${this.cols}, 107px)`,
                 "grid-template-rows": `repeat(${this.rows}, 107px)`,
             }
+        },
+        ultraFastButtonUnlocked() {
+            return true;
+        },
+        fastButtonUnlocked() {
+            return true;
+        },
+        multiplePlayButtons() {
+            return this.fastButtonUnlocked || this.ultraFastButtonUnlocked;
         },
         birdIsLoaded() {
             for (const bird of this.birds) {
@@ -236,7 +248,7 @@ export default {
                 for (const bird of this.birds) {
                     bird.flappingImage = !bird.flappingImage;
                 }
-            }, SPEED);
+            }, this.speed);
             this.birds.push(newBird);
         },
         toggleLevelCompleteDevMode() {
@@ -322,9 +334,9 @@ export default {
         },
         async dieBird(message, bird) {
             this.shouldStopPlaying = true;
-            await sleep(0.5 * SPEED);
+            await sleep(0.5 * this.speed);
             bird.birdClasses.push("dead");
-            await sleep(4 * SPEED);
+            await sleep(4 * this.speed);
             toast.warning(this.$tr(message));
             this.reset();
         },
@@ -360,6 +372,23 @@ export default {
             }
         },
         playButton() {
+            this.speed = 200;
+            if (this.playing) {
+                return;
+            }
+            this.shouldStopPlaying = false;
+            this.play();
+        },
+        ultraFastButton() {
+            this.speed = 5;
+            if (this.playing) {
+                return;
+            }
+            this.shouldStopPlaying = false;
+            this.play();
+        },
+        fastButton() {
+            this.speed = 40;
             if (this.playing) {
                 return;
             }
@@ -367,6 +396,7 @@ export default {
             this.play();
         },
         async stepButton() {
+            this.speed = 200;
             this.shouldStopPlaying = true;
             if (this.playing) {
                 return;
@@ -383,7 +413,7 @@ export default {
                 if (this.shouldStopPlaying) {
                     break;
                 }
-                await sleep(SPEED);
+                await sleep(this.speed);
             }
             this.playing = false;
             this.shouldStopPlaying = false;
@@ -414,7 +444,7 @@ export default {
                     shouldMove = await instruction.execute(bird, this, instruction);
                 }
                 if (shouldMove === "SKIP") {
-                    await sleep(2 * SPEED);
+                    await sleep(2 * this.speed);
                 }
                 if (!this.birdIsLoaded) {
                     break;

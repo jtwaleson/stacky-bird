@@ -21,7 +21,7 @@
 
 import { toRaw } from 'vue';
 import isEqual from 'lodash.isequal';
-import { SPEED, sleep } from './util.js';
+import { sleep } from './util.js';
 
 
 export default {
@@ -101,7 +101,7 @@ export default {
             }
             let input = toRaw(board.input.shift());
             bird.stack.push(input);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "C",
     },
@@ -113,11 +113,11 @@ export default {
                 return await board.dieBird("The stack is empty, can not duplicate the last number.", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "D",
     },
@@ -129,11 +129,11 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             let y = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(y);
         },
         instructionClass: "B",
@@ -150,13 +150,13 @@ export default {
     "EMPT": {
         symbol: "⌿",
         description: "Check if the stack is empty",
-        async execute(bird) {
+        async execute(bird, board) {
             if (bird.stack.length > 0) {
                 bird.stack.push(0);
             } else {
                 bird.stack.push(1);
             }
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "F",
     },
@@ -168,7 +168,7 @@ export default {
                 return await board.dieBird("The stack is empty", bird);
             }
             bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "F",
     },
@@ -183,9 +183,9 @@ export default {
     "SIZE": {
         symbol: "⍗",
         description: "Return the amount of items on the stack",
-        async execute(bird) {
+        async execute(bird, board) {
             bird.stack.push(bird.stack.length);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "G",
     },
@@ -197,11 +197,11 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             let y = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(y + x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "B",
     },
@@ -213,25 +213,25 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             let y = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(y - x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "B",
     },
     "SUMA": {
         symbol: "∑",
         description: "Sum all the items on the stack",
-        async execute(bird) {
+        async execute(bird, board) {
             let sum = 0;
             while (bird.stack.length > 0) {
                 sum += bird.stack.pop();
-                await sleep(SPEED * 2);
+                await sleep(board.speed);
             }
             bird.stack.push(sum);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "G",
     },
@@ -251,7 +251,7 @@ export default {
                 return await board.dieBird("There should be at least one number on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             if (x <= 0) {
                 bird.direction = "down";
             } else {
@@ -284,10 +284,10 @@ export default {
                 return await board.dieBird("There should be at least one number on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             x += 1;
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "C",
     },
@@ -299,10 +299,10 @@ export default {
                 return await board.dieBird("There should be at least one number on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             x -= 1;
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "C",
     },
@@ -311,7 +311,7 @@ export default {
         description: "Get the amount of items still in the input queue.",
         async execute(bird, board) {
             bird.stack.push(board.input.length);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "C",
     },
@@ -323,17 +323,17 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             let y = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(y);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(y);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "D",
     },
@@ -345,13 +345,13 @@ export default {
                 return await board.dieBird("There are less than two numbers on the stack", bird);
             }
             let x = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             let y = bird.stack.pop();
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(x);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
             bird.stack.push(y);
-            await sleep(SPEED * 2);
+            await sleep(board.speed);
         },
         instructionClass: "C",
     },

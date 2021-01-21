@@ -1,4 +1,3 @@
-const SPEED = 200;
 const sleep = m => new Promise(r => setTimeout(r, m))
 
 const oppositeDirection = {
@@ -9,7 +8,6 @@ const oppositeDirection = {
 }
 
 export {
-    SPEED,
     sleep,
     oppositeDirection,
 }
