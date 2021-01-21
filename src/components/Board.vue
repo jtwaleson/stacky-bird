@@ -100,8 +100,7 @@
                                 {{ item }}
                             </li>
                         </transition-group>
-                        <img v-if="bird.flappingImage" src="@/assets/flappy1.png"/>
-                        <img v-else src="@/assets/flappy2.png"/>
+                        <img :src="getBirdImageSource(bird)"/>
                     </div>
                 </template>
                 <div v-for="(creep, index) in loadedCreeps" :key="index" class="field creep" :class="creep.direction" :style="birdStyle(creep)">
@@ -120,6 +119,8 @@ import { toRaw } from 'vue';
 import Instruction from "./Instruction.vue";
 import InstructionList from "./InstructionList.vue";
 import { useToast } from "vue-toastification";
+import flappy1 from "@/assets/flappy1.png";
+import flappy2 from "@/assets/flappy2.png";
 
 const toast = useToast();
 
@@ -287,6 +288,13 @@ export default {
             this.completedTestCases = {};
             this.saveBoardToLocalStorage();
         },
+        getBirdImageSource(bird) {
+            if (bird.flappingImage || this.shouldStopPlaying) {
+                return flappy1;
+            }
+            return flappy2;
+
+        },
         allowDrop(event) {
             if (this.birdIsLoaded) {
                 return;
@@ -336,7 +344,7 @@ export default {
             this.shouldStopPlaying = true;
             await sleep(0.5 * this.speed);
             bird.birdClasses.push("dead");
-            await sleep(4 * this.speed);
+            await sleep(500);
             toast.warning(this.$tr(message));
             this.reset();
         },
@@ -673,11 +681,11 @@ button {
 .moving.down {
     margin-top: 122px;
 }
-.dead {
+.thebird.dead img {
     filter: invert(1);
-    height: 0px;
+    height: 0;
     transition:
-        height ease-in-out 500ms;
+        height ease-in-out 0.5s;
 }
 .stack {
     position: absolute;
