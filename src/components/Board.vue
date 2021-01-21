@@ -314,7 +314,6 @@ export default {
                 bird.x += xDiff;
                 bird.y += yDiff;
                 for (let creep of this.loadedCreeps) {
-                    console.log("creep check", creep.x, creep.y, bird.x, bird.y);
                     if (creep.x === bird.x && creep.y === bird.y) {
                         return this.dieBird("You hit the ghost", bird);
                     }
