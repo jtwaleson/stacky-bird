@@ -3,7 +3,7 @@ import instructions from '../instructions.js';
 export default {
     displayName: "The Wall",
     description: "This might seem impossible, maybe you have to finish another level first",
-    unlocksLevels: ["2001"],
+    unlocksLevels: ["2001", "1001"],
     unlocksInstructions: [],
     gridObjects: [
         {x: 1, y: 1, ...instructions["STRT"]},
