@@ -1,8 +1,11 @@
 Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 
+* [ ] 1 1 add a toggle for a door (bootstrap icon door open and locked)
 * [ ] 1 1 add bootstrap icon support for instruction symbols
+* [ ] 1 1 add timer block where the bird gets stuck for a couple of turns
 * [ ] 1 1 fix bug with stuttering bird
 * [ ] 1 1 fix logic of multi-bird on dieBird and finish
+* [ ] 1 1 phone to give stack item to another bird answering the phone
 * [ ] 1 2 create pop-up menu for instruction selector (not draggable)
 * [ ] 1 3 create puzzles for logic, summing, reverting
 * [ ] 1 3 group levels into age brackets?
@@ -17,7 +20,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 2 4 create a new bird icon
 * [ ] 3 2 add LICENSE
 * [ ] 3 2 create an English text inventory, if not found, raise an error
-* [ ] 3 2 instruction: LTCH flip-flop
+* [ ] 3 2 instruction: LTCH flip-flop (bootstrap-icon: share)
 * [ ] 3 3 add efficiency meters and scoring per level
 * [ ] 3 3 complete keyboard navigation
 * [ ] 3 3 instruction: inc/dev current register
