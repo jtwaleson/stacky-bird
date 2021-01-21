@@ -250,6 +250,7 @@ export default {
                 "grid-column": bird.x,
                 "grid-row": bird.y,
                 "display": "grid",
+                "z-index": this.birdIsLoaded ? 20 : 0, // creeps
             }
         },
         drop(x, y, event) {
@@ -586,6 +587,7 @@ button {
     justify-content: center;
     align-items: center;
     background-color: #eee4da;
+    z-index: 4;
     opacity: 0.4;
 }
 .thebird {
@@ -602,7 +604,7 @@ button {
     position: relative;
     opacity: 1.0;
     background: none;
-    z-index: 100;
+    z-index: 0;
     width: 107px;
     height: 107px;
     user-select: none;

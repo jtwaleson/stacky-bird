@@ -97,7 +97,7 @@ export default {
     color: #776e65; */
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 55px;
-    z-index: 0;
+    z-index: 10;
     opacity: 0.3;
     user-select: none;
 }
