@@ -263,7 +263,6 @@ export default {
                 "grid-column": bird.x,
                 "grid-row": bird.y,
                 "display": "grid",
-                "z-index": this.birdIsLoaded ? 20 : 0, // creeps
             }
         },
         drop(x, y, event) {
@@ -629,6 +628,7 @@ button {
 }
 .thebird {
     display: none;
+    pointer-events: none;
     position: relative;
     opacity: 1.0;
     background: none;
@@ -639,14 +639,14 @@ button {
 }
 .creep {
     position: relative;
+    pointer-events: none;
     opacity: 1.0;
     background: none;
-    z-index: 0;
+    z-index: 20;
     width: 107px;
     height: 107px;
     user-select: none;
-
-    filter: invert(1);
+    filter: invert(1) grayscale(100%);
 }
 .creep img,
 .thebird img {
