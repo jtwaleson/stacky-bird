@@ -1,5 +1,6 @@
 Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 
+* [ ] 1 1 add bootstrap icon support for instruction symbols
 * [ ] 1 1 fix bug with stuttering bird
 * [ ] 1 1 fix logic of multi-bird on dieBird and finish
 * [ ] 1 2 create pop-up menu for instruction selector (not draggable)
@@ -11,6 +12,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 2 3 add music / effects
 * [ ] 2 3 create a level editor for quick level creation
 * [ ] 2 3 mobile friendly
+* [ ] 2 3 music levels, different notes, very horizontal levels
 * [ ] 2 4 add animations when hovering over instructions
 * [ ] 2 4 create a new bird icon
 * [ ] 3 2 add LICENSE

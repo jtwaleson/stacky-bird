@@ -390,7 +390,7 @@ export default {
         instructionClass: "A1",
     },
     "DUMP": {
-        symbol: "⬚",
+        symbol: "⬚", // bootstrap icons mailbox
         description: "Dump an item from the stack, or pick it up.",
         async execute(bird, board, boardObject) {
             if (boardObject.state === null || typeof boardObject.state === "undefined") {
