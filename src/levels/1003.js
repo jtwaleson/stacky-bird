@@ -3,7 +3,7 @@ import instructions from '../instructions.js';
 export default {
     displayName: "Sit monster, sit",
     description: "Avoid the monsters",
-    unlocksLevels: ["1003"],
+    unlocksLevels: ["1004"],
     unlocksInstructions: [],
     gridObjects: [
         {x: 1, y: 1, ...instructions["STRT"]},
