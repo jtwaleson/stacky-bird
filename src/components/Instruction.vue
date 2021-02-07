@@ -1,7 +1,8 @@
 <template>
     <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart" :title="$tr(description)" @dragend="dragend">
         <button @click="deleteMe" v-if="userPlaced" class="delete">✖</button>
-        <div class="symbol">{{ symbol }}</div>
+        <div v-if="symbol.indexOf('bi-') === -1" class="symbol">{{ symbol }}</div>
+        <div v-else class="symbol"><i :class="symbol"/></div>
         <div class="code">{{ name }}</div>
         <div class="state" v-if="state !== null">{{ state }}</div>
     </div>

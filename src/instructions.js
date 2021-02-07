@@ -413,4 +413,23 @@ export default {
         },
         instructionClass: "D",
     },
+    "WAIT": {
+        symbol: "bi-stopwatch",
+        description: "Wait for some time",
+        async execute(bird, board, boardObject) {
+            if (!Object.prototype.hasOwnProperty.call(boardObject, "state")) {
+                throw new Error("Wait needs state to be defined");
+            }
+            if (!(boardObject.initialWait)) {
+                boardObject.initialWait = boardObject.state;
+            }
+            if (boardObject.state <= 0) {
+                boardObject.state = boardObject.initialWait;
+            } else {
+                boardObject.state -= 1;
+                return "NOMOVE";
+            }
+        },
+        instructionClass: "D",
+    },
 };

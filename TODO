@@ -1,8 +1,6 @@
 Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 
 * [ ] 1 1 add a toggle for a door (bootstrap icon door open and locked)
-* [ ] 1 1 add bootstrap icon support for instruction symbols
-* [ ] 1 1 add timer block where the bird gets stuck for a couple of turns
 * [ ] 1 1 fix bug with stuttering bird
 * [ ] 1 1 fix logic of multi-bird on dieBird and finish
 * [ ] 1 1 phone to give stack item to another bird answering the phone
@@ -36,6 +34,8 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 4 4 check with unit tests if all levels can be rendered
 * [ ] 4 4 instruction: JMPB to go to a named sub-board
 * [x] 1 1 add DUMP instruction to dump/fetch a number, so that we can make DUP2
+* [x] 1 1 add bootstrap icon support for instruction symbols
+* [x] 1 1 add timer block where the bird gets stuck for a couple of turns
 * [x] 1 1 fix creeps are not visible at placed block 'pointer-events: none;'
 * [x] 1 1 fix dead bird animation not working
 * [x] 1 1 link stackybird.com
