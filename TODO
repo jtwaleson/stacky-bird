@@ -11,6 +11,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 2 1 unlock different speed setting after the GEQ1 level
 * [ ] 2 1 visualize the tech tree somehow
 * [ ] 2 2 add instructions for TAKN, DRPN
+* [ ] 2 2 fix the bug where pre-filling state does not work
 * [ ] 2 3 add a favicon
 * [ ] 2 3 add music / effects
 * [ ] 2 3 create a level editor for quick level creation
