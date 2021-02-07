@@ -5,7 +5,7 @@ export default {
     description: "There will be two numbers in the input. Return only the largest number.",
     unlocksLevels: ["2016"],
     unlocksInstructions: ["MINU"],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
         {x: 4, y: 4, ...instructions["MINU"]},
         {x: 7, y: 7, ...instructions["FINI"]},

@@ -7,7 +7,7 @@ export default {
     rows: 7,
     cols: 7,
     unlocksInstructions: [],
-    gridObjects: [
+    levelTiles: [
         { x: 1, y: 7, ...instructions["STRT"] },
         { x: 6, y: 1, ...instructions["BLCK"] },
         { x: 2, y: 2, ...instructions["BLCK"] },

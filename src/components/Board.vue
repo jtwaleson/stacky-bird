@@ -106,7 +106,7 @@
                 <div v-for="(creep, index) in loadedCreeps" :key="index" class="field creep" :class="creep.direction" :style="birdStyle(creep)">
                     <img src="@/assets/flappy1.png"/>
                 </div>
-                <Instruction v-for="(gridObject, index) in boardObjects" :key="index" v-bind="gridObject" unlocked :userPlaced="!birdIsLoaded && gridObject.userPlaced" :draggable="!birdIsLoaded && gridObject.userPlaced" :deleteMethod="() => deletePlacedInstruction(gridObject)"/>
+                <Instruction v-for="(levelTile, index) in allTiles" :key="index" v-bind="levelTile" unlocked :userPlaced="!birdIsLoaded && levelTile.userPlaced" :draggable="!birdIsLoaded && levelTile.userPlaced" :deleteMethod="() => deletePlacedInstruction(levelTile)"/>
             </div>
         </div>
     </div>
@@ -153,7 +153,7 @@ export default {
             type: Number,
             default: 7,
         },
-        gridObjects: Array,
+        levelTiles: Array,
         finishLevel: Function,
         unlocksLevels: Array,
         unlocksInstructions: Array,
@@ -183,7 +183,7 @@ export default {
             birds: [],
             input: [],
             flappingInterval: null,
-            placedObjects: [],
+            userPlacedTiles: [],
             completedTestCases: {},
             loadedCreeps: JSON.parse(JSON.stringify(this.creeps)),
         }
@@ -213,8 +213,8 @@ export default {
             }
             return false;
         },
-        boardObjects() {
-            return this.gridObjects.concat(this.placedObjects);
+        allTiles() {
+            return this.levelTiles.concat(this.userPlacedTiles);
         },
         devMode() {
             return process.env.NODE_ENV !== "production";
@@ -231,10 +231,10 @@ export default {
                 stack: [],
                 birdClasses: [],
             };
-            for (let boardObject of this.boardObjects) {
-                if (boardObject.name === "STRT") {
-                    newBird.x = boardObject.x;
-                    newBird.y = boardObject.y;
+            for (let tile of this.allTiles) {
+                if (tile.name === "STRT") {
+                    newBird.x = tile.x;
+                    newBird.y = tile.y;
                     found = true;
                 }
             }
@@ -275,9 +275,9 @@ export default {
             let deleteX = parseInt(event.dataTransfer.getData("deleteX"));
             let deleteY = parseInt(event.dataTransfer.getData("deleteY"));
             if (deleteX && deleteY) {
-                this.placedObjects = this.placedObjects.filter(item => !(item.x === deleteX && item.y === deleteY));
+                this.userPlacedTiles = this.userPlacedTiles.filter(item => !(item.x === deleteX && item.y === deleteY));
             }
-            this.placedObjects.push({
+            this.userPlacedTiles.push({
                 x,
                 y,
                 userPlaced: true,
@@ -308,7 +308,7 @@ export default {
             if (this.birdIsLoaded) {
                 return;
             }
-            this.placedObjects = this.placedObjects.filter(item => item !== placedInstruction);
+            this.userPlacedTiles = this.userPlacedTiles.filter(item => item !== placedInstruction);
             this.completedTestCases = {};
             this.saveBoardToLocalStorage();
         },
@@ -325,8 +325,8 @@ export default {
                 return this.dieBird("You are out of the board", bird);
             } else {
                 // this.birdClasses.pop();
-                for (let boardObject of this.boardObjects) {
-                    if (boardObject.name === "BLCK" && boardObject.x === bird.x + xDiff && boardObject.y === bird.y + yDiff) {
+                for (let tile of this.allTiles) {
+                    if (tile.name === "BLCK" && tile.x === bird.x + xDiff && tile.y === bird.y + yDiff) {
                         return this.dieBird("You hit the wall", bird);
                     }
                 }
@@ -440,9 +440,9 @@ export default {
             }
             for (const bird of this.birds) {
                 let instruction = null;
-                for (let boardObject of this.boardObjects) {
-                    if (boardObject.x === bird.x && boardObject.y === bird.y) {
-                        instruction = boardObject;
+                for (let tile of this.allTiles) {
+                    if (tile.x === bird.x && tile.y === bird.y) {
+                        instruction = tile;
                         break
                     }
                 }
@@ -471,8 +471,8 @@ export default {
                     creep.direction = oppositeDirection[creep.direction];
                 } else {
                     let hitBlock = false;
-                    for (const boardObject of this.boardObjects) {
-                        if (newX === boardObject.x && newY === boardObject.y && boardObject.name === "BLCK") {
+                    for (const tile of this.allTiles) {
+                        if (newX === tile.x && newY === tile.y && tile.name === "BLCK") {
                             hitBlock = true;
                         }
                     }
@@ -503,8 +503,8 @@ export default {
             this.stepFunctionMutex = false;
             this.loadedCreeps = JSON.parse(JSON.stringify(this.creeps));
             this.birds = [];
-            for (let boardObject of this.boardObjects) {
-                boardObject.state = null;
+            for (const tile of this.allTiles) {
+                tile.state = null;
             }
             clearInterval(this.flappingInterval);
         },
@@ -514,7 +514,7 @@ export default {
             }
         },
         clear() {
-            this.placedObjects = [];
+            this.userPlacedTiles = [];
             this.reset();
             this.saveBoardToLocalStorage();
         },
@@ -522,15 +522,15 @@ export default {
             if (!this.name) {
                 return;
             }
-            let placedObjects = [];
-            for (const placedObject of this.placedObjects) {
-                placedObjects.push({
-                    x: placedObject.x,
-                    y: placedObject.y,
-                    code: placedObject.name,
+            let userPlacedTiles = [];
+            for (const tile of this.userPlacedTiles) {
+                userPlacedTiles.push({
+                    x: tile.x,
+                    y: tile.y,
+                    code: tile.name,
                 });
             }
-            localStorage.setItem(this.name, JSON.stringify(placedObjects));
+            localStorage.setItem(this.name, JSON.stringify(userPlacedTiles));
         },
     },
     mounted() {
@@ -540,14 +540,14 @@ export default {
         if (this.validation) {
             this.selectedTestCase = this.validation[0];
         }
-        let placedObjects = JSON.parse(localStorage.getItem(this.name) || "[]");
+        let userPlacedTiles = JSON.parse(localStorage.getItem(this.name) || "[]");
         // TODO this needs guarding
-        for (let placedObject of placedObjects) {
-            this.placedObjects.push({
-                x: placedObject.x,
-                y: placedObject.y,
+        for (let tile of userPlacedTiles) {
+            this.userPlacedTiles.push({
+                x: tile.x,
+                y: tile.y,
                 userPlaced: true,
-                ...this.$store.state.instructions[placedObject.code],
+                ...this.$store.state.instructions[tile.code],
             });
         }
     },

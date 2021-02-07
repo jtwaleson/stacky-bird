@@ -7,7 +7,7 @@ export default {
     rows: ROWS,
     cols: COLS,
     unlocksInstructions: [UNLOCKS_INSTRUCTIONS],
-    gridObjects: [
+    levelTiles: [
 OBJECTS
     ],
 }

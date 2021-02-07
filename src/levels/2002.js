@@ -5,7 +5,7 @@ export default {
     description: "Pick up two numbers and deliver them to the finish line",
     unlocksLevels: ["2003"],
     unlocksInstructions: [],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 4, ...instructions["STRT"]},
         {x: 3, y: 4, ...instructions["READ"]},
         {x: 5, y: 4, ...instructions["READ"]},

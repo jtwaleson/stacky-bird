@@ -5,7 +5,7 @@ export default {
     description: "In this level we introduce randomness, you have to escape it!",
     unlocksLevels: ["0101"],
     unlocksInstructions: ["JMP1"],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 4, ...instructions["STRT"]},
         {x: 4, y: 4, ...instructions["YOLO"]},
         {x: 2, y: 4, ...instructions["RGHT"]},

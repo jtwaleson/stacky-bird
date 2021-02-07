@@ -5,7 +5,7 @@ export default {
     description: "Pick up a number, if it is less than 1, drop it. If it's higher, bring it to the finish line.",
     unlocksLevels: ["2008"],
     unlocksInstructions: ["VOID"],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
         {x: 3, y: 2, ...instructions["DUP1"]},
         {x: 3, y: 3, ...instructions["GEQ1"]},

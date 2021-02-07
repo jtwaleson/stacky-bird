@@ -5,7 +5,7 @@ export default {
     description: "Pick up a number, copy it and finish with two numbers",
     unlocksLevels: ["2007"],
     unlocksInstructions: ["DUP1"],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
         {x: 4, y: 4, ...instructions["DUP1"]},
         {x: 7, y: 7, ...instructions["FINI"]},

@@ -5,7 +5,7 @@ export default {
     description: "This might seem impossible, maybe you have to finish another level first",
     unlocksLevels: ["2001", "1001"],
     unlocksInstructions: [],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
         {x: 3, y: 1, ...instructions["BLCK"]},
         {x: 3, y: 2, ...instructions["BLCK"]},

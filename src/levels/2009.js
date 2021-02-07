@@ -5,7 +5,7 @@ export default {
     description: "Pick up a number, make it one smaller and bring it to the finish.",
     unlocksLevels: ["2010"],
     unlocksInstructions: ["SUB1"],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
         {x: 4, y: 4, ...instructions["SUB1"]},
         {x: 7, y: 7, ...instructions["FINI"]},

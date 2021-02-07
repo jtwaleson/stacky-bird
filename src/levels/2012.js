@@ -5,7 +5,7 @@ export default {
     description: "Read all the numbers in the input, and sum them all up. Now, there are also cases without any input. In which case 0 should be returned.",
     unlocksLevels: ["2013"],
     unlocksInstructions: ["SUMA"],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
         {x: 7, y: 7, ...instructions["FINI"]},
     ],

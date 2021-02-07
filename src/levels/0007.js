@@ -5,7 +5,7 @@ export default {
     description: "Find your way",
     unlocksLevels: ["0008"],
     unlocksInstructions: [],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
 
         {x: 1, y: 2, ...instructions["BLCK"]},

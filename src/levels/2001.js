@@ -5,7 +5,7 @@ export default {
     description: "In this level we have to pick up a number and deliver it to the finish line",
     unlocksLevels: ["2002"],
     unlocksInstructions: [],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 3, ...instructions["STRT"]},
         {x: 4, y: 1, ...instructions["READ"]},
         {x: 7, y: 7, ...instructions["FINI"]},

@@ -5,7 +5,7 @@ export default {
     description: "Get your way around the maze",
     unlocksLevels: ["0009", "0010"],
     unlocksInstructions: [],
-    gridObjects: [
+    levelTiles: [
         {x: 1, y: 1, ...instructions["STRT"]},
         {x: 1, y: 2, ...instructions["BLCK"]},
         {x: 3, y: 1, ...instructions["BLCK"]},
