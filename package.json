@@ -13,6 +13,7 @@
     "load-json-file": "^6.2.0",
     "lodash": "^4.17.20",
     "lodash.isequal": "^4.5.0",
+    "tone": "^14.7.77",
     "vue": "^3.0.0",
     "vue-final-modal": "^1.8.4",
     "vue-router": "^4.0.0-0",

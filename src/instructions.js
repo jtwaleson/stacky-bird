@@ -19,6 +19,11 @@
  * https://www.fileformat.info/info/unicode/block/miscellaneous_symbols/utf8test.htm
  * */
 
+import * as Tone from 'tone';
+
+const synth = new Tone.Synth().toDestination();
+
+
 import { toRaw } from 'vue';
 import isEqual from 'lodash.isequal';
 import { sleep } from './util.js';
@@ -432,4 +437,13 @@ export default {
         },
         instructionClass: "D",
     },
+    "NOTE": {
+        symbol: "bi-bell",
+        description: "Make a sound",
+        async execute() {
+            //play a middle 'C' for the duration of an 8th note
+            synth.triggerAttackRelease("C4", "8n");
+        },
+        instructionClass: "D",
+    },    
 };
