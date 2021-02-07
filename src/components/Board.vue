@@ -121,6 +121,7 @@ import InstructionList from "./InstructionList.vue";
 import { useToast } from "vue-toastification";
 import flappy1 from "@/assets/flappy1.png";
 import flappy2 from "@/assets/flappy2.png";
+import cloneDeep from 'lodash/cloneDeep'
 
 const toast = useToast();
 
@@ -185,7 +186,8 @@ export default {
             flappingInterval: null,
             userPlacedTiles: [],
             completedTestCases: {},
-            loadedCreeps: JSON.parse(JSON.stringify(this.creeps)),
+            loadedCreeps: cloneDeep(this.creeps),
+            loadedLevelTiles: cloneDeep(this.levelTiles),
         }
     },
     computed: {
@@ -214,7 +216,7 @@ export default {
             return false;
         },
         allTiles() {
-            return this.levelTiles.concat(this.userPlacedTiles);
+            return this.loadedLevelTiles.concat(this.userPlacedTiles);
         },
         devMode() {
             return process.env.NODE_ENV !== "production";
@@ -282,6 +284,7 @@ export default {
                 y,
                 userPlaced: true,
                 ...this.$store.state.instructions[event.dataTransfer.getData("text")],
+                // TODO we have to cover the case where user placed tiles support state too
                 state: null,
             });
             this.completedTestCases = {};
@@ -501,11 +504,13 @@ export default {
         },
         reset() {
             this.stepFunctionMutex = false;
-            this.loadedCreeps = JSON.parse(JSON.stringify(this.creeps));
-            this.birds = [];
-            for (const tile of this.allTiles) {
+            this.loadedCreeps = cloneDeep(this.creeps);
+            for (const tile of this.userPlacedTiles) {
+                // TODO we have to cover the case where user placed tiles support state too
                 tile.state = null;
             }
+            this.loadedLevelTiles = cloneDeep(this.levelTiles);
+            this.birds = [];
             clearInterval(this.flappingInterval);
         },
         clearWithWarning() {

@@ -11,7 +11,6 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [ ] 2 1 unlock different speed setting after the GEQ1 level
 * [ ] 2 1 visualize the tech tree somehow
 * [ ] 2 2 add instructions for TAKN, DRPN
-* [ ] 2 2 fix the bug where pre-filling state does not work
 * [ ] 2 3 add a favicon
 * [ ] 2 3 add music / effects
 * [ ] 2 3 create a level editor for quick level creation
@@ -61,6 +60,7 @@ Order: (impact 1 high, 4 low) (effort 1 low, 4 high)
 * [x] 2 2 animations / messages when level is completed or the bird dies
 * [x] 2 2 fix level structure for arrows
 * [x] 2 2 fix play/start/step buttons
+* [x] 2 2 fix the bug where pre-filling state does not work
 * [x] 2 2 prevent editing while playing
 * [x] 2 2 refactor levels so that they are just javascript files instead of Vue components
 * [x] 2 3 show modal block selector when clicking on an empty tile
