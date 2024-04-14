@@ -2,6 +2,7 @@
     <div class="instruction-grid-container fixedwidth">
         <h1><T textKey="Stacky Bird"/></h1>
         <p><T textKey="This is Stacky Bird, a game to learn programming as well as a revolutionary programming language by itself."/></p>
+        <p>This is a project I last worked on in 2022. See <a href="https://waleson.com">waleson.com</a> for more information about the creator and to buy the domain if you're interested.</p>
         <h2><T textKey="Language"/></h2>
         <ul>
             <li v-for="(caption, languageCode) in languages" :key="languageCode" @click="$store.commit('setLanguage', languageCode)" :class="{clickable: $store.state.locale !== languageCode}">{{ caption }}</li>
