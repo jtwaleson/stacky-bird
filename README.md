@@ -24,6 +24,7 @@ Install npm
 
 `npm run serve` to try it locally.
 
+For `npm run build` we have to run with `NODE_OPTIONS=--openssl-legacy-provider`
 
 Design Principles
 ---
