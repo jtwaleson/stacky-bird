@@ -420,9 +420,15 @@
     }
   },
   "menu": {
+    "ageNote": "Hecho para niños de 4+ (y sus padres). Los niños probablemente se atasquen en algún nivel avanzado, es normal. ¡Pruébenlo otra vez el año que viene!",
     "allLevelsFinished": "¡Has terminado todos los niveles!",
+    "bestOnDesktopWarning": "Aviso: Stacky Bird funciona mejor en escritorio.",
+    "close": "Cerrar",
     "completedLevels": "Niveles completados",
-    "gameDescription": "Stacky Bird es un juego de puzzles donde \"programas\" a tu pájaro para atravesar laberintos, monstruos y matemáticas arrastrando bloques de instrucciones al tablero. Cada bloque es un opcode de cuatro letras (para imitar los clásicos conjuntos de instrucciones de CPU), y cuanto más avanzas más raro—y más genial—se vuelve el arsenal: READ y PLUS para hacer cuentas en la pila, GEQ1 para ramificar, JMP1 para saltar muros, portales PRTI/PRTO para teletransportarte, NOTE para tocar una campana, e incluso YOLO cuando te sientes valiente.",
+    "demoVideoCta": "Míralo en acción en el video",
+    "demoVideoTitle": "Demo de Stacky Bird",
+    "gameDescriptionHtml": "Stacky Bird es un juego de puzzles basado en navegador donde \"programas\" a tu pájaro para atravesar laberintos, monstruos y matemáticas arrastrando bloques de instrucciones al tablero. Cada bloque es un opcode de cuatro letras (para imitar los clásicos conjuntos de instrucciones de CPU), y siempre puedes volver a los niveles anteriores para crear soluciones más limpias e inteligentes cuando desbloquees nuevos bloques. Cuanto más avanzas, más raro (y más genial) se vuelve el arsenal: <span class=\"opcode-pill\">READ</span> y <span class=\"opcode-pill\">PLUS</span> para hacer cuentas en la pila, <span class=\"opcode-pill\">GEQ1</span> para ramificar, <span class=\"opcode-pill\">JMP1</span> para saltar muros, portales <span class=\"opcode-pill\">PRTI</span>/<span class=\"opcode-pill\">PRTO</span> para teletransportarte, <span class=\"opcode-pill\">NOTE</span> para tocar una campana, e incluso <span class=\"opcode-pill\">YOLO</span> cuando te sientes valiente.",
+    "githubLink": "Ver en GitHub",
     "hiddenInstructionsCount": "Hay {hiddenInstructionCount} bloques de instrucción más por descubrir. Completa niveles para desbloquearlos.",
     "hiddenLevelsCount": "Hay {hiddenLevelCount} niveles más todavía ocultos",
     "instructionBlocks": "Bloques de instrucción",
@@ -436,7 +442,8 @@
     "resetComplete": "Ok, todo borrado. Recargando desde cero.",
     "resetConfirm": "¿ESTÁS SEGURO DE QUE QUIERES BORRAR TODO TU PROGRESO?",
     "resetGame": "REINICIAR EL JUEGO - RESTABLECER DE FÁBRICA",
-    "subtitle": "Esto es Stacky Bird, un juego para aprender a programar así como un lenguaje de programación revolucionario en sí mismo.",
+    "scrollHint": "(o desplázate hacia abajo para empezar!)",
+    "subtitle": "Esto es Stacky Bird, un juego para que los niños (4+) aprendan a programar, y también un lenguaje de programación revolucionario (😂) en sí mismo.",
     "title": "Stacky Bird"
   }
 }

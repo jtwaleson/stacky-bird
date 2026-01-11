@@ -420,9 +420,15 @@
     }
   },
   "menu": {
+    "ageNote": "Gemaakt voor kinderen van 4+ (en hun ouders). De kinderen lopen waarschijnlijk vast bij een wat moeilijker level, dat is normaal. Probeer het over een jaar nog eens!",
     "allLevelsFinished": "Je hebt alle levels uit!",
+    "bestOnDesktopWarning": "Let op: Stacky Bird werkt het best op desktop.",
+    "close": "Sluiten",
     "completedLevels": "Afgemaakte Levels",
-    "gameDescription": "Stacky Bird is een puzzelspel waarin je je vogel \"programmeert\" door doolhoven, monsters en rekensommen door instructieblokken op het bord te slepen. Elk blok is een vierletterige opcode (om klassieke CPU-instructiesets na te bootsen), en hoe verder je komt, hoe vreemder—en cooler—de gereedschapskist wordt: READ en PLUS voor stack-rekenen, GEQ1 om te vertakken, JMP1 om over muren te springen, PRTI/PRTO-portalen om te warpen, NOTE om een belletje te laten klinken, en zelfs YOLO als je je dapper voelt.",
+    "demoVideoCta": "Bekijk het in actie in de video",
+    "demoVideoTitle": "Stacky Bird demo",
+    "gameDescriptionHtml": "Stacky Bird is een browsergebaseerd puzzelspel waarin je je vogel \"programmeert\" door doolhoven, monsters en rekensommen door instructieblokken op het bord te slepen. Elk blok is een vierletterige opcode (om klassieke CPU-instructiesets na te bootsen), en je kunt altijd terug naar eerdere levels om slimmere, nettere oplossingen te bouwen zodra je later nieuwe blokken ontgrendelt. Hoe verder je komt, hoe vreemder (en cooler) de gereedschapskist wordt: <span class=\"opcode-pill\">READ</span> en <span class=\"opcode-pill\">PLUS</span> voor stack-rekenen, <span class=\"opcode-pill\">GEQ1</span> om te vertakken, <span class=\"opcode-pill\">JMP1</span> om over muren te springen, <span class=\"opcode-pill\">PRTI</span>/<span class=\"opcode-pill\">PRTO</span>-portalen om te warpen, <span class=\"opcode-pill\">NOTE</span> om een belletje te laten klinken, en zelfs <span class=\"opcode-pill\">YOLO</span> als je je dapper voelt.",
+    "githubLink": "Bekijk op GitHub",
     "hiddenInstructionsCount": "Er zijn nog {hiddenInstructionCount} meer blokken te ontdekken. Maak levels af om ze te verdienen.",
     "hiddenLevelsCount": "Er zijn nog {hiddenLevelCount} levels onzichtbaar",
     "instructionBlocks": "Blokken",
@@ -436,7 +442,8 @@
     "resetComplete": "Ok, alles is gewist. Je begint nu opnieuw vanaf nul.",
     "resetConfirm": "WEET JE ZEKER DAT JE ALLES WILT WISSEN?",
     "resetGame": "RESET HET SPEL - TERUG NAAR FABRIEKSINSTELLINGEN",
-    "subtitle": "Dit is Stacky Bird. Een spel om te leren programmeren, en ook een super interessante programmeertaal.",
+    "scrollHint": "(of scroll naar beneden om te beginnen!)",
+    "subtitle": "Dit is Stacky Bird. Een spel voor kinderen (4+) om te leren programmeren, en ook een revolutionaire programmeertaal (😂).",
     "title": "Stacky Bird"
   }
 }

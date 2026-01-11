@@ -12,19 +12,36 @@ This game was inspired by:
 
 I started this game in 2014 when my son was just born. Every few years I do some work on it.
 
+Made for kids (and their parents)
+----
+
+Stacky Bird is made for **kids 4+**. They’ll likely get stuck once the levels become more advanced — that’s normal. The fun part is coming back **a year later** and suddenly crushing the puzzles that used to feel impossible.
+
+<a href="https://github.com/jtwaleson/stacky-bird" title="View on GitHub">
+  <img alt="GitHub" src="https://cdn.simpleicons.org/github/181717" width="20" height="20" />
+</a>
+<a href="https://github.com/jtwaleson/stacky-bird">github.com/jtwaleson/stacky-bird</a>
+
 See it in action!
 ----
 
 [game.stackybird.com](https://game.stackybird.com/)
+
+Demo video
+----
+
+<video src="public/stacky-bird-demo.mp4" controls preload="metadata">
+  Your browser does not support the video tag.
+</video>
+
+Direct link: [`public/stacky-bird-demo.mp4`](public/stacky-bird-demo.mp4)
 
 Usage
 ----
 
 Install npm
 
-`npm run serve` to try it locally.
-
-For `npm run build` we have to run with `NODE_OPTIONS=--openssl-legacy-provider`
+`npm run dev` to try it locally.
 
 Design Principles
 ---
