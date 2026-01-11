@@ -26,7 +26,7 @@ const synth = new Tone.Synth().toDestination();
 
 import { toRaw } from 'vue';
 import isEqual from 'lodash.isequal';
-import { sleep } from './util.js';
+import { sleep } from './util';
 
 
 export default {

@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import MainMenu from './components/MainMenu.vue'
-import LevelPlayer from './components/LevelPlayer.vue'
+import MainMenu from '../components/MainMenu.vue'
+import LevelPlayer from '../components/LevelPlayer.vue'
 
 const routes = [
     {
