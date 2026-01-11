@@ -1197,10 +1197,12 @@ const step = async () => {
         if (shouldMove === 'SKIP') {
             await sleep(2 * speed.value)
         }
-        if (!birdIsLoaded.value) {
+        if (shouldMove === 'JUMP') {
+            // JMP1 already moved the bird and handled animation, so skip moveBird
+            // The jump animation delay is handled in the JMP1 instruction itself
+        } else if (!birdIsLoaded.value) {
             break
-        }
-        if (birdIsLoaded.value && shouldMove !== 'NOMOVE') {
+        } else if (birdIsLoaded.value && shouldMove !== 'NOMOVE') {
             await moveBird(bird)
         }
     }
@@ -1688,6 +1690,82 @@ onBeforeUnmount(() => {
     filter: invert(1);
     height: 0;
     transition: height ease-in-out 0.5s;
+}
+
+.thebird.jumping.right {
+    animation: jump-right 0.8s ease-in-out forwards;
+    z-index: 101;
+}
+
+.thebird.jumping.left {
+    animation: jump-left 0.8s ease-in-out forwards;
+    z-index: 101;
+}
+
+.thebird.jumping.up {
+    animation: jump-up 0.8s ease-in-out forwards;
+    z-index: 101;
+}
+
+.thebird.jumping.down {
+    animation: jump-down 0.8s ease-in-out forwards;
+    z-index: 101;
+}
+
+@keyframes jump-right {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(calc(100% + var(--spacing-md)), -50%) scale(1.15);
+    }
+
+    100% {
+        transform: translate(calc(200% + 2 * var(--spacing-md)), 0) scale(1);
+    }
+}
+
+@keyframes jump-left {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(calc(-100% - var(--spacing-md)), -50%) scale(1.15);
+    }
+
+    100% {
+        transform: translate(calc(-200% - 2 * var(--spacing-md)), 0) scale(1);
+    }
+}
+
+@keyframes jump-up {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(0, calc(-100% - var(--spacing-md))) scale(1.15);
+    }
+
+    100% {
+        transform: translate(0, calc(-200% - 2 * var(--spacing-md))) scale(1);
+    }
+}
+
+@keyframes jump-down {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(0, calc(100% + var(--spacing-md))) scale(1.15);
+    }
+
+    100% {
+        transform: translate(0, calc(200% + 2 * var(--spacing-md))) scale(1);
+    }
 }
 
 /* Stack visualization on bird */

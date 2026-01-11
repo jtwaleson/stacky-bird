@@ -361,19 +361,46 @@ export default {
     JMP1: {
         symbol: '⤼',
         description: 'instructions.JMP1',
-        async execute(bird: Bird) {
+        async execute(bird: Bird, board: Board) {
             if (bird.x === null || bird.y === null) {
                 return
             }
-            if (bird.direction === 'down') {
-                bird.y += 1
-            } else if (bird.direction === 'up') {
-                bird.y -= 1
-            } else if (bird.direction === 'left') {
-                bird.x -= 1
-            } else if (bird.direction === 'right') {
-                bird.x += 1
+            // Ensure direction class is set (preserve if already exists)
+            const directionIndex = bird.birdClasses.findIndex(
+                (cls) => cls === 'up' || cls === 'down' || cls === 'left' || cls === 'right',
+            )
+            if (directionIndex === -1) {
+                bird.birdClasses.push(bird.direction)
             }
+            // Add jumping class for animation
+            if (!bird.birdClasses.includes('jumping')) {
+                bird.birdClasses.push('jumping')
+            }
+            // Slow down during jump - match animation duration
+            await sleep(800)
+
+            // Move 2 tiles (jump over one)
+            if (bird.direction === 'down') {
+                bird.y += 2
+            } else if (bird.direction === 'up') {
+                bird.y -= 2
+            } else if (bird.direction === 'left') {
+                bird.x -= 2
+            } else if (bird.direction === 'right') {
+                bird.x += 2
+            }
+
+            // Allow animation to finish visually before removing class
+            // The position update above snaps the grid position.
+            // Ideally we sync this.
+            // Since we sleep BEFORE update, the animation runs while x is old.
+            // At end of sleep, x updates, and we remove class.
+
+            const jumpingIndex = bird.birdClasses.indexOf('jumping')
+            if (jumpingIndex !== -1) {
+                bird.birdClasses.splice(jumpingIndex, 1)
+            }
+            return 'JUMP'
         },
         instructionClass: 'C',
     },
