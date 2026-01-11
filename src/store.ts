@@ -3,10 +3,29 @@ import { toRaw } from 'vue'
 
 const languageCode = localStorage.getItem('language') || 'en'
 
+interface Instruction {
+    name?: string
+    symbol: string
+    description: string
+    execute?: unknown
+    instructionClass?: string
+    [key: string]: unknown
+}
+
+export interface Level {
+    name: string
+    completed?: boolean
+    displayName?: string
+    description?: string
+    unlocksInstructions?: string[]
+    unlocksLevels?: string[]
+    [key: string]: unknown
+}
+
 export const useStore = defineStore('main', {
     state: () => ({
-        instructions: {} as Record<string, any>,
-        levels: {} as Record<string, any>,
+        instructions: {} as Record<string, Instruction>,
+        levels: {} as Record<string, Level>,
         locale: languageCode,
     }),
     getters: {
@@ -17,8 +36,8 @@ export const useStore = defineStore('main', {
                 es: 'Español',
             }
         },
-        completedLevels(state) {
-            const result = []
+        completedLevels(state): Level[] {
+            const result: Level[] = []
             for (const level of Object.values(state.levels)) {
                 if (level.completed) {
                     result.push(level)
@@ -26,21 +45,24 @@ export const useStore = defineStore('main', {
             }
             return result
         },
-        availableInstructionsMap(): Record<string, any> {
-            const result: Record<string, any> = {}
+        availableInstructionsMap(): Record<string, Instruction> {
+            const result: Record<string, Instruction> = {}
             const completedLevels = this.completedLevels
             for (const level of completedLevels) {
-                for (const instructionCode of level.unlocksInstructions || []) {
-                    result[instructionCode] = this.instructions[instructionCode]
+            for (const instructionCode of level.unlocksInstructions || []) {
+                const instruction = this.instructions[instructionCode]
+                if (instruction) {
+                    result[instructionCode] = instruction
                 }
+            }
             }
             return result
         },
-        availableInstructions(): any[] {
+        availableInstructions(): Instruction[] {
             return Object.values(this.availableInstructionsMap)
         },
-        availableLevels(): any[] {
-            const result: Record<string, any> = {}
+        availableLevels(): Level[] {
+            const result: Record<string, Level> = {}
             if (this.levels['0001'] && !this.levels['0001']?.completed) {
                 result['0001'] = this.levels['0001']
             }
@@ -57,13 +79,13 @@ export const useStore = defineStore('main', {
             }
             return Object.values(result).filter((level) => level !== undefined && level !== null)
         },
-        unavailableButReachableInstructions(): any[] {
-            const result: any[] = []
+        unavailableButReachableInstructions(): Instruction[] {
+            const result: Instruction[] = []
             const availableLevels = this.availableLevels
             for (const level of availableLevels) {
-                for (const instructionName of level.unlocksInstructions) {
+                for (const instructionName of level.unlocksInstructions || []) {
                     const instruction = this.instructions[instructionName]
-                    if (!(instruction.name in this.availableInstructionsMap)) {
+                    if (instruction && instruction.name && !(instruction.name in this.availableInstructionsMap)) {
                         result.push(instruction)
                     }
                 }
@@ -72,7 +94,10 @@ export const useStore = defineStore('main', {
         },
     },
     actions: {
-        registerInstruction(instruction: any) {
+        registerInstruction(instruction: Instruction) {
+            if (!instruction.name) {
+                throw new Error('Instruction must have a name')
+            }
             if (instruction.name in this.instructions) {
                 throw new Error(`instruction ${instruction.name} is already registered`)
             }
@@ -82,7 +107,7 @@ export const useStore = defineStore('main', {
             this.locale = languageCode
             localStorage.setItem('language', languageCode)
         },
-        registerLevel(level: any) {
+        registerLevel(level: Level) {
             if (level.name in this.levels) {
                 throw new Error(`level ${level.name} is already registered`)
             }
@@ -98,10 +123,13 @@ export const useStore = defineStore('main', {
             if (!(levelName in this.levels)) {
                 throw new Error(`level ${levelName} not found, can not unlock`)
             }
-            this.levels[levelName].completed = toRaw(isCompleted)
-            const completedLevels = []
+            const level = this.levels[levelName]
+            if (level) {
+                level.completed = toRaw(isCompleted)
+            }
+            const completedLevels: string[] = []
             for (const level of Object.values(this.levels)) {
-                if (level.completed) {
+                if (level.completed && level.name) {
                     completedLevels.push(level.name)
                 }
             }

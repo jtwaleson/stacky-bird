@@ -5,6 +5,10 @@
 import { computed, getCurrentInstance } from 'vue'
 import { useStore } from '../store'
 
+defineOptions({
+  name: 'TranslationText',
+})
+
 /* The idea of this component is to visualize needed
 translations, can be added in dev mode via the UI */
 
@@ -18,9 +22,9 @@ const instance = getCurrentInstance()
 
 const rawText = computed(() => {
     // Access store.locale to make this computed reactive to locale changes
-    const locale = store.locale
+    void store.locale
 
-    // @ts-ignore - $t is added by mixin
+    // @ts-expect-error - $t is added by mixin
     const $t = instance?.proxy?.$t as ((key: string) => string) | undefined
     return $t ? $t(props.textKey) : props.textKey
 })

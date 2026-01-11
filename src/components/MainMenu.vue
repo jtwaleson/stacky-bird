@@ -109,8 +109,8 @@ const hiddenInstructionCount = computed(() => {
 })
 
 const factoryReset = () => {
-    // @ts-ignore - $tr is added by mixin
-    const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, any>) => string) | undefined
+    // @ts-expect-error - $tr is added by mixin
+    const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, unknown>) => string) | undefined
     const confirmMessage = $tr ? $tr('ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?') : 'ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?'
     if (confirm(confirmMessage)) {
         const alertMessage = $tr ? $tr('Ok, everything is wiped. Reloading from scratch.') : 'Ok, everything is wiped. Reloading from scratch.'

@@ -29,7 +29,7 @@
                             :key="instructionName"
                         >
                             <div class="mini-instruction">
-                                <Instruction v-bind="store.instructions[instructionName]" unlocked />
+                                <Instruction v-if="store.instructions[instructionName] && store.instructions[instructionName].symbol && store.instructions[instructionName].name && store.instructions[instructionName].description" v-bind="store.instructions[instructionName]" unlocked />
                             </div>
                         </template>
                     </div>
@@ -42,11 +42,21 @@
 import { useStore } from '../store'
 import Instruction from './Instruction.vue'
 
+interface Level {
+    name: string
+    completed?: boolean
+    displayName?: string
+    description?: string
+    unlocksInstructions?: string[]
+    unlocksLevels?: string[]
+    [key: string]: unknown
+}
+
 defineProps<{
     hideFinished?: boolean
     hideUnfinished?: boolean
     hideNotReachable?: boolean
-    levels: any[]
+    levels: Level[]
 }>()
 
 const store = useStore()

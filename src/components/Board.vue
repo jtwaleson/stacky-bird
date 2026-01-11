@@ -21,8 +21,11 @@
             <T textKey="You have unlocked the following blocks" />:
           </p>
           <div class="unlocks-instructions">
-            <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index"
-              v-bind="store.instructions[instructionCode]" unlocked />
+            <template v-for="(instructionCode, index) in unlocksInstructions" :key="index">
+              <Instruction
+                v-if="store.instructions[instructionCode] && store.instructions[instructionCode].symbol && store.instructions[instructionCode].name && store.instructions[instructionCode].description"
+                v-bind="store.instructions[instructionCode]" unlocked />
+            </template>
           </div>
         </div>
       </div>
@@ -125,10 +128,14 @@
               <T textKey="Input" />:
             </span>
             <div class="stack-view">
-              <span v-if="birdIsLoaded" v-for="(val, idx) in input" :key="'in' + idx" class="stack-item">{{ val
+              <template v-if="birdIsLoaded">
+                <span v-for="(val, idx) in input" :key="'in' + idx" class="stack-item">{{ val
                 }}</span>
-              <span v-else v-for="(val, idx) in selectedTestCase.input" :key="'in-s' + idx" class="stack-item">{{ val
-              }}</span>
+              </template>
+              <template v-else>
+                <span v-for="(val, idx) in selectedTestCase.input" :key="'in-s' + idx" class="stack-item">{{ val
+                  }}</span>
+              </template>
             </div>
           </div>
           <div class="io-group">
@@ -137,7 +144,7 @@
             </span>
             <div class="stack-view">
               <span v-for="(val, idx) in selectedTestCase.finalStack" :key="'out' + idx" class="stack-item">{{ val
-              }}</span>
+                }}</span>
             </div>
           </div>
         </div>
@@ -165,9 +172,14 @@
             :style="birdStyle(creep)">
             <img src="@/assets/flappy1.png" />
           </div>
-          <Instruction v-for="(levelTile, index) in allTiles" :key="index" v-bind="levelTile" unlocked
-            :userPlaced="!birdIsLoaded && levelTile.userPlaced" :draggable="!birdIsLoaded && levelTile.userPlaced"
-            :deleteMethod="() => deletePlacedInstruction(levelTile)" />
+          <template v-for="(levelTile, index) in allTiles" :key="index">
+            <Instruction v-if="levelTile.symbol && levelTile.name && levelTile.description"
+              :symbol="levelTile.symbol as string" :name="levelTile.name as string"
+              :description="levelTile.description as string" :x="levelTile.x" :y="levelTile.y" :state="levelTile.state"
+              :instructionClass="(levelTile.instructionClass as string) || 'A'" unlocked
+              :userPlaced="!birdIsLoaded && levelTile.userPlaced" :draggable="!birdIsLoaded && levelTile.userPlaced"
+              :deleteMethod="() => deletePlacedInstruction(levelTile)" />
+          </template>
         </div>
       </div>
     </main>
@@ -176,7 +188,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
-import { useRouter } from 'vue-router'
 import { sleep, oppositeDirection } from '../util'
 import { useStore } from '../store'
 import { toRaw } from 'vue'
@@ -187,8 +198,11 @@ import flappy1 from '@/assets/flappy1.png'
 import flappy2 from '@/assets/flappy2.png'
 import cloneDeep from 'lodash/cloneDeep'
 
+defineOptions({
+  name: 'GameBoard',
+})
+
 const toast = useToast()
-const router = useRouter()
 const instance = getCurrentInstance()
 
 type Direction = 'up' | 'down' | 'left' | 'right'
@@ -208,8 +222,8 @@ interface Tile {
   name: string
   userPlaced?: boolean
   state?: number | null
-  execute?: (bird: Bird, board: any, tile: Tile) => Promise<string | void>
-  [key: string]: any
+  execute?: (bird: Bird, board: unknown, tile: Tile) => Promise<string | void>
+  [key: string]: unknown
 }
 
 interface Creep {
@@ -353,10 +367,10 @@ const toggleLevelCompleteDevMode = () => {
   })
 }
 
-const birdStyle = (bird: Bird) => {
+const birdStyle = (entity: Bird | Creep) => {
   return {
-    'grid-column': bird.x,
-    'grid-row': bird.y,
+    'grid-column': entity.x ?? undefined,
+    'grid-row': entity.y ?? undefined,
     display: 'grid',
   }
 }
@@ -378,13 +392,16 @@ const drop = (x: number, y: number, event: DragEvent) => {
     )
   }
   const instructionCode = event.dataTransfer.getData('text')
-  userPlacedTiles.value.push({
-    x,
-    y,
-    userPlaced: true,
-    ...store.instructions[instructionCode],
-    state: null,
-  })
+  const instruction = store.instructions[instructionCode]
+  if (instruction && instruction.symbol && instruction.name && instruction.description) {
+    userPlacedTiles.value.push({
+      ...instruction,
+      x,
+      y,
+      userPlaced: true,
+      state: null,
+    } as Tile)
+  }
   completedTestCases.value = {}
   saveBoardToLocalStorage()
 }
@@ -453,8 +470,8 @@ const dieBird = async (message: string, bird: Bird) => {
   await sleep(0.5 * speed.value)
   bird.birdClasses.push('dead')
   await sleep(500)
-  // @ts-ignore - $tr is added by mixin
-  const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, any>) => string) | undefined
+  // @ts-expect-error - $tr is added by mixin
+  const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, unknown>) => string) | undefined
   const translatedMessage = $tr ? $tr(message) : message
   toast.warning(translatedMessage)
   reset()
@@ -463,14 +480,14 @@ const dieBird = async (message: string, bird: Bird) => {
 const finish = () => {
   reset()
   let allLevelsFinished = true
-  let nextTestCase: TestCase | false = false
+  let nextTestCase: TestCase | null = null
 
   if (props.validation) {
     for (const testCaseIndex in props.validation) {
       if (props.validation[parseInt(testCaseIndex)] === selectedTestCase.value) {
         completedTestCases.value[parseInt(testCaseIndex)] = true
-        // @ts-ignore - $tr is added by mixin
-        const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, any>) => string) | undefined
+        // @ts-expect-error - $tr is added by mixin
+        const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, unknown>) => string) | undefined
         const translatedMessage = $tr
           ? $tr(`Test case {testCaseIndex} done!`, { testCaseIndex: parseInt(testCaseIndex) + 1 })
           : `Test case ${parseInt(testCaseIndex) + 1} done!`
@@ -480,7 +497,10 @@ const finish = () => {
     for (const testCaseIndex in props.validation) {
       if (!(parseInt(testCaseIndex) in completedTestCases.value)) {
         allLevelsFinished = false
-        nextTestCase = props.validation[parseInt(testCaseIndex)]
+        const testCase = props.validation[parseInt(testCaseIndex)]
+        if (testCase) {
+          nextTestCase = testCase
+        }
         break
       }
     }
@@ -495,7 +515,7 @@ const finish = () => {
     }
     showLevelCompletedModal.value = true
   } else {
-    selectedTestCase.value = nextTestCase || null
+    selectedTestCase.value = nextTestCase
   }
 }
 const playButton = () => {
@@ -641,8 +661,8 @@ const reset = () => {
 }
 
 const clearWithWarning = () => {
-  // @ts-ignore - $tr is added by mixin
-  const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, any>) => string) | undefined
+  // @ts-expect-error - $tr is added by mixin
+  const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, unknown>) => string) | undefined
   const message = $tr ? $tr('This will reset your level, are you sure?') : 'This will reset your level, are you sure?'
   if (confirm(message)) {
     clear()
@@ -674,8 +694,8 @@ onMounted(() => {
   if (!props.name) {
     return
   }
-  if (props.validation) {
-    selectedTestCase.value = props.validation[0]
+  if (props.validation && props.validation.length > 0) {
+    selectedTestCase.value = props.validation[0] || null
   }
   const userPlacedTilesData = JSON.parse(localStorage.getItem(props.name) || '[]') as Array<{
     x: number
@@ -683,12 +703,15 @@ onMounted(() => {
     code: string
   }>
   for (const tile of userPlacedTilesData) {
-    userPlacedTiles.value.push({
-      x: tile.x,
-      y: tile.y,
-      userPlaced: true,
-      ...store.instructions[tile.code],
-    })
+    const instruction = store.instructions[tile.code]
+    if (instruction && instruction.symbol && instruction.name && instruction.description) {
+      userPlacedTiles.value.push({
+        ...instruction,
+        x: tile.x,
+        y: tile.y,
+        userPlaced: true,
+      } as Tile)
+    }
   }
 })
 
@@ -735,6 +758,11 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 15px;
   margin-bottom: 10px;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  line-height: 1;
 }
 
 .back-btn {

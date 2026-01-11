@@ -1,12 +1,13 @@
 <template>
     <div v-if="filteredInstructions.length > 0" class="instruction-grid" :style="boardStyle">
-        <Instruction
-            v-for="instruction in filteredInstructions"
-            :key="instruction.name"
-            v-bind="instruction"
-            :draggable="draggable"
-            :unlocked="instruction.name in unlockedInstructionCodes"
-        />
+        <template v-for="instruction in filteredInstructions" :key="instruction.name || ''">
+            <Instruction
+                v-if="instruction.name && instruction.symbol && instruction.description"
+                v-bind="instruction"
+                :draggable="draggable"
+                :unlocked="instruction.name ? instruction.name in unlockedInstructionCodes : false"
+            />
+        </template>
     </div>
     <p v-else class="empty-message">
         <em><T textKey="There are no instructions available." /></em>
@@ -45,7 +46,9 @@ const filteredInstructions = computed(() => {
 const unlockedInstructionCodes = computed(() => {
     const result: Record<string, boolean> = {}
     for (const instruction of store.availableInstructions) {
-        result[instruction.name] = true
+        if (instruction.name) {
+            result[instruction.name] = true
+        }
     }
     return result
 })
@@ -54,7 +57,7 @@ const boardStyle = computed(() => {
     return {
         'grid-template-columns': `repeat(${props.cols}, 1fr)`,
         opacity: props.locked ? 0.4 : 1.0,
-        pointerEvents: props.locked ? 'none' : 'auto',
+        pointerEvents: (props.locked ? 'none' : 'auto') as 'none' | 'auto',
     }
 })
 </script>

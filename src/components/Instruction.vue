@@ -12,10 +12,14 @@
 import { ref, computed, getCurrentInstance } from 'vue'
 import { useStore } from '../store'
 
+defineOptions({
+    name: 'InstructionBlock',
+})
+
 const props = withDefaults(
     defineProps<{
         symbol: string
-        name: string
+        name?: string
         description: string
         unlocked?: boolean
         x?: number | null
@@ -40,17 +44,17 @@ const store = useStore()
 
 const translatedDescription = computed(() => {
     // Access store.locale to make this computed reactive to locale changes
-    const locale = store.locale
+    void store.locale
 
-    // @ts-ignore - $tr is added by mixin
-    const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, any>) => string) | undefined
+    // @ts-expect-error - $tr is added by mixin
+    const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, unknown>) => string) | undefined
     return $tr ? $tr(props.description) : props.description
 })
 
 const draggingAway = ref(false)
 
 const dragstart = (e: DragEvent) => {
-    if (!e.dataTransfer) return
+    if (!e.dataTransfer || !props.name) return
     e.dataTransfer.setData('text', props.name)
 
     // Create a smaller drag image
