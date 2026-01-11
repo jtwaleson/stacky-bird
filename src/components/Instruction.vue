@@ -192,6 +192,51 @@ const classObject = computed(() => {
     cursor: not-allowed;
 }
 
+/* 2048-style colors for different instruction classes */
+.instruction.unlocked.field-style-A {
+    background-color: #eee4da; /* Light beige - default */
+}
+
+.instruction.unlocked.field-style-B {
+    background-color: #ede0c8; /* Slightly darker beige */
+}
+
+.instruction.unlocked.field-style-C {
+    background-color: #f2b179; /* Orange */
+}
+
+.instruction.unlocked.field-style-D {
+    background-color: #f59563; /* Darker orange */
+}
+
+.instruction.unlocked.field-style-F {
+    background-color: #f67c5f; /* Red-orange */
+}
+
+.instruction.unlocked.field-style-G {
+    background-color: #f65e3b; /* Red */
+}
+
+.instruction.unlocked.field-style-Z {
+    background-color: #edcf72; /* Yellow */
+}
+
+.instruction.unlocked.field-style-A1 {
+    background-color: #edcc61; /* Gold */
+}
+
+.instruction.unlocked.field-style-A2 {
+    background-color: #edc850; /* Golden yellow */
+}
+
+.instruction.unlocked.draggable {
+    cursor: grab;
+}
+
+.instruction.unlocked.draggable:active {
+    cursor: grabbing;
+}
+
 .instruction.unlocked.userPlaced {
     cursor: grab;
 }
@@ -208,9 +253,46 @@ const classObject = computed(() => {
 }
 
 .instruction.userPlaced {
-    background-color: #f2e8de;
-    /* Slightly different to indicate placed */
+    /* Background color is set by field-style classes */
+    /* Slightly different border to indicate placed */
     border: 2px solid #dcb;
+}
+
+/* Ensure userPlaced instructions keep their field-style colors */
+.instruction.unlocked.userPlaced.field-style-A {
+    background-color: #eee4da;
+}
+
+.instruction.unlocked.userPlaced.field-style-B {
+    background-color: #ede0c8;
+}
+
+.instruction.unlocked.userPlaced.field-style-C {
+    background-color: #f2b179;
+}
+
+.instruction.unlocked.userPlaced.field-style-D {
+    background-color: #f59563;
+}
+
+.instruction.unlocked.userPlaced.field-style-F {
+    background-color: #f67c5f;
+}
+
+.instruction.unlocked.userPlaced.field-style-G {
+    background-color: #f65e3b;
+}
+
+.instruction.unlocked.userPlaced.field-style-Z {
+    background-color: #edcf72;
+}
+
+.instruction.unlocked.userPlaced.field-style-A1 {
+    background-color: #edcc61;
+}
+
+.instruction.unlocked.userPlaced.field-style-A2 {
+    background-color: #edc850;
 }
 
 .instruction .symbol {
