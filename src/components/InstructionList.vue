@@ -5,7 +5,7 @@
     <p v-else><em><T textKey="There are no instructions available."/></em></p>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { useStore } from '../store'
 import Instruction from "./Instruction.vue"
 
 export default {
@@ -23,21 +23,23 @@ export default {
             default: 5,
         },
     },
+    setup() {
+        const store = useStore()
+        return { store }
+    },
     computed: {
-        ...mapState(['instructions']),
-        ...mapGetters(['unavailableButReachableInstructions', 'availableInstructions']),
         filteredInstructions() {
             if (this.showAll) {
-                return Object.values(this.instructions);
+                return Object.values(this.store.instructions);
             } else if (this.unlockedOnly) {
-                return this.availableInstructions;
+                return this.store.availableInstructions;
             } else {
-                return this.availableInstructions.concat(this.unavailableButReachableInstructions);
+                return this.store.availableInstructions.concat(this.store.unavailableButReachableInstructions);
             }
         },
         unlockedInstructionCodes() {
             let result = {};
-            for (let instruction of this.availableInstructions) {
+            for (let instruction of this.store.availableInstructions) {
                 result[instruction.name] = true;
             }
             return result;

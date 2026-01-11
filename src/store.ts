@@ -1,72 +1,20 @@
-import { createStore } from 'vuex';
+import { defineStore } from 'pinia';
 import { toRaw } from 'vue';
 
 let languageCode = localStorage.getItem("language") || "en";
 
-export default createStore({
-    state: {
-        instructions: {},
-        levels: {},
+export const useStore = defineStore('main', {
+    state: () => ({
+        instructions: {} as Record<string, any>,
+        levels: {} as Record<string, any>,
         locale: languageCode,
-    },
-    mutations: {
-        registerInstruction(state, instruction) {
-            if (instruction.name in state.instructions) {
-                throw new Error(`instruction ${instruction.name} is already registered`);
-            }
-            state.instructions[instruction.name] = instruction;
-        },
-        setLanguage(state, languageCode) {
-            state.locale = languageCode;
-            localStorage.setItem("language", languageCode);
-        },
-        registerLevel (state, level) {
-            if (level.name in state.levels) {
-                throw new Error(`level ${level.name} is already registered`);
-            }
-
-            let completedLevels = localStorage.getItem("completedLevels") || [];
-
-            state.levels[level.name] = {
-                ...level,
-                completed: completedLevels.indexOf(level.name) > -1,
-            };
-        },
-        completeLevel(state, {levelName, isCompleted}) {
-            if (!(levelName in state.levels)) {
-                throw new Error(`level ${levelName} not found, can not unlock`);
-            }
-            state.levels[levelName].completed = toRaw(isCompleted);
-            let completedLevels = [];
-            for (let level of Object.values(state.levels)) {
-                if (level.completed) {
-                    completedLevels.push(level.name);
-                }
-            }
-            localStorage.setItem("completedLevels", completedLevels);
-        },
-    },
+    }),
     getters: {
         languages() {
             return {
                 en: "English",
                 nl: "Nederlands",
             };
-        },
-        availableLevels(state, getters) {
-            let result = {};
-            if (!state.levels["0001"].completed) {
-                result["0001"] = state.levels["0001"];
-            }
-            for (let level of getters.completedLevels) {
-                for (let unlocksLevelCode of level.unlocksLevels) {
-                    let unlocksLevel = state.levels[unlocksLevelCode];
-                    if (unlocksLevel && !unlocksLevel.completed) {
-                        result[unlocksLevelCode] = unlocksLevel;
-                    }
-                }
-            }
-            return Object.values(result);
         },
         completedLevels(state) {
             let result = [];
@@ -77,24 +25,42 @@ export default createStore({
             }
             return result;
         },
-        availableInstructionsMap(state, getters) {
-            let result = {};
-            for (let level of getters.completedLevels) {
+        availableInstructionsMap(): Record<string, any> {
+            let result: Record<string, any> = {};
+            const completedLevels = this.completedLevels;
+            for (let level of completedLevels) {
                 for (let instructionCode of level.unlocksInstructions || []) {
-                    result[instructionCode] = state.instructions[instructionCode];
+                    result[instructionCode] = this.instructions[instructionCode];
                 }
             }
             return result;
         },
-        availableInstructions(state, getters) {
-            return Object.values(getters.availableInstructionsMap);
+        availableInstructions(): any[] {
+            return Object.values(this.availableInstructionsMap);
         },
-        unavailableButReachableInstructions(state, getters) {
-            let result = [];
-            for (const level of getters.availableLevels) {
+        availableLevels(): any[] {
+            let result: Record<string, any> = {};
+            if (!this.levels["0001"]?.completed) {
+                result["0001"] = this.levels["0001"];
+            }
+            const completedLevels = this.completedLevels;
+            for (let level of completedLevels) {
+                for (let unlocksLevelCode of level.unlocksLevels) {
+                    let unlocksLevel = this.levels[unlocksLevelCode];
+                    if (unlocksLevel && !unlocksLevel.completed) {
+                        result[unlocksLevelCode] = unlocksLevel;
+                    }
+                }
+            }
+            return Object.values(result);
+        },
+        unavailableButReachableInstructions(): any[] {
+            let result: any[] = [];
+            const availableLevels = this.availableLevels;
+            for (const level of availableLevels) {
                 for (const instructionName of level.unlocksInstructions) {
-                    const instruction = state.instructions[instructionName];
-                    if (!(instruction.name in getters.availableInstructionsMap)) {
+                    const instruction = this.instructions[instructionName];
+                    if (!(instruction.name in this.availableInstructionsMap)) {
                         result.push(instruction);
                     }
                 }
@@ -103,7 +69,40 @@ export default createStore({
         },
     },
     actions: {
+        registerInstruction(instruction: any) {
+            if (instruction.name in this.instructions) {
+                throw new Error(`instruction ${instruction.name} is already registered`);
+            }
+            this.instructions[instruction.name] = instruction;
+        },
+        setLanguage(languageCode: string) {
+            this.locale = languageCode;
+            localStorage.setItem("language", languageCode);
+        },
+        registerLevel(level: any) {
+            if (level.name in this.levels) {
+                throw new Error(`level ${level.name} is already registered`);
+            }
+
+            let completedLevels = JSON.parse(localStorage.getItem("completedLevels") || "[]");
+
+            this.levels[level.name] = {
+                ...level,
+                completed: completedLevels.indexOf(level.name) > -1,
+            };
+        },
+        completeLevel({levelName, isCompleted}: {levelName: string, isCompleted: boolean}) {
+            if (!(levelName in this.levels)) {
+                throw new Error(`level ${levelName} not found, can not unlock`);
+            }
+            this.levels[levelName].completed = toRaw(isCompleted);
+            let completedLevels = [];
+            for (let level of Object.values(this.levels)) {
+                if (level.completed) {
+                    completedLevels.push(level.name);
+                }
+            }
+            localStorage.setItem("completedLevels", JSON.stringify(completedLevels));
+        },
     },
-    modules: {
-    }
 })

@@ -2,6 +2,8 @@
     <span :class="{fallbackUsed}" @click="promptTranslation">{{ text }}</span>
 </template>
 <script>
+import { useStore } from '../store'
+
 /* The idea of this component is to visualize needed
 translations, can be added in dev mode via the UI */
 
@@ -13,6 +15,10 @@ export default {
             type: Object,
             default: () => {},
         },
+    },
+    setup() {
+        const store = useStore()
+        return { store }
     },
     computed: {
         rawText() {
@@ -26,7 +32,7 @@ export default {
             return result;
         },
         fallbackUsed() {
-            if (process.env.NODE_ENV === "production") {
+            if (import.meta.env.PROD) {
                 return false;
             }
             return !this.rawText;
@@ -37,12 +43,12 @@ export default {
             if (!this.fallbackUsed) {
                 return;
             }
-            if (process.env.NODE_ENV === "production") {
+            if (import.meta.env.PROD) {
                 return;
             }
             event.preventDefault();
             event.stopPropagation();
-            let translation = prompt(`How do you translate "${this.textKey}" into ${this.$store.state.locale}?`, this.textKey);
+            let translation = prompt(`How do you translate "${this.textKey}" into ${this.store.locale}?`, this.textKey);
             if (translation) {
                 fetch("http://localhost:5000/translate", {
                     method: "POST",
@@ -50,7 +56,7 @@ export default {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        language: this.$store.state.locale,
+                        language: this.store.locale,
                         key: this.textKey,
                         value: translation,
                     }),

@@ -13,7 +13,7 @@
                 <T textKey="You have unlocked the following blocks"/>:
             </div>
             <div class="unlocks-instructions">
-                <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index" v-bind="$store.state.instructions[instructionCode]" unlocked/>
+                <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index" v-bind="store.instructions[instructionCode]" unlocked/>
             </div>
             <div>
                 <button @click="$router.push({ path: '/' })">OK</button>
@@ -113,8 +113,8 @@
 </template>
 
 <script>
-import { sleep, oppositeDirection } from '../util.js';
-import { mapState } from 'vuex';
+import { sleep, oppositeDirection } from '../util';
+import { useStore } from '../store';
 import { toRaw } from 'vue';
 import Instruction from "./Instruction.vue";
 import InstructionList from "./InstructionList.vue";
@@ -190,8 +190,11 @@ export default {
             loadedLevelTiles: cloneDeep(this.levelTiles),
         }
     },
+    setup() {
+        const store = useStore()
+        return { store }
+    },
     computed: {
-        ...mapState(['instructions']),
         boardStyle() {
             return {
                 "grid-template-columns": `repeat(${this.cols}, 107px)`,
@@ -255,7 +258,7 @@ export default {
             this.birds.push(newBird);
         },
         toggleLevelCompleteDevMode() {
-            this.$store.commit("completeLevel", {
+            this.store.completeLevel({
                 levelName: this.name,
                 isCompleted: !this.completed,
             });
@@ -283,7 +286,7 @@ export default {
                 x,
                 y,
                 userPlaced: true,
-                ...this.$store.state.instructions[event.dataTransfer.getData("text")],
+                ...this.store.instructions[event.dataTransfer.getData("text")],
                 // TODO we have to cover the case where user placed tiles support state too
                 state: null,
             });
@@ -372,7 +375,7 @@ export default {
             }
             if (allLevelsFinished) {
                 this.shouldStopPlaying = true;
-                this.$store.commit("completeLevel", {
+                this.store.completeLevel({
                     levelName: this.name,
                     isCompleted: true,
                 });
@@ -552,7 +555,7 @@ export default {
                 x: tile.x,
                 y: tile.y,
                 userPlaced: true,
-                ...this.$store.state.instructions[tile.code],
+                ...this.store.instructions[tile.code],
             });
         }
     },

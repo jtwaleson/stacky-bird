@@ -1,4 +1,4 @@
-const sleep = m => new Promise(r => setTimeout(r, m))
+const sleep = (m: number) => new Promise(r => setTimeout(r, m))
 
 const oppositeDirection = {
     "up": "down",

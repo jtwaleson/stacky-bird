@@ -10,7 +10,7 @@
                 </div>
                 <div class="unlocks">
                     <template v-for="instructionName in level.unlocksInstructions" :key="instructionName">
-                        <Instruction v-bind="$store.state.instructions[instructionName]" unlocked/>
+                        <Instruction v-bind="store.instructions[instructionName]" unlocked/>
                     </template>
                 </div>
             </li>
@@ -18,6 +18,7 @@
     </ul>
 </template>
 <script>
+import { useStore } from '../store'
 import Instruction from "./Instruction.vue"
 
 export default {
@@ -30,6 +31,10 @@ export default {
         hideUnfinished: Boolean,
         hideNotReachable: Boolean,
         levels: Array,
+    },
+    setup() {
+        const store = useStore()
+        return { store }
     },
 }
 </script>
