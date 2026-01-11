@@ -155,3 +155,12 @@ button:disabled {
     border: none;
     background: transparent;
 }
+
+/* Toast notification positioning - move down to avoid overlap with play buttons */
+.Vue-Toastification__container {
+    top: 100px !important;
+}
+
+.Vue-Toastification__container.top-right {
+    top: 100px !important;
+}
