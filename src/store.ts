@@ -14,6 +14,7 @@ export const useStore = defineStore('main', {
             return {
                 en: 'English',
                 nl: 'Nederlands',
+                es: 'Español',
             }
         },
         completedLevels(state) {
