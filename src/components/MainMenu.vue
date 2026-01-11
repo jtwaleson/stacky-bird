@@ -1,31 +1,75 @@
 <template>
     <div class="instruction-grid-container fixedwidth">
-        <h1><T textKey="Stacky Bird"/></h1>
-        <p><T textKey="This is Stacky Bird, a game to learn programming as well as a revolutionary programming language by itself."/></p>
-        <p>This is a project I last worked on in 2022. See <a href="https://waleson.com">waleson.com</a> for more information about the creator and to buy the domain if you're interested.</p>
-        <h2><T textKey="Language"/></h2>
+        <h1><T textKey="Stacky Bird" /></h1>
+        <p>
+            <T
+                textKey="This is Stacky Bird, a game to learn programming as well as a revolutionary programming language by itself."
+            />
+        </p>
+        <p>
+            This is a project I last worked on in 2022. See
+            <a href="https://waleson.com">waleson.com</a> for more information about the creator and
+            to buy the domain if you're interested.
+        </p>
+        <h2><T textKey="Language" /></h2>
         <ul>
-            <li v-for="(caption, languageCode) in store.languages" :key="languageCode" @click="store.setLanguage(languageCode)" :class="{clickable: store.locale !== languageCode}">{{ caption }}</li>
+            <li
+                v-for="(caption, languageCode) in store.languages"
+                :key="languageCode"
+                @click="store.setLanguage(languageCode)"
+                :class="{ clickable: store.locale !== languageCode }"
+            >
+                {{ caption }}
+            </li>
         </ul>
-        <h2><T textKey="Levels"/></h2>
-        <p v-if="store.availableLevels.length > 0"><T textKey="Complete these levels to unlock new instructions. Later on, you can come back and improve your solutions! Click a level to start playing."/></p>
-        <p v-else><T textKey="You finished all the levels!"/></p>
-        <LevelList :levels="store.availableLevels"/>
-        <p v-if="hiddenLevelCount > 0"><i><T textKey="There are {hiddenLevelCount} more levels still hidden" :replacements="{hiddenLevelCount}"/></i></p>
-        <h2><T textKey="Instruction Blocks"/></h2>
-        <p><T textKey="The following blocks are available in your solutions. If they are greyed out, you still have to unlock them. Hover over the instructions to see what they do."/></p>
-        <InstructionList/>
-        <p><T textKey="There are {hiddenInstructionCount} more instruction blocks to be discovered. Finish levels to unlock them." :replacements="{hiddenInstructionCount}"/></p>
-        <h2><T textKey="Completed Levels"/> ({{store.completedLevels.length}} / {{Object.keys(store.levels).length}})</h2>
-        <p v-if="store.completedLevels.length === 0"><T textKey="You have not finished any levels yet!"/></p>
-        <LevelList v-else :levels="store.completedLevels"/>
-        <a href="#" style="text-decoration: underline; display: block; margin-top: 200px; color: black;" @click="factoryReset"><T textKey="RESET THE GAME - FACTORY RESET"/></a>
+        <h2><T textKey="Levels" /></h2>
+        <p v-if="store.availableLevels.length > 0">
+            <T
+                textKey="Complete these levels to unlock new instructions. Later on, you can come back and improve your solutions! Click a level to start playing."
+            />
+        </p>
+        <p v-else><T textKey="You finished all the levels!" /></p>
+        <LevelList :levels="store.availableLevels" />
+        <p v-if="hiddenLevelCount > 0">
+            <i
+                ><T
+                    textKey="There are {hiddenLevelCount} more levels still hidden"
+                    :replacements="{ hiddenLevelCount }"
+            /></i>
+        </p>
+        <h2><T textKey="Instruction Blocks" /></h2>
+        <p>
+            <T
+                textKey="The following blocks are available in your solutions. If they are greyed out, you still have to unlock them. Hover over the instructions to see what they do."
+            />
+        </p>
+        <InstructionList />
+        <p>
+            <T
+                textKey="There are {hiddenInstructionCount} more instruction blocks to be discovered. Finish levels to unlock them."
+                :replacements="{ hiddenInstructionCount }"
+            />
+        </p>
+        <h2>
+            <T textKey="Completed Levels" /> ({{ store.completedLevels.length }} /
+            {{ Object.keys(store.levels).length }})
+        </h2>
+        <p v-if="store.completedLevels.length === 0">
+            <T textKey="You have not finished any levels yet!" />
+        </p>
+        <LevelList v-else :levels="store.completedLevels" />
+        <a
+            href="#"
+            style="text-decoration: underline; display: block; margin-top: 200px; color: black"
+            @click="factoryReset"
+            ><T textKey="RESET THE GAME - FACTORY RESET"
+        /></a>
     </div>
 </template>
 <script>
 import { useStore } from '../store'
-import InstructionList from "./InstructionList.vue"
-import LevelList from "./LevelList.vue"
+import InstructionList from './InstructionList.vue'
+import LevelList from './LevelList.vue'
 
 export default {
     name: 'MainMenu',
@@ -39,18 +83,24 @@ export default {
     },
     computed: {
         hiddenLevelCount() {
-            return Object.keys(this.store.levels).length - (this.store.completedLevels.length + this.store.availableLevels.length);
+            return (
+                Object.keys(this.store.levels).length -
+                (this.store.completedLevels.length + this.store.availableLevels.length)
+            )
         },
         hiddenInstructionCount() {
-            return Object.keys(this.store.instructions).length - (this.store.availableInstructions.length);
+            return (
+                Object.keys(this.store.instructions).length -
+                this.store.availableInstructions.length
+            )
         },
     },
     methods: {
         factoryReset() {
-            if (confirm(this.$tr("ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?"))) {
-                alert(this.$tr("Ok, everything is wiped. Reloading from scratch."));
-                localStorage.clear();
-                window.location.reload();
+            if (confirm(this.$tr('ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?'))) {
+                alert(this.$tr('Ok, everything is wiped. Reloading from scratch.'))
+                localStorage.clear()
+                window.location.reload()
             }
         },
     },

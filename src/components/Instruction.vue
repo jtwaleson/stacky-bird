@@ -1,8 +1,16 @@
 <template>
-    <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable" @dragstart="dragstart" :title="$tr(description)" @dragend="dragend">
+    <div
+        class="instruction"
+        :class="classObject"
+        :style="boardLocationStyle"
+        :draggable="draggable"
+        @dragstart="dragstart"
+        :title="$tr(description)"
+        @dragend="dragend"
+    >
         <button @click="deleteMe" v-if="userPlaced" class="delete">✖</button>
         <div v-if="symbol.indexOf('bi-') === -1" class="symbol">{{ symbol }}</div>
-        <div v-else class="symbol"><i :class="symbol"/></div>
+        <div v-else class="symbol"><i :class="symbol" /></div>
         <div class="code">{{ name }}</div>
         <div class="state" v-if="state !== null">{{ state }}</div>
     </div>
@@ -34,7 +42,7 @@ export default {
         deleteMethod: Function,
         instructionClass: {
             type: String,
-            default: "A",
+            default: 'A',
         },
         state: {
             type: Number,
@@ -43,19 +51,19 @@ export default {
     },
     methods: {
         dragstart(e) {
-            e.dataTransfer.setData("text", this.name);
+            e.dataTransfer.setData('text', this.name)
             if (this.userPlaced && !e.ctrlKey) {
-                e.dataTransfer.setData("deleteX", this.x);
-                e.dataTransfer.setData("deleteY", this.y);
-                this.draggingAway = true;
+                e.dataTransfer.setData('deleteX', this.x)
+                e.dataTransfer.setData('deleteY', this.y)
+                this.draggingAway = true
             }
         },
         dragend() {
-            this.draggingAway = false;
+            this.draggingAway = false
         },
         deleteMe() {
             if (this.deleteMethod) {
-                this.deleteMethod();
+                this.deleteMethod()
             }
         },
     },
@@ -63,23 +71,22 @@ export default {
         boardLocationStyle() {
             if (this.x !== null && this.y !== null) {
                 return {
-                    "grid-column": this.x,
-                    "grid-row": this.y,
+                    'grid-column': this.x,
+                    'grid-row': this.y,
                 }
             }
-            return {};
+            return {}
         },
         classObject() {
             let result = {
                 unlocked: this.unlocked,
                 draggable: this.draggable,
                 userPlaced: this.userPlaced,
-                "hide-dragging": this.draggingAway,
-            };
-            result[`field-style-${this.instructionClass}`] = true;
-            return result;
+                'hide-dragging': this.draggingAway,
+            }
+            result[`field-style-${this.instructionClass}`] = true
+            return result
         },
-
     },
 }
 </script>
@@ -94,9 +101,9 @@ export default {
     text-align: center;
     justify-content: center;
     align-items: center;
-/*    background-color: #eee4da;
+    /*    background-color: #eee4da;
     color: #776e65; */
-    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
     font-size: 55px;
     z-index: 10;
     opacity: 0.3;
@@ -118,7 +125,7 @@ export default {
     opacity: 0.1;
 }
 .instruction.unlocked {
-    opacity: 1.0;
+    opacity: 1;
 }
 .board .instruction {
     box-shadow: 0px 0px 7px 0px black;
@@ -141,7 +148,7 @@ export default {
     font-weight: bold;
     letter-spacing: 1.5px;
     color: #555;
-    font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+    font-family: 'Lucida Sans Typewriter', 'Lucida Console', monospace;
 }
 button.delete {
     background: none;

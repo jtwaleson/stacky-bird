@@ -1,9 +1,9 @@
 <template>
-    <Board v-bind="store.levels[levelName]"/>
+    <Board v-bind="store.levels[levelName]" />
 </template>
 <script>
 import { useStore } from '../store'
-import Board from "./Board.vue"
+import Board from './Board.vue'
 
 export default {
     name: 'LevelPlayer',
@@ -19,5 +19,4 @@ export default {
     },
 }
 </script>
-<style>
-</style>
+<style></style>

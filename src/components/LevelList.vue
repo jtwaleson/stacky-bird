@@ -1,16 +1,25 @@
 <template>
     <ul class="levels">
         <template v-for="level in levels" :key="level.name">
-            <li class="level" :class="{completed: level.completed}" @click='$router.push({ name: "Level Player", params: { levelName: level.name }})'>
+            <li
+                class="level"
+                :class="{ completed: level.completed }"
+                @click="$router.push({ name: 'Level Player', params: { levelName: level.name } })"
+            >
                 <div class="code">{{ level.name }}</div>
                 <div class="description">
-                    <b><T textKey="Level"/> {{level.name}} - <T :textKey="level.displayName"/></b>
-                    <br/>
-                    <T :textKey="level.description"/>
+                    <b
+                        ><T textKey="Level" /> {{ level.name }} - <T :textKey="level.displayName"
+                    /></b>
+                    <br />
+                    <T :textKey="level.description" />
                 </div>
                 <div class="unlocks">
-                    <template v-for="instructionName in level.unlocksInstructions" :key="instructionName">
-                        <Instruction v-bind="store.instructions[instructionName]" unlocked/>
+                    <template
+                        v-for="instructionName in level.unlocksInstructions"
+                        :key="instructionName"
+                    >
+                        <Instruction v-bind="store.instructions[instructionName]" unlocked />
                     </template>
                 </div>
             </li>
@@ -19,7 +28,7 @@
 </template>
 <script>
 import { useStore } from '../store'
-import Instruction from "./Instruction.vue"
+import Instruction from './Instruction.vue'
 
 export default {
     name: 'LevelList',
@@ -52,14 +61,14 @@ ul.levels {
     border-radius: 7px;
     margin-bottom: 7px;
 }
-.level.completed>.code {
+.level.completed > .code {
     background-color: green;
 }
 .level:hover {
     background-color: #ddd;
     cursor: pointer;
 }
-.level>.code {
+.level > .code {
     border: 1px solid black;
     font-size: 24px;
     background-color: #999;
