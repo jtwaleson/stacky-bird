@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="primary-btn" @click="$router.push({ path: '/' })">OK</button>
+                <button class="primary-btn" @click="handleLevelCompletedNavigation">OK</button>
             </div>
         </div>
     </vue-final-modal>
@@ -885,6 +885,28 @@ const selectBlock = (instruction: {
     closeBlockSelectionModal()
 }
 
+const handleLevelCompletedNavigation = () => {
+    showLevelCompletedModal.value = false
+    const availableLevels = store.availableLevels
+    if (availableLevels.length === 1 && availableLevels[0]?.name) {
+        // Navigate directly to the single available level
+        router.push({ path: `/level/${availableLevels[0].name}` })
+    } else {
+        // Navigate to main page and scroll to levels section
+        router.push({ path: '/' }).then(() => {
+            nextTick(() => {
+                // Use setTimeout to ensure DOM is fully rendered
+                setTimeout(() => {
+                    const levelsSection = document.querySelector('#levels-section')
+                    if (levelsSection) {
+                        levelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
+                }, 100)
+            })
+        })
+    }
+}
+
 const handleEscapeKey = (event: KeyboardEvent) => {
     // Don't handle if user is typing in an input field
     const target = event.target as HTMLElement
@@ -896,7 +918,7 @@ const handleEscapeKey = (event: KeyboardEvent) => {
             closeBlockSelectionModal()
         }
         if (showLevelCompletedModal.value) {
-            showLevelCompletedModal.value = false
+            handleLevelCompletedNavigation()
         }
         // Clear highlight when pressing Escape
         if (!showBlockSelectionModal.value && !showLevelCompletedModal.value) {
@@ -908,8 +930,7 @@ const handleEscapeKey = (event: KeyboardEvent) => {
         // Handle Enter key for level completed modal
         if (showLevelCompletedModal.value && !isInputFocused) {
             event.preventDefault()
-            showLevelCompletedModal.value = false
-            router.push({ path: '/' })
+            handleLevelCompletedNavigation()
         } else if (!showLevelCompletedModal.value && !showBlockSelectionModal.value) {
             // Handle Enter for normal navigation (existing behavior)
             handleKeyboardNavigation(event)
@@ -918,8 +939,7 @@ const handleEscapeKey = (event: KeyboardEvent) => {
         // Spacebar for closing level completed modal or play/pause
         if (showLevelCompletedModal.value && !isInputFocused) {
             event.preventDefault()
-            showLevelCompletedModal.value = false
-            router.push({ path: '/' })
+            handleLevelCompletedNavigation()
         } else if (
             !showBlockSelectionModal.value &&
             !showLevelCompletedModal.value &&

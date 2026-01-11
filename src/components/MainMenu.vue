@@ -92,7 +92,7 @@
             </div>
         </section>
 
-        <section class="levels-section">
+        <section id="levels-section" class="levels-section">
             <h2>
                 <T textKey="menu.levels" />
             </h2>
