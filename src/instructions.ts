@@ -114,6 +114,7 @@ export default {
     STRT: {
         symbol: '○', // maybe ⌂
         description: 'instructions.STRT',
+        outgoingDirections: ['right'] as Direction[], // Default starting direction
         async execute() {},
     },
     FINI: {
@@ -363,6 +364,7 @@ export default {
     GEQ1: {
         symbol: '⌥',
         description: 'instructions.GEQ1',
+        outgoingDirections: ['down', 'right'] as Direction[], // Conditional: either down or right
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 1) {
                 return await board.dieBird('errors.atLeastOneNumber', bird)

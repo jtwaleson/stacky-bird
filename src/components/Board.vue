@@ -345,6 +345,9 @@
                             :y="levelTile.y"
                             :state="levelTile.state"
                             :instructionClass="(levelTile.instructionClass as string) || 'A'"
+                            :outgoingDirections="
+                                (levelTile.outgoingDirections as Direction[]) || undefined
+                            "
                             unlocked
                             :userPlaced="!birdIsLoaded && levelTile.userPlaced"
                             :draggable="!birdIsLoaded && levelTile.userPlaced"

@@ -422,6 +422,7 @@
   "menu": {
     "allLevelsFinished": "¡Has terminado todos los niveles!",
     "completedLevels": "Niveles completados",
+    "gameDescription": "Stacky Bird es un juego de puzzles donde \"programas\" a tu pájaro para atravesar laberintos, monstruos y matemáticas arrastrando bloques de instrucciones al tablero. Cada bloque es un opcode de cuatro letras (para imitar los clásicos conjuntos de instrucciones de CPU), y cuanto más avanzas más raro—y más genial—se vuelve el arsenal: READ y PLUS para hacer cuentas en la pila, GEQ1 para ramificar, JMP1 para saltar muros, portales PRTI/PRTO para teletransportarte, NOTE para tocar una campana, e incluso YOLO cuando te sientes valiente.",
     "hiddenInstructionsCount": "Hay {hiddenInstructionCount} bloques de instrucción más por descubrir. Completa niveles para desbloquearlos.",
     "hiddenLevelsCount": "Hay {hiddenLevelCount} niveles más todavía ocultos",
     "instructionBlocks": "Bloques de instrucción",

@@ -7,6 +7,9 @@
             <p class="subtitle">
                 <T textKey="menu.subtitle" />
             </p>
+            <p class="game-description">
+                <T textKey="menu.gameDescription" />
+            </p>
             <p class="meta-info">
                 <T textKey="menu.metaInfo" />{{ ' ' }} <a href="https://waleson.com">waleson.com</a
                 >{{ ' ' }}
@@ -133,6 +136,12 @@ const factoryReset = () => {
 .subtitle {
     font-size: 1.2rem;
     color: var(--heading-color);
+}
+
+.game-description {
+    max-width: 60rem;
+    margin: 16px auto 0;
+    line-height: 1.5;
 }
 
 .meta-info {

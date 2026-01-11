@@ -3,12 +3,15 @@ import { toRaw } from 'vue'
 
 const languageCode = localStorage.getItem('language') || 'en'
 
+type Direction = 'up' | 'down' | 'left' | 'right'
+
 interface Instruction {
     name?: string
     symbol: string
     description: string
     execute?: unknown
     instructionClass?: string
+    outgoingDirections?: Direction[]
     [key: string]: unknown
 }
 

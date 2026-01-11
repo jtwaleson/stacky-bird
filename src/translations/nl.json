@@ -422,6 +422,7 @@
   "menu": {
     "allLevelsFinished": "Je hebt alle levels uit!",
     "completedLevels": "Afgemaakte Levels",
+    "gameDescription": "Stacky Bird is een puzzelspel waarin je je vogel \"programmeert\" door doolhoven, monsters en rekensommen door instructieblokken op het bord te slepen. Elk blok is een vierletterige opcode (om klassieke CPU-instructiesets na te bootsen), en hoe verder je komt, hoe vreemder—en cooler—de gereedschapskist wordt: READ en PLUS voor stack-rekenen, GEQ1 om te vertakken, JMP1 om over muren te springen, PRTI/PRTO-portalen om te warpen, NOTE om een belletje te laten klinken, en zelfs YOLO als je je dapper voelt.",
     "hiddenInstructionsCount": "Er zijn nog {hiddenInstructionCount} meer blokken te ontdekken. Maak levels af om ze te verdienen.",
     "hiddenLevelsCount": "Er zijn nog {hiddenLevelCount} levels onzichtbaar",
     "instructionBlocks": "Blokken",

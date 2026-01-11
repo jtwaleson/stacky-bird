@@ -422,6 +422,7 @@
   "menu": {
     "allLevelsFinished": "You finished all the levels!",
     "completedLevels": "Completed Levels",
+    "gameDescription": "Stacky Bird is a puzzle game where you \"program\" your bird through mazes, monsters, and math by dragging instruction blocks onto the board. Every block is a four-letter opcode (to mimic classic CPU instruction sets), and the deeper you go the weirder—and cooler—the toolkit gets: READ and PLUS to do stack math, GEQ1 for branching, JMP1 to vault walls, PRTI/PRTO portals to warp across the map, NOTE to ring a bell, and even YOLO when you feel brave.",
     "hiddenInstructionsCount": "There are {hiddenInstructionCount} more instruction blocks to be discovered. Finish levels to unlock them.",
     "hiddenLevelsCount": "There are {hiddenLevelCount} more levels still hidden",
     "instructionBlocks": "Instruction Blocks",

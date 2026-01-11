@@ -17,12 +17,37 @@
             <div v-else class="symbol"><i :class="symbol" /></div>
             <div class="code">{{ name }}</div>
             <div class="state" v-if="state !== null">{{ state }}</div>
+            <div
+                v-if="outgoingDirections && outgoingDirections.length > 0"
+                class="direction-chevrons"
+            >
+                <span v-if="outgoingDirections.includes('up')" class="direction-chevron chevron-up"
+                    >▲</span
+                >
+                <span
+                    v-if="outgoingDirections.includes('down')"
+                    class="direction-chevron chevron-down"
+                    >▼</span
+                >
+                <span
+                    v-if="outgoingDirections.includes('left')"
+                    class="direction-chevron chevron-left"
+                    >◀</span
+                >
+                <span
+                    v-if="outgoingDirections.includes('right')"
+                    class="direction-chevron chevron-right"
+                    >▶</span
+                >
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { ref, computed, getCurrentInstance } from 'vue'
 import { useStore } from '../store'
+
+type Direction = 'up' | 'down' | 'left' | 'right'
 
 defineOptions({
     name: 'InstructionBlock',
@@ -43,6 +68,7 @@ const props = withDefaults(
         instructionClass?: string
         state?: number | null
         highlighted?: boolean
+        outgoingDirections?: Direction[]
     }>(),
     {
         x: null,
@@ -50,6 +76,7 @@ const props = withDefaults(
         instructionClass: 'A',
         state: null,
         highlighted: false,
+        outgoingDirections: () => [],
     },
 )
 
@@ -242,6 +269,14 @@ const classObject = computed(() => {
     color: white;
 }
 
+/* White chevrons for darker backgrounds */
+.instruction.unlocked.field-style-C .direction-chevron,
+.instruction.unlocked.field-style-D .direction-chevron,
+.instruction.unlocked.field-style-F .direction-chevron,
+.instruction.unlocked.field-style-G .direction-chevron {
+    color: white;
+}
+
 .instruction.unlocked.draggable {
     cursor: grab;
 }
@@ -320,6 +355,14 @@ const classObject = computed(() => {
     color: white;
 }
 
+/* White chevrons for darker backgrounds (userPlaced) */
+.instruction.unlocked.userPlaced.field-style-C .direction-chevron,
+.instruction.unlocked.userPlaced.field-style-D .direction-chevron,
+.instruction.unlocked.userPlaced.field-style-F .direction-chevron,
+.instruction.unlocked.userPlaced.field-style-G .direction-chevron {
+    color: white;
+}
+
 .instruction .symbol {
     font-size: clamp(14px, 35cqw, 50px);
     /* Lowered minimum to allow smaller blocks */
@@ -394,5 +437,45 @@ button.delete:hover {
         0 0 0 3px rgba(0, 102, 255, 0.4),
         0 0 15px rgba(0, 102, 255, 0.6);
     z-index: 11;
+}
+
+.direction-chevrons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 15;
+}
+
+.direction-chevron {
+    position: absolute;
+    font-size: clamp(5px, 6cqw, 8px);
+    line-height: 1;
+    color: #555;
+    font-family: inherit;
+}
+
+.direction-chevron.chevron-up {
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.direction-chevron.chevron-down {
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.direction-chevron.chevron-left {
+    left: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.direction-chevron.chevron-right {
+    right: 2%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 </style>
