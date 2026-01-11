@@ -1,301 +1,441 @@
 {
-  "menu": {
-    "title": "Stacky Bird",
-    "subtitle": "Dit is Stacky Bird. Een spel om te leren programmeren, en ook een super interessante programmeertaal.",
-    "metaInfo": "Ik werk elke paar jaar aan dit project. Zie",
-    "metaInfoEnd": "voor meer informatie over de maker. Als je grote ideeën hebt met Stacky Bird, ben ik ook blij om het idee over te dragen.",
-    "language": "Taal",
-    "levels": "Levels",
-    "levelsDescription": "Doe de levels hieronder om nieuwe blokken te verdienen. Met nieuwe blokken kun je later betere opdrachten maken. Klik op een level om te beginnen met spelen.",
-    "allLevelsFinished": "Je hebt alle levels uit!",
-    "hiddenLevelsCount": "Er zijn nog {hiddenLevelCount} levels onzichtbaar",
-    "instructionBlocks": "Blokken",
-    "instructionBlocksDescription": "The volgende blokken kun je gebruiken in je puzzels. Als ze grijs zijn, dan moet je ze nog verdienen. Houd je muis boven de blokken om te zien wat ze doen.",
-    "hiddenInstructionsCount": "Er zijn nog {hiddenInstructionCount} meer blokken te ontdekken. Maak levels af om ze te verdienen.",
-    "completedLevels": "Afgemaakte Levels",
-    "noLevelsFinished": "Je hebt nog geen levels afgemaakt.",
-    "resetGame": "RESET HET SPEL - TERUG NAAR FABRIEKSINSTELLINGEN",
-    "resetConfirm": "WEET JE ZEKER DAT JE ALLES WILT WISSEN?",
-    "resetComplete": "Ok, alles is gewist. Je begint nu opnieuw vanaf nul."
-  },
   "board": {
-    "title": "Bord",
     "blocks": "Blokken",
-    "dragHint": "Sleep de blokken naar rechts.",
-    "levelCompleted": "Je hebt het level af! Goed gedaan!",
-    "unlockedLevels": "Je kan nu door naar dit level",
-    "unlockedBlocks": "Je kunt nu het volgende blok gebruiken",
-    "selectBlock": "Selecteer een blok",
-    "searchBlocks": "Zoek blokken...",
-    "noBlocksAvailable": "Geen blokken beschikbaar",
     "cancel": "Annuleren",
-    "testCases": "Tests",
-    "input": "Input",
+    "dragHint": "Sleep de blokken naar rechts.",
     "expected": "Verwachtte uitkomst",
+    "input": "Input",
+    "levelCompleted": "Je hebt het level af! Goed gedaan!",
+    "noBlocksAvailable": "Geen blokken beschikbaar",
+    "resetConfirm": "Dit verwijdert alles van het bord, weet je het zeker?",
+    "searchBlocks": "Zoek blokken...",
+    "selectBlock": "Selecteer een blok",
     "testCaseDone": "Test {testCaseIndex} is goed!",
-    "resetConfirm": "Dit verwijdert alles van het bord, weet je het zeker?"
-  },
-  "instructions": {
-    "STRT": "Beginpositie van de vogel. De vogel vliegt naar rechts.",
-    "FINI": "Maakt dit level af.",
-    "UPWD": "Ga OMHOOG",
-    "DOWN": "Ga naar BENEDEN",
-    "LEFT": "Ga LINKS",
-    "RGHT": "Ga RECHTS",
-    "REVR": "Keer de richting van de vogel om",
-    "READ": "Lees een nummer naar de stack",
-    "DUP1": "Kopieer het eerste nummer",
-    "SWAP": "Wissel de twee bovenste nummers op de stack",
-    "YOLO": "Ga naar een willekeurige kant",
-    "EMPT": "Controleer of de stack leeg is",
-    "VOID": "Laat het eerste nummer op de stack vallen.",
-    "CLER": "Maak de stack leeg",
-    "SIZE": "Geef het aantal items op de stack terug",
-    "PLUS": "Tel de twee getallen op de stack bij elkaar op",
-    "MINU": "Trek het bovenste item van de stack af van het nummer eronder",
-    "SUMA": "Tel alle items op de stack bij elkaar op",
-    "BLCK": "Niet botsen met dit blok, dan gaat de vogel dood.",
-    "GEQ1": "Ga rechts als het getal 1 of hoger is, zo niet, ga naar beneden.",
-    "JMP1": "Spring over het volgende blok",
-    "ADD1": "Tel 1 op bij het eerste getal op de stack",
-    "SUB1": "Verminder het eerste getal op de stack met één",
-    "INSZ": "Krijg het aantal items dat nog in de invoerwachtrij staat.",
-    "DUP2": "Kopieer de laatste twee nummers op de stack opnieuw.",
-    "ROT1": "Wissel de twee bovenste nummers op de stack.",
-    "PRTI": "Teleporteer naar het blauwe portaal",
-    "PRTO": "Teleporteer naar het oranje portaal",
-    "DUMP": "Dump een item van de stack, of pak het op.",
-    "SPWN": "Genereer een extra vogel",
-    "WAIT": "Wacht even",
-    "NOTE": "Maak een geluid"
-  },
-  "errors": {
-    "outOfBoard": "Je bent buiten het veld",
-    "hitWall": "Je hebt de muur geraakt",
-    "ghostCaught": "Een geest heeft een vogel gevangen",
-    "noMoreNumbers": "Er zijn geen getallen meer om te lezen",
-    "stackEmpty": "De stack is leeg",
-    "stackEmptyCannotDuplicate": "De stack is leeg. Er moet ten minste een getal op staan.",
-    "lessThanTwoNumbers": "Er staan minder dan twee getallen op de stack",
-    "atLeastOneNumber": "Er moet ten minste een getal op de stack staan",
-    "unexpectedResult": "Je bent niet geëindigd met het verwachte resultaat op de stack. Verwachte: {expected}, Werkelijk: {actual}",
-    "noInstructionsAvailable": "Er zijn nog geen blokken beschikbaar.",
-    "multipleBluePortals": "Meer dan één blauw portaal gevonden.",
-    "noBluePortal": "Geen blauw portaal gevonden.",
-    "multipleOrangePortals": "Meer dan één oranje portaal gevonden.",
-    "noOrangePortal": "Geen oranje portaal gevonden."
-  },
-  "levels": {
-    "0001": {
-      "displayName": "En zo beginnen we",
-      "description": "In dit level hoef je nog niks te doen"
-    },
-    "0002": {
-      "displayName": "En we gaan naar beneden",
-      "description": "In dit level moeten we een pijl neerzetten"
-    },
-    "0003": {
-      "displayName": "Rond en Rond",
-      "description": "In dit level moeten we een heel rondje maken."
-    },
-    "0004": {
-      "displayName": "ZigZag",
-      "description": "In dit level moeten we een heel rondje maken."
-    },
-    "0005": {
-      "displayName": "Helemaal rond",
-      "description": "In dit level moeten we een heel rondje maken."
-    },
-    "0006": {
-      "displayName": "De Trap",
-      "description": "In dit level moeten we een heel rondje maken."
-    },
-    "0007": {
-      "displayName": "Slalom",
-      "description": "Zoek de weg"
-    },
-    "0008": {
-      "displayName": "Overleef het Doolhof",
-      "description": "Vindt de weg door het doolhof."
-    },
-    "0009": {
-      "displayName": "De Muur",
-      "description": "Dit level lijkt misschien onmogelijk. Probeer eerst een ander level om een nieuw blok te krijgen waarmee je over muren kunt springen."
-    },
-    "0010": {
-      "displayName": "Je leeft maar een keer",
-      "description": "In dit level introduceren we willekeurigheid. Je moet er van ontsnappen."
-    },
-    "0101": {
-      "displayName": "Doolhof 101",
-      "description": "Nog een AldousBroder Doolhof"
-    },
-    "0102": {
-      "displayName": "Doolhof 102",
-      "description": "Nog een BacktrackingGenerator Doolhof"
-    },
-    "0103": {
-      "displayName": "Doolhof 103",
-      "description": "Nog een BinaryTree Doolhof"
-    },
-    "0104": {
-      "displayName": "Doolhof 104",
-      "description": "Nog een CellularAutomaton Doolhof"
-    },
-    "0105": {
-      "displayName": "Doolhof 105",
-      "description": "Nog een Division Doolhof"
-    },
-    "0106": {
-      "displayName": "Doolhof 106",
-      "description": "Nog een DungeonRooms Doolhof"
-    },
-    "0107": {
-      "displayName": "Doolhof 107",
-      "description": "Nog een Ellers Doolhof"
-    },
-    "0108": {
-      "displayName": "Doolhof 108",
-      "description": "Nog een GrowingTree Doolhof"
-    },
-    "0109": {
-      "displayName": "Doolhof 109",
-      "description": "Nog een HuntAndKill Doolhof"
-    },
-    "0110": {
-      "displayName": "Doolhof 110",
-      "description": "Nog een Kruskal Doolhof"
-    },
-    "0111": {
-      "displayName": "Doolhof 111",
-      "description": "Nog een Prims Doolhof"
-    },
-    "0112": {
-      "displayName": "Doolhof 112",
-      "description": "Nog een Sidewinder Doolhof"
-    },
-    "0113": {
-      "displayName": "Doolhof 113",
-      "description": "Nog een TrivialMaze Doolhof"
-    },
-    "0114": {
-      "displayName": "Doolhof 114",
-      "description": "Nog een Wilsons Doolhof"
-    },
-    "0150": {
-      "displayName": "Doolhof 150",
-      "description": "Nog een GrowingTree Doolhof"
-    },
-    "0151": {
-      "displayName": "Doolhof 151",
-      "description": "Nog een HuntAndKill Doolhof"
-    },
-    "0152": {
-      "displayName": "Doolhof 152",
-      "description": "Nog een Kruskal Doolhof"
-    },
-    "0153": {
-      "displayName": "Doolhof 153",
-      "description": "Nog een Prims Doolhof"
-    },
-    "0154": {
-      "displayName": "Doolhof 154",
-      "description": "Nog een Sidewinder Doolhof"
-    },
-    "0155": {
-      "displayName": "Doolhof 155",
-      "description": "Nog een TrivialMaze Doolhof"
-    },
-    "0156": {
-      "displayName": "Doolhof 156",
-      "description": "Nog een Wilsons Doolhof"
-    },
-    "1001": {
-      "displayName": "Zit monster, zit",
-      "description": "Vermijd de monsters"
-    },
-    "1002": {
-      "displayName": "Zit monster, zit",
-      "description": "Vermijd de monsters"
-    },
-    "1003": {
-      "displayName": "Zit monster, zit",
-      "description": "Vermijd de monsters"
-    },
-    "1004": {
-      "displayName": "Zit monster, zit",
-      "description": "Vermijd de monsters"
-    },
-    "2001": {
-      "displayName": "Pak een getal op",
-      "description": "In dit level pakken we een getal op en brengen het naar de finish."
-    },
-    "2002": {
-      "displayName": "Pak twee getallen op",
-      "description": "Pak twee getallen op en breng ze naar het einde"
-    },
-    "2003": {
-      "displayName": "Pak twee getallen op",
-      "description": "Pak twee getallen op en breng ze naar het einde"
-    },
-    "2004": {
-      "displayName": "1 + 1 = 2",
-      "description": "Pak twee getallen en tel ze op"
-    },
-    "2005": {
-      "displayName": "1 + 1 + 1 = 3",
-      "description": "Pak drie getallen op en tel ze bij elkaar op"
-    },
-    "2006": {
-      "displayName": "Verdubbelen",
-      "description": "Pak een getal, verdubbel het en finish met twee getallen."
-    },
-    "2007": {
-      "displayName": "Logica",
-      "description": ""
-    },
-    "2008": {
-      "displayName": "Voeg één toe",
-      "description": "Pak een getal op, maak het één groter en breng het naar de finish."
-    },
-    "2009": {
-      "displayName": "Min één",
-      "description": "Pak een getal op, maak het één kleiner en breng het naar de finish."
-    },
-    "2010": {
-      "displayName": "Markeer het nul",
-      "description": "Pak een nummer op, zolang het groter is dan 0, maak het kleiner. Kom alleen naar de finish met 0. Let op dat alle nummers 0 of groter zijn."
-    },
-    "2011": {
-      "displayName": "Som",
-      "description": ""
-    },
-    "2012": {
-      "displayName": "Som",
-      "description": ""
-    },
-    "2013": {
-      "displayName": "Tel",
-      "description": ""
-    },
-    "2014": {
-      "displayName": "Wissel",
-      "description": "Er zullen twee getallen in de invoer zijn. Geef ze terug in omgekeerde volgorde."
-    },
-    "2015": {
-      "displayName": "Max",
-      "description": "Er zullen twee getallen in de invoer zijn. Geef alleen het grootste getal terug."
-    },
-    "2016": {
-      "displayName": "Min",
-      "description": "Er zullen twee getallen in de invoer zijn. Geef alleen het kleinste getal terug."
-    },
-    "2017": {
-      "displayName": "Twee keer verdubbelen",
-      "description": "Neem twee getallen in de invoer, bijvoorbeeld 5 en 1. Geef vier getallen terug, 1 5 1 5"
-    }
+    "testCases": "Tests",
+    "title": "Bord",
+    "unlockedBlocks": "Je kunt nu het volgende blok gebruiken",
+    "unlockedLevels": "Je kan nu door naar dit level"
   },
   "common": {
     "unlocks": "Ontgrendelt"
+  },
+  "errors": {
+    "atLeastOneNumber": "Er moet ten minste een getal op de stack staan",
+    "ghostCaught": "Een geest heeft een vogel gevangen",
+    "hitWall": "Je hebt de muur geraakt",
+    "lessThanTwoNumbers": "Er staan minder dan twee getallen op de stack",
+    "multipleBluePortals": "Meer dan één blauw portaal gevonden.",
+    "multipleOrangePortals": "Meer dan één oranje portaal gevonden.",
+    "noBluePortal": "Geen blauw portaal gevonden.",
+    "noInstructionsAvailable": "Er zijn nog geen blokken beschikbaar.",
+    "noMoreNumbers": "Er zijn geen getallen meer om te lezen",
+    "noOrangePortal": "Geen oranje portaal gevonden.",
+    "outOfBoard": "Je bent buiten het veld",
+    "stackEmpty": "De stack is leeg",
+    "stackEmptyCannotDuplicate": "De stack is leeg. Er moet ten minste een getal op staan.",
+    "unexpectedResult": "Je bent niet geëindigd met het verwachte resultaat op de stack. Verwachte: {expected}, Werkelijk: {actual}"
+  },
+  "instructions": {
+    "ADD1": "Tel 1 op bij het eerste getal op de stack",
+    "BLCK": "Niet botsen met dit blok, dan gaat de vogel dood.",
+    "CLER": "Maak de stack leeg",
+    "DOWN": "Ga naar BENEDEN",
+    "DUMP": "Dump een item van de stack, of pak het op.",
+    "DUP1": "Kopieer het eerste nummer",
+    "DUP2": "Kopieer de laatste twee nummers op de stack opnieuw.",
+    "EMPT": "Controleer of de stack leeg is",
+    "FINI": "Maakt dit level af.",
+    "GEQ1": "Ga rechts als het getal 1 of hoger is, zo niet, ga naar beneden.",
+    "INSZ": "Krijg het aantal items dat nog in de invoerwachtrij staat.",
+    "JMP1": "Spring over het volgende blok",
+    "LEFT": "Ga LINKS",
+    "MINU": "Trek het bovenste item van de stack af van het nummer eronder",
+    "NOTE": "Maak een geluid",
+    "PLUS": "Tel de twee getallen op de stack bij elkaar op",
+    "PRTI": "Teleporteer naar het blauwe portaal",
+    "PRTO": "Teleporteer naar het oranje portaal",
+    "READ": "Lees een nummer naar de stack",
+    "REVR": "Keer de richting van de vogel om",
+    "RGHT": "Ga RECHTS",
+    "ROT1": "Wissel de twee bovenste nummers op de stack.",
+    "SIZE": "Geef het aantal items op de stack terug",
+    "SPWN": "Genereer een extra vogel",
+    "STRT": "Beginpositie van de vogel. De vogel vliegt naar rechts.",
+    "SUB1": "Verminder het eerste getal op de stack met één",
+    "SUMA": "Tel alle items op de stack bij elkaar op",
+    "SWAP": "Wissel de twee bovenste nummers op de stack",
+    "UPWD": "Ga OMHOOG",
+    "VOID": "Laat het eerste nummer op de stack vallen.",
+    "WAIT": "Wacht even",
+    "YOLO": "Ga naar een willekeurige kant"
+  },
+  "levels": {
+    "0001": {
+      "description": "In dit level hoef je nog niks te doen",
+      "displayName": "En zo beginnen we"
+    },
+    "0002": {
+      "description": "In dit level moeten we een pijl neerzetten",
+      "displayName": "En we gaan naar beneden"
+    },
+    "0003": {
+      "description": "In dit level moeten we een heel rondje maken.",
+      "displayName": "Rond en Rond"
+    },
+    "0004": {
+      "description": "In dit level moeten we een heel rondje maken.",
+      "displayName": "ZigZag"
+    },
+    "0005": {
+      "description": "In dit level moeten we een heel rondje maken.",
+      "displayName": "Helemaal rond"
+    },
+    "0006": {
+      "description": "In dit level moeten we een heel rondje maken.",
+      "displayName": "De Trap"
+    },
+    "0007": {
+      "description": "Zoek de weg",
+      "displayName": "Slalom"
+    },
+    "0008": {
+      "description": "Vindt de weg door het doolhof.",
+      "displayName": "Overleef het Doolhof"
+    },
+    "0009": {
+      "description": "Dit level lijkt misschien onmogelijk. Probeer eerst een ander level om een nieuw blok te krijgen waarmee je over muren kunt springen.",
+      "displayName": "De Muur"
+    },
+    "0010": {
+      "description": "In dit level introduceren we willekeurigheid. Je moet er van ontsnappen.",
+      "displayName": "Je leeft maar een keer"
+    },
+    "0101": {
+      "description": "Nog een AldousBroder Doolhof",
+      "displayName": "Doolhof 101"
+    },
+    "0102": {
+      "description": "Nog een BacktrackingGenerator Doolhof",
+      "displayName": "Doolhof 102"
+    },
+    "0103": {
+      "description": "Nog een BinaryTree Doolhof",
+      "displayName": "Doolhof 103"
+    },
+    "0104": {
+      "description": "Nog een CellularAutomaton Doolhof",
+      "displayName": "Doolhof 104"
+    },
+    "0105": {
+      "description": "Nog een Division Doolhof",
+      "displayName": "Doolhof 105"
+    },
+    "0106": {
+      "description": "Nog een DungeonRooms Doolhof",
+      "displayName": "Doolhof 106"
+    },
+    "0107": {
+      "description": "Nog een Ellers Doolhof",
+      "displayName": "Doolhof 107"
+    },
+    "0108": {
+      "description": "Nog een GrowingTree Doolhof",
+      "displayName": "Doolhof 108"
+    },
+    "0109": {
+      "description": "Nog een HuntAndKill Doolhof",
+      "displayName": "Doolhof 109"
+    },
+    "0110": {
+      "description": "Nog een Kruskal Doolhof",
+      "displayName": "Doolhof 110"
+    },
+    "0111": {
+      "description": "Nog een Prims Doolhof",
+      "displayName": "Doolhof 111"
+    },
+    "0112": {
+      "description": "Nog een Sidewinder Doolhof",
+      "displayName": "Doolhof 112"
+    },
+    "0113": {
+      "description": "Nog een TrivialMaze Doolhof",
+      "displayName": "Doolhof 113"
+    },
+    "0114": {
+      "description": "Nog een Wilsons Doolhof",
+      "displayName": "Doolhof 114"
+    },
+    "0115": {
+      "description": "Nog een AldousBroder Doolhof",
+      "displayName": "Doolhof 115"
+    },
+    "0116": {
+      "description": "Nog een BacktrackingGenerator Doolhof",
+      "displayName": "Doolhof 116"
+    },
+    "0117": {
+      "description": "Nog een BinaryTree Doolhof",
+      "displayName": "Doolhof 117"
+    },
+    "0118": {
+      "description": "Nog een CellularAutomaton Doolhof",
+      "displayName": "Doolhof 118"
+    },
+    "0119": {
+      "description": "Nog een Division Doolhof",
+      "displayName": "Doolhof 119"
+    },
+    "0120": {
+      "description": "Nog een DungeonRooms Doolhof",
+      "displayName": "Doolhof 120"
+    },
+    "0121": {
+      "description": "Nog een Ellers Doolhof",
+      "displayName": "Doolhof 121"
+    },
+    "0122": {
+      "description": "Nog een GrowingTree Doolhof",
+      "displayName": "Doolhof 122"
+    },
+    "0123": {
+      "description": "Nog een HuntAndKill Doolhof",
+      "displayName": "Doolhof 123"
+    },
+    "0124": {
+      "description": "Nog een Kruskal Doolhof",
+      "displayName": "Doolhof 124"
+    },
+    "0125": {
+      "description": "Nog een Prims Doolhof",
+      "displayName": "Doolhof 125"
+    },
+    "0126": {
+      "description": "Nog een Sidewinder Doolhof",
+      "displayName": "Doolhof 126"
+    },
+    "0127": {
+      "description": "Nog een TrivialMaze Doolhof",
+      "displayName": "Doolhof 127"
+    },
+    "0128": {
+      "description": "Nog een Wilsons Doolhof",
+      "displayName": "Doolhof 128"
+    },
+    "0129": {
+      "description": "Nog een AldousBroder Doolhof",
+      "displayName": "Doolhof 129"
+    },
+    "0130": {
+      "description": "Nog een BacktrackingGenerator Doolhof",
+      "displayName": "Doolhof 130"
+    },
+    "0131": {
+      "description": "Nog een BinaryTree Doolhof",
+      "displayName": "Doolhof 131"
+    },
+    "0132": {
+      "description": "Nog een CellularAutomaton Doolhof",
+      "displayName": "Doolhof 132"
+    },
+    "0133": {
+      "description": "Nog een Division Doolhof",
+      "displayName": "Doolhof 133"
+    },
+    "0134": {
+      "description": "Nog een DungeonRooms Doolhof",
+      "displayName": "Doolhof 134"
+    },
+    "0135": {
+      "description": "Nog een Ellers Doolhof",
+      "displayName": "Doolhof 135"
+    },
+    "0136": {
+      "description": "Nog een GrowingTree Doolhof",
+      "displayName": "Doolhof 136"
+    },
+    "0137": {
+      "description": "Nog een HuntAndKill Doolhof",
+      "displayName": "Doolhof 137"
+    },
+    "0138": {
+      "description": "Nog een Kruskal Doolhof",
+      "displayName": "Doolhof 138"
+    },
+    "0139": {
+      "description": "Nog een Ellers Doolhof",
+      "displayName": "Doolhof 139"
+    },
+    "0140": {
+      "description": "Nog een Sidewinder Doolhof",
+      "displayName": "Doolhof 140"
+    },
+    "0141": {
+      "description": "Nog een TrivialMaze Doolhof",
+      "displayName": "Doolhof 141"
+    },
+    "0142": {
+      "description": "Nog een Wilsons Doolhof",
+      "displayName": "Doolhof 142"
+    },
+    "0143": {
+      "description": "Nog een AldousBroder Doolhof",
+      "displayName": "Doolhof 143"
+    },
+    "0144": {
+      "description": "Nog een BacktrackingGenerator Doolhof",
+      "displayName": "Doolhof 144"
+    },
+    "0145": {
+      "description": "Nog een BinaryTree Doolhof",
+      "displayName": "Doolhof 145"
+    },
+    "0146": {
+      "description": "Nog een CellularAutomaton Doolhof",
+      "displayName": "Doolhof 146"
+    },
+    "0147": {
+      "description": "Nog een Division Doolhof",
+      "displayName": "Doolhof 147"
+    },
+    "0148": {
+      "description": "Nog een DungeonRooms Doolhof",
+      "displayName": "Doolhof 148"
+    },
+    "0149": {
+      "description": "Nog een Ellers Doolhof",
+      "displayName": "Doolhof 149"
+    },
+    "0150": {
+      "description": "Nog een GrowingTree Doolhof",
+      "displayName": "Doolhof 150"
+    },
+    "0151": {
+      "description": "Nog een HuntAndKill Doolhof",
+      "displayName": "Doolhof 151"
+    },
+    "0152": {
+      "description": "Nog een Kruskal Doolhof",
+      "displayName": "Doolhof 152"
+    },
+    "0153": {
+      "description": "Nog een Prims Doolhof",
+      "displayName": "Doolhof 153"
+    },
+    "0154": {
+      "description": "Nog een Sidewinder Doolhof",
+      "displayName": "Doolhof 154"
+    },
+    "0155": {
+      "description": "Nog een TrivialMaze Doolhof",
+      "displayName": "Doolhof 155"
+    },
+    "0156": {
+      "description": "Nog een Wilsons Doolhof",
+      "displayName": "Doolhof 156"
+    },
+    "1001": {
+      "description": "Vermijd de monsters",
+      "displayName": "Zit monster, zit"
+    },
+    "1002": {
+      "description": "Vermijd de monsters",
+      "displayName": "Zit monster, zit"
+    },
+    "1003": {
+      "description": "Vermijd de monsters",
+      "displayName": "Zit monster, zit"
+    },
+    "1004": {
+      "description": "Vermijd de monsters",
+      "displayName": "Zit monster, zit"
+    },
+    "2001": {
+      "description": "In dit level pakken we een getal op en brengen het naar de finish.",
+      "displayName": "Pak een getal op"
+    },
+    "2002": {
+      "description": "Pak twee getallen op en breng ze naar het einde",
+      "displayName": "Pak twee getallen op"
+    },
+    "2003": {
+      "description": "Pak twee getallen op en breng ze naar het einde",
+      "displayName": "Pak twee getallen op"
+    },
+    "2004": {
+      "description": "Pak twee getallen en tel ze op",
+      "displayName": "1 + 1 = 2"
+    },
+    "2005": {
+      "description": "Pak drie getallen op en tel ze bij elkaar op",
+      "displayName": "1 + 1 + 1 = 3"
+    },
+    "2006": {
+      "description": "Pak een getal, verdubbel het en finish met twee getallen.",
+      "displayName": "Verdubbelen"
+    },
+    "2007": {
+      "description": "Pak een getal op, als het kleiner is dan 1, gooi het weg. Als het hoger is, breng het naar de finish.",
+      "displayName": "Logica"
+    },
+    "2008": {
+      "description": "Pak een getal op, maak het één groter en breng het naar de finish.",
+      "displayName": "Voeg één toe"
+    },
+    "2009": {
+      "description": "Pak een getal op, maak het één kleiner en breng het naar de finish.",
+      "displayName": "Min één"
+    },
+    "2010": {
+      "description": "Pak een nummer op, zolang het groter is dan 0, maak het kleiner. Kom alleen naar de finish met 0. Let op dat alle nummers 0 of groter zijn.",
+      "displayName": "Markeer het nul"
+    },
+    "2011": {
+      "description": "Lees alle nummers in de invoer en tel ze allemaal op. Let op, er is altijd minstens één item in de invoer.",
+      "displayName": "Som"
+    },
+    "2012": {
+      "description": "Lees alle nummers in de invoer en tel ze allemaal op. Nu zijn er ook gevallen zonder invoer. In dat geval moet 0 worden geretourneerd.",
+      "displayName": "Som"
+    },
+    "2013": {
+      "description": "Lees alle nummers in de invoer en geef gewoon het totale aantal gelezen nummers terug.",
+      "displayName": "Tel"
+    },
+    "2014": {
+      "description": "Er zullen twee getallen in de invoer zijn. Geef ze terug in omgekeerde volgorde.",
+      "displayName": "Wissel"
+    },
+    "2015": {
+      "description": "Er zullen twee getallen in de invoer zijn. Geef alleen het grootste getal terug.",
+      "displayName": "Max"
+    },
+    "2016": {
+      "description": "Er zullen twee getallen in de invoer zijn. Geef alleen het kleinste getal terug.",
+      "displayName": "Min"
+    },
+    "2017": {
+      "description": "Neem twee getallen in de invoer, bijvoorbeeld 5 en 1. Geef vier getallen terug, 1 5 1 5",
+      "displayName": "Twee keer verdubbelen"
+    }
+  },
+  "menu": {
+    "allLevelsFinished": "Je hebt alle levels uit!",
+    "completedLevels": "Afgemaakte Levels",
+    "hiddenInstructionsCount": "Er zijn nog {hiddenInstructionCount} meer blokken te ontdekken. Maak levels af om ze te verdienen.",
+    "hiddenLevelsCount": "Er zijn nog {hiddenLevelCount} levels onzichtbaar",
+    "instructionBlocks": "Blokken",
+    "instructionBlocksDescription": "The volgende blokken kun je gebruiken in je puzzels. Als ze grijs zijn, dan moet je ze nog verdienen. Houd je muis boven de blokken om te zien wat ze doen.",
+    "language": "Taal",
+    "levels": "Levels",
+    "levelsDescription": "Doe de levels hieronder om nieuwe blokken te verdienen. Met nieuwe blokken kun je later betere opdrachten maken. Klik op een level om te beginnen met spelen.",
+    "metaInfo": "Ik werk elke paar jaar aan dit project. Zie",
+    "metaInfoEnd": "voor meer informatie over de maker. Als je grote ideeën hebt met Stacky Bird, ben ik ook blij om het idee over te dragen.",
+    "noLevelsFinished": "Je hebt nog geen levels afgemaakt.",
+    "resetComplete": "Ok, alles is gewist. Je begint nu opnieuw vanaf nul.",
+    "resetConfirm": "WEET JE ZEKER DAT JE ALLES WILT WISSEN?",
+    "resetGame": "RESET HET SPEL - TERUG NAAR FABRIEKSINSTELLINGEN",
+    "subtitle": "Dit is Stacky Bird. Een spel om te leren programmeren, en ook een super interessante programmeertaal.",
+    "title": "Stacky Bird"
   }
 }

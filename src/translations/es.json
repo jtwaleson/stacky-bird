@@ -1,301 +1,441 @@
 {
-  "menu": {
-    "title": "Stacky Bird",
-    "subtitle": "Esto es Stacky Bird, un juego para aprender a programar así como un lenguaje de programación revolucionario en sí mismo.",
-    "metaInfo": "Trabajo en este proyecto cada par de años. Ver",
-    "metaInfoEnd": "para más información sobre el creador. Si tienes grandes ideas con Stacky Bird, también estaré encantado de traspasar la idea.",
-    "language": "Idioma",
-    "levels": "Niveles",
-    "levelsDescription": "Completa estos niveles para desbloquear nuevas instrucciones. ¡Más tarde podrás volver y mejorar tus soluciones! Haz clic en un nivel para empezar a jugar.",
-    "allLevelsFinished": "¡Has terminado todos los niveles!",
-    "hiddenLevelsCount": "Hay {hiddenLevelCount} niveles más todavía ocultos",
-    "instructionBlocks": "Bloques de instrucción",
-    "instructionBlocksDescription": "Los siguientes bloques están disponibles en tus soluciones. Si están en gris, todavía tienes que desbloquearlos. Pasa el ratón sobre las instrucciones para ver qué hacen.",
-    "hiddenInstructionsCount": "Hay {hiddenInstructionCount} bloques de instrucción más por descubrir. Completa niveles para desbloquearlos.",
-    "completedLevels": "Niveles completados",
-    "noLevelsFinished": "¡Todavía no has terminado ningún nivel!",
-    "resetGame": "REINICIAR EL JUEGO - RESTABLECER DE FÁBRICA",
-    "resetConfirm": "¿ESTÁS SEGURO DE QUE QUIERES BORRAR TODO TU PROGRESO?",
-    "resetComplete": "Ok, todo borrado. Recargando desde cero."
-  },
   "board": {
-    "title": "Tablero",
     "blocks": "Bloques",
-    "dragHint": "Arrastra al tablero de la derecha.",
-    "levelCompleted": "Has terminado el nivel, ¡buen trabajo!",
-    "unlockedLevels": "Has desbloqueado los siguientes niveles",
-    "unlockedBlocks": "Has desbloqueado los siguientes bloques",
-    "selectBlock": "Selecciona un bloque",
-    "searchBlocks": "Buscar bloques...",
-    "noBlocksAvailable": "No hay bloques disponibles",
     "cancel": "Cancelar",
-    "testCases": "Casos de prueba",
-    "input": "Entrada",
+    "dragHint": "Arrastra al tablero de la derecha.",
     "expected": "Salida esperada",
+    "input": "Entrada",
+    "levelCompleted": "Has terminado el nivel, ¡buen trabajo!",
+    "noBlocksAvailable": "No hay bloques disponibles",
+    "resetConfirm": "Esto reiniciará tu nivel, ¿estás seguro?",
+    "searchBlocks": "Buscar bloques...",
+    "selectBlock": "Selecciona un bloque",
     "testCaseDone": "¡Caso de prueba {testCaseIndex} hecho!",
-    "resetConfirm": "Esto reiniciará tu nivel, ¿estás seguro?"
-  },
-  "instructions": {
-    "STRT": "Posición inicial del pájaro, el pájaro empieza yendo a la derecha.",
-    "FINI": "Termina esta ronda",
-    "UPWD": "Ve ARRIBA",
-    "DOWN": "Ve ABAJO",
-    "LEFT": "Ve a la IZQUIERDA",
-    "RGHT": "Ve a la DERECHA",
-    "REVR": "Invierte la dirección del pájaro",
-    "READ": "Lee un número de entrada a la pila",
-    "DUP1": "Duplica el último número de la pila",
-    "SWAP": "Intercambia los dos números superiores de la pila",
-    "YOLO": "Ve en una dirección aleatoria",
-    "EMPT": "Comprueba si la pila está vacía",
-    "VOID": "Elimina el elemento superior de la pila",
-    "CLER": "Limpia la pila",
-    "SIZE": "Devuelve la cantidad de elementos en la pila",
-    "PLUS": "Suma los dos números superiores de la pila",
-    "MINU": "Resta el elemento superior de la pila del número inferior",
-    "SUMA": "Suma todos los elementos de la pila",
-    "BLCK": "No choques con este bloque, te matará",
-    "GEQ1": "Ve a la derecha si el número es 1 o mayor, si no, ve abajo",
-    "JMP1": "Salta sobre el siguiente bloque",
-    "ADD1": "Suma 1 al primer número de la pila",
-    "SUB1": "Reduce el primer número de la pila en uno",
-    "INSZ": "Obtén la cantidad de elementos que aún quedan en la cola de entrada.",
-    "DUP2": "Copia los dos últimos números de la pila de nuevo.",
-    "ROT1": "Intercambia los dos números superiores de la pila.",
-    "PRTI": "Teletranspórtate al portal azul",
-    "PRTO": "Teletranspórtate al portal naranja",
-    "DUMP": "Suelta un elemento de la pila o recógelo.",
-    "SPWN": "Genera un pájaro adicional",
-    "WAIT": "Espera un tiempo",
-    "NOTE": "Haz un sonido"
-  },
-  "errors": {
-    "outOfBoard": "Estás fuera del tablero",
-    "hitWall": "Chocaste con la pared",
-    "ghostCaught": "Un fantasma atrapó un pájaro",
-    "noMoreNumbers": "No hay más números para leer",
-    "stackEmpty": "La pila está vacía",
-    "stackEmptyCannotDuplicate": "La pila está vacía, no se puede duplicar el último número.",
-    "lessThanTwoNumbers": "Hay menos de dos números en la pila",
-    "atLeastOneNumber": "Debe haber al menos un número en la pila",
-    "unexpectedResult": "No terminaste con el resultado esperado en la pila. Esperado: {expected}, Real: {actual}",
-    "noInstructionsAvailable": "No hay instrucciones disponibles.",
-    "multipleBluePortals": "Se encontró más de un portal azul.",
-    "noBluePortal": "No se encontró un portal azul.",
-    "multipleOrangePortals": "Se encontró más de un portal naranja.",
-    "noOrangePortal": "No se encontró un portal naranja."
-  },
-  "levels": {
-    "0001": {
-      "displayName": "Y así comienza",
-      "description": "En este nivel no tenemos que construir nada todavía"
-    },
-    "0002": {
-      "displayName": "Y baja",
-      "description": "En este nivel tenemos que colocar una flecha"
-    },
-    "0003": {
-      "displayName": "Vueltas y vueltas",
-      "description": "En este nivel tenemos que dar toda la vuelta"
-    },
-    "0004": {
-      "displayName": "ZigZag",
-      "description": "En este nivel tenemos que dar toda la vuelta"
-    },
-    "0005": {
-      "displayName": "Todo el camino",
-      "description": "En este nivel tenemos que dar toda la vuelta"
-    },
-    "0006": {
-      "displayName": "La Escalera",
-      "description": "En este nivel tenemos que dar toda la vuelta"
-    },
-    "0007": {
-      "displayName": "Eslalon",
-      "description": "Encuentra tu camino"
-    },
-    "0008": {
-      "displayName": "Sobrevive al laberinto",
-      "description": "Encuentra tu camino por el laberinto"
-    },
-    "0009": {
-      "displayName": "El Muro",
-      "description": "Esto puede parecer imposible, tal vez tengas que terminar otro nivel primero"
-    },
-    "0010": {
-      "displayName": "Solo se vive una vez",
-      "description": "En este nivel introducimos aleatoriedad, ¡tienes que escapar de ella!"
-    },
-    "0101": {
-      "displayName": "Laberinto 101",
-      "description": "Solo otro Laberinto AldousBroder"
-    },
-    "0102": {
-      "displayName": "Laberinto 102",
-      "description": "Solo otro Laberinto BacktrackingGenerator"
-    },
-    "0103": {
-      "displayName": "Laberinto 103",
-      "description": "Solo otro Laberinto BinaryTree"
-    },
-    "0104": {
-      "displayName": "Laberinto 104",
-      "description": "Solo otro Laberinto CellularAutomaton"
-    },
-    "0105": {
-      "displayName": "Laberinto 105",
-      "description": "Solo otro Laberinto Division"
-    },
-    "0106": {
-      "displayName": "Laberinto 106",
-      "description": "Solo otro Laberinto DungeonRooms"
-    },
-    "0107": {
-      "displayName": "Laberinto 107",
-      "description": "Solo otro Laberinto Ellers"
-    },
-    "0108": {
-      "displayName": "Laberinto 108",
-      "description": "Solo otro Laberinto GrowingTree"
-    },
-    "0109": {
-      "displayName": "Laberinto 109",
-      "description": "Solo otro Laberinto HuntAndKill"
-    },
-    "0110": {
-      "displayName": "Laberinto 110",
-      "description": "Solo otro Laberinto Kruskal"
-    },
-    "0111": {
-      "displayName": "Laberinto 111",
-      "description": "Solo otro Laberinto Prims"
-    },
-    "0112": {
-      "displayName": "Laberinto 112",
-      "description": "Solo otro Laberinto Sidewinder"
-    },
-    "0113": {
-      "displayName": "Laberinto 113",
-      "description": "Solo otro Laberinto TrivialMaze"
-    },
-    "0114": {
-      "displayName": "Laberinto 114",
-      "description": "Solo otro Laberinto Wilsons"
-    },
-    "0150": {
-      "displayName": "Laberinto 150",
-      "description": "Solo otro Laberinto GrowingTree"
-    },
-    "0151": {
-      "displayName": "Laberinto 151",
-      "description": "Solo otro Laberinto HuntAndKill"
-    },
-    "0152": {
-      "displayName": "Laberinto 152",
-      "description": "Solo otro Laberinto Kruskal"
-    },
-    "0153": {
-      "displayName": "Laberinto 153",
-      "description": "Solo otro Laberinto Prims"
-    },
-    "0154": {
-      "displayName": "Laberinto 154",
-      "description": "Solo otro Laberinto Sidewinder"
-    },
-    "0155": {
-      "displayName": "Laberinto 155",
-      "description": "Solo otro Laberinto TrivialMaze"
-    },
-    "0156": {
-      "displayName": "Laberinto 156",
-      "description": "Solo otro Laberinto Wilsons"
-    },
-    "1001": {
-      "displayName": "Siéntate monstruo, siéntate",
-      "description": "Evita los monstruos"
-    },
-    "1002": {
-      "displayName": "Siéntate monstruo, siéntate",
-      "description": "Evita los monstruos"
-    },
-    "1003": {
-      "displayName": "Siéntate monstruo, siéntate",
-      "description": "Evita los monstruos"
-    },
-    "1004": {
-      "displayName": "Siéntate monstruo, siéntate",
-      "description": "Evita los monstruos"
-    },
-    "2001": {
-      "displayName": "Recoge un número",
-      "description": "En este nivel tenemos que recoger un número y llevarlo a la meta"
-    },
-    "2002": {
-      "displayName": "Recoge dos números",
-      "description": "Recoge dos números y llévalos a la meta"
-    },
-    "2003": {
-      "displayName": "Recoge dos números",
-      "description": "Recoge dos números y llévalos a la meta"
-    },
-    "2004": {
-      "displayName": "1 + 1 = 2",
-      "description": "Recoge dos números y súmalos"
-    },
-    "2005": {
-      "displayName": "1 + 1 + 1 = 3",
-      "description": "Recoge tres números y súmalos"
-    },
-    "2006": {
-      "displayName": "Doblando la apuesta",
-      "description": "Recoge un número, cópialo y termina con dos números"
-    },
-    "2007": {
-      "displayName": "Lógica",
-      "description": ""
-    },
-    "2008": {
-      "displayName": "Suma uno",
-      "description": "Recoge un número, hazlo uno más grande y llévalo a la meta."
-    },
-    "2009": {
-      "displayName": "Menos uno",
-      "description": "Recoge un número, hazlo uno más pequeño y llévalo a la meta."
-    },
-    "2010": {
-      "displayName": "Márcalo cero",
-      "description": "Recoge un número, mientras sea mayor que 0, hazlo más pequeño. Solo llega a la meta con 0. Ten en cuenta que todos los números son 0 o mayores."
-    },
-    "2011": {
-      "displayName": "Suma",
-      "description": ""
-    },
-    "2012": {
-      "displayName": "Suma",
-      "description": ""
-    },
-    "2013": {
-      "displayName": "Cuenta",
-      "description": ""
-    },
-    "2014": {
-      "displayName": "Intercambiar",
-      "description": "Habrá dos números en la entrada. Devuélvelos en orden inverso."
-    },
-    "2015": {
-      "displayName": "Máximo",
-      "description": "Habrá dos números en la entrada. Devuelve solo el número más grande."
-    },
-    "2016": {
-      "displayName": "Mínimo",
-      "description": "Habrá dos números en la entrada. Devuelve solo el número más pequeño."
-    },
-    "2017": {
-      "displayName": "Doblando dos veces",
-      "description": "Toma dos números en la entrada, digamos 5 y 1. Devuelve cuatro números, 1 5 1 5"
-    }
+    "testCases": "Casos de prueba",
+    "title": "Tablero",
+    "unlockedBlocks": "Has desbloqueado los siguientes bloques",
+    "unlockedLevels": "Has desbloqueado los siguientes niveles"
   },
   "common": {
     "unlocks": "Desbloquea"
+  },
+  "errors": {
+    "atLeastOneNumber": "Debe haber al menos un número en la pila",
+    "ghostCaught": "Un fantasma atrapó un pájaro",
+    "hitWall": "Chocaste con la pared",
+    "lessThanTwoNumbers": "Hay menos de dos números en la pila",
+    "multipleBluePortals": "Se encontró más de un portal azul.",
+    "multipleOrangePortals": "Se encontró más de un portal naranja.",
+    "noBluePortal": "No se encontró un portal azul.",
+    "noInstructionsAvailable": "No hay instrucciones disponibles.",
+    "noMoreNumbers": "No hay más números para leer",
+    "noOrangePortal": "No se encontró un portal naranja.",
+    "outOfBoard": "Estás fuera del tablero",
+    "stackEmpty": "La pila está vacía",
+    "stackEmptyCannotDuplicate": "La pila está vacía, no se puede duplicar el último número.",
+    "unexpectedResult": "No terminaste con el resultado esperado en la pila. Esperado: {expected}, Real: {actual}"
+  },
+  "instructions": {
+    "ADD1": "Suma 1 al primer número de la pila",
+    "BLCK": "No choques con este bloque, te matará",
+    "CLER": "Limpia la pila",
+    "DOWN": "Ve ABAJO",
+    "DUMP": "Suelta un elemento de la pila o recógelo.",
+    "DUP1": "Duplica el último número de la pila",
+    "DUP2": "Copia los dos últimos números de la pila de nuevo.",
+    "EMPT": "Comprueba si la pila está vacía",
+    "FINI": "Termina esta ronda",
+    "GEQ1": "Ve a la derecha si el número es 1 o mayor, si no, ve abajo",
+    "INSZ": "Obtén la cantidad de elementos que aún quedan en la cola de entrada.",
+    "JMP1": "Salta sobre el siguiente bloque",
+    "LEFT": "Ve a la IZQUIERDA",
+    "MINU": "Resta el elemento superior de la pila del número inferior",
+    "NOTE": "Haz un sonido",
+    "PLUS": "Suma los dos números superiores de la pila",
+    "PRTI": "Teletranspórtate al portal azul",
+    "PRTO": "Teletranspórtate al portal naranja",
+    "READ": "Lee un número de entrada a la pila",
+    "REVR": "Invierte la dirección del pájaro",
+    "RGHT": "Ve a la DERECHA",
+    "ROT1": "Intercambia los dos números superiores de la pila.",
+    "SIZE": "Devuelve la cantidad de elementos en la pila",
+    "SPWN": "Genera un pájaro adicional",
+    "STRT": "Posición inicial del pájaro, el pájaro empieza yendo a la derecha.",
+    "SUB1": "Reduce el primer número de la pila en uno",
+    "SUMA": "Suma todos los elementos de la pila",
+    "SWAP": "Intercambia los dos números superiores de la pila",
+    "UPWD": "Ve ARRIBA",
+    "VOID": "Elimina el elemento superior de la pila",
+    "WAIT": "Espera un tiempo",
+    "YOLO": "Ve en una dirección aleatoria"
+  },
+  "levels": {
+    "0001": {
+      "description": "En este nivel no tenemos que construir nada todavía",
+      "displayName": "Y así comienza"
+    },
+    "0002": {
+      "description": "En este nivel tenemos que colocar una flecha",
+      "displayName": "Y baja"
+    },
+    "0003": {
+      "description": "En este nivel tenemos que dar toda la vuelta",
+      "displayName": "Vueltas y vueltas"
+    },
+    "0004": {
+      "description": "En este nivel tenemos que dar toda la vuelta",
+      "displayName": "ZigZag"
+    },
+    "0005": {
+      "description": "En este nivel tenemos que dar toda la vuelta",
+      "displayName": "Todo el camino"
+    },
+    "0006": {
+      "description": "En este nivel tenemos que dar toda la vuelta",
+      "displayName": "La Escalera"
+    },
+    "0007": {
+      "description": "Encuentra tu camino",
+      "displayName": "Eslalon"
+    },
+    "0008": {
+      "description": "Encuentra tu camino por el laberinto",
+      "displayName": "Sobrevive al laberinto"
+    },
+    "0009": {
+      "description": "Esto puede parecer imposible, tal vez tengas que terminar otro nivel primero",
+      "displayName": "El Muro"
+    },
+    "0010": {
+      "description": "En este nivel introducimos aleatoriedad, ¡tienes que escapar de ella!",
+      "displayName": "Solo se vive una vez"
+    },
+    "0101": {
+      "description": "Solo otro Laberinto AldousBroder",
+      "displayName": "Laberinto 101"
+    },
+    "0102": {
+      "description": "Solo otro Laberinto BacktrackingGenerator",
+      "displayName": "Laberinto 102"
+    },
+    "0103": {
+      "description": "Solo otro Laberinto BinaryTree",
+      "displayName": "Laberinto 103"
+    },
+    "0104": {
+      "description": "Solo otro Laberinto CellularAutomaton",
+      "displayName": "Laberinto 104"
+    },
+    "0105": {
+      "description": "Solo otro Laberinto Division",
+      "displayName": "Laberinto 105"
+    },
+    "0106": {
+      "description": "Solo otro Laberinto DungeonRooms",
+      "displayName": "Laberinto 106"
+    },
+    "0107": {
+      "description": "Solo otro Laberinto Ellers",
+      "displayName": "Laberinto 107"
+    },
+    "0108": {
+      "description": "Solo otro Laberinto GrowingTree",
+      "displayName": "Laberinto 108"
+    },
+    "0109": {
+      "description": "Solo otro Laberinto HuntAndKill",
+      "displayName": "Laberinto 109"
+    },
+    "0110": {
+      "description": "Solo otro Laberinto Kruskal",
+      "displayName": "Laberinto 110"
+    },
+    "0111": {
+      "description": "Solo otro Laberinto Prims",
+      "displayName": "Laberinto 111"
+    },
+    "0112": {
+      "description": "Solo otro Laberinto Sidewinder",
+      "displayName": "Laberinto 112"
+    },
+    "0113": {
+      "description": "Solo otro Laberinto TrivialMaze",
+      "displayName": "Laberinto 113"
+    },
+    "0114": {
+      "description": "Solo otro Laberinto Wilsons",
+      "displayName": "Laberinto 114"
+    },
+    "0115": {
+      "description": "Solo otro Laberinto AldousBroder",
+      "displayName": "Laberinto 115"
+    },
+    "0116": {
+      "description": "Solo otro Laberinto BacktrackingGenerator",
+      "displayName": "Laberinto 116"
+    },
+    "0117": {
+      "description": "Solo otro Laberinto BinaryTree",
+      "displayName": "Laberinto 117"
+    },
+    "0118": {
+      "description": "Solo otro Laberinto CellularAutomaton",
+      "displayName": "Laberinto 118"
+    },
+    "0119": {
+      "description": "Solo otro Laberinto Division",
+      "displayName": "Laberinto 119"
+    },
+    "0120": {
+      "description": "Solo otro Laberinto DungeonRooms",
+      "displayName": "Laberinto 120"
+    },
+    "0121": {
+      "description": "Solo otro Laberinto Ellers",
+      "displayName": "Laberinto 121"
+    },
+    "0122": {
+      "description": "Solo otro Laberinto GrowingTree",
+      "displayName": "Laberinto 122"
+    },
+    "0123": {
+      "description": "Solo otro Laberinto HuntAndKill",
+      "displayName": "Laberinto 123"
+    },
+    "0124": {
+      "description": "Solo otro Laberinto Kruskal",
+      "displayName": "Laberinto 124"
+    },
+    "0125": {
+      "description": "Solo otro Laberinto Prims",
+      "displayName": "Laberinto 125"
+    },
+    "0126": {
+      "description": "Solo otro Laberinto Sidewinder",
+      "displayName": "Laberinto 126"
+    },
+    "0127": {
+      "description": "Solo otro Laberinto TrivialMaze",
+      "displayName": "Laberinto 127"
+    },
+    "0128": {
+      "description": "Solo otro Laberinto Wilsons",
+      "displayName": "Laberinto 128"
+    },
+    "0129": {
+      "description": "Solo otro Laberinto AldousBroder",
+      "displayName": "Laberinto 129"
+    },
+    "0130": {
+      "description": "Solo otro Laberinto BacktrackingGenerator",
+      "displayName": "Laberinto 130"
+    },
+    "0131": {
+      "description": "Solo otro Laberinto BinaryTree",
+      "displayName": "Laberinto 131"
+    },
+    "0132": {
+      "description": "Solo otro Laberinto CellularAutomaton",
+      "displayName": "Laberinto 132"
+    },
+    "0133": {
+      "description": "Solo otro Laberinto Division",
+      "displayName": "Laberinto 133"
+    },
+    "0134": {
+      "description": "Solo otro Laberinto DungeonRooms",
+      "displayName": "Laberinto 134"
+    },
+    "0135": {
+      "description": "Solo otro Laberinto Ellers",
+      "displayName": "Laberinto 135"
+    },
+    "0136": {
+      "description": "Solo otro Laberinto GrowingTree",
+      "displayName": "Laberinto 136"
+    },
+    "0137": {
+      "description": "Solo otro Laberinto HuntAndKill",
+      "displayName": "Laberinto 137"
+    },
+    "0138": {
+      "description": "Solo otro Laberinto Kruskal",
+      "displayName": "Laberinto 138"
+    },
+    "0139": {
+      "description": "Solo otro Laberinto Ellers",
+      "displayName": "Laberinto 139"
+    },
+    "0140": {
+      "description": "Solo otro Laberinto Sidewinder",
+      "displayName": "Laberinto 140"
+    },
+    "0141": {
+      "description": "Solo otro Laberinto TrivialMaze",
+      "displayName": "Laberinto 141"
+    },
+    "0142": {
+      "description": "Solo otro Laberinto Wilsons",
+      "displayName": "Laberinto 142"
+    },
+    "0143": {
+      "description": "Solo otro Laberinto AldousBroder",
+      "displayName": "Laberinto 143"
+    },
+    "0144": {
+      "description": "Solo otro Laberinto BacktrackingGenerator",
+      "displayName": "Laberinto 144"
+    },
+    "0145": {
+      "description": "Solo otro Laberinto BinaryTree",
+      "displayName": "Laberinto 145"
+    },
+    "0146": {
+      "description": "Solo otro Laberinto CellularAutomaton",
+      "displayName": "Laberinto 146"
+    },
+    "0147": {
+      "description": "Solo otro Laberinto Division",
+      "displayName": "Laberinto 147"
+    },
+    "0148": {
+      "description": "Solo otro Laberinto DungeonRooms",
+      "displayName": "Laberinto 148"
+    },
+    "0149": {
+      "description": "Solo otro Laberinto Ellers",
+      "displayName": "Laberinto 149"
+    },
+    "0150": {
+      "description": "Solo otro Laberinto GrowingTree",
+      "displayName": "Laberinto 150"
+    },
+    "0151": {
+      "description": "Solo otro Laberinto HuntAndKill",
+      "displayName": "Laberinto 151"
+    },
+    "0152": {
+      "description": "Solo otro Laberinto Kruskal",
+      "displayName": "Laberinto 152"
+    },
+    "0153": {
+      "description": "Solo otro Laberinto Prims",
+      "displayName": "Laberinto 153"
+    },
+    "0154": {
+      "description": "Solo otro Laberinto Sidewinder",
+      "displayName": "Laberinto 154"
+    },
+    "0155": {
+      "description": "Solo otro Laberinto TrivialMaze",
+      "displayName": "Laberinto 155"
+    },
+    "0156": {
+      "description": "Solo otro Laberinto Wilsons",
+      "displayName": "Laberinto 156"
+    },
+    "1001": {
+      "description": "Evita los monstruos",
+      "displayName": "Siéntate monstruo, siéntate"
+    },
+    "1002": {
+      "description": "Evita los monstruos",
+      "displayName": "Siéntate monstruo, siéntate"
+    },
+    "1003": {
+      "description": "Evita los monstruos",
+      "displayName": "Siéntate monstruo, siéntate"
+    },
+    "1004": {
+      "description": "Evita los monstruos",
+      "displayName": "Siéntate monstruo, siéntate"
+    },
+    "2001": {
+      "description": "En este nivel tenemos que recoger un número y llevarlo a la meta",
+      "displayName": "Recoge un número"
+    },
+    "2002": {
+      "description": "Recoge dos números y llévalos a la meta",
+      "displayName": "Recoge dos números"
+    },
+    "2003": {
+      "description": "Recoge dos números y llévalos a la meta",
+      "displayName": "Recoge dos números"
+    },
+    "2004": {
+      "description": "Recoge dos números y súmalos",
+      "displayName": "1 + 1 = 2"
+    },
+    "2005": {
+      "description": "Recoge tres números y súmalos",
+      "displayName": "1 + 1 + 1 = 3"
+    },
+    "2006": {
+      "description": "Recoge un número, cópialo y termina con dos números",
+      "displayName": "Doblando la apuesta"
+    },
+    "2007": {
+      "description": "Recoge un número, si es menor que 1, deséchalo. Si es mayor, llévalo a la meta.",
+      "displayName": "Lógica"
+    },
+    "2008": {
+      "description": "Recoge un número, hazlo uno más grande y llévalo a la meta.",
+      "displayName": "Suma uno"
+    },
+    "2009": {
+      "description": "Recoge un número, hazlo uno más pequeño y llévalo a la meta.",
+      "displayName": "Menos uno"
+    },
+    "2010": {
+      "description": "Recoge un número, mientras sea mayor que 0, hazlo más pequeño. Solo llega a la meta con 0. Ten en cuenta que todos los números son 0 o mayores.",
+      "displayName": "Márcalo cero"
+    },
+    "2011": {
+      "description": "Lee todos los números en la entrada y súmalos todos. Ten en cuenta que siempre hay al menos un elemento en la entrada.",
+      "displayName": "Suma"
+    },
+    "2012": {
+      "description": "Lee todos los números en la entrada y súmalos todos. Ahora también hay casos sin ninguna entrada. En ese caso se debe devolver 0.",
+      "displayName": "Suma"
+    },
+    "2013": {
+      "description": "Lee todos los números en la entrada y simplemente devuelve la cantidad total de números leídos.",
+      "displayName": "Cuenta"
+    },
+    "2014": {
+      "description": "Habrá dos números en la entrada. Devuélvelos en orden inverso.",
+      "displayName": "Intercambiar"
+    },
+    "2015": {
+      "description": "Habrá dos números en la entrada. Devuelve solo el número más grande.",
+      "displayName": "Máximo"
+    },
+    "2016": {
+      "description": "Habrá dos números en la entrada. Devuelve solo el número más pequeño.",
+      "displayName": "Mínimo"
+    },
+    "2017": {
+      "description": "Toma dos números en la entrada, digamos 5 y 1. Devuelve cuatro números, 1 5 1 5",
+      "displayName": "Doblando dos veces"
+    }
+  },
+  "menu": {
+    "allLevelsFinished": "¡Has terminado todos los niveles!",
+    "completedLevels": "Niveles completados",
+    "hiddenInstructionsCount": "Hay {hiddenInstructionCount} bloques de instrucción más por descubrir. Completa niveles para desbloquearlos.",
+    "hiddenLevelsCount": "Hay {hiddenLevelCount} niveles más todavía ocultos",
+    "instructionBlocks": "Bloques de instrucción",
+    "instructionBlocksDescription": "Los siguientes bloques están disponibles en tus soluciones. Si están en gris, todavía tienes que desbloquearlos. Pasa el ratón sobre las instrucciones para ver qué hacen.",
+    "language": "Idioma",
+    "levels": "Niveles",
+    "levelsDescription": "Completa estos niveles para desbloquear nuevas instrucciones. ¡Más tarde podrás volver y mejorar tus soluciones! Haz clic en un nivel para empezar a jugar.",
+    "metaInfo": "Trabajo en este proyecto cada par de años. Ver",
+    "metaInfoEnd": "para más información sobre el creador. Si tienes grandes ideas con Stacky Bird, también estaré encantado de traspasar la idea.",
+    "noLevelsFinished": "¡Todavía no has terminado ningún nivel!",
+    "resetComplete": "Ok, todo borrado. Recargando desde cero.",
+    "resetConfirm": "¿ESTÁS SEGURO DE QUE QUIERES BORRAR TODO TU PROGRESO?",
+    "resetGame": "REINICIAR EL JUEGO - RESTABLECER DE FÁBRICA",
+    "subtitle": "Esto es Stacky Bird, un juego para aprender a programar así como un lenguaje de programación revolucionario en sí mismo.",
+    "title": "Stacky Bird"
   }
 }

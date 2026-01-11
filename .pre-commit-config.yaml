@@ -23,3 +23,10 @@ repos:
         pass_filenames: false
         types: [file]
         files: .*\.(js|vue|ts)$
+      - id: check-translations
+        name: check-translations
+        entry: bash -c "python3 scripts/check-translations.py"
+        language: system
+        pass_filenames: false
+        types: [file]
+        files: .*\.(js|vue|ts|json)$
