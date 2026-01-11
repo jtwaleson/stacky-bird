@@ -1,4 +1,4 @@
-import instructions from '../instructions.js';
+import instructions from '../instructions';
 
 export default {
     displayName: "TITLE",

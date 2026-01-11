@@ -1,7 +1,8 @@
 <template>
     <ul class="levels">
-        <template v-for="level in levels" :key="level.name">
+        <template v-for="level in levels" :key="level?.name">
             <li
+                v-if="level && level.name"
                 class="level"
                 :class="{ completed: level.completed }"
                 @click="$router.push({ name: 'Level Player', params: { levelName: level.name } })"
@@ -16,7 +17,7 @@
                 </div>
                 <div class="unlocks">
                     <template
-                        v-for="instructionName in level.unlocksInstructions"
+                        v-for="instructionName in level.unlocksInstructions || []"
                         :key="instructionName"
                     >
                         <Instruction v-bind="store.instructions[instructionName]" unlocked />
@@ -26,26 +27,18 @@
         </template>
     </ul>
 </template>
-<script>
+<script setup lang="ts">
 import { useStore } from '../store'
 import Instruction from './Instruction.vue'
 
-export default {
-    name: 'LevelList',
-    components: {
-        Instruction,
-    },
-    props: {
-        hideFinished: Boolean,
-        hideUnfinished: Boolean,
-        hideNotReachable: Boolean,
-        levels: Array,
-    },
-    setup() {
-        const store = useStore()
-        return { store }
-    },
-}
+defineProps<{
+    hideFinished?: boolean
+    hideUnfinished?: boolean
+    hideNotReachable?: boolean
+    levels: any[]
+}>()
+
+const store = useStore()
 </script>
 <style>
 ul.levels {

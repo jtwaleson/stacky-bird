@@ -40,19 +40,21 @@ export const useStore = defineStore('main', {
         },
         availableLevels(): any[] {
             let result: Record<string, any> = {}
-            if (!this.levels['0001']?.completed) {
+            if (this.levels['0001'] && !this.levels['0001']?.completed) {
                 result['0001'] = this.levels['0001']
             }
             const completedLevels = this.completedLevels
             for (let level of completedLevels) {
-                for (let unlocksLevelCode of level.unlocksLevels) {
-                    let unlocksLevel = this.levels[unlocksLevelCode]
-                    if (unlocksLevel && !unlocksLevel.completed) {
-                        result[unlocksLevelCode] = unlocksLevel
+                if (level && level.unlocksLevels) {
+                    for (let unlocksLevelCode of level.unlocksLevels) {
+                        let unlocksLevel = this.levels[unlocksLevelCode]
+                        if (unlocksLevel && !unlocksLevel.completed) {
+                            result[unlocksLevelCode] = unlocksLevel
+                        }
                     }
                 }
             }
-            return Object.values(result)
+            return Object.values(result).filter((level) => level !== undefined && level !== null)
         },
         unavailableButReachableInstructions(): any[] {
             let result: any[] = []

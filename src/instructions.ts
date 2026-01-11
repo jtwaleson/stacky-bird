@@ -20,9 +20,23 @@
  * https://www.fileformat.info/info/unicode/block/miscellaneous_symbols/utf8test.htm
  * */
 
-import * as Tone from 'tone'
+let synth: any = null
+let Tone: any = null
 
-const synth = new Tone.Synth().toDestination()
+async function getSynth(): Promise<any> {
+    if (!Tone) {
+        // Lazy import Tone.js only when needed (after user gesture)
+        Tone = await import('tone')
+    }
+    if (!synth) {
+        synth = new Tone.Synth().toDestination()
+        // Resume AudioContext if it's suspended (required after user gesture)
+        if (Tone.context.state === 'suspended') {
+            await Tone.context.resume()
+        }
+    }
+    return synth
+}
 
 import { toRaw } from 'vue'
 import isEqual from 'lodash.isequal'
@@ -449,7 +463,8 @@ export default {
         description: 'Make a sound',
         async execute() {
             //play a middle 'C' for the duration of an 8th note
-            synth.triggerAttackRelease('C4', '8n')
+            const synthInstance = await getSynth()
+            synthInstance.triggerAttackRelease('C4', '8n')
         },
         instructionClass: 'D',
     },

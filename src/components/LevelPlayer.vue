@@ -1,22 +1,14 @@
 <template>
     <Board v-bind="store.levels[levelName]" />
 </template>
-<script>
+<script setup lang="ts">
 import { useStore } from '../store'
 import Board from './Board.vue'
 
-export default {
-    name: 'LevelPlayer',
-    components: {
-        Board,
-    },
-    props: {
-        levelName: String,
-    },
-    setup() {
-        const store = useStore()
-        return { store }
-    },
-}
+defineProps<{
+    levelName: string
+}>()
+
+const store = useStore()
 </script>
 <style></style>

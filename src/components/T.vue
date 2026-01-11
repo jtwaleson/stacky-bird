@@ -1,72 +1,71 @@
 <template>
     <span :class="{ fallbackUsed }" @click="promptTranslation">{{ text }}</span>
 </template>
-<script>
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue'
 import { useStore } from '../store'
 
 /* The idea of this component is to visualize needed
 translations, can be added in dev mode via the UI */
 
-export default {
-    name: 'T',
-    props: {
-        textKey: String,
-        replacements: {
-            type: Object,
-            default: () => {},
-        },
-    },
-    setup() {
-        const store = useStore()
-        return { store }
-    },
-    computed: {
-        rawText() {
-            return this.$t(this.textKey)
-        },
-        text() {
-            let result = this.rawText || this.textKey
-            for (const [key, value] of Object.entries(this.replacements || {})) {
-                result = result.replace(new RegExp(`{${key}}`), value)
-            }
-            return result
-        },
-        fallbackUsed() {
-            if (import.meta.env.PROD) {
-                return false
-            }
-            return !this.rawText
-        },
-    },
-    methods: {
-        promptTranslation(event) {
-            if (!this.fallbackUsed) {
-                return
-            }
-            if (import.meta.env.PROD) {
-                return
-            }
-            event.preventDefault()
-            event.stopPropagation()
-            let translation = prompt(
-                `How do you translate "${this.textKey}" into ${this.store.locale}?`,
-                this.textKey,
-            )
-            if (translation) {
-                fetch('http://localhost:5000/translate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        language: this.store.locale,
-                        key: this.textKey,
-                        value: translation,
-                    }),
-                })
-            }
-        },
-    },
+const props = defineProps<{
+    textKey: string
+    replacements?: Record<string, string | number>
+}>()
+
+const store = useStore()
+const instance = getCurrentInstance()
+
+const rawText = computed(() => {
+    // Access store.locale to make this computed reactive to locale changes
+    const locale = store.locale
+
+    // @ts-ignore - $t is added by mixin
+    const $t = instance?.proxy?.$t as ((key: string) => string) | undefined
+    return $t ? $t(props.textKey) : props.textKey
+})
+
+const text = computed(() => {
+    let result = rawText.value || props.textKey
+    for (const [key, value] of Object.entries(props.replacements || {})) {
+        result = result.replace(new RegExp(`{${key}}`), String(value))
+    }
+    return result
+})
+
+const fallbackUsed = computed(() => {
+    if (import.meta.env.PROD) {
+        return false
+    }
+    return !rawText.value
+})
+
+const promptTranslation = (event: MouseEvent) => {
+    if (!fallbackUsed.value) {
+        return
+    }
+    if (import.meta.env.PROD) {
+        return
+    }
+    event.preventDefault()
+    event.stopPropagation()
+    const translation = prompt(
+        `How do you translate "${props.textKey}" into ${store.locale}?`,
+        props.textKey,
+    )
+    if (translation) {
+        fetch('http://localhost:5000/translate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                language: store.locale,
+                key: props.textKey,
+                value: translation,
+            }),
+        })
+    }
 }
 </script>
 <style scoped>

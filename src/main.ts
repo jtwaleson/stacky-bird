@@ -26,14 +26,14 @@ for (const [instructionName, instruction] of Object.entries(instructions)) {
     storeInstance.registerInstruction(instruction)
 }
 
-const levelModules = import.meta.glob('./levels/*.js', { eager: true })
+const levelModules = import.meta.glob('./levels/*.ts', { eager: true })
 
 Object.keys(levelModules).forEach((fileName) => {
     const level = (levelModules[fileName] as any).default
     level.name = fileName
         .replace(/\.\//, '')
         .replace(/levels\//, '')
-        .replace(/\.js/, '')
+        .replace(/\.ts/, '')
 
     // Process levelTiles to add name property to each tile
     if (level.levelTiles) {
@@ -84,7 +84,7 @@ Object.keys(translationModules).forEach((fileName) => {
         .replace(/\.json/, '')
         .replace(/\.\//, '')
         .replace(/translations\//, '')
-    localeTranslations[locale] = translationModules[fileName]
+    localeTranslations[locale] = (translationModules[fileName] as any).default
 })
 
 app.component('T', T)

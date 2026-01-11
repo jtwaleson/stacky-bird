@@ -12,56 +12,50 @@
         <em><T textKey="There are no instructions available." /></em>
     </p>
 </template>
-<script>
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useStore } from '../store'
 import Instruction from './Instruction.vue'
 
-export default {
-    name: 'InstructionList',
-    components: {
-        Instruction,
+const props = withDefaults(
+    defineProps<{
+        draggable?: boolean
+        unlockedOnly?: boolean
+        showAll?: boolean
+        locked?: boolean
+        cols?: number
+    }>(),
+    {
+        cols: 5,
     },
-    props: {
-        draggable: Boolean,
-        unlockedOnly: Boolean,
-        showAll: Boolean,
-        locked: Boolean,
-        cols: {
-            type: Number,
-            default: 5,
-        },
-    },
-    setup() {
-        const store = useStore()
-        return { store }
-    },
-    computed: {
-        filteredInstructions() {
-            if (this.showAll) {
-                return Object.values(this.store.instructions)
-            } else if (this.unlockedOnly) {
-                return this.store.availableInstructions
-            } else {
-                return this.store.availableInstructions.concat(
-                    this.store.unavailableButReachableInstructions,
-                )
-            }
-        },
-        unlockedInstructionCodes() {
-            let result = {}
-            for (let instruction of this.store.availableInstructions) {
-                result[instruction.name] = true
-            }
-            return result
-        },
-        boardStyle() {
-            return {
-                'grid-template-columns': `repeat(${this.cols}, 107px)`,
-                opacity: this.locked ? 0.2 : 1.0,
-            }
-        },
-    },
-}
+)
+
+const store = useStore()
+
+const filteredInstructions = computed(() => {
+    if (props.showAll) {
+        return Object.values(store.instructions)
+    } else if (props.unlockedOnly) {
+        return store.availableInstructions
+    } else {
+        return store.availableInstructions.concat(store.unavailableButReachableInstructions)
+    }
+})
+
+const unlockedInstructionCodes = computed(() => {
+    const result: Record<string, boolean> = {}
+    for (const instruction of store.availableInstructions) {
+        result[instruction.name] = true
+    }
+    return result
+})
+
+const boardStyle = computed(() => {
+    return {
+        'grid-template-columns': `repeat(${props.cols}, 107px)`,
+        opacity: props.locked ? 0.2 : 1.0,
+    }
+})
 </script>
 <style>
 .instruction-grid,

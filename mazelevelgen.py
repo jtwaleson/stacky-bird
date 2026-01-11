@@ -64,7 +64,7 @@ def gen_level(maze, name, maze_type):
     template = template.replace("ROWS", str(len(maze.grid) - 2))
     template = template.replace("COLS", str(len(maze.grid[0]) - 2))
     template = template.replace("OBJECTS", "\n".join([f'        {{ x: {o["x"]}, y: {o["y"]}, ...instructions["{o["code"]}"] }},' for o in objects]))
-    with open(os.path.join("src", "levels", f"{code}.js"), "w") as fh:
+    with open(os.path.join("src", "levels", f"{code}.ts"), "w") as fh:
         fh.write(template)
 
 

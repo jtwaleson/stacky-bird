@@ -66,44 +66,36 @@
         /></a>
     </div>
 </template>
-<script>
+<script setup lang="ts">
+import { computed, getCurrentInstance } from 'vue'
 import { useStore } from '../store'
 import InstructionList from './InstructionList.vue'
 import LevelList from './LevelList.vue'
 
-export default {
-    name: 'MainMenu',
-    components: {
-        InstructionList,
-        LevelList,
-    },
-    setup() {
-        const store = useStore()
-        return { store }
-    },
-    computed: {
-        hiddenLevelCount() {
-            return (
-                Object.keys(this.store.levels).length -
-                (this.store.completedLevels.length + this.store.availableLevels.length)
-            )
-        },
-        hiddenInstructionCount() {
-            return (
-                Object.keys(this.store.instructions).length -
-                this.store.availableInstructions.length
-            )
-        },
-    },
-    methods: {
-        factoryReset() {
-            if (confirm(this.$tr('ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?'))) {
-                alert(this.$tr('Ok, everything is wiped. Reloading from scratch.'))
-                localStorage.clear()
-                window.location.reload()
-            }
-        },
-    },
+const store = useStore()
+const instance = getCurrentInstance()
+
+const hiddenLevelCount = computed(() => {
+    return (
+        Object.keys(store.levels).length -
+        (store.completedLevels.length + store.availableLevels.length)
+    )
+})
+
+const hiddenInstructionCount = computed(() => {
+    return Object.keys(store.instructions).length - store.availableInstructions.length
+})
+
+const factoryReset = () => {
+    // @ts-ignore - $tr is added by mixin
+    const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, any>) => string) | undefined
+    const confirmMessage = $tr ? $tr('ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?') : 'ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?'
+    if (confirm(confirmMessage)) {
+        const alertMessage = $tr ? $tr('Ok, everything is wiped. Reloading from scratch.') : 'Ok, everything is wiped. Reloading from scratch.'
+        alert(alertMessage)
+        localStorage.clear()
+        window.location.reload()
+    }
 }
 </script>
 <style>
