@@ -2,25 +2,21 @@
     <div class="container main-menu">
         <header class="hero">
             <h1>
-                <T textKey="Stacky Bird" />
+                <T textKey="menu.title" />
             </h1>
             <p class="subtitle">
-                <T
-                    textKey="This is Stacky Bird, a game to learn programming as well as a revolutionary programming language by itself."
-                />
+                <T textKey="menu.subtitle" />
             </p>
             <p class="meta-info">
-                <T textKey="I work on this project every couple of years. See" />{{ ' ' }}
-                <a href="https://waleson.com">waleson.com</a>{{ ' ' }}
-                <T
-                    textKey="for more information about the creator. If you have big ideas with Stacky Bird, I'm also happy to hand over the idea."
-                />
+                <T textKey="menu.metaInfo" />{{ ' ' }} <a href="https://waleson.com">waleson.com</a
+                >{{ ' ' }}
+                <T textKey="menu.metaInfoEnd" />
             </p>
         </header>
 
         <section class="languages">
             <h2>
-                <T textKey="Language" />
+                <T textKey="menu.language" />
             </h2>
             <div class="language-options">
                 <button
@@ -37,15 +33,13 @@
 
         <section class="levels-section">
             <h2>
-                <T textKey="Levels" />
+                <T textKey="menu.levels" />
             </h2>
             <p v-if="store.availableLevels.length > 0">
-                <T
-                    textKey="Complete these levels to unlock new instructions. Later on, you can come back and improve your solutions! Click a level to start playing."
-                />
+                <T textKey="menu.levelsDescription" />
             </p>
             <p v-else>
-                <T textKey="You finished all the levels!" />
+                <T textKey="menu.allLevelsFinished" />
             </p>
 
             <div class="level-list-container">
@@ -54,29 +48,24 @@
 
             <p v-if="hiddenLevelCount > 0" class="hidden-count">
                 <i>
-                    <T
-                        textKey="There are {hiddenLevelCount} more levels still hidden"
-                        :replacements="{ hiddenLevelCount }"
-                    />
+                    <T textKey="menu.hiddenLevelsCount" :replacements="{ hiddenLevelCount }" />
                 </i>
             </p>
         </section>
 
         <section class="instructions-section">
             <h2>
-                <T textKey="Instruction Blocks" />
+                <T textKey="menu.instructionBlocks" />
             </h2>
             <p>
-                <T
-                    textKey="The following blocks are available in your solutions. If they are greyed out, you still have to unlock them. Hover over the instructions to see what they do."
-                />
+                <T textKey="menu.instructionBlocksDescription" />
             </p>
             <div class="instruction-list-wrapper">
                 <InstructionList />
             </div>
             <p class="hidden-count">
                 <T
-                    textKey="There are {hiddenInstructionCount} more instruction blocks to be discovered. Finish levels to unlock them."
+                    textKey="menu.hiddenInstructionsCount"
                     :replacements="{ hiddenInstructionCount }"
                 />
             </p>
@@ -84,18 +73,18 @@
 
         <section class="completed-section">
             <h2>
-                <T textKey="Completed Levels" /> ({{ store.completedLevels.length }} /
+                <T textKey="menu.completedLevels" /> ({{ store.completedLevels.length }} /
                 {{ Object.keys(store.levels).length }})
             </h2>
             <p v-if="store.completedLevels.length === 0">
-                <T textKey="You have not finished any levels yet!" />
+                <T textKey="menu.noLevelsFinished" />
             </p>
             <LevelList v-else :levels="store.completedLevels" />
         </section>
 
         <footer class="footer">
             <a href="#" class="reset-link" @click.prevent="factoryReset">
-                <T textKey="RESET THE GAME - FACTORY RESET" />
+                <T textKey="menu.resetGame" />
             </a>
         </footer>
     </div>
@@ -122,13 +111,9 @@ const hiddenInstructionCount = computed(() => {
 
 const factoryReset = () => {
     const $tr = instance?.proxy?.$tr
-    const confirmMessage = $tr
-        ? $tr('ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?')
-        : 'ARE YOU SURE YOU WANT TO WIPE ALL YOUR PROGRESS?'
+    const confirmMessage = $tr ? $tr('menu.resetConfirm') : 'menu.resetConfirm'
     if (confirm(confirmMessage)) {
-        const alertMessage = $tr
-            ? $tr('Ok, everything is wiped. Reloading from scratch.')
-            : 'Ok, everything is wiped. Reloading from scratch.'
+        const alertMessage = $tr ? $tr('menu.resetComplete') : 'menu.resetComplete'
         alert(alertMessage)
         localStorage.clear()
         window.location.reload()

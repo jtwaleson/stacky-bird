@@ -101,7 +101,7 @@ Object.keys(levelModules).forEach((fileName) => {
     }
 })
 
-const localeTranslations: Record<string, Record<string, string>> = {}
+const localeTranslations: Record<string, Record<string, unknown>> = {}
 
 const translationModules = import.meta.glob('./translations/*.json', { eager: true })
 
@@ -111,10 +111,11 @@ Object.keys(translationModules).forEach((fileName) => {
         .replace(/\.\//, '')
         .replace(/translations\//, '')
     localeTranslations[locale] = (
-        translationModules[fileName] as { default: Record<string, string> }
+        translationModules[fileName] as { default: Record<string, unknown> }
     ).default
 })
 
+// eslint-disable-next-line vue/multi-word-component-names
 app.component('T', T)
 app.use(Toast, {})
 
@@ -126,45 +127,68 @@ function applyReplacements(text: string, replacements?: Record<string, string | 
     return result
 }
 
+function getNestedValue(obj: Record<string, unknown>, path: string): string | undefined {
+    const keys = path.split('.')
+    let current: unknown = obj
+    for (const key of keys) {
+        if (current && typeof current === 'object' && key in current) {
+            current = (current as Record<string, unknown>)[key]
+        } else {
+            return undefined
+        }
+    }
+    return typeof current === 'string' ? current : undefined
+}
+
 app.mixin({
     methods: {
         $tr: function (key: string, replacements?: Record<string, string | number>) {
             const store = storeInstance
-            if (store.locale == 'en') {
+            const englishDict = localeTranslations['en'] || {}
+            const localeDict = localeTranslations[store.locale] || {}
+
+            // Always get English translation first as fallback
+            let translation = getNestedValue(englishDict, key)
+
+            // If translation not found in English, return the key (shouldn't happen in production)
+            if (!translation) {
+                if (import.meta.env.DEV) {
+                    console.warn(`Translation key not found: ${key}`)
+                }
                 return applyReplacements(key, replacements)
             }
-            const localeDict = localeTranslations[store.locale]
-            const found = localeDict?.[key]
-            if (found) {
-                return applyReplacements(found, replacements)
+
+            // Try to get translation for current locale
+            const localeTranslation = getNestedValue(localeDict, key)
+            if (localeTranslation) {
+                translation = localeTranslation
             }
-            if (import.meta.env.PROD) {
-                return applyReplacements(key, replacements)
-            }
-            const translation = prompt(`How do you translate "${key}" into ${store.locale}?`, key)
-            if (translation && localeDict) {
-                localeDict[key] = translation
-                fetch('http://localhost:5000/translate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        language: store.locale,
-                        key,
-                        value: translation,
-                    }),
-                })
-                return applyReplacements(translation, replacements)
-            }
-            return applyReplacements(key, replacements)
+
+            return applyReplacements(translation, replacements)
         },
         $t: function (key: string) {
             const store = storeInstance
-            if (store.locale == 'en') {
+            const englishDict = localeTranslations['en'] || {}
+            const localeDict = localeTranslations[store.locale] || {}
+
+            // Always get English translation first as fallback
+            let translation = getNestedValue(englishDict, key)
+
+            // If translation not found in English, return the key (shouldn't happen in production)
+            if (!translation) {
+                if (import.meta.env.DEV) {
+                    console.warn(`Translation key not found: ${key}`)
+                }
                 return key
             }
-            return localeTranslations[store.locale]?.[key] || key
+
+            // Try to get translation for current locale
+            const localeTranslation = getNestedValue(localeDict, key)
+            if (localeTranslation) {
+                translation = localeTranslation
+            }
+
+            return translation
         },
     },
 })

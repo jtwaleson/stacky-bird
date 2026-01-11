@@ -60,8 +60,9 @@ const translatedDescription = computed(() => {
     // Access store.locale to make this computed reactive to locale changes
     void store.locale
 
-    const $tr = instance?.proxy?.$tr
-    return $tr ? $tr(props.description) : props.description
+    const $t = instance?.proxy?.$t
+    // props.description should be a translation key like "instructions.UPWD"
+    return $t ? $t(props.description) : props.description
 })
 
 const draggingAway = ref(false)
@@ -229,6 +230,18 @@ const classObject = computed(() => {
     background-color: #edc850; /* Golden yellow */
 }
 
+/* White text for darker backgrounds */
+.instruction.unlocked.field-style-C .symbol,
+.instruction.unlocked.field-style-C .code,
+.instruction.unlocked.field-style-D .symbol,
+.instruction.unlocked.field-style-D .code,
+.instruction.unlocked.field-style-F .symbol,
+.instruction.unlocked.field-style-F .code,
+.instruction.unlocked.field-style-G .symbol,
+.instruction.unlocked.field-style-G .code {
+    color: white;
+}
+
 .instruction.unlocked.draggable {
     cursor: grab;
 }
@@ -293,6 +306,18 @@ const classObject = computed(() => {
 
 .instruction.unlocked.userPlaced.field-style-A2 {
     background-color: #edc850;
+}
+
+/* White text for darker backgrounds (userPlaced) */
+.instruction.unlocked.userPlaced.field-style-C .symbol,
+.instruction.unlocked.userPlaced.field-style-C .code,
+.instruction.unlocked.userPlaced.field-style-D .symbol,
+.instruction.unlocked.userPlaced.field-style-D .code,
+.instruction.unlocked.userPlaced.field-style-F .symbol,
+.instruction.unlocked.userPlaced.field-style-F .code,
+.instruction.unlocked.userPlaced.field-style-G .symbol,
+.instruction.unlocked.userPlaced.field-style-G .code {
+    color: white;
 }
 
 .instruction .symbol {

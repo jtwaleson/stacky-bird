@@ -109,12 +109,12 @@ interface RevMap {
 export default {
     STRT: {
         symbol: '○', // maybe ⌂
-        description: 'Initial position of the bird, bird starts going to the right.',
+        description: 'instructions.STRT',
         async execute() {},
     },
     FINI: {
         symbol: '◍',
-        description: 'Finishes this round',
+        description: 'instructions.FINI',
         async execute(bird: Bird, board: Board) {
             if (board.selectedTestCase) {
                 const expected = toRaw(board.selectedTestCase.finalStack || [])
@@ -123,10 +123,7 @@ export default {
                     await board.finish()
                     return 'NOMOVE'
                 } else {
-                    await board.dieBird(
-                        'You did not finish with the expected result on the stack',
-                        bird,
-                    )
+                    await board.dieBird('errors.unexpectedResult', bird)
                 }
             } else {
                 await board.finish()
@@ -136,35 +133,35 @@ export default {
     },
     UPWD: {
         symbol: '▲',
-        description: 'Go UP',
+        description: 'instructions.UPWD',
         async execute(bird: Bird) {
             bird.direction = 'up'
         },
     },
     DOWN: {
         symbol: '▼',
-        description: 'Go DOWN',
+        description: 'instructions.DOWN',
         async execute(bird: Bird) {
             bird.direction = 'down'
         },
     },
     LEFT: {
         symbol: '◀',
-        description: 'Go LEFT',
+        description: 'instructions.LEFT',
         async execute(bird: Bird) {
             bird.direction = 'left'
         },
     },
     RGHT: {
         symbol: '▶',
-        description: 'Go RIGHT',
+        description: 'instructions.RGHT',
         async execute(bird: Bird) {
             bird.direction = 'right'
         },
     },
     REVR: {
         symbol: '↺',
-        description: 'Revert the direction of the bird',
+        description: 'instructions.REVR',
         async execute(bird: Bird) {
             const rev: RevMap = {
                 up: 'down',
@@ -178,10 +175,10 @@ export default {
     },
     READ: {
         symbol: '⌬',
-        description: 'Read a number input onto the stack',
+        description: 'instructions.READ',
         async execute(bird: Bird, board: Board) {
             if (board.input.length == 0) {
-                return await board.dieBird('There are no more numbers to read', bird)
+                return await board.dieBird('errors.noMoreNumbers', bird)
             }
             const input = toRaw(board.input.shift())
             if (input !== undefined) {
@@ -193,20 +190,14 @@ export default {
     },
     DUP1: {
         symbol: 'ↀ',
-        description: 'Duplicate the last number on the stack',
+        description: 'instructions.DUP1',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 1) {
-                return await board.dieBird(
-                    'The stack is empty, can not duplicate the last number.',
-                    bird,
-                )
+                return await board.dieBird('errors.stackEmptyCannotDuplicate', bird)
             }
             const x = bird.stack.pop()
             if (x === undefined) {
-                return await board.dieBird(
-                    'The stack is empty, can not duplicate the last number.',
-                    bird,
-                )
+                return await board.dieBird('errors.stackEmptyCannotDuplicate', bird)
             }
             await sleep(board.speed)
             bird.stack.push(x)
@@ -218,15 +209,15 @@ export default {
     },
     SWAP: {
         symbol: '⎌',
-        description: 'Swap the top two numbers on the stack',
+        description: 'instructions.SWAP',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 2) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
             const y = bird.stack.pop()
             if (x === undefined || y === undefined) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
             bird.stack.push(x)
@@ -237,7 +228,7 @@ export default {
     },
     YOLO: {
         symbol: '※',
-        description: 'Go into a random direction',
+        description: 'instructions.YOLO',
         async execute(bird: Bird) {
             const directions: Direction[] = ['up', 'down', 'left', 'right']
             bird.direction = directions[Math.floor(Math.random() * 4)] as Direction
@@ -246,7 +237,7 @@ export default {
     },
     EMPT: {
         symbol: '⌿',
-        description: 'Check if the stack is empty',
+        description: 'instructions.EMPT',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length > 0) {
                 bird.stack.push(0)
@@ -259,10 +250,10 @@ export default {
     },
     VOID: {
         symbol: '⌽',
-        description: 'Clear the top item on the stack',
+        description: 'instructions.VOID',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 1) {
-                return await board.dieBird('The stack is empty', bird)
+                return await board.dieBird('errors.stackEmpty', bird)
             }
             bird.stack.pop()
             await sleep(board.speed)
@@ -271,7 +262,7 @@ export default {
     },
     CLER: {
         symbol: '⌀',
-        description: 'Clear the stack',
+        description: 'instructions.CLER',
         async execute(bird: Bird) {
             bird.stack = []
         },
@@ -279,7 +270,7 @@ export default {
     },
     SIZE: {
         symbol: '⍗',
-        description: 'Return the amount of items on the stack',
+        description: 'instructions.SIZE',
         async execute(bird: Bird, board: Board) {
             bird.stack.push(bird.stack.length)
             await sleep(board.speed)
@@ -288,15 +279,15 @@ export default {
     },
     PLUS: {
         symbol: '⊕',
-        description: 'Add the top two numbers on the stack',
+        description: 'instructions.PLUS',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 2) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
             const y = bird.stack.pop()
             if (x === undefined || y === undefined) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
             bird.stack.push(y + x)
@@ -306,15 +297,15 @@ export default {
     },
     MINU: {
         symbol: '⊖',
-        description: 'Subtract the top item from the stack from the number below',
+        description: 'instructions.MINU',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 2) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
             const y = bird.stack.pop()
             if (x === undefined || y === undefined) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
             bird.stack.push(y - x)
@@ -324,7 +315,7 @@ export default {
     },
     SUMA: {
         symbol: '∑',
-        description: 'Sum all the items on the stack',
+        description: 'instructions.SUMA',
         async execute(bird: Bird, board: Board) {
             let sum = 0
             while (bird.stack.length > 0) {
@@ -341,22 +332,22 @@ export default {
     },
     BLCK: {
         symbol: '█',
-        description: "Don't hit this block, it will kill you",
+        description: 'instructions.BLCK',
         async execute(bird: Bird, board: Board) {
-            return await board.dieBird('You hit a wall', bird)
+            return await board.dieBird('errors.hitWall', bird)
         },
         instructionClass: 'Z',
     },
     GEQ1: {
         symbol: '⌥',
-        description: 'Go right if the number is 1 or greater, if not, go down',
+        description: 'instructions.GEQ1',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 1) {
-                return await board.dieBird('There should be at least one number on the stack', bird)
+                return await board.dieBird('errors.atLeastOneNumber', bird)
             }
             const x = bird.stack.pop()
             if (x === undefined) {
-                return await board.dieBird('There should be at least one number on the stack', bird)
+                return await board.dieBird('errors.atLeastOneNumber', bird)
             }
             await sleep(board.speed)
             if (x <= 0) {
@@ -369,7 +360,7 @@ export default {
     },
     JMP1: {
         symbol: '⤼',
-        description: 'Jump over the next block',
+        description: 'instructions.JMP1',
         async execute(bird: Bird) {
             if (bird.x === null || bird.y === null) {
                 return
@@ -388,14 +379,14 @@ export default {
     },
     ADD1: {
         symbol: '++',
-        description: 'Add 1 to the first number on the stack',
+        description: 'instructions.ADD1',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 1) {
-                return await board.dieBird('There should be at least one number on the stack', bird)
+                return await board.dieBird('errors.atLeastOneNumber', bird)
             }
             const x = bird.stack.pop()
             if (x === undefined) {
-                return await board.dieBird('There should be at least one number on the stack', bird)
+                return await board.dieBird('errors.atLeastOneNumber', bird)
             }
             await sleep(board.speed)
             bird.stack.push(x + 1)
@@ -405,14 +396,14 @@ export default {
     },
     SUB1: {
         symbol: '--',
-        description: 'Reduce the first number on the stack by one',
+        description: 'instructions.SUB1',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 1) {
-                return await board.dieBird('There should be at least one number on the stack', bird)
+                return await board.dieBird('errors.atLeastOneNumber', bird)
             }
             const x = bird.stack.pop()
             if (x === undefined) {
-                return await board.dieBird('There should be at least one number on the stack', bird)
+                return await board.dieBird('errors.atLeastOneNumber', bird)
             }
             await sleep(board.speed)
             bird.stack.push(x - 1)
@@ -422,7 +413,7 @@ export default {
     },
     INSZ: {
         symbol: '⍗',
-        description: 'Get the amount of items still in the input queue.',
+        description: 'instructions.INSZ',
         async execute(bird: Bird, board: Board) {
             bird.stack.push(board.input.length)
             await sleep(board.speed)
@@ -431,15 +422,15 @@ export default {
     },
     DUP2: {
         symbol: 'ↂ',
-        description: 'Copy the last two numbers on the stack again.',
+        description: 'instructions.DUP2',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 2) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
             const y = bird.stack.pop()
             if (x === undefined || y === undefined) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
             bird.stack.push(y)
@@ -455,15 +446,15 @@ export default {
     },
     ROT1: {
         symbol: '⮃',
-        description: 'Swap the top two numbers in the stack.',
+        description: 'instructions.ROT1',
         async execute(bird: Bird, board: Board) {
             if (bird.stack.length < 2) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
             const y = bird.stack.pop()
             if (x === undefined || y === undefined) {
-                return await board.dieBird('There are less than two numbers on the stack', bird)
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
             bird.stack.push(x)
@@ -475,14 +466,14 @@ export default {
     },
     PRTI: {
         symbol: '⬯',
-        description: 'Teleport to the blue portal',
+        description: 'instructions.PRTI',
         async execute(bird: Bird, board: Board) {
             const foundPortals = board.boardObjects.filter((bo) => bo.name === 'PRTO')
             if (foundPortals.length > 1) {
-                return await board.dieBird('Found more than one blue portal.', bird)
+                return await board.dieBird('errors.multipleBluePortals', bird)
             }
             if (foundPortals.length < 1) {
-                return await board.dieBird('Did not find a blue portal.', bird)
+                return await board.dieBird('errors.noBluePortal', bird)
             }
             const portal = foundPortals[0]
             if (portal) {
@@ -495,14 +486,14 @@ export default {
     },
     PRTO: {
         symbol: '⬯',
-        description: 'Teleport to the orange portal',
+        description: 'instructions.PRTO',
         async execute(bird: Bird, board: Board) {
             const foundPortals = board.boardObjects.filter((bo) => bo.name === 'PRTI')
             if (foundPortals.length > 1) {
-                return await board.dieBird('Found more than one orange portal.', bird)
+                return await board.dieBird('errors.multipleOrangePortals', bird)
             }
             if (foundPortals.length < 1) {
-                return await board.dieBird('Did not find a orange portal.', bird)
+                return await board.dieBird('errors.noOrangePortal', bird)
             }
             const portal = foundPortals[0]
             if (portal) {
@@ -515,14 +506,11 @@ export default {
     },
     DUMP: {
         symbol: '⬚', // bootstrap icons mailbox
-        description: 'Dump an item from the stack, or pick it up.',
+        description: 'instructions.DUMP',
         async execute(bird: Bird, board: Board, boardObject: Tile) {
             if (boardObject.state === null || typeof boardObject.state === 'undefined') {
                 if (bird.stack.length === 0) {
-                    return await board.dieBird(
-                        'There should be at least one number on the stack',
-                        bird,
-                    )
+                    return await board.dieBird('errors.atLeastOneNumber', bird)
                 }
                 const popped = bird.stack.pop()
                 if (popped !== undefined) {
@@ -537,7 +525,7 @@ export default {
     },
     SPWN: {
         symbol: 'x',
-        description: 'Spawn an additional bird',
+        description: 'instructions.SPWN',
         async execute(bird: Bird, board: Board) {
             board.spawnBird()
         },
@@ -545,7 +533,7 @@ export default {
     },
     WAIT: {
         symbol: 'bi-stopwatch',
-        description: 'Wait for some time',
+        description: 'instructions.WAIT',
         async execute(bird: Bird, board: Board, boardObject: Tile) {
             if (!Object.prototype.hasOwnProperty.call(boardObject, 'state')) {
                 throw new Error('Wait needs state to be defined')
@@ -574,7 +562,7 @@ export default {
     },
     NOTE: {
         symbol: 'bi-bell',
-        description: 'Make a sound',
+        description: 'instructions.NOTE',
         async execute() {
             //play a middle 'C' for the duration of an 8th note
             const synthInstance = await getSynth()

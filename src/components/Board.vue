@@ -8,12 +8,12 @@
         <div class="levelfinishpopup">
             <div class="modal-header">
                 <h2>
-                    <T textKey="You finished the level, great job!" />
+                    <T textKey="board.levelCompleted" />
                 </h2>
             </div>
             <div class="modal-body">
                 <div v-if="unlocksLevels && unlocksLevels.length > 0" class="unlock-section">
-                    <p><T textKey="You have unlocked the following levels" />:</p>
+                    <p><T textKey="board.unlockedLevels" />:</p>
                     <div class="unlocked-items">
                         <span class="badge" v-for="level in unlocksLevels" :key="level">{{
                             level
@@ -24,7 +24,7 @@
                     v-if="unlocksInstructions && unlocksInstructions.length > 0"
                     class="unlock-section"
                 >
-                    <p><T textKey="You have unlocked the following blocks" />:</p>
+                    <p><T textKey="board.unlockedBlocks" />:</p>
                     <div class="unlocks-instructions">
                         <template
                             v-for="(instructionCode, index) in unlocksInstructions"
@@ -60,7 +60,7 @@
         <div class="block-selection-popup" @keydown="handleModalKeyboard">
             <div class="modal-header">
                 <h2>
-                    <T textKey="Select a block" />
+                    <T textKey="board.selectBlock" />
                 </h2>
             </div>
             <div class="modal-body">
@@ -70,7 +70,7 @@
                         v-model="blockSearchQuery"
                         type="text"
                         class="block-search-input"
-                        :placeholder="$t('Search blocks...')"
+                        :placeholder="$t('board.searchBlocks')"
                         @keydown="handleModalInputKeyboard"
                         @input="handleSearchInput"
                     />
@@ -96,12 +96,12 @@
                     </div>
                 </div>
                 <p v-else class="empty-message">
-                    <T textKey="No blocks available" />
+                    <T textKey="board.noBlocksAvailable" />
                 </p>
             </div>
             <div class="modal-footer">
                 <button class="secondary-btn" @click="closeBlockSelectionModal">
-                    <T textKey="Cancel" />
+                    <T textKey="board.cancel" />
                 </button>
             </div>
         </div>
@@ -114,12 +114,12 @@
                     <i class="bi-arrow-left"></i>
                 </button>
                 <h3>
-                    <T textKey="Blocks" />
+                    <T textKey="board.blocks" />
                 </h3>
             </div>
 
             <p class="instruction-hint">
-                <T textKey="Drag to the board on the right." />
+                <T textKey="board.dragHint" />
             </p>
 
             <div class="sidebar-content">
@@ -144,14 +144,14 @@
                     <template v-if="name">
                         <h1>
                             <span class="level-id">{{ name }}</span>
-                            <T :textKey="displayName" />
+                            <T v-if="displayName" :textKey="`levels.${name}.displayName`" />
                         </h1>
-                        <p class="level-desc">
-                            <T :textKey="description" />
+                        <p v-if="description" class="level-desc">
+                            <T :textKey="`levels.${name}.description`" />
                         </p>
                     </template>
                     <h1 v-else>
-                        <T textKey="Board" />
+                        <T textKey="board.title" />
                     </h1>
                 </div>
 
@@ -229,7 +229,7 @@
             <div class="validation-panel" v-if="validation">
                 <div class="test-cases-header">
                     <span class="label">
-                        <T textKey="Test cases" />
+                        <T textKey="board.testCases" />
                     </span>
                     <ul class="test-case-tabs">
                         <li
@@ -248,7 +248,7 @@
 
                 <div class="test-case-details" v-if="selectedTestCase">
                     <div class="io-group">
-                        <span class="label"> <T textKey="Input" />: </span>
+                        <span class="label"> <T textKey="board.input" />: </span>
                         <div class="stack-view">
                             <template v-if="birdIsLoaded">
                                 <span
@@ -269,7 +269,7 @@
                         </div>
                     </div>
                     <div class="io-group">
-                        <span class="label"> <T textKey="Expected" />: </span>
+                        <span class="label"> <T textKey="board.expected" />: </span>
                         <div class="stack-view">
                             <span
                                 v-for="(val, idx) in selectedTestCase.finalStack"
@@ -713,7 +713,7 @@ const focusSearchInput = () => {
                     }
                 }
             })
-        } catch (e) {
+        } catch {
             // Ignore focus errors
         }
     }
@@ -1015,18 +1015,18 @@ const moveBird = (bird: Bird): Promise<void> | void => {
     bird.birdClasses.length = 0
     bird.birdClasses.push(toRaw(bird.direction))
     if (newX <= 0 || newY <= 0 || newX > props.cols || newY > props.rows) {
-        return dieBird('You are out of the board', bird)
+        return dieBird('errors.outOfBoard', bird)
     } else {
         for (const tile of allTiles.value) {
             if (tile.name === 'BLCK' && tile.x === bird.x + xDiff && tile.y === bird.y + yDiff) {
-                return dieBird('You hit the wall', bird)
+                return dieBird('errors.hitWall', bird)
             }
         }
         bird.x += xDiff
         bird.y += yDiff
         for (const creep of loadedCreeps.value) {
             if (creep.x === bird.x && creep.y === bird.y) {
-                return dieBird('You hit the ghost', bird)
+                return dieBird('errors.ghostCaught', bird)
             }
         }
     }
@@ -1054,7 +1054,7 @@ const finish = () => {
                 completedTestCases.value[parseInt(testCaseIndex)] = true
                 const $tr = instance?.proxy?.$tr
                 const translatedMessage = $tr
-                    ? $tr(`Test case {testCaseIndex} done!`, {
+                    ? $tr('board.testCaseDone', {
                           testCaseIndex: parseInt(testCaseIndex) + 1,
                       })
                     : `Test case ${parseInt(testCaseIndex) + 1} done!`
@@ -1229,7 +1229,7 @@ const step = async () => {
         }
         for (const bird of birds.value) {
             if (bird.x === creep.x && bird.y === creep.y) {
-                await dieBird('A ghost caught a bird', bird)
+                await dieBird('errors.ghostCaught', bird)
                 stepFunctionMutex.value = false
                 return
             }
@@ -1263,9 +1263,7 @@ const reset = () => {
 
 const clearWithWarning = () => {
     const $tr = instance?.proxy?.$tr
-    const message = $tr
-        ? $tr('This will reset your level, are you sure?')
-        : 'This will reset your level, are you sure?'
+    const message = $tr ? $tr('board.resetConfirm') : 'board.resetConfirm'
     if (confirm(message)) {
         clear()
     }

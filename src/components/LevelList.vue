@@ -16,10 +16,10 @@
 
                 <div class="level-body">
                     <h3 class="level-title">
-                        <T :textKey="level.displayName" />
+                        <T :textKey="level.displayName ? `levels.${level.name}.displayName` : ''" />
                     </h3>
                     <p class="level-desc">
-                        <T :textKey="level.description" />
+                        <T :textKey="level.description ? `levels.${level.name}.description` : ''" />
                     </p>
                 </div>
 
@@ -27,7 +27,7 @@
                     class="level-unlocks"
                     v-if="level.unlocksInstructions && level.unlocksInstructions.length > 0"
                 >
-                    <span class="unlock-label"><T textKey="Unlocks" />:</span>
+                    <span class="unlock-label"><T textKey="common.unlocks" />:</span>
                     <div class="unlock-icons">
                         <template
                             v-for="instructionName in level.unlocksInstructions || []"

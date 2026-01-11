@@ -10,7 +10,7 @@
         </template>
     </div>
     <p v-else class="empty-message">
-        <em><T textKey="There are no instructions available." /></em>
+        <em><T textKey="errors.noInstructionsAvailable" /></em>
     </p>
 </template>
 <script setup lang="ts">
