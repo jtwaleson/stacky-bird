@@ -49,12 +49,12 @@ export const useStore = defineStore('main', {
             const result: Record<string, Instruction> = {}
             const completedLevels = this.completedLevels
             for (const level of completedLevels) {
-            for (const instructionCode of level.unlocksInstructions || []) {
-                const instruction = this.instructions[instructionCode]
-                if (instruction) {
-                    result[instructionCode] = instruction
+                for (const instructionCode of level.unlocksInstructions || []) {
+                    const instruction = this.instructions[instructionCode]
+                    if (instruction) {
+                        result[instructionCode] = instruction
+                    }
                 }
-            }
             }
             return result
         },
@@ -85,7 +85,11 @@ export const useStore = defineStore('main', {
             for (const level of availableLevels) {
                 for (const instructionName of level.unlocksInstructions || []) {
                     const instruction = this.instructions[instructionName]
-                    if (instruction && instruction.name && !(instruction.name in this.availableInstructionsMap)) {
+                    if (
+                        instruction &&
+                        instruction.name &&
+                        !(instruction.name in this.availableInstructionsMap)
+                    ) {
                         result.push(instruction)
                     }
                 }

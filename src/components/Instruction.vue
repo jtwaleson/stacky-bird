@@ -1,8 +1,18 @@
 <template>
-    <div class="instruction-wrapper" :style="boardLocationStyle">
+    <div
+        class="instruction-wrapper"
+        :class="{ 'field-highlighted': highlighted }"
+        :style="boardLocationStyle"
+    >
         <button @click="deleteMe" v-if="userPlaced" class="delete" title="Remove">✖</button>
-        <div class="instruction" :class="classObject" :draggable="draggable" @dragstart="dragstart"
-            :title="translatedDescription" @dragend="dragend">
+        <div
+            class="instruction"
+            :class="classObject"
+            :draggable="draggable"
+            @dragstart="dragstart"
+            :title="translatedDescription"
+            @dragend="dragend"
+        >
             <div v-if="symbol.indexOf('bi-') === -1" class="symbol">{{ symbol }}</div>
             <div v-else class="symbol"><i :class="symbol" /></div>
             <div class="code">{{ name }}</div>
@@ -32,12 +42,14 @@ const props = withDefaults(
         deleteMethod?: () => void
         instructionClass?: string
         state?: number | null
+        highlighted?: boolean
     }>(),
     {
         x: null,
         y: null,
         instructionClass: 'A',
         state: null,
+        highlighted: false,
     },
 )
 
@@ -49,7 +61,9 @@ const translatedDescription = computed(() => {
     void store.locale
 
     // @ts-expect-error - $tr is added by mixin
-    const $tr = instance?.proxy?.$tr as ((key: string, replacements?: Record<string, unknown>) => string) | undefined
+    const $tr = instance?.proxy?.$tr as
+        | ((key: string, replacements?: Record<string, unknown>) => string)
+        | undefined
     return $tr ? $tr(props.description) : props.description
 })
 
@@ -266,5 +280,15 @@ button.delete:hover {
     background: var(--danger-color);
     color: white;
     border-color: var(--danger-color);
+}
+
+.instruction-wrapper.field-highlighted {
+    outline: 4px solid #0066ff;
+    outline-offset: -2px;
+    border-radius: 4px;
+    box-shadow:
+        0 0 0 3px rgba(0, 102, 255, 0.4),
+        0 0 15px rgba(0, 102, 255, 0.6);
+    z-index: 11;
 }
 </style>

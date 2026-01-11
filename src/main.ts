@@ -31,7 +31,11 @@ for (const [instructionName, instruction] of Object.entries(instructions)) {
 const levelModules = import.meta.glob('./levels/*.ts', { eager: true })
 
 Object.keys(levelModules).forEach((fileName) => {
-    const level = (levelModules[fileName] as { default: { name?: string; levelTiles?: unknown[]; [key: string]: unknown } }).default
+    const level = (
+        levelModules[fileName] as {
+            default: { name?: string; levelTiles?: unknown[]; [key: string]: unknown }
+        }
+    ).default
     const levelName = fileName
         .replace(/\.\//, '')
         .replace(/levels\//, '')
@@ -41,7 +45,13 @@ Object.keys(levelModules).forEach((fileName) => {
     // Process levelTiles to add name property to each tile
     if (level.levelTiles) {
         level.levelTiles = level.levelTiles.map((tile: unknown) => {
-            const tileObj = tile as { name?: string; symbol?: string; execute?: unknown; description?: string; [key: string]: unknown }
+            const tileObj = tile as {
+                name?: string
+                symbol?: string
+                execute?: unknown
+                description?: string
+                [key: string]: unknown
+            }
             // If tile already has a name, keep it
             if (tileObj.name) {
                 return tileObj
@@ -51,7 +61,12 @@ Object.keys(levelModules).forEach((fileName) => {
             for (const [instructionName, instruction] of Object.entries(
                 storeInstance.instructions,
             )) {
-                const inst = instruction as { symbol?: string; execute?: unknown; description?: string; [key: string]: unknown }
+                const inst = instruction as {
+                    symbol?: string
+                    execute?: unknown
+                    description?: string
+                    [key: string]: unknown
+                }
                 if (tileObj.symbol && tileObj.symbol === inst.symbol) {
                     return { ...tileObj, name: instructionName }
                 }
@@ -61,7 +76,12 @@ Object.keys(levelModules).forEach((fileName) => {
             for (const [instructionName, instruction] of Object.entries(
                 storeInstance.instructions,
             )) {
-                const inst = instruction as { symbol?: string; execute?: unknown; description?: string; [key: string]: unknown }
+                const inst = instruction as {
+                    symbol?: string
+                    execute?: unknown
+                    description?: string
+                    [key: string]: unknown
+                }
                 // Check if tile has the same execute function reference or same description
                 if (
                     tileObj.execute === inst.execute ||
@@ -90,7 +110,9 @@ Object.keys(translationModules).forEach((fileName) => {
         .replace(/\.json/, '')
         .replace(/\.\//, '')
         .replace(/translations\//, '')
-    localeTranslations[locale] = (translationModules[fileName] as { default: Record<string, string> }).default
+    localeTranslations[locale] = (
+        translationModules[fileName] as { default: Record<string, string> }
+    ).default
 })
 
 app.component('T', T)

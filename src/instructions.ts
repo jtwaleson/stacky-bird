@@ -550,10 +550,18 @@ export default {
             if (!Object.prototype.hasOwnProperty.call(boardObject, 'state')) {
                 throw new Error('Wait needs state to be defined')
             }
-            if (!boardObject.initialWait && boardObject.state !== null && boardObject.state !== undefined) {
+            if (
+                !boardObject.initialWait &&
+                boardObject.state !== null &&
+                boardObject.state !== undefined
+            ) {
                 boardObject.initialWait = boardObject.state
             }
-            if (boardObject.state === null || boardObject.state === undefined || boardObject.state <= 0) {
+            if (
+                boardObject.state === null ||
+                boardObject.state === undefined ||
+                boardObject.state <= 0
+            ) {
                 if (boardObject.initialWait !== undefined) {
                     boardObject.state = boardObject.initialWait
                 }

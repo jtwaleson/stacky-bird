@@ -6,7 +6,7 @@ import { computed, getCurrentInstance } from 'vue'
 import { useStore } from '../store'
 
 defineOptions({
-  name: 'TranslationText',
+    name: 'TranslationText',
 })
 
 /* The idea of this component is to visualize needed

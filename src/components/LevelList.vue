@@ -9,9 +9,11 @@
             >
                 <div class="level-header">
                     <span class="level-code">{{ level.name }}</span>
-                    <span v-if="level.completed" class="completed-badge"><i class="bi-check-lg"></i></span>
+                    <span v-if="level.completed" class="completed-badge"
+                        ><i class="bi-check-lg"></i
+                    ></span>
                 </div>
-                
+
                 <div class="level-body">
                     <h3 class="level-title">
                         <T :textKey="level.displayName" />
@@ -21,7 +23,10 @@
                     </p>
                 </div>
 
-                <div class="level-unlocks" v-if="level.unlocksInstructions && level.unlocksInstructions.length > 0">
+                <div
+                    class="level-unlocks"
+                    v-if="level.unlocksInstructions && level.unlocksInstructions.length > 0"
+                >
                     <span class="unlock-label"><T textKey="Unlocks" />:</span>
                     <div class="unlock-icons">
                         <template
@@ -29,7 +34,16 @@
                             :key="instructionName"
                         >
                             <div class="mini-instruction">
-                                <Instruction v-if="store.instructions[instructionName] && store.instructions[instructionName].symbol && store.instructions[instructionName].name && store.instructions[instructionName].description" v-bind="store.instructions[instructionName]" unlocked />
+                                <Instruction
+                                    v-if="
+                                        store.instructions[instructionName] &&
+                                        store.instructions[instructionName].symbol &&
+                                        store.instructions[instructionName].name &&
+                                        store.instructions[instructionName].description
+                                    "
+                                    v-bind="store.instructions[instructionName]"
+                                    unlocked
+                                />
                             </div>
                         </template>
                     </div>
@@ -74,7 +88,9 @@ const store = useStore()
     box-shadow: var(--shadow-sm);
     padding: 20px;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
     border: 1px solid transparent;
     display: flex;
     flex-direction: column;
@@ -164,6 +180,6 @@ const store = useStore()
 
 .mini-instruction :deep(.instruction) {
     border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 </style>
