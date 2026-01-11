@@ -60,10 +60,7 @@ const translatedDescription = computed(() => {
     // Access store.locale to make this computed reactive to locale changes
     void store.locale
 
-    // @ts-expect-error - $tr is added by mixin
-    const $tr = instance?.proxy?.$tr as
-        | ((key: string, replacements?: Record<string, unknown>) => string)
-        | undefined
+    const $tr = instance?.proxy?.$tr
     return $tr ? $tr(props.description) : props.description
 })
 

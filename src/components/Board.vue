@@ -755,7 +755,10 @@ const handleModalKeyboard = (event: KeyboardEvent) => {
             event.stopPropagation()
             // Select the highlighted block
             if (highlightedBlockIndex.value >= 0 && highlightedBlockIndex.value < filtered.length) {
-                selectBlock(filtered[highlightedBlockIndex.value])
+                const block = filtered[highlightedBlockIndex.value]
+                if (block) {
+                    selectBlock(block)
+                }
             }
             break
         case 'ArrowUp':
@@ -1034,10 +1037,7 @@ const dieBird = async (message: string, bird: Bird) => {
     await sleep(0.5 * speed.value)
     bird.birdClasses.push('dead')
     await sleep(500)
-    // @ts-expect-error - $tr is added by mixin
-    const $tr = instance?.proxy?.$tr as
-        | ((key: string, replacements?: Record<string, unknown>) => string)
-        | undefined
+    const $tr = instance?.proxy?.$tr
     const translatedMessage = $tr ? $tr(message) : message
     toast.warning(translatedMessage)
     reset()
@@ -1052,10 +1052,7 @@ const finish = () => {
         for (const testCaseIndex in props.validation) {
             if (props.validation[parseInt(testCaseIndex)] === selectedTestCase.value) {
                 completedTestCases.value[parseInt(testCaseIndex)] = true
-                // @ts-expect-error - $tr is added by mixin
-                const $tr = instance?.proxy?.$tr as
-                    | ((key: string, replacements?: Record<string, unknown>) => string)
-                    | undefined
+                const $tr = instance?.proxy?.$tr
                 const translatedMessage = $tr
                     ? $tr(`Test case {testCaseIndex} done!`, {
                           testCaseIndex: parseInt(testCaseIndex) + 1,
@@ -1265,10 +1262,7 @@ const reset = () => {
 }
 
 const clearWithWarning = () => {
-    // @ts-expect-error - $tr is added by mixin
-    const $tr = instance?.proxy?.$tr as
-        | ((key: string, replacements?: Record<string, unknown>) => string)
-        | undefined
+    const $tr = instance?.proxy?.$tr
     const message = $tr
         ? $tr('This will reset your level, are you sure?')
         : 'This will reset your level, are you sure?'

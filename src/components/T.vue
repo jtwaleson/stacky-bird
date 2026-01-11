@@ -24,8 +24,7 @@ const rawText = computed(() => {
     // Access store.locale to make this computed reactive to locale changes
     void store.locale
 
-    // @ts-expect-error - $t is added by mixin
-    const $t = instance?.proxy?.$t as ((key: string) => string) | undefined
+    const $t = instance?.proxy?.$t
     return $t ? $t(props.textKey) : props.textKey
 })
 
