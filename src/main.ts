@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import { useStore } from './store'
 import instructions from './instructions'
+import './assets/theme.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import VueFinalModal from 'vue-final-modal'
 import Toast from 'vue-toastification'
@@ -105,14 +106,14 @@ app.mixin({
             if (store.locale == 'en') {
                 return applyReplacements(key, replacements)
             }
-            let found = localeTranslations[store.locale]?.[key]
+            const found = localeTranslations[store.locale]?.[key]
             if (found) {
                 return applyReplacements(found, replacements)
             }
             if (import.meta.env.PROD) {
                 return applyReplacements(key, replacements)
             }
-            let translation = prompt(`How do you translate "${key}" into ${store.locale}?`, key)
+            const translation = prompt(`How do you translate "${key}" into ${store.locale}?`, key)
             if (translation && localeTranslations[store.locale]) {
                 localeTranslations[store.locale][key] = translation
                 fetch('http://localhost:5000/translate', {

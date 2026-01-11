@@ -1,7 +1,7 @@
 <template>
     <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable"
         @dragstart="dragstart" :title="translatedDescription" @dragend="dragend">
-        <button @click="deleteMe" v-if="userPlaced" class="delete">✖</button>
+        <button @click="deleteMe" v-if="userPlaced" class="delete" title="Remove">✖</button>
         <div v-if="symbol.indexOf('bi-') === -1" class="symbol">{{ symbol }}</div>
         <div v-else class="symbol"><i :class="symbol" /></div>
         <div class="code">{{ name }}</div>
@@ -52,6 +52,25 @@ const draggingAway = ref(false)
 const dragstart = (e: DragEvent) => {
     if (!e.dataTransfer) return
     e.dataTransfer.setData('text', props.name)
+
+    // Create a smaller drag image
+    const dragImage = (e.currentTarget as HTMLElement).cloneNode(true) as HTMLElement
+    dragImage.style.width = '80px'
+    dragImage.style.height = '80px'
+    dragImage.style.position = 'absolute'
+    dragImage.style.top = '-9999px'
+    dragImage.style.left = '-9999px'
+    dragImage.style.opacity = '1'
+    document.body.appendChild(dragImage)
+
+    // Set the drag image
+    e.dataTransfer.setDragImage(dragImage, 40, 40)
+
+    // Clean up the clone after a small delay
+    setTimeout(() => {
+        document.body.removeChild(dragImage)
+    }, 0)
+
     if (props.userPlaced && !e.ctrlKey) {
         e.dataTransfer.setData('deleteX', String(props.x ?? ''))
         e.dataTransfer.setData('deleteY', String(props.y ?? ''))
@@ -94,33 +113,49 @@ const classObject = computed(() => {
 .instruction {
     display: grid;
     position: relative;
-    border-radius: 3px;
-    width: 107px;
-    height: 107px;
+    border-radius: 4px;
+    /* Slightly nicer radius */
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    /* Prevent content overflow */
+    border: 1px solid #d4cbbd;
+    /* Subtle border */
 
     text-align: center;
     justify-content: center;
     align-items: center;
-    /*    background-color: #eee4da;
-    color: #776e65; */
-    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 55px;
+    background-color: #e6e0d8;
+    /* Default placeholder color */
+    color: var(--text-color);
+    font-family: var(--font-main);
+
+    /* Responsive font size based on container width if possible,
+       otherwise fallback to viewport or calc.
+       Using container queries would be ideal but simple clamp might suffice for now */
+    font-size: clamp(12px, 4vw, 40px);
+    container-type: inline-size;
+
     z-index: 10;
     opacity: 0.3;
     user-select: none;
+    transition: all 0.2s ease;
 }
 
 .instruction .state {
     position: absolute;
-    top: 30px;
-    left: 10px;
-    background-color: #ddd;
+    top: 25%;
+    left: 10%;
+    background-color: #ffffff;
     border-radius: 5px;
-    width: 87px;
-    height: 47px;
-    line-height: 100%;
-    font-size: 40px;
+    width: 80%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50cqw;
     color: black;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .board .instruction.hide-dragging {
@@ -129,54 +164,89 @@ const classObject = computed(() => {
 
 .instruction.unlocked {
     opacity: 1;
+    background-color: #eee4da;
+    cursor: grab;
 }
 
-.board .instruction {
-    box-shadow: 0px 0px 7px 0px black;
+.instruction.unlocked:active {
+    cursor: grabbing;
 }
 
-.instruction-grid .instruction:hover {
-    box-shadow: 0px 0px 7px 0px blue;
-}
-
-.instruction-grid .instruction.draggable:hover {
-    box-shadow: 0px 0px 7px 0px blue;
+/* Hover effects */
+.instruction.draggable:hover,
+.instruction.userPlaced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .instruction.userPlaced {
-    box-shadow: 0px 0px 7px 0px blue;
+    background-color: #f2e8de;
+    /* Slightly different to indicate placed */
+    border: 2px solid #dcb;
 }
 
 .instruction .symbol {
-    line-height: 70px;
+    font-size: clamp(14px, 35cqw, 50px);
+    /* Lowered minimum to allow smaller blocks */
+    color: #555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-bottom: 50%;
+    /* Increased padding to move the symbol even further up */
+    box-sizing: border-box;
 }
 
 .instruction .code {
-    line-height: 37px;
-    font-size: 16px;
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    text-align: center;
+    font-size: clamp(8px, 12cqw, 14px);
+    /* Lowered minimum to 8px */
     font-weight: bold;
-    letter-spacing: 1.5px;
-    color: #555;
-    font-family: 'Lucida Sans Typewriter', 'Lucida Console', monospace;
+    letter-spacing: 0.5px;
+    color: #776e65;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    pointer-events: none;
+    padding: 0 2px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 button.delete {
-    background: none;
-    color: inherit;
-    border: none;
+    background: white;
+    color: var(--danger-color);
+    border: 1px solid #ccc;
+    border-radius: 50%;
     padding: 0;
     font: inherit;
     outline: inherit;
-    width: 17px;
-    height: 17px;
+    width: 20cqw;
+    height: 20cqw;
+    max-width: 24px;
+    max-height: 24px;
     position: absolute;
-    left: 10px;
-    top: 10px;
-    font-size: 14px;
-    display: inline-block;
+    right: -5%;
+    top: -5%;
+    left: auto;
+    /* Reset left */
+    font-size: 12cqw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 20;
 }
 
 button.delete:hover {
-    box-shadow: 0px 0px 7px 0px black;
+    background: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
 }
 </style>

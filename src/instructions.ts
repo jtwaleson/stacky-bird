@@ -53,8 +53,8 @@ export default {
         description: 'Finishes this round',
         async execute(bird: any, board: any) {
             if (board.selectedTestCase) {
-                let expected = toRaw(board.selectedTestCase.finalStack || [])
-                let stack = toRaw(bird.stack).slice().reverse()
+                const expected = toRaw(board.selectedTestCase.finalStack || [])
+                const stack = toRaw(bird.stack).slice().reverse()
                 if (isEqual(expected, stack)) {
                     await board.finish()
                     return 'NOMOVE'
@@ -102,7 +102,7 @@ export default {
         symbol: '↺',
         description: 'Revert the direction of the bird',
         async execute(bird: any) {
-            let rev: Record<string, string> = {
+            const rev: Record<string, string> = {
                 up: 'down',
                 left: 'right',
                 right: 'left',
@@ -119,7 +119,7 @@ export default {
             if (board.input.length == 0) {
                 return await board.dieBird('There are no more numbers to read', bird)
             }
-            let input = toRaw(board.input.shift())
+            const input = toRaw(board.input.shift())
             bird.stack.push(input)
             await sleep(board.speed)
         },
@@ -135,7 +135,7 @@ export default {
                     bird,
                 )
             }
-            let x = bird.stack.pop()
+            const x = bird.stack.pop()
             await sleep(board.speed)
             bird.stack.push(x)
             await sleep(board.speed)
@@ -151,9 +151,9 @@ export default {
             if (bird.stack.length < 2) {
                 return await board.dieBird('There are less than two numbers on the stack', bird)
             }
-            let x = bird.stack.pop()
+            const x = bird.stack.pop()
             await sleep(board.speed)
-            let y = bird.stack.pop()
+            const y = bird.stack.pop()
             await sleep(board.speed)
             bird.stack.push(x)
             await sleep(board.speed)
@@ -219,9 +219,9 @@ export default {
             if (bird.stack.length < 2) {
                 return await board.dieBird('There are less than two numbers on the stack', bird)
             }
-            let x = bird.stack.pop()
+            const x = bird.stack.pop()
             await sleep(board.speed)
-            let y = bird.stack.pop()
+            const y = bird.stack.pop()
             await sleep(board.speed)
             bird.stack.push(y + x)
             await sleep(board.speed)
@@ -235,9 +235,9 @@ export default {
             if (bird.stack.length < 2) {
                 return await board.dieBird('There are less than two numbers on the stack', bird)
             }
-            let x = bird.stack.pop()
+            const x = bird.stack.pop()
             await sleep(board.speed)
-            let y = bird.stack.pop()
+            const y = bird.stack.pop()
             await sleep(board.speed)
             bird.stack.push(y - x)
             await sleep(board.speed)
@@ -273,7 +273,7 @@ export default {
             if (bird.stack.length < 1) {
                 return await board.dieBird('There should be at least one number on the stack', bird)
             }
-            let x = bird.stack.pop()
+            const x = bird.stack.pop()
             await sleep(board.speed)
             if (x <= 0) {
                 bird.direction = 'down'
@@ -345,9 +345,9 @@ export default {
             if (bird.stack.length < 2) {
                 return await board.dieBird('There are less than two numbers on the stack', bird)
             }
-            let x = bird.stack.pop()
+            const x = bird.stack.pop()
             await sleep(board.speed)
-            let y = bird.stack.pop()
+            const y = bird.stack.pop()
             await sleep(board.speed)
             bird.stack.push(y)
             await sleep(board.speed)
@@ -367,9 +367,9 @@ export default {
             if (bird.stack.length < 2) {
                 return await board.dieBird('There are less than two numbers on the stack', bird)
             }
-            let x = bird.stack.pop()
+            const x = bird.stack.pop()
             await sleep(board.speed)
-            let y = bird.stack.pop()
+            const y = bird.stack.pop()
             await sleep(board.speed)
             bird.stack.push(x)
             await sleep(board.speed)

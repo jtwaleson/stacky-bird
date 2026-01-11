@@ -8,7 +8,7 @@
             :unlocked="instruction.name in unlockedInstructionCodes"
         />
     </div>
-    <p v-else>
+    <p v-else class="empty-message">
         <em><T textKey="There are no instructions available." /></em>
     </p>
 </template>
@@ -52,18 +52,29 @@ const unlockedInstructionCodes = computed(() => {
 
 const boardStyle = computed(() => {
     return {
-        'grid-template-columns': `repeat(${props.cols}, 107px)`,
-        opacity: props.locked ? 0.2 : 1.0,
+        'grid-template-columns': `repeat(${props.cols}, 1fr)`,
+        opacity: props.locked ? 0.4 : 1.0,
+        pointerEvents: props.locked ? 'none' : 'auto',
     }
 })
 </script>
 <style>
-.instruction-grid,
-.board {
+.instruction-grid {
     display: grid;
-    border-radius: 6px;
-    grid-gap: 15px;
-    background-color: #bbada0;
-    padding: 15px;
+    grid-gap: var(--spacing-sm);
+    padding: 5px;
+    justify-content: start;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.instruction-grid .instruction {
+    /* No max-width here so they stay big in the sidebar */
+}
+
+.empty-message {
+    color: var(--text-light);
+    text-align: center;
+    padding: 20px;
 }
 </style>

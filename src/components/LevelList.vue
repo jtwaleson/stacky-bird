@@ -1,31 +1,42 @@
 <template>
-    <ul class="levels">
+    <div class="level-grid">
         <template v-for="level in levels" :key="level?.name">
-            <li
+            <div
                 v-if="level && level.name"
-                class="level"
+                class="level-card"
                 :class="{ completed: level.completed }"
                 @click="$router.push({ name: 'Level Player', params: { levelName: level.name } })"
             >
-                <div class="code">{{ level.name }}</div>
-                <div class="description">
-                    <b
-                        ><T textKey="Level" /> {{ level.name }} - <T :textKey="level.displayName"
-                    /></b>
-                    <br />
-                    <T :textKey="level.description" />
+                <div class="level-header">
+                    <span class="level-code">{{ level.name }}</span>
+                    <span v-if="level.completed" class="completed-badge"><i class="bi-check-lg"></i></span>
                 </div>
-                <div class="unlocks">
-                    <template
-                        v-for="instructionName in level.unlocksInstructions || []"
-                        :key="instructionName"
-                    >
-                        <Instruction v-bind="store.instructions[instructionName]" unlocked />
-                    </template>
+                
+                <div class="level-body">
+                    <h3 class="level-title">
+                        <T :textKey="level.displayName" />
+                    </h3>
+                    <p class="level-desc">
+                        <T :textKey="level.description" />
+                    </p>
                 </div>
-            </li>
+
+                <div class="level-unlocks" v-if="level.unlocksInstructions && level.unlocksInstructions.length > 0">
+                    <span class="unlock-label"><T textKey="Unlocks" />:</span>
+                    <div class="unlock-icons">
+                        <template
+                            v-for="instructionName in level.unlocksInstructions || []"
+                            :key="instructionName"
+                        >
+                            <div class="mini-instruction">
+                                <Instruction v-bind="store.instructions[instructionName]" unlocked />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
         </template>
-    </ul>
+    </div>
 </template>
 <script setup lang="ts">
 import { useStore } from '../store'
@@ -40,48 +51,109 @@ defineProps<{
 
 const store = useStore()
 </script>
-<style>
-ul.levels {
-    padding: 0;
-    margin: 0;
+<style scoped>
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
 }
-.level {
+
+.level-card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.level-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+}
+
+.level-card.completed {
+    background-color: #f0fdf4; /* Light green tint */
+    border-color: #86efac;
+}
+
+.level-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    background-color: #ccc;
-    padding: 10px 20px;
-    border-radius: 7px;
-    margin-bottom: 7px;
+    align-items: center;
+    margin-bottom: 10px;
 }
-.level.completed > .code {
-    background-color: green;
+
+.level-code {
+    background-color: var(--secondary-color);
+    color: white;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
 }
-.level:hover {
-    background-color: #ddd;
-    cursor: pointer;
+
+.level-card.completed .level-code {
+    background-color: var(--accent-green);
 }
-.level > .code {
-    border: 1px solid black;
-    font-size: 24px;
-    background-color: #999;
-    border-radius: 3px;
-    padding: 10px 30px;
-    text-align: center;
-    margin-right: 10px;
-    align-self: center;
+
+.completed-badge {
+    color: var(--accent-green);
+    font-size: 1.2rem;
 }
-.level .description {
+
+.level-body {
     flex-grow: 1;
-    padding: 10px;
 }
-.level .unlocks {
-    margin-left: 10px;
-    display: grid;
-    grid-gap: 15px;
-    transform: scale(0.7);
+
+.level-title {
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+    color: var(--heading-color);
 }
-.level .unlocks .instruction {
-    box-shadow: 0px 0px 7px 0px green;
+
+.level-desc {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.level-unlocks {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.unlock-label {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--text-light);
+    display: block;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.unlock-icons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.mini-instruction {
+    width: 50px;
+    height: 50px;
+    display: flex;
+}
+
+.mini-instruction :deep(.instruction) {
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 </style>

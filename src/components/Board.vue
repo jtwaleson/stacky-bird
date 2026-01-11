@@ -1,151 +1,176 @@
 <template>
   <!-- Level Finish Pop-up -->
-  <vue-final-modal v-model="showLevelCompletedModal">
+  <vue-final-modal v-model="showLevelCompletedModal" classes="modal-container" content-class="modal-content">
     <div class="levelfinishpopup">
-      <div>
+      <div class="modal-header">
         <h2>
           <T textKey="You finished the level, great job!" />
         </h2>
       </div>
-      <div v-if="unlocksLevels && unlocksLevels.length > 0">
-        <T textKey="You have unlocked the following levels" />:
-        <span style="font-weight: bold" v-for="level in unlocksLevels" :key="level">{{ level }}
-        </span>
+      <div class="modal-body">
+        <div v-if="unlocksLevels && unlocksLevels.length > 0" class="unlock-section">
+          <p>
+            <T textKey="You have unlocked the following levels" />:
+          </p>
+          <div class="unlocked-items">
+            <span class="badge" v-for="level in unlocksLevels" :key="level">{{ level }}</span>
+          </div>
+        </div>
+        <div v-if="unlocksInstructions && unlocksInstructions.length > 0" class="unlock-section">
+          <p>
+            <T textKey="You have unlocked the following blocks" />:
+          </p>
+          <div class="unlocks-instructions">
+            <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index"
+              v-bind="store.instructions[instructionCode]" unlocked />
+          </div>
+        </div>
       </div>
-      <div v-if="unlocksInstructions && unlocksInstructions.length > 0">
-        <T textKey="You have unlocked the following blocks" />:
-      </div>
-      <div class="unlocks-instructions">
-        <Instruction v-for="(instructionCode, index) in unlocksInstructions" :key="index"
-          v-bind="store.instructions[instructionCode]" unlocked />
-      </div>
-      <div>
-        <button @click="$router.push({ path: '/' })">OK</button>
+      <div class="modal-footer">
+        <button class="primary-btn" @click="$router.push({ path: '/' })">OK</button>
       </div>
     </div>
   </vue-final-modal>
 
-  <div class="main">
-    <!-- instructions -->
-    <div class="instructions1">
-      <div>
-        <button class="back bi-arrow-left" @click="$router.push({ path: '/' })"></button>
+  <div class="game-layout">
+    <aside class="game-sidebar">
+      <div class="sidebar-header">
+        <button class="back-btn" @click="$router.push({ path: '/' })">
+          <i class="bi-arrow-left"></i>
+        </button>
+        <h3>
+          <T textKey="Blocks" />
+        </h3>
       </div>
-      <h2>
-        <T textKey="Available Instruction Blocks" />
-      </h2>
-      <p>
+
+      <p class="instruction-hint">
         <T textKey="Drag to the board on the right." />
       </p>
-      <div v-if="devMode">
+
+      <div class="sidebar-content">
+        <InstructionList :draggable="!birdIsLoaded && !playing" unlockedOnly :cols="2"
+          :locked="birdIsLoaded || playing" />
+      </div>
+
+      <div v-if="devMode" class="dev-controls">
         <button @click="toggleLevelCompleteDevMode">
-          {{ completed ? 'Uncomplete' : 'Complete' }}
+          {{ completed ? 'Uncomplete [dev]' : 'Complete [dev]' }}
         </button>
       </div>
-    </div>
+    </aside>
 
-    <!-- board-menu -->
-    <div class="boardd">
-      <div class="board-menu">
-        <div>
+    <main class="game-main">
+      <div class="game-header">
+        <div class="level-info">
           <template v-if="name">
-            <h2>
-              <T textKey="Level" /> {{ name }} -
+            <h1>
+              <span class="level-id">{{ name }}</span>
               <T :textKey="displayName" />
-            </h2>
-            <p>
+            </h1>
+            <p class="level-desc">
               <T :textKey="description" />
             </p>
           </template>
-          <h2 v-else>
+          <h1 v-else>
             <T textKey="Board" />
-          </h2>
+          </h1>
         </div>
-        <div class="control-container">
-          <button :disabled="birdIsLoaded || playing" class="delete" @click="clearWithWarning">
+
+        <div class="game-controls">
+          <button :disabled="birdIsLoaded || playing" class="control-btn delete-btn" @click="clearWithWarning"
+            title="Clear Board">
             <i class="bi-trash" />
           </button>
-          <button @click="resetButton" :disabled="!birdIsLoaded">
-            <i class="bi-stop-fill" />
-          </button>
-          <button @click="stepButton"><i class="bi-skip-end-fill" /></button>
-          <button @click="playButton" :disabled="playing && !multiplePlayButtons">
-            <i class="bi-play-fill" />
-          </button>
-          <button v-if="fastButtonUnlocked" @click="fastButton" :disabled="playing && !multiplePlayButtons">
-            <i class="bi-skip-forward-fill" />
-          </button>
-          <button v-if="ultraFastButtonUnlocked" @click="ultraFastButton" :disabled="playing && !multiplePlayButtons">
-            <i class="bi-lightning-fill" />
-          </button>
-        </div>
-      </div>
-      <div v-if="validation">
-        <T textKey="Test cases" />
-        <ul class="test-case-selector">
-          <li @click="selectedTestCase = testCase" v-for="(testCase, idx) in validation" :key="idx" :class="{
-            selected: testCase === selectedTestCase,
-            completed: idx in completedTestCases,
-          }">
-            {{ idx + 1 }}
-          </li>
-        </ul>
-        <hr />
-        <T textKey="Input" />
-        <ul class="test-case-selector" v-if="selectedTestCase && birdIsLoaded">
-          <li v-for="(input, idx) in input" :key="idx">
-            {{ input }}
-          </li>
-        </ul>
-        <ul class="test-case-selector" v-else-if="selectedTestCase">
-          <li v-for="(input, idx) in selectedTestCase.input" :key="idx">
-            {{ input }}
-          </li>
-        </ul>
-        <hr />
-        <T textKey="Expected output" />
-        <ul class="test-case-selector" v-if="selectedTestCase">
-          <li v-for="(output, idx) in selectedTestCase.finalStack" :key="idx">
-            {{ output }}
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- available instructions -->
-    <div class="instructions2">
-      <InstructionList :draggable="!birdIsLoaded && !playing" unlockedOnly :cols="3"
-        :locked="birdIsLoaded || playing" />
-    </div>
-
-    <!-- the actual board -->
-    <div class="boarddd">
-      <div class="board" :style="boardStyle">
-        <template v-for="col in cols" :key="col">
-          <div v-for="row in rows" :key="row" class="field" :style="{ 'grid-column': col, 'grid-row': row }"
-            @drop="drop(col, row, $event)" @dragover="allowDrop" @dragleave="removeDrop"></div>
-        </template>
-        <template v-if="birdIsLoaded">
-          <div v-for="(bird, index) in birds" :key="index" class="field thebird" :class="bird.birdClasses"
-            :style="birdStyle(bird)">
-            <transition-group name="stackies" class="stack" tag="ul">
-              <li v-for="(item, index) in bird.stack.slice().reverse()" :key="bird.stack.length - index"
-                class="field-style-F">
-                {{ item }}
-              </li>
-            </transition-group>
-            <img :src="getBirdImageSource(bird)" />
+          <div class="playback-controls">
+            <button class="control-btn" @click="resetButton" :disabled="!birdIsLoaded" title="Stop">
+              <i class="bi-stop-fill" />
+            </button>
+            <button class="control-btn" @click="stepButton" title="Step">
+              <i class="bi-skip-end-fill" />
+            </button>
+            <button class="control-btn primary" @click="playButton" :disabled="playing && !multiplePlayButtons"
+              title="Play">
+              <i class="bi-play-fill" />
+            </button>
+            <button class="control-btn" v-if="fastButtonUnlocked" @click="fastButton"
+              :disabled="playing && !multiplePlayButtons" title="Fast Forward">
+              <i class="bi-skip-forward-fill" />
+            </button>
+            <button class="control-btn" v-if="ultraFastButtonUnlocked" @click="ultraFastButton"
+              :disabled="playing && !multiplePlayButtons" title="Turbo">
+              <i class="bi-lightning-fill" />
+            </button>
           </div>
-        </template>
-        <div v-for="(creep, index) in loadedCreeps" :key="index" class="field creep" :class="creep.direction"
-          :style="birdStyle(creep)">
-          <img src="@/assets/flappy1.png" />
         </div>
-        <Instruction v-for="(levelTile, index) in allTiles" :key="index" v-bind="levelTile" unlocked
-          :userPlaced="!birdIsLoaded && levelTile.userPlaced" :draggable="!birdIsLoaded && levelTile.userPlaced"
-          :deleteMethod="() => deletePlacedInstruction(levelTile)" />
       </div>
-    </div>
+
+      <div class="validation-panel" v-if="validation">
+        <div class="test-cases-header">
+          <span class="label">
+            <T textKey="Test cases" />
+          </span>
+          <ul class="test-case-tabs">
+            <li @click="selectedTestCase = testCase" v-for="(testCase, idx) in validation" :key="idx" :class="{
+              selected: testCase === selectedTestCase,
+              completed: idx in completedTestCases,
+            }">
+              {{ idx + 1 }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="test-case-details" v-if="selectedTestCase">
+          <div class="io-group">
+            <span class="label">
+              <T textKey="Input" />:
+            </span>
+            <div class="stack-view">
+              <span v-if="birdIsLoaded" v-for="(val, idx) in input" :key="'in' + idx" class="stack-item">{{ val
+                }}</span>
+              <span v-else v-for="(val, idx) in selectedTestCase.input" :key="'in-s' + idx" class="stack-item">{{ val
+              }}</span>
+            </div>
+          </div>
+          <div class="io-group">
+            <span class="label">
+              <T textKey="Expected" />:
+            </span>
+            <div class="stack-view">
+              <span v-for="(val, idx) in selectedTestCase.finalStack" :key="'out' + idx" class="stack-item">{{ val
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="board-container">
+        <div class="board" :style="boardStyle">
+          <template v-for="col in cols" :key="col">
+            <div v-for="row in rows" :key="row" class="field" :style="{ 'grid-column': col, 'grid-row': row }"
+              @drop="drop(col, row, $event)" @dragover="allowDrop" @dragleave="removeDrop"></div>
+          </template>
+          <template v-if="birdIsLoaded">
+            <div v-for="(bird, index) in birds" :key="index" class="field thebird" :class="bird.birdClasses"
+              :style="birdStyle(bird)">
+              <transition-group name="stackies" class="stack" tag="ul">
+                <li v-for="(item, index) in bird.stack.slice().reverse()" :key="bird.stack.length - index"
+                  class="field-style-F">
+                  {{ item }}
+                </li>
+              </transition-group>
+              <img :src="getBirdImageSource(bird)" />
+            </div>
+          </template>
+          <div v-for="(creep, index) in loadedCreeps" :key="index" class="field creep" :class="creep.direction"
+            :style="birdStyle(creep)">
+            <img src="@/assets/flappy1.png" />
+          </div>
+          <Instruction v-for="(levelTile, index) in allTiles" :key="index" v-bind="levelTile" unlocked
+            :userPlaced="!birdIsLoaded && levelTile.userPlaced" :draggable="!birdIsLoaded && levelTile.userPlaced"
+            :deleteMethod="() => deletePlacedInstruction(levelTile)" />
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -257,9 +282,14 @@ const loadedCreeps = ref<Creep[]>(cloneDeep(props.creeps))
 const loadedLevelTiles = ref<Tile[]>(cloneDeep(props.levelTiles || []))
 
 const boardStyle = computed(() => {
+  const ratio = (props.cols || 7) / (props.rows || 7)
   return {
-    'grid-template-columns': `repeat(${props.cols}, 107px)`,
-    'grid-template-rows': `repeat(${props.rows}, 107px)`,
+    'grid-template-columns': `repeat(${props.cols}, minmax(0, 1fr))`,
+    'grid-template-rows': `repeat(${props.rows}, minmax(0, 1fr))`,
+    'aspect-ratio': `${props.cols} / ${props.rows}`,
+    'width': '100%',
+    'max-width': `min(1000px, 100%, calc((100vh - 350px) * ${ratio}))`,
+    'max-height': 'calc(100vh - 350px)',
   }
 })
 
@@ -670,75 +700,247 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.main {
+/* Layout */
+.game-layout {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 15px;
-  width: fit-content;
+  grid-template-columns: 280px 1fr;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.instructions1 {
-  justify-self: end;
-}
-
-.main>div {
-  justify-self: stretch;
-}
-
-.main .boardd {
-  align-self: end;
-}
-
-.main .boarddd {
-  width: fit-content;
-}
-
-.board-menu>div {
-  display: inline-block;
-  padding: 8px 4px;
-  border-radius: 7px;
-  height: fit-content;
-  width: fit-content;
-}
-
-.control-container {
-  background-color: #bbb;
-}
-
-.board-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-button:hover {
-  cursor: pointer;
-  background-color: rgb(249, 249, 249);
-}
-
-button {
-  margin: 0 5px;
-  font-size: 20px;
-  padding: 7px 7px;
-  border: 1px solid gray;
-  background-color: rgb(239, 239, 239);
-}
-
-.board-menu button.delete {
-  margin-right: 55px;
-}
-
-.levelfinishpopup {
+.game-sidebar {
+  background-color: #f0ece6;
+  border-right: 1px solid #d4cbbd;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  background: #fff;
-  width: 350px;
-  min-height: 450px;
-  margin: 100px auto;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
+  padding: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+}
+
+.game-main {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--bg-color);
+  min-width: 0;
+}
+
+/* Sidebar */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.back-btn {
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.back-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #ccc;
+}
+
+.instruction-hint {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 15px;
+}
+
+.sidebar-content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+/* Main Content Header */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.level-info h1 {
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.level-id {
+  background: var(--secondary-color);
+  color: white;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.level-desc {
+  margin: 5px 0 0 0;
+  color: var(--text-light);
+}
+
+/* Controls */
+.game-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.playback-controls {
+  display: flex;
+  background: #f0f0f0;
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  gap: 2px;
+}
+
+.control-btn {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.control-btn:hover:not(:disabled) {
+  background: white;
+  color: var(--primary-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn.primary {
+  color: var(--primary-color);
+}
+
+.control-btn.delete-btn {
+  color: var(--danger-color);
+}
+
+.control-btn.delete-btn:hover {
+  background: #fee2e2;
+}
+
+/* Validation Panel */
+.validation-panel {
+  background: white;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.test-cases-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.test-case-tabs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.test-case-tabs li {
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #eee;
+  cursor: pointer;
+  font-weight: bold;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.test-case-tabs li.selected {
+  background: var(--primary-color);
+  color: white;
+}
+
+.test-case-tabs li.completed {
+  border: 2px solid var(--accent-green);
+}
+
+.test-case-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.io-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.io-group .label {
+  width: 80px;
+  color: var(--text-light);
+  font-weight: bold;
+}
+
+.stack-view {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.stack-item {
+  background: #e2e8f0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  color: #333;
+}
+
+/* Board */
+.board-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  width: 100%;
+  min-width: 0;
+  /* Allow container to shrink below content size */
+  min-height: 0;
+}
+
+.board {
+  display: grid;
+  border-radius: 6px;
+  gap: var(--spacing-md);
+  background-color: var(--board-bg);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  min-width: 200px;
+  margin: 0 auto;
 }
 
 .field {
@@ -747,10 +949,14 @@ button {
   justify-content: center;
   align-items: center;
   background-color: #eee4da;
+  /* Keeping as requested */
   z-index: 4;
   opacity: 0.4;
+  width: 100%;
+  height: 100%;
 }
 
+/* Bird and entities styling (preserved) */
 .thebird {
   display: none;
   pointer-events: none;
@@ -758,8 +964,8 @@ button {
   opacity: 1;
   background: none;
   z-index: 100;
-  width: 107px;
-  height: 107px;
+  width: 100%;
+  height: 100%;
   user-select: none;
 }
 
@@ -769,8 +975,8 @@ button {
   opacity: 1;
   background: none;
   z-index: 20;
-  width: 107px;
-  height: 107px;
+  width: 100%;
+  height: 100%;
   user-select: none;
   filter: invert(1) grayscale(100%);
 }
@@ -783,7 +989,6 @@ button {
 
 .moving {
   transition: margin ease-in-out 100ms;
-  /* 2X SPEED */
 }
 
 .left img {
@@ -803,19 +1008,19 @@ button {
 }
 
 .moving.left {
-  margin-left: -122px;
+  margin-left: calc(-100% - var(--spacing-md));
 }
 
 .moving.right {
-  margin-left: 122px;
+  margin-left: calc(100% + var(--spacing-md));
 }
 
 .moving.up {
-  margin-top: -122px;
+  margin-top: calc(-100% - var(--spacing-md));
 }
 
 .moving.down {
-  margin-top: 122px;
+  margin-top: calc(100% + var(--spacing-md));
 }
 
 .thebird.dead img {
@@ -824,73 +1029,133 @@ button {
   transition: height ease-in-out 0.5s;
 }
 
+/* Stack visualization on bird */
 .stack {
   position: absolute;
-  left: -100px;
-  top: 80px;
+  bottom: 100%;
+  /* Move above the bird */
+  left: 50%;
+  transform: translateX(-50%);
+  /* Center horizontally */
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 5px 0;
+  /* Space between bird and stack */
   display: block;
-  position: absolute;
-  right: 10px;
-  width: 100px;
-  border-radius: 6px;
-  background-color: #bbb;
+  width: 35px;
+  /* Thinner stack */
+  border-radius: 4px;
+  background-color: rgba(51, 51, 51, 0.9);
+  color: white;
+  box-shadow: var(--shadow-sm);
+  z-index: 200;
 }
 
 .stack li {
   display: block;
-  border-radius: 3px;
+  border-radius: 2px;
   text-align: center;
-  margin: 4px;
-  font-size: 20px;
+  margin: 2px;
+  font-size: 14px;
+  /* Smaller font for smaller width */
   font-weight: bold;
-  padding: 4px;
+  padding: 2px;
+  border-bottom: 1px solid #555;
+}
+
+.stack li:last-child {
+  border-bottom: none;
 }
 
 .field.droppable {
-  border: 3px solid blue;
+  border: 3px solid var(--accent-blue);
+  opacity: 0.8;
 }
 
-.unlocks-instructions>.instruction {
-  display: inline-block !important;
-  margin: 5px;
-  opacity: 1 !important;
-}
-
-.test-case-selector {
-  margin: 0;
+/* Modal Styling */
+.levelfinishpopup {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  width: 500px;
+  max-width: 90vw;
   padding: 0;
-  min-height: 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  text-align: left;
 }
 
-.test-case-selector li {
-  display: inline-block;
-  border-radius: 3px;
-  text-align: center;
-  margin: 4px;
-  font-size: 20px;
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  background: #f9f9f9;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--accent-green);
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.unlock-section {
+  margin-bottom: 20px;
+}
+
+.unlock-section p {
   font-weight: bold;
-  padding: 4px 20px;
-  background: #bbb;
+  color: var(--heading-color);
 }
 
-.test-case-selector li.selected {
-  background: #ddd;
+.unlocked-items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.test-case-selector li.completed {
-  border: 3px solid green;
+.badge {
+  background: var(--accent-color);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
 }
 
-.stack .stackies-enter-active,
-.stack .stackies-leave-active {
-  transition: opacity 0.15s;
+.unlocks-instructions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.stack .stackies-enter-from,
-.stack .stackies-leave-to {
-  opacity: 0;
+.unlocks-instructions .instruction {
+  display: inline-block !important;
+  transform: scale(0.6);
+  transform-origin: top left;
+  margin-right: -40px;
+  margin-bottom: -40px;
+}
+
+.primary-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: var(--primary-hover);
 }
 </style>
