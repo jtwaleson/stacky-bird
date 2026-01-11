@@ -1,0 +1,25 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-yaml
+        exclude: "config"
+      - id: end-of-file-fixer
+        exclude: '\.rs$'
+      - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: format
+        name: format
+        entry: bash -c "npm run format"
+        language: system
+        pass_filenames: false
+        types: [file]
+        files: .*\.(js|vue|ts)$
+      - id: vue-tsc
+        name: vue-tsc
+        entry: bash -c "cd frontend; npm install; npm run type-check"
+        language: system
+        pass_filenames: false
+        types: [file]
+        files: .*\.(js|vue|ts)$
