@@ -24,7 +24,7 @@
             <template v-for="(instructionCode, index) in unlocksInstructions" :key="index">
               <Instruction
                 v-if="store.instructions[instructionCode] && store.instructions[instructionCode].symbol && store.instructions[instructionCode].name && store.instructions[instructionCode].description"
-                v-bind="store.instructions[instructionCode]" unlocked />
+                v-bind="store.instructions[instructionCode]" unlocked class="unlocked-instruction" />
             </template>
           </div>
         </div>
@@ -91,17 +91,19 @@
             <button class="control-btn" @click="stepButton" title="Step">
               <i class="bi-skip-end-fill" />
             </button>
-            <button class="control-btn primary" @click="playButton" :disabled="playing && !multiplePlayButtons"
-              title="Play">
-              <i class="bi-play-fill" />
+            <button class="control-btn" @click="playButton" :disabled="playing && !multiplePlayButtons"
+              :title="playing && activeMode === 'regular' ? 'Pause' : 'Play'">
+              <i :class="playing && activeMode === 'regular' ? 'bi-pause-fill' : 'bi-play-fill'" />
             </button>
             <button class="control-btn" v-if="fastButtonUnlocked" @click="fastButton"
-              :disabled="playing && !multiplePlayButtons" title="Fast Forward">
-              <i class="bi-skip-forward-fill" />
+              :disabled="playing && !multiplePlayButtons && activeMode !== 'fast'"
+              :title="playing && activeMode === 'fast' ? 'Pause' : 'Fast Forward'">
+              <i :class="playing && activeMode === 'fast' ? 'bi-pause-fill' : 'bi-skip-forward-fill'" />
             </button>
             <button class="control-btn" v-if="ultraFastButtonUnlocked" @click="ultraFastButton"
-              :disabled="playing && !multiplePlayButtons" title="Turbo">
-              <i class="bi-lightning-fill" />
+              :disabled="playing && !multiplePlayButtons && activeMode !== 'lightning'"
+              :title="playing && activeMode === 'lightning' ? 'Pause' : 'Turbo'">
+              <i :class="playing && activeMode === 'lightning' ? 'bi-pause-fill' : 'bi-lightning-fill'" />
             </button>
           </div>
         </div>
@@ -130,11 +132,11 @@
             <div class="stack-view">
               <template v-if="birdIsLoaded">
                 <span v-for="(val, idx) in input" :key="'in' + idx" class="stack-item">{{ val
-                }}</span>
+                  }}</span>
               </template>
               <template v-else>
                 <span v-for="(val, idx) in selectedTestCase.input" :key="'in-s' + idx" class="stack-item">{{ val
-                  }}</span>
+                }}</span>
               </template>
             </div>
           </div>
@@ -144,7 +146,7 @@
             </span>
             <div class="stack-view">
               <span v-for="(val, idx) in selectedTestCase.finalStack" :key="'out' + idx" class="stack-item">{{ val
-                }}</span>
+              }}</span>
             </div>
           </div>
         </div>
@@ -294,6 +296,7 @@ const userPlacedTiles = ref<Tile[]>([])
 const completedTestCases = ref<Record<number, boolean>>({})
 const loadedCreeps = ref<Creep[]>(cloneDeep(props.creeps))
 const loadedLevelTiles = ref<Tile[]>(cloneDeep(props.levelTiles || []))
+const activeMode = ref<'regular' | 'fast' | 'lightning' | null>(null)
 
 const boardStyle = computed(() => {
   const ratio = (props.cols || 7) / (props.rows || 7)
@@ -519,28 +522,49 @@ const finish = () => {
   }
 }
 const playButton = () => {
+  if (playing.value && activeMode.value === 'regular') {
+    // Pause
+    shouldStopPlaying.value = true
+    activeMode.value = null
+    return
+  }
   speed.value = 200
   if (playing.value) {
     return
   }
+  activeMode.value = 'regular'
   shouldStopPlaying.value = false
   play()
 }
 
 const ultraFastButton = () => {
+  if (playing.value && activeMode.value === 'lightning') {
+    // Pause
+    shouldStopPlaying.value = true
+    activeMode.value = null
+    return
+  }
   speed.value = 5
   if (playing.value) {
     return
   }
+  activeMode.value = 'lightning'
   shouldStopPlaying.value = false
   play()
 }
 
 const fastButton = () => {
+  if (playing.value && activeMode.value === 'fast') {
+    // Pause
+    shouldStopPlaying.value = true
+    activeMode.value = null
+    return
+  }
   speed.value = 40
   if (playing.value) {
     return
   }
+  activeMode.value = 'fast'
   shouldStopPlaying.value = false
   play()
 }
@@ -568,6 +592,7 @@ const play = async () => {
   }
   playing.value = false
   shouldStopPlaying.value = false
+  activeMode.value = null
 }
 const step = async () => {
   if (stepFunctionMutex.value) {
@@ -641,6 +666,7 @@ const step = async () => {
 
 const resetButton = async () => {
   shouldStopPlaying.value = true
+  activeMode.value = null
   while (playing.value) {
     await sleep(100)
   }
@@ -835,12 +861,12 @@ onBeforeUnmount(() => {
   background: #f0f0f0;
   border-radius: var(--radius-sm);
   padding: 4px;
-  gap: 2px;
+  gap: 6px;
 }
 
 .control-btn {
-  background: transparent;
-  border: none;
+  background: white;
+  border: 1px solid #ddd;
   border-radius: var(--radius-sm);
   padding: 8px 12px;
   font-size: 1.2rem;
@@ -849,13 +875,10 @@ onBeforeUnmount(() => {
 }
 
 .control-btn:hover:not(:disabled) {
-  background: white;
+  background: #f8f8f8;
   color: var(--primary-color);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.control-btn.primary {
-  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .control-btn.delete-btn {
@@ -1162,15 +1185,12 @@ onBeforeUnmount(() => {
 .unlocks-instructions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
 }
 
-.unlocks-instructions .instruction {
-  display: inline-block !important;
-  transform: scale(0.6);
-  transform-origin: top left;
-  margin-right: -40px;
-  margin-bottom: -40px;
+.unlocked-instruction {
+  width: 80px;
+  flex-shrink: 0;
 }
 
 .primary-btn {

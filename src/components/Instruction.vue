@@ -1,11 +1,13 @@
 <template>
-    <div class="instruction" :class="classObject" :style="boardLocationStyle" :draggable="draggable"
-        @dragstart="dragstart" :title="translatedDescription" @dragend="dragend">
+    <div class="instruction-wrapper" :style="boardLocationStyle">
         <button @click="deleteMe" v-if="userPlaced" class="delete" title="Remove">✖</button>
-        <div v-if="symbol.indexOf('bi-') === -1" class="symbol">{{ symbol }}</div>
-        <div v-else class="symbol"><i :class="symbol" /></div>
-        <div class="code">{{ name }}</div>
-        <div class="state" v-if="state !== null">{{ state }}</div>
+        <div class="instruction" :class="classObject" :draggable="draggable" @dragstart="dragstart"
+            :title="translatedDescription" @dragend="dragend">
+            <div v-if="symbol.indexOf('bi-') === -1" class="symbol">{{ symbol }}</div>
+            <div v-else class="symbol"><i :class="symbol" /></div>
+            <div class="code">{{ name }}</div>
+            <div class="state" v-if="state !== null">{{ state }}</div>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
@@ -114,6 +116,13 @@ const classObject = computed(() => {
 })
 </script>
 <style scoped>
+.instruction-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    container-type: inline-size;
+}
+
 .instruction {
     display: grid;
     position: relative;
@@ -169,10 +178,14 @@ const classObject = computed(() => {
 .instruction.unlocked {
     opacity: 1;
     background-color: #eee4da;
+    cursor: not-allowed;
+}
+
+.instruction.unlocked.userPlaced {
     cursor: grab;
 }
 
-.instruction.unlocked:active {
+.instruction.unlocked.userPlaced:active {
     cursor: grabbing;
 }
 
@@ -246,6 +259,7 @@ button.delete {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     z-index: 20;
+    pointer-events: auto;
 }
 
 button.delete:hover {

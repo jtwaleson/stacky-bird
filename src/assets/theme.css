@@ -130,3 +130,21 @@ button:disabled {
 .mt-lg {
   margin-top: var(--spacing-lg);
 }
+
+/* Modal styles for vue-final-modal */
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 90%;
+  margin: 0 1rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
