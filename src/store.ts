@@ -119,7 +119,17 @@ export const useStore = defineStore('main', {
                 throw new Error(`level ${level.name} is already registered`)
             }
 
-            const completedLevels = JSON.parse(localStorage.getItem('completedLevels') || '[]')
+            let completedLevels: string[] = []
+            try {
+                const stored = localStorage.getItem('completedLevels')
+                if (stored) {
+                    completedLevels = JSON.parse(stored)
+                }
+            } catch (e) {
+                // If localStorage is corrupted, clear it and start fresh
+                console.warn('Failed to parse completedLevels from localStorage, clearing it', e)
+                localStorage.removeItem('completedLevels')
+            }
 
             this.levels[level.name] = {
                 ...level,

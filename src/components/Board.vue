@@ -1393,11 +1393,21 @@ const initializeLevel = () => {
     }
 
     // Load user placed tiles from localStorage
-    const userPlacedTilesData = JSON.parse(localStorage.getItem(props.name) || '[]') as Array<{
+    let userPlacedTilesData: Array<{
         x: number
         y: number
         code: string
-    }>
+    }> = []
+    try {
+        const stored = localStorage.getItem(props.name)
+        if (stored) {
+            userPlacedTilesData = JSON.parse(stored)
+        }
+    } catch (e) {
+        // If localStorage is corrupted, clear it and start fresh
+        console.warn(`Failed to parse ${props.name} from localStorage, clearing it`, e)
+        localStorage.removeItem(props.name)
+    }
     for (const tile of userPlacedTilesData) {
         const instruction = store.instructions[tile.code]
         if (instruction && instruction.symbol && instruction.name && instruction.description) {
