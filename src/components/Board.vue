@@ -250,11 +250,15 @@
                     <div class="io-group">
                         <span class="label"> <T textKey="board.input" />: </span>
                         <div class="stack-view">
-                            <template v-if="birdIsLoaded">
+                            <template v-if="birdIsLoaded && originalInput.length > 0">
                                 <span
-                                    v-for="(val, idx) in input"
-                                    :key="'in' + idx"
+                                    v-for="(val, idx) in originalInput"
+                                    :key="'in-orig' + idx"
                                     class="stack-item"
+                                    :class="{
+                                        consumed: idx < originalInput.length - input.length,
+                                        'next-item': idx === originalInput.length - input.length,
+                                    }"
                                     >{{ val }}</span
                                 >
                             </template>
@@ -312,8 +316,8 @@
                         >
                             <transition-group name="stackies" class="stack" tag="ul">
                                 <li
-                                    v-for="(item, index) in bird.stack.slice().reverse()"
-                                    :key="bird.stack.length - index"
+                                    v-for="(item, index) in bird.stack"
+                                    :key="index"
                                     class="field-style-F"
                                 >
                                     {{ item }}
@@ -472,6 +476,7 @@ const playing = ref(false)
 const shouldStopPlaying = ref(false)
 const birds = ref<Bird[]>([])
 const input = ref<number[]>([])
+const originalInput = ref<number[]>([])
 const flappingInterval = ref<ReturnType<typeof setInterval> | null>(null)
 const userPlacedTiles = ref<Tile[]>([])
 const completedTestCases = ref<Record<number, boolean>>({})
@@ -931,6 +936,20 @@ const handleEscapeKey = (event: KeyboardEvent) => {
 const devMode = computed(() => {
     return import.meta.env.DEV
 })
+
+const updateFlappingSpeed = () => {
+    if (flappingInterval.value) {
+        clearInterval(flappingInterval.value)
+    }
+    if (birdIsLoaded.value) {
+        flappingInterval.value = setInterval(() => {
+            for (const bird of birds.value) {
+                bird.flappingImage = !bird.flappingImage
+            }
+        }, speed.value)
+    }
+}
+
 const spawnBird = () => {
     let found = false
     const newBird: Bird = {
@@ -952,15 +971,8 @@ const spawnBird = () => {
         throw new Error('no STRT block found!')
     }
 
-    if (flappingInterval.value) {
-        clearInterval(flappingInterval.value)
-    }
-    flappingInterval.value = setInterval(() => {
-        for (const bird of birds.value) {
-            bird.flappingImage = !bird.flappingImage
-        }
-    }, speed.value)
     birds.value.push(newBird)
+    updateFlappingSpeed()
 }
 
 const toggleLevelCompleteDevMode = () => {
@@ -1126,6 +1138,7 @@ const playButton = () => {
         return
     }
     speed.value = 200
+    updateFlappingSpeed()
     if (playing.value) {
         return
     }
@@ -1142,6 +1155,7 @@ const ultraFastButton = () => {
         return
     }
     speed.value = 5
+    updateFlappingSpeed()
     if (playing.value) {
         return
     }
@@ -1158,6 +1172,7 @@ const fastButton = () => {
         return
     }
     speed.value = 40
+    updateFlappingSpeed()
     if (playing.value) {
         return
     }
@@ -1168,6 +1183,7 @@ const fastButton = () => {
 
 const stepButton = async () => {
     speed.value = 200
+    updateFlappingSpeed()
     shouldStopPlaying.value = true
     if (playing.value) {
         return
@@ -1199,7 +1215,9 @@ const step = async () => {
     stepFunctionMutex.value = true
     if (birds.value.length === 0) {
         input.value = []
+        originalInput.value = []
         if (selectedTestCase.value) {
+            originalInput.value = [...toRaw(selectedTestCase.value.input)]
             input.value = [...toRaw(selectedTestCase.value.input)]
         }
         spawnBird()
@@ -1292,6 +1310,8 @@ const reset = () => {
     }
     loadedLevelTiles.value = cloneDeep(props.levelTiles || [])
     birds.value = []
+    input.value = []
+    originalInput.value = []
     if (flappingInterval.value) {
         clearInterval(flappingInterval.value)
     }
@@ -1384,10 +1404,14 @@ onBeforeUnmount(() => {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    padding-bottom: 0px;
     overflow-y: auto;
     overflow-x: hidden;
     background-color: var(--bg-color);
     min-width: 0;
+    position: relative;
+    isolation: isolate;
+    /* Create stacking context without z-index */
 }
 
 /* Sidebar */
@@ -1508,6 +1532,9 @@ onBeforeUnmount(() => {
     border-radius: var(--radius-md);
     margin-bottom: 20px;
     box-shadow: var(--shadow-sm);
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
 }
 
 .test-cases-header {
@@ -1577,6 +1604,19 @@ onBeforeUnmount(() => {
     font-family: var(--font-mono);
     font-weight: bold;
     color: #333;
+    transition:
+        opacity 0.2s,
+        background-color 0.2s;
+}
+
+.stack-item.consumed {
+    opacity: 0.2;
+}
+
+.stack-item.next-item {
+    background: var(--accent-blue);
+    color: white;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
 }
 
 /* Board */
@@ -1584,14 +1624,10 @@ onBeforeUnmount(() => {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    flex-grow: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: visible;
     padding: 20px;
     width: 100%;
     min-width: 0;
-    /* Allow container to shrink below content size */
-    min-height: 0;
 }
 
 .board {
@@ -1603,7 +1639,8 @@ onBeforeUnmount(() => {
     box-shadow: var(--shadow-lg);
     position: relative;
     min-width: 200px;
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
+    z-index: 10;
 }
 
 .field {
@@ -1660,10 +1697,11 @@ onBeforeUnmount(() => {
     position: relative;
     opacity: 1;
     background: none;
-    z-index: 100;
+    z-index: 1000;
     width: 100%;
     height: 100%;
     user-select: none;
+    overflow: visible;
 }
 
 .creep {
@@ -1814,14 +1852,16 @@ onBeforeUnmount(() => {
     padding: 0;
     margin: 0 0 5px 0;
     /* Space between bird and stack */
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 35px;
     /* Thinner stack */
     border-radius: 4px;
     background-color: rgba(51, 51, 51, 0.9);
     color: white;
-    box-shadow: var(--shadow-sm);
-    z-index: 200;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    overflow: hidden;
 }
 
 .stack li {
@@ -1833,11 +1873,42 @@ onBeforeUnmount(() => {
     /* Smaller font for smaller width */
     font-weight: bold;
     padding: 2px;
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    transition:
+        background-color 0.2s,
+        transform 0.2s;
 }
 
 .stack li:last-child {
     border-bottom: none;
+    /* Highlight the top of stack (last item = most recently pushed) */
+    background: rgba(0, 123, 255, 0.4);
+    box-shadow: inset 0 0 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Stack item animations */
+.stackies-enter-active {
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stackies-leave-active {
+    transition: all 0.15s ease-in;
+    position: absolute;
+    width: calc(100% - 4px);
+}
+
+.stackies-enter-from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.85);
+}
+
+.stackies-leave-to {
+    opacity: 0;
+    transform: translateY(10px) scale(0.85);
+}
+
+.stackies-move {
+    transition: transform 0.2s ease-out;
 }
 
 .field.droppable {

@@ -222,8 +222,12 @@ export default {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
+            if (x === undefined) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            await sleep(board.speed)
             const y = bird.stack.pop()
-            if (x === undefined || y === undefined) {
+            if (y === undefined) {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
@@ -270,8 +274,11 @@ export default {
     CLER: {
         symbol: '⌀',
         description: 'instructions.CLER',
-        async execute(bird: Bird) {
-            bird.stack = []
+        async execute(bird: Bird, board: Board) {
+            while (bird.stack.length > 0) {
+                bird.stack.pop()
+                await sleep(board.speed)
+            }
         },
         instructionClass: 'G',
     },
@@ -292,8 +299,12 @@ export default {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
+            if (x === undefined) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            await sleep(board.speed)
             const y = bird.stack.pop()
-            if (x === undefined || y === undefined) {
+            if (y === undefined) {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
@@ -310,8 +321,12 @@ export default {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
+            if (x === undefined) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            await sleep(board.speed)
             const y = bird.stack.pop()
-            if (x === undefined || y === undefined) {
+            if (y === undefined) {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
@@ -423,7 +438,7 @@ export default {
                 return await board.dieBird('errors.atLeastOneNumber', bird)
             }
             await sleep(board.speed)
-            bird.stack.push(x + 1)
+            bird.stack.push(Number(x) + 1)
             await sleep(board.speed)
         },
         instructionClass: 'C',
@@ -462,8 +477,12 @@ export default {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
+            if (x === undefined) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            await sleep(board.speed)
             const y = bird.stack.pop()
-            if (x === undefined || y === undefined) {
+            if (y === undefined) {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
@@ -486,8 +505,12 @@ export default {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             const x = bird.stack.pop()
+            if (x === undefined) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            await sleep(board.speed)
             const y = bird.stack.pop()
-            if (x === undefined || y === undefined) {
+            if (y === undefined) {
                 return await board.dieBird('errors.lessThanTwoNumbers', bird)
             }
             await sleep(board.speed)
