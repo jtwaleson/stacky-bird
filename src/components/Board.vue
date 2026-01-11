@@ -1369,13 +1369,30 @@ const saveBoardToLocalStorage = () => {
     localStorage.setItem(props.name, JSON.stringify(userPlacedTilesData))
 }
 
-onMounted(() => {
+const initializeLevel = () => {
+    // Reset game state
+    reset()
+    userPlacedTiles.value = []
+    completedTestCases.value = {}
+    showLevelCompletedModal.value = false
+    showBlockSelectionModal.value = false
+
+    // Reload level tiles and creeps from props
+    loadedLevelTiles.value = cloneDeep(props.levelTiles || [])
+    loadedCreeps.value = cloneDeep(props.creeps)
+
     if (!props.name) {
         return
     }
+
+    // Set up test cases
     if (props.validation && props.validation.length > 0) {
         selectedTestCase.value = props.validation[0] || null
+    } else {
+        selectedTestCase.value = null
     }
+
+    // Load user placed tiles from localStorage
     const userPlacedTilesData = JSON.parse(localStorage.getItem(props.name) || '[]') as Array<{
         x: number
         y: number
@@ -1392,6 +1409,35 @@ onMounted(() => {
             } as Tile)
         }
     }
+}
+
+// Watch for level changes and reload
+watch(
+    () => props.name,
+    () => {
+        initializeLevel()
+    },
+    { immediate: false },
+)
+
+watch(
+    () => props.levelTiles,
+    () => {
+        loadedLevelTiles.value = cloneDeep(props.levelTiles || [])
+    },
+    { deep: true },
+)
+
+watch(
+    () => props.creeps,
+    () => {
+        loadedCreeps.value = cloneDeep(props.creeps)
+    },
+    { deep: true },
+)
+
+onMounted(() => {
+    initializeLevel()
     window.addEventListener('keydown', handleEscapeKey)
 })
 
