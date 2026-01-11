@@ -78,7 +78,7 @@
     "stackEmptyCannotDuplicate": "La pila está vacía, no se puede duplicar el último número.",
     "lessThanTwoNumbers": "Hay menos de dos números en la pila",
     "atLeastOneNumber": "Debe haber al menos un número en la pila",
-    "unexpectedResult": "No terminaste con el resultado esperado en la pila",
+    "unexpectedResult": "No terminaste con el resultado esperado en la pila. Esperado: {expected}, Real: {actual}",
     "noInstructionsAvailable": "No hay instrucciones disponibles.",
     "multipleBluePortals": "Se encontró más de un portal azul.",
     "noBluePortal": "No se encontró un portal azul.",
@@ -264,7 +264,7 @@
     },
     "2010": {
       "displayName": "Márcalo cero",
-      "description": ""
+      "description": "Recoge un número, mientras sea mayor que 0, hazlo más pequeño. Solo llega a la meta con 0. Ten en cuenta que todos los números son 0 o mayores."
     },
     "2011": {
       "displayName": "Suma",

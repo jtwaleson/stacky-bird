@@ -78,7 +78,7 @@
     "stackEmptyCannotDuplicate": "De stack is leeg. Er moet ten minste een getal op staan.",
     "lessThanTwoNumbers": "Er staan minder dan twee getallen op de stack",
     "atLeastOneNumber": "Er moet ten minste een getal op de stack staan",
-    "unexpectedResult": "Je bent niet geëindigd met het verwachte resultaat op de stack",
+    "unexpectedResult": "Je bent niet geëindigd met het verwachte resultaat op de stack. Verwachte: {expected}, Werkelijk: {actual}",
     "noInstructionsAvailable": "Er zijn nog geen blokken beschikbaar.",
     "multipleBluePortals": "Meer dan één blauw portaal gevonden.",
     "noBluePortal": "Geen blauw portaal gevonden.",
@@ -264,7 +264,7 @@
     },
     "2010": {
       "displayName": "Markeer het nul",
-      "description": ""
+      "description": "Pak een nummer op, zolang het groter is dan 0, maak het kleiner. Kom alleen naar de finish met 0. Let op dat alle nummers 0 of groter zijn."
     },
     "2011": {
       "displayName": "Som",

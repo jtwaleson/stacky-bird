@@ -85,7 +85,11 @@ interface Board {
     speed: number
     boardObjects: BoardObject[]
     finish: () => Promise<void>
-    dieBird: (message: string, bird: Bird) => Promise<void>
+    dieBird: (
+        message: string,
+        bird: Bird,
+        params?: Record<string, string | number>,
+    ) => Promise<void>
     spawnBird: () => void
     [key: string]: unknown
 }
@@ -123,7 +127,10 @@ export default {
                     await board.finish()
                     return 'NOMOVE'
                 } else {
-                    await board.dieBird('errors.unexpectedResult', bird)
+                    await board.dieBird('errors.unexpectedResult', bird, {
+                        expected: JSON.stringify(expected),
+                        actual: JSON.stringify(stack),
+                    })
                 }
             } else {
                 await board.finish()

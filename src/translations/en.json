@@ -78,7 +78,7 @@
     "stackEmptyCannotDuplicate": "The stack is empty, can not duplicate the last number.",
     "lessThanTwoNumbers": "There are less than two numbers on the stack",
     "atLeastOneNumber": "There should be at least one number on the stack",
-    "unexpectedResult": "You did not finish with the expected result on the stack",
+    "unexpectedResult": "You did not finish with the expected result on the stack. Expected: {expected}, Actual: {actual}",
     "noInstructionsAvailable": "There are no instructions available.",
     "multipleBluePortals": "Found more than one blue portal.",
     "noBluePortal": "Did not find a blue portal.",
@@ -404,7 +404,7 @@
     },
     "2010": {
       "displayName": "Mark it zero",
-      "description": ""
+      "description": "Pick up a number, while it is larger than 0, make it smaller. Only come to the finish with 0. Note that all numbers are 0 or larger."
     },
     "2011": {
       "displayName": "Sum",

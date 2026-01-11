@@ -362,6 +362,7 @@ import { ref, computed, onMounted, onBeforeUnmount, getCurrentInstance, watch, n
 import { sleep, oppositeDirection } from '../util'
 import { useStore } from '../store'
 import { toRaw } from 'vue'
+import { useRouter } from 'vue-router'
 import Instruction from './Instruction.vue'
 import InstructionList from './InstructionList.vue'
 import { useToast } from 'vue-toastification'
@@ -374,6 +375,7 @@ defineOptions({
 })
 
 const toast = useToast()
+const router = useRouter()
 const instance = getCurrentInstance()
 
 type Direction = 'up' | 'down' | 'left' | 'right'
@@ -876,6 +878,11 @@ const selectBlock = (instruction: {
 }
 
 const handleEscapeKey = (event: KeyboardEvent) => {
+    // Don't handle if user is typing in an input field
+    const target = event.target as HTMLElement
+    const isInputFocused =
+        target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable
+
     if (event.key === 'Escape') {
         if (showBlockSelectionModal.value) {
             closeBlockSelectionModal()
@@ -889,9 +896,35 @@ const handleEscapeKey = (event: KeyboardEvent) => {
             highlightedSquareY.value = null
             highlightSource.value = null
         }
+    } else if (event.key === 'Enter') {
+        // Handle Enter key for level completed modal
+        if (showLevelCompletedModal.value && !isInputFocused) {
+            event.preventDefault()
+            showLevelCompletedModal.value = false
+            router.push({ path: '/' })
+        } else if (!showLevelCompletedModal.value && !showBlockSelectionModal.value) {
+            // Handle Enter for normal navigation (existing behavior)
+            handleKeyboardNavigation(event)
+        }
+    } else if (event.key === ' ') {
+        // Spacebar for closing level completed modal or play/pause
+        if (showLevelCompletedModal.value && !isInputFocused) {
+            event.preventDefault()
+            showLevelCompletedModal.value = false
+            router.push({ path: '/' })
+        } else if (
+            !showBlockSelectionModal.value &&
+            !showLevelCompletedModal.value &&
+            !isInputFocused
+        ) {
+            event.preventDefault()
+            playButton()
+        }
     } else {
         // Handle other keyboard navigation
-        handleKeyboardNavigation(event)
+        if (!showBlockSelectionModal.value && !showLevelCompletedModal.value) {
+            handleKeyboardNavigation(event)
+        }
     }
 }
 
@@ -1032,13 +1065,13 @@ const moveBird = (bird: Bird): Promise<void> | void => {
     }
 }
 
-const dieBird = async (message: string, bird: Bird) => {
+const dieBird = async (message: string, bird: Bird, params?: Record<string, string | number>) => {
     shouldStopPlaying.value = true
     await sleep(0.5 * speed.value)
     bird.birdClasses.push('dead')
     await sleep(500)
     const $tr = instance?.proxy?.$tr
-    const translatedMessage = $tr ? $tr(message) : message
+    const translatedMessage = $tr && params ? $tr(message, params) : $tr ? $tr(message) : message
     toast.warning(translatedMessage)
     reset()
 }
@@ -1190,6 +1223,7 @@ const step = async () => {
                     dieBird,
                     spawnBird,
                     allTiles: allTiles.value,
+                    selectedTestCase: selectedTestCase.value,
                 },
                 instruction,
             )
