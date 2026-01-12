@@ -533,14 +533,15 @@ const blockDemos: BlockDemo[] = [
         category: 'Stack Operations',
         scenarios: [
             {
-                cols: 5,
+                cols: 6,
                 rows: 3,
                 tiles: [
                     { name: 'STRT', x: 1, y: 2 },
                     { name: 'READ', x: 2, y: 2 },
                     { name: 'READ', x: 3, y: 2 },
-                    { name: 'CLER', x: 4, y: 2 },
-                    { name: 'FINI', x: 5, y: 2 },
+                    { name: 'READ', x: 4, y: 2 },
+                    { name: 'CLER', x: 5, y: 2 },
+                    { name: 'FINI', x: 6, y: 2 },
                 ],
                 validation: [{ input: [3, 7, 9], finalStack: [] }],
             },
@@ -725,15 +726,16 @@ const blockDemos: BlockDemo[] = [
         category: 'Advanced',
         scenarios: [
             {
-                cols: 6,
+                cols: 7,
                 rows: 3,
                 tiles: [
                     { name: 'STRT', x: 1, y: 2 },
                     { name: 'READ', x: 2, y: 2 },
                     { name: 'READ', x: 3, y: 2 },
                     { name: 'READ', x: 4, y: 2 },
-                    { name: 'SRTN', x: 5, y: 2 },
-                    { name: 'FINI', x: 6, y: 2 },
+                    { name: 'READ', x: 5, y: 2 },
+                    { name: 'SRTN', x: 6, y: 2 },
+                    { name: 'FINI', x: 7, y: 2 },
                 ],
                 validation: [{ input: [9, 3, 7, 3], finalStack: [9, 7, 3] }],
             },
@@ -744,15 +746,16 @@ const blockDemos: BlockDemo[] = [
         category: 'Advanced',
         scenarios: [
             {
-                cols: 6,
+                cols: 7,
                 rows: 3,
                 tiles: [
                     { name: 'STRT', x: 1, y: 2 },
                     { name: 'READ', x: 2, y: 2 },
                     { name: 'READ', x: 3, y: 2 },
                     { name: 'READ', x: 4, y: 2 },
-                    { name: 'REVN', x: 5, y: 2 },
-                    { name: 'FINI', x: 6, y: 2 },
+                    { name: 'READ', x: 5, y: 2 },
+                    { name: 'REVN', x: 6, y: 2 },
+                    { name: 'FINI', x: 7, y: 2 },
                 ],
                 validation: [{ input: [1, 2, 3, 2], finalStack: [2, 3, 1] }],
             },
@@ -763,15 +766,16 @@ const blockDemos: BlockDemo[] = [
         category: 'Advanced',
         scenarios: [
             {
-                cols: 6,
+                cols: 7,
                 rows: 3,
                 tiles: [
                     { name: 'STRT', x: 1, y: 2 },
                     { name: 'READ', x: 2, y: 2 },
                     { name: 'READ', x: 3, y: 2 },
                     { name: 'READ', x: 4, y: 2 },
-                    { name: 'SUMN', x: 5, y: 2 },
-                    { name: 'FINI', x: 6, y: 2 },
+                    { name: 'READ', x: 5, y: 2 },
+                    { name: 'SUMN', x: 6, y: 2 },
+                    { name: 'FINI', x: 7, y: 2 },
                 ],
                 validation: [{ input: [5, 10, 15, 2], finalStack: [25, 5] }],
             },
@@ -803,12 +807,20 @@ const blockDemos: BlockDemo[] = [
                 tiles: [
                     { name: 'STRT', x: 1, y: 2 },
                     { name: 'READ', x: 2, y: 2 },
-                    { name: 'DUMP', x: 3, y: 2, state: null },
-                    { name: 'READ', x: 4, y: 2 },
-                    { name: 'DUMP', x: 3, y: 2, state: null },
+                    { name: 'DUMP', x: 4, y: 2, state: null },
                     { name: 'FINI', x: 6, y: 2 },
                 ],
-                validation: [{ input: [5, 9], finalStack: [5, 9] }],
+                validation: [{ input: [7], finalStack: [] }],
+            },
+            {
+                cols: 5,
+                rows: 3,
+                tiles: [
+                    { name: 'STRT', x: 1, y: 2 },
+                    { name: 'DUMP', x: 2, y: 2, state: 5 },
+                    { name: 'FINI', x: 5, y: 2 },
+                ],
+                validation: [{ input: [], finalStack: [5] }],
             },
         ],
     },

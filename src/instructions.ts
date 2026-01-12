@@ -592,10 +592,14 @@ export default {
                 }
                 const popped = bird.stack.pop()
                 if (popped !== undefined) {
+                    await sleep(board.speed)
                     boardObject.state = popped
+                    await sleep(board.speed)
                 }
             } else {
+                await sleep(board.speed)
                 bird.stack.push(boardObject.state)
+                await sleep(board.speed)
                 boardObject.state = null
             }
         },
