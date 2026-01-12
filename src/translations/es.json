@@ -10,6 +10,7 @@
     "resetConfirm": "Esto reiniciará tu nivel, ¿estás seguro?",
     "searchBlocks": "Buscar bloques...",
     "selectBlock": "Selecciona un bloque",
+    "tapHint": "Toca el tablero para colocar un bloque.",
     "testCaseDone": "¡Caso de prueba {testCaseIndex} hecho!",
     "testCases": "Casos de prueba",
     "title": "Tablero",

@@ -10,6 +10,7 @@
     "resetConfirm": "Dit verwijdert alles van het bord, weet je het zeker?",
     "searchBlocks": "Zoek blokken...",
     "selectBlock": "Selecteer een blok",
+    "tapHint": "Tik op het bord om een blok te plaatsen.",
     "testCaseDone": "Test {testCaseIndex} is goed!",
     "testCases": "Tests",
     "title": "Bord",

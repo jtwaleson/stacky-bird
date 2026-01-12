@@ -10,6 +10,7 @@
     "resetConfirm": "This will reset your level, are you sure?",
     "searchBlocks": "Search blocks...",
     "selectBlock": "Select a block",
+    "tapHint": "Tap the board to place a block.",
     "testCaseDone": "Test case {testCaseIndex} done!",
     "testCases": "Test cases",
     "title": "Board",

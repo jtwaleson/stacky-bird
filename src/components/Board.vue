@@ -290,6 +290,9 @@
             </div>
 
             <div class="board-container">
+                <div v-if="showTapHint" class="tap-hint">
+                    <T textKey="board.tapHint" />
+                </div>
                 <div class="board" :style="boardStyle">
                     <template v-for="col in cols" :key="col">
                         <div
@@ -494,6 +497,16 @@ const completedTestCases = ref<Record<number, boolean>>({})
 const loadedCreeps = ref<Creep[]>(cloneDeep(props.creeps))
 const loadedLevelTiles = ref<Tile[]>(cloneDeep(props.levelTiles || []))
 const activeMode = ref<'regular' | 'fast' | 'lightning' | null>(null)
+
+const showTapHint = computed(() => {
+    return (
+        !props.wikiMode &&
+        props.name === '0002' &&
+        userPlacedTiles.value.length === 0 &&
+        !birdIsLoaded.value &&
+        !playing.value
+    )
+})
 
 const boardStyle = computed(() => {
     const ratio = (props.cols || 7) / (props.rows || 7)
@@ -2021,12 +2034,41 @@ onBeforeUnmount(() => {
 /* Board */
 .board-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     overflow: visible;
     padding: 20px;
     width: 100%;
     min-width: 0;
+}
+
+.tap-hint {
+    background: var(--accent-blue);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    animation: bounce 2s infinite;
+    z-index: 100;
+}
+
+@keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
 }
 
 .wiki-mode .board-container {
