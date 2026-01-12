@@ -629,4 +629,213 @@ export default {
         },
         instructionClass: 'D',
     },
+    SRT2: {
+        symbol: '⇅',
+        description: 'instructions.SRT2',
+        async execute(bird: Bird, board: Board) {
+            if (bird.stack.length < 2) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            const x = bird.stack.pop()
+            if (x === undefined) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            await sleep(board.speed)
+            const y = bird.stack.pop()
+            if (y === undefined) {
+                return await board.dieBird('errors.lessThanTwoNumbers', bird)
+            }
+            await sleep(board.speed)
+            // Sort: push smaller first, then larger
+            const sorted = [y, x].sort((a, b) => a - b)
+            bird.stack.push(sorted[0]!)
+            await sleep(board.speed)
+            bird.stack.push(sorted[1]!)
+            await sleep(board.speed)
+        },
+        instructionClass: 'E',
+    },
+    SRTN: {
+        symbol: '⇵',
+        description: 'instructions.SRTN',
+        async execute(bird: Bird, board: Board) {
+            if (bird.stack.length < 1) {
+                return await board.dieBird('errors.atLeastOneNumber', bird)
+            }
+            const n = bird.stack.pop()
+            if (n === undefined || n < 0) {
+                return await board.dieBird('errors.atLeastOneNumber', bird)
+            }
+            await sleep(board.speed)
+            if (bird.stack.length < n) {
+                return await board.dieBird('errors.notEnoughNumbers', bird, { needed: n })
+            }
+            const items: number[] = []
+            for (let i = 0; i < n; i++) {
+                const item = bird.stack.pop()
+                if (item !== undefined) {
+                    items.push(item)
+                }
+                await sleep(board.speed)
+            }
+            // Sort and push back
+            items.sort((a, b) => a - b)
+            for (const item of items) {
+                bird.stack.push(item)
+                await sleep(board.speed)
+            }
+        },
+        instructionClass: 'E',
+    },
+    SRTA: {
+        symbol: '⇈',
+        description: 'instructions.SRTA',
+        async execute(bird: Bird, board: Board) {
+            if (bird.stack.length === 0) {
+                return
+            }
+            const items: number[] = []
+            while (bird.stack.length > 0) {
+                const item = bird.stack.pop()
+                if (item !== undefined) {
+                    items.push(item)
+                }
+                await sleep(board.speed)
+            }
+            // Sort and push back
+            items.sort((a, b) => a - b)
+            for (const item of items) {
+                bird.stack.push(item)
+                await sleep(board.speed)
+            }
+        },
+        instructionClass: 'G',
+    },
+    REVA: {
+        symbol: '⇄',
+        description: 'instructions.REVA',
+        async execute(bird: Bird, board: Board) {
+            if (bird.stack.length === 0) {
+                return
+            }
+            const items: number[] = []
+            while (bird.stack.length > 0) {
+                const item = bird.stack.pop()
+                if (item !== undefined) {
+                    items.push(item)
+                }
+                await sleep(board.speed)
+            }
+            // Items are already in reverse order, just push them back
+            for (const item of items) {
+                bird.stack.push(item)
+                await sleep(board.speed)
+            }
+        },
+        instructionClass: 'G',
+    },
+    REVN: {
+        symbol: '⇌',
+        description: 'instructions.REVN',
+        async execute(bird: Bird, board: Board) {
+            if (bird.stack.length < 1) {
+                return await board.dieBird('errors.atLeastOneNumber', bird)
+            }
+            const n = bird.stack.pop()
+            if (n === undefined || n < 0) {
+                return await board.dieBird('errors.atLeastOneNumber', bird)
+            }
+            await sleep(board.speed)
+            if (bird.stack.length < n) {
+                return await board.dieBird('errors.notEnoughNumbers', bird, { needed: n })
+            }
+            const items: number[] = []
+            for (let i = 0; i < n; i++) {
+                const item = bird.stack.pop()
+                if (item !== undefined) {
+                    items.push(item)
+                }
+                await sleep(board.speed)
+            }
+            // Items are already in reverse order, just push them back
+            for (const item of items) {
+                bird.stack.push(item)
+                await sleep(board.speed)
+            }
+        },
+        instructionClass: 'E',
+    },
+    SUMN: {
+        symbol: '∑ₙ',
+        description: 'instructions.SUMN',
+        async execute(bird: Bird, board: Board) {
+            if (bird.stack.length < 1) {
+                return await board.dieBird('errors.atLeastOneNumber', bird)
+            }
+            const n = bird.stack.pop()
+            if (n === undefined || n < 0) {
+                return await board.dieBird('errors.atLeastOneNumber', bird)
+            }
+            await sleep(board.speed)
+            if (bird.stack.length < n) {
+                return await board.dieBird('errors.notEnoughNumbers', bird, { needed: n })
+            }
+            let sum = 0
+            for (let i = 0; i < n; i++) {
+                const item = bird.stack.pop()
+                if (item !== undefined) {
+                    sum += item
+                }
+                await sleep(board.speed)
+            }
+            bird.stack.push(sum)
+            await sleep(board.speed)
+        },
+        instructionClass: 'E',
+    },
+    FLP2: {
+        symbol: '⇋',
+        description: 'instructions.FLP2',
+        outgoingDirections: ['left', 'right'] as Direction[],
+        async execute(bird: Bird, board: Board, boardObject: Tile) {
+            if (!Object.prototype.hasOwnProperty.call(boardObject, 'state')) {
+                boardObject.state = 0
+            }
+            const directions: Direction[] = ['left', 'right']
+            const currentState = (boardObject.state ?? 0) as number
+            bird.direction = directions[currentState % 2] as Direction
+            boardObject.state = (currentState + 1) % 2
+        },
+        instructionClass: 'E',
+    },
+    FLP3: {
+        symbol: '⥂',
+        description: 'instructions.FLP3',
+        outgoingDirections: ['left', 'down', 'right'] as Direction[],
+        async execute(bird: Bird, board: Board, boardObject: Tile) {
+            if (!Object.prototype.hasOwnProperty.call(boardObject, 'state')) {
+                boardObject.state = 0
+            }
+            const directions: Direction[] = ['left', 'down', 'right']
+            const currentState = (boardObject.state ?? 0) as number
+            bird.direction = directions[currentState % 3] as Direction
+            boardObject.state = (currentState + 1) % 3
+        },
+        instructionClass: 'E',
+    },
+    FLP4: {
+        symbol: '⥁',
+        description: 'instructions.FLP4',
+        outgoingDirections: ['up', 'right', 'down', 'left'] as Direction[],
+        async execute(bird: Bird, board: Board, boardObject: Tile) {
+            if (!Object.prototype.hasOwnProperty.call(boardObject, 'state')) {
+                boardObject.state = 0
+            }
+            const directions: Direction[] = ['up', 'right', 'down', 'left']
+            const currentState = (boardObject.state ?? 0) as number
+            bird.direction = directions[currentState % 4] as Direction
+            boardObject.state = (currentState + 1) % 4
+        },
+        instructionClass: 'E',
+    },
 }
