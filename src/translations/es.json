@@ -454,6 +454,12 @@
     "resetGame": "REINICIAR EL JUEGO - RESTABLECER DE FÁBRICA",
     "scrollHint": "(o desplázate hacia abajo para empezar!)",
     "subtitle": "Esto es Stacky Bird, un juego para que los niños (4+) aprendan a programar, y también un lenguaje de programación revolucionario (😂) en sí mismo.",
-    "title": "Stacky Bird"
+    "title": "Stacky Bird",
+    "viewWiki": "Ver Wiki de Bloques"
+  },
+  "wiki": {
+    "backToMenu": "Volver al Menú",
+    "description": "Demostraciones interactivas de todos los bloques de instrucciones. Cada demo se reproduce automáticamente y se repite continuamente.",
+    "title": "Wiki de Bloques"
   }
 }

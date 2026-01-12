@@ -454,6 +454,12 @@
     "resetGame": "RESET HET SPEL - TERUG NAAR FABRIEKSINSTELLINGEN",
     "scrollHint": "(of scroll naar beneden om te beginnen!)",
     "subtitle": "Dit is Stacky Bird. Een spel voor kinderen (4+) om te leren programmeren, en ook een revolutionaire programmeertaal (😂).",
-    "title": "Stacky Bird"
+    "title": "Stacky Bird",
+    "viewWiki": "Bekijk Blokken Wiki"
+  },
+  "wiki": {
+    "backToMenu": "Terug naar Menu",
+    "description": "Interactieve demonstraties van alle instructieblokken. Elke demo speelt automatisch af en herhaalt zich continu.",
+    "title": "Blokken Wiki"
   }
 }

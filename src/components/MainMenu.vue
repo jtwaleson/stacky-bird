@@ -115,9 +115,15 @@
         </section>
 
         <section class="instructions-section">
-            <h2>
-                <T textKey="menu.instructionBlocks" />
-            </h2>
+            <div class="section-header">
+                <h2>
+                    <T textKey="menu.instructionBlocks" />
+                </h2>
+                <button class="wiki-btn" @click="$router.push('/wiki')">
+                    <i class="bi-book"></i>
+                    <T textKey="menu.viewWiki" />
+                </button>
+            </div>
             <p>
                 <T textKey="menu.instructionBlocksDescription" />
             </p>
@@ -457,6 +463,44 @@ const factoryReset = () => {
 .instructions-section,
 .completed-section {
     margin-bottom: 40px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.section-header h2 {
+    margin: 0;
+}
+
+.wiki-btn {
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.wiki-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.wiki-btn i {
+    font-size: 1.1rem;
 }
 
 .instruction-list-wrapper {

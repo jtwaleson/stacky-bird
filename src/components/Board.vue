@@ -107,8 +107,8 @@
         </div>
     </vue-final-modal>
 
-    <div class="game-layout">
-        <aside class="game-sidebar">
+    <div class="game-layout" :class="{ 'wiki-mode': wikiMode }">
+        <aside v-if="!wikiMode" class="game-sidebar">
             <div class="sidebar-header">
                 <button class="back-btn" @click="$router.push({ path: '/' })">
                     <i class="bi-arrow-left"></i>
@@ -139,7 +139,7 @@
         </aside>
 
         <main class="game-main">
-            <div class="game-header">
+            <div v-if="!wikiMode" class="game-header">
                 <div class="level-info">
                     <template v-if="name">
                         <h1>
@@ -226,7 +226,7 @@
                 </div>
             </div>
 
-            <div class="validation-panel" v-if="validation">
+            <div class="validation-panel" v-if="validation && !wikiMode">
                 <div class="test-cases-header">
                     <span class="label">
                         <T textKey="board.testCases" />
@@ -439,7 +439,6 @@ const props = withDefaults(
         cols?: number
         rows?: number
         levelTiles?: Tile[]
-        finishLevel?: () => void
         unlocksLevels?: string[]
         unlocksInstructions?: string[]
         description?: string
@@ -449,15 +448,21 @@ const props = withDefaults(
         completed?: boolean
         validation?: TestCase[]
         creeps?: Creep[]
+        wikiMode?: boolean
+        active?: boolean
     }>(),
     {
+        active: true,
         cols: 7,
         rows: 7,
         creeps: () => [],
         unlocksLevels: () => [],
         unlocksInstructions: () => [],
+        wikiMode: false,
     },
 )
+
+const emit = defineEmits(['finishLevel'])
 
 const store = useStore()
 
@@ -489,6 +494,23 @@ const activeMode = ref<'regular' | 'fast' | 'lightning' | null>(null)
 
 const boardStyle = computed(() => {
     const ratio = (props.cols || 7) / (props.rows || 7)
+
+    if (props.wikiMode) {
+        return {
+            'grid-template-columns': `repeat(${props.cols}, 1fr)`,
+            'grid-template-rows': `repeat(${props.rows}, 1fr)`,
+            'aspect-ratio': `${props.cols} / ${props.rows}`,
+            // Calculate width to maximize size within constraints:
+            // Max height is 350px, so max width is 350 * ratio.
+            // Also constrained by container width (100%).
+            width: `min(100%, ${350 * ratio}px)`,
+            'max-width': '100%',
+            // We don't strictly need max-height here because width + aspect-ratio controls it,
+            // but we keep it for safety.
+            'max-height': '350px',
+        }
+    }
+
     return {
         'grid-template-columns': `repeat(${props.cols}, minmax(0, 1fr))`,
         'grid-template-rows': `repeat(${props.rows}, minmax(0, 1fr))`,
@@ -979,7 +1001,7 @@ const spawnBird = () => {
         x: null,
         y: null,
         flappingImage: true,
-        direction: 'right',
+        direction: 'right', // Explicit default, will be overridden
         stack: [],
         birdClasses: [],
     }
@@ -987,6 +1009,9 @@ const spawnBird = () => {
         if (tile.name === 'STRT') {
             newBird.x = tile.x
             newBird.y = tile.y
+            // Set initial direction from STRT block if available, otherwise default to right
+            const directions = tile.outgoingDirections as Direction[] | undefined
+            newBird.direction = (directions && directions[0]) || 'right'
             found = true
         }
     }
@@ -1080,22 +1105,36 @@ const moveBird = (bird: Bird): Promise<void> | void => {
     const newX = bird.x + xDiff
     const newY = bird.y + yDiff
 
-    bird.birdClasses.length = 0
-    bird.birdClasses.push(toRaw(bird.direction))
+    // Check if new position is valid
     if (newX <= 0 || newY <= 0 || newX > props.cols || newY > props.rows) {
-        return dieBird('errors.outOfBoard', bird)
-    } else {
-        for (const tile of allTiles.value) {
-            if (tile.name === 'BLCK' && tile.x === bird.x + xDiff && tile.y === bird.y + yDiff) {
-                return dieBird('errors.hitWall', bird)
-            }
-        }
+        // Just move there to show error
         bird.x += xDiff
         bird.y += yDiff
-        for (const creep of loadedCreeps.value) {
-            if (creep.x === bird.x && creep.y === bird.y) {
-                return dieBird('errors.ghostCaught', bird)
-            }
+        bird.birdClasses.length = 0
+        bird.birdClasses.push(toRaw(bird.direction))
+        return dieBird('errors.outOfBoard', bird)
+    }
+
+    // Check for wall
+    for (const tile of allTiles.value) {
+        if (tile.name === 'BLCK' && tile.x === newX && tile.y === newY) {
+            // Just move there to show error (visual only, logic handles death)
+            bird.birdClasses.length = 0
+            bird.birdClasses.push(toRaw(bird.direction))
+            return dieBird('errors.hitWall', bird)
+        }
+    }
+
+    // Move bird
+    bird.x = newX
+    bird.y = newY
+    bird.birdClasses.length = 0
+    bird.birdClasses.push(toRaw(bird.direction))
+
+    // Check for ghost collision
+    for (const creep of loadedCreeps.value) {
+        if (creep.x === bird.x && creep.y === bird.y) {
+            return dieBird('errors.ghostCaught', bird)
         }
     }
 }
@@ -1105,10 +1144,36 @@ const dieBird = async (message: string, bird: Bird, params?: Record<string, stri
     await sleep(0.5 * speed.value)
     bird.birdClasses.push('dead')
     await sleep(500)
-    const $tr = instance?.proxy?.$tr
-    const translatedMessage = $tr && params ? $tr(message, params) : $tr ? $tr(message) : message
-    toast.warning(translatedMessage)
+    if (!props.wikiMode) {
+        const $tr = instance?.proxy?.$tr
+        const translatedMessage =
+            $tr && params ? $tr(message, params) : $tr ? $tr(message) : message
+        toast.warning(translatedMessage)
+    }
     reset()
+
+    // In wiki mode, automatically restart after error
+    if (props.wikiMode && props.active) {
+        setTimeout(() => {
+            playButton()
+        }, 1000)
+    }
+}
+
+const isTestCaseEqual = (a: TestCase | null | undefined, b: TestCase | null | undefined) => {
+    if (!a && !b) return true
+    if (!a || !b) return false
+    // Compare input arrays
+    if (a.input.length !== b.input.length) return false
+    for (let i = 0; i < a.input.length; i++) {
+        if (a.input[i] !== b.input[i]) return false
+    }
+    // Compare finalStack arrays
+    if (a.finalStack.length !== b.finalStack.length) return false
+    for (let i = 0; i < a.finalStack.length; i++) {
+        if (a.finalStack[i] !== b.finalStack[i]) return false
+    }
+    return true
 }
 
 const finish = () => {
@@ -1116,17 +1181,32 @@ const finish = () => {
     let allLevelsFinished = true
     let nextTestCase: TestCase | null = null
 
+    console.log('finish called', {
+        validation: props.validation,
+        completedTestCases: completedTestCases.value,
+        selectedTestCase: selectedTestCase.value,
+    })
     if (props.validation) {
         for (const testCaseIndex in props.validation) {
-            if (props.validation[parseInt(testCaseIndex)] === selectedTestCase.value) {
+            console.log(
+                'Checking testcase',
+                testCaseIndex,
+                props.validation[parseInt(testCaseIndex)],
+                selectedTestCase.value,
+            )
+            if (
+                isTestCaseEqual(props.validation[parseInt(testCaseIndex)], selectedTestCase.value)
+            ) {
                 completedTestCases.value[parseInt(testCaseIndex)] = true
-                const $tr = instance?.proxy?.$tr
-                const translatedMessage = $tr
-                    ? $tr('board.testCaseDone', {
-                          testCaseIndex: parseInt(testCaseIndex) + 1,
-                      })
-                    : `Test case ${parseInt(testCaseIndex) + 1} done!`
-                toast.info(translatedMessage)
+                if (!props.wikiMode) {
+                    const $tr = instance?.proxy?.$tr
+                    const translatedMessage = $tr
+                        ? $tr('board.testCaseDone', {
+                              testCaseIndex: parseInt(testCaseIndex) + 1,
+                          })
+                        : `Test case ${parseInt(testCaseIndex) + 1} done!`
+                    toast.info(translatedMessage)
+                }
             }
         }
         for (const testCaseIndex in props.validation) {
@@ -1142,13 +1222,28 @@ const finish = () => {
     }
     if (allLevelsFinished) {
         shouldStopPlaying.value = true
-        if (props.name) {
-            store.completeLevel({
-                levelName: props.name,
-                isCompleted: true,
-            })
+        if (props.wikiMode) {
+            console.log('Board finished in wiki mode, emitting finishLevel')
+            // In wiki mode, automatically restart after completion
+            emit('finishLevel')
+            setTimeout(() => {
+                completedTestCases.value = {}
+                if (props.validation && props.validation.length > 0) {
+                    selectedTestCase.value = props.validation[0] || null
+                }
+                if (props.active) {
+                    playButton()
+                }
+            }, 1500)
+        } else {
+            if (props.name) {
+                store.completeLevel({
+                    levelName: props.name,
+                    isCompleted: true,
+                })
+            }
+            showLevelCompletedModal.value = true
         }
-        showLevelCompletedModal.value = true
     } else {
         selectedTestCase.value = nextTestCase
     }
@@ -1244,6 +1339,8 @@ const step = async () => {
             input.value = [...toRaw(selectedTestCase.value.input)]
         }
         spawnBird()
+        // Wait a bit to show the bird on the start block before moving
+        await sleep(speed.value)
     }
     for (const bird of birds.value) {
         let instruction: Tile | null = null
@@ -1254,7 +1351,13 @@ const step = async () => {
             }
         }
         let shouldMove: string | void = undefined
-        if (instruction && instruction.execute) {
+        // If this is the first step (just spawned), don't execute instruction on start tile
+        const isFirstStep =
+            birds.value.length > 0 &&
+            input.value.length === originalInput.value.length &&
+            instruction?.name === 'STRT'
+
+        if (!isFirstStep && instruction && instruction.execute) {
             shouldMove = await instruction.execute(
                 bird,
                 {
@@ -1446,9 +1549,36 @@ watch(
     { deep: true },
 )
 
+watch(
+    () => props.active,
+    (newActive) => {
+        if (props.wikiMode) {
+            if (newActive) {
+                if (!playing.value) {
+                    playButton()
+                }
+            } else {
+                if (playing.value) {
+                    resetButton()
+                }
+            }
+        }
+    },
+)
+
 onMounted(() => {
     initializeLevel()
-    window.addEventListener('keydown', handleEscapeKey)
+    if (!props.wikiMode) {
+        window.addEventListener('keydown', handleEscapeKey)
+    }
+
+    // Auto-start in wiki mode
+    if (props.wikiMode && props.active) {
+        setTimeout(() => {
+            speed.value = 100
+            playButton()
+        }, 500)
+    }
 })
 
 onBeforeUnmount(() => {
@@ -1466,6 +1596,13 @@ onBeforeUnmount(() => {
     grid-template-columns: 280px 1fr;
     height: 100vh;
     overflow: hidden;
+}
+
+.game-layout.wiki-mode {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+    width: 100%;
 }
 
 .game-sidebar {
@@ -1491,6 +1628,12 @@ onBeforeUnmount(() => {
     position: relative;
     isolation: isolate;
     /* Create stacking context without z-index */
+}
+
+.wiki-mode .game-main {
+    padding: 0;
+    overflow: visible;
+    background: transparent;
 }
 
 /* Sidebar */
@@ -1709,6 +1852,10 @@ onBeforeUnmount(() => {
     min-width: 0;
 }
 
+.wiki-mode .board-container {
+    padding: 0;
+}
+
 .board {
     display: grid;
     border-radius: 6px;
@@ -1720,6 +1867,11 @@ onBeforeUnmount(() => {
     min-width: 200px;
     margin: 0 auto 20px auto;
     z-index: 10;
+}
+
+.wiki-mode .board {
+    box-shadow: none;
+    margin: 0 auto;
 }
 
 .field {

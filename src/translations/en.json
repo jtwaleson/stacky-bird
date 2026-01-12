@@ -454,6 +454,12 @@
     "resetGame": "RESET THE GAME - FACTORY RESET",
     "scrollHint": "(or scroll down to start!)",
     "subtitle": "This is Stacky Bird, a game to learn programming for kids (4+) as well as a revolutionary programming language (😂) by itself.",
-    "title": "Stacky Bird"
+    "title": "Stacky Bird",
+    "viewWiki": "View Block Wiki"
+  },
+  "wiki": {
+    "backToMenu": "Back to Menu",
+    "description": "Interactive demonstrations of all instruction blocks. Each demo plays automatically and loops continuously.",
+    "title": "Block Wiki"
   }
 }
