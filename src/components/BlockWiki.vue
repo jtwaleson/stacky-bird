@@ -78,6 +78,7 @@
                         wikiMode
                         :active="activeBlockName === blockDemo.name"
                         @finish-level="handleBoardFinish(blockDemo.name, blockDemo.scenarios)"
+                        @bird-died="handleBirdDeath(blockDemo.name, blockDemo.scenarios)"
                     />
                 </div>
             </div>
@@ -180,6 +181,18 @@ const handleBoardFinish = (blockName: string, scenarios: Scenario[]) => {
 
     // Cycle scenario
     console.log('Cycling scenario for:', blockName)
+    cycleScenario(blockName, scenarios)
+}
+
+const handleBirdDeath = (blockName: string, scenarios: Scenario[]) => {
+    console.log('handleBirdDeath called for:', blockName)
+    if (scenarios.length <= 1) {
+        console.log('Only 1 scenario, not cycling')
+        return
+    }
+
+    // Cycle scenario when bird dies
+    console.log('Cycling scenario after death for:', blockName)
     cycleScenario(blockName, scenarios)
 }
 
@@ -832,6 +845,19 @@ const blockDemos: BlockDemo[] = [
                 ],
                 validation: [{ input: [], finalStack: [] }],
             },
+            {
+                cols: 5,
+                rows: 5,
+                tiles: [
+                    { name: 'STRT', x: 2, y: 1 },
+                    { name: 'DOWN', x: 3, y: 1 },
+                    { name: 'PRTI', x: 3, y: 3 },
+                    { name: 'BLCK', x: 3, y: 4 },
+                    { name: 'PRTO', x: 1, y: 3 },
+                    { name: 'FINI', x: 1, y: 5 },
+                ],
+                validation: [{ input: [], finalStack: [] }],
+            },
         ],
     },
     {
@@ -858,14 +884,13 @@ const blockDemos: BlockDemo[] = [
         scenarios: [
             {
                 cols: 5,
-                rows: 4,
+                rows: 5,
                 tiles: [
-                    { name: 'STRT', x: 1, y: 2 },
-                    { name: 'SPWN', x: 2, y: 2 },
-                    { name: 'DOWN', x: 3, y: 2 },
-                    { name: 'FINI', x: 5, y: 2 },
-                    { name: 'UPWD', x: 3, y: 3 },
-                    { name: 'FINI', x: 3, y: 1 },
+                    { name: 'STRT', x: 1, y: 1 },
+                    { name: 'DOWN', x: 5, y: 1 },
+                    { name: 'SPWN', x: 5, y: 2 },
+                    { name: 'FINI', x: 5, y: 5 },
+                    { name: 'FINI', x: 1, y: 1 },
                 ],
                 validation: [{ input: [], finalStack: [] }],
             },

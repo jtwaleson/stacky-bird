@@ -269,6 +269,15 @@ const classObject = computed(() => {
     color: white;
 }
 
+/* Portal ring colors */
+.instruction.unlocked.field-style-A1 .symbol {
+    color: #ff8c42; /* Orange - PRTO */
+}
+
+.instruction.unlocked.field-style-A2 .symbol {
+    color: #4a90e2; /* Blue - PRTI */
+}
+
 /* White chevrons for darker backgrounds */
 .instruction.unlocked.field-style-C .direction-chevron,
 .instruction.unlocked.field-style-D .direction-chevron,

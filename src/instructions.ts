@@ -83,7 +83,9 @@ interface Board {
     selectedTestCase?: TestCase
     input: number[]
     speed: number
-    boardObjects: BoardObject[]
+    boardObjects?: BoardObject[]
+    allTiles?: BoardObject[]
+    birds?: Bird[]
     finish: () => Promise<void>
     dieBird: (
         message: string,
@@ -91,6 +93,7 @@ interface Board {
         params?: Record<string, string | number>,
     ) => Promise<void>
     spawnBird: () => void
+    removeBird: (bird: Bird) => void
     [key: string]: unknown
 }
 
@@ -121,6 +124,18 @@ export default {
         symbol: '◍',
         description: 'instructions.FINI',
         async execute(bird: Bird, board: Board) {
+            // Remove this bird from the board
+            if (board.removeBird) {
+                board.removeBird(bird)
+            }
+
+            // Check if there are other birds still in the game
+            const otherBirds = (board.birds || []).filter((b) => b !== bird)
+            if (otherBirds.length > 0) {
+                // Other birds still active, don't finish yet
+                return 'NOMOVE'
+            }
+
             if (board.selectedTestCase) {
                 const expected = toRaw(board.selectedTestCase.finalStack || [])
                 const stack = toRaw(bird.stack).slice().reverse()
@@ -527,7 +542,9 @@ export default {
         symbol: '⬯',
         description: 'instructions.PRTI',
         async execute(bird: Bird, board: Board) {
-            const foundPortals = board.boardObjects.filter((bo) => bo.name === 'PRTO')
+            const foundPortals = (board.allTiles || board.boardObjects || []).filter(
+                (bo) => bo.name === 'PRTO',
+            )
             if (foundPortals.length > 1) {
                 return await board.dieBird('errors.multipleBluePortals', bird)
             }
@@ -547,7 +564,9 @@ export default {
         symbol: '⬯',
         description: 'instructions.PRTO',
         async execute(bird: Bird, board: Board) {
-            const foundPortals = board.boardObjects.filter((bo) => bo.name === 'PRTI')
+            const foundPortals = (board.allTiles || board.boardObjects || []).filter(
+                (bo) => bo.name === 'PRTI',
+            )
             if (foundPortals.length > 1) {
                 return await board.dieBird('errors.multipleOrangePortals', bird)
             }

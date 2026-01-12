@@ -462,7 +462,7 @@ const props = withDefaults(
     },
 )
 
-const emit = defineEmits(['finishLevel'])
+const emit = defineEmits(['finishLevel', 'birdDied'])
 
 const store = useStore()
 
@@ -1033,6 +1033,16 @@ const spawnBird = () => {
     updateFlappingSpeed()
 }
 
+const removeBird = (birdToRemove: Bird) => {
+    const index = birds.value.indexOf(birdToRemove)
+    if (index > -1) {
+        birds.value.splice(index, 1)
+        if (birds.value.length === 0) {
+            updateFlappingSpeed()
+        }
+    }
+}
+
 const toggleLevelCompleteDevMode = () => {
     if (!props.name) return
     store.completeLevel({
@@ -1117,9 +1127,10 @@ const moveBird = (bird: Bird): Promise<void> | void => {
 
     // Check if new position is valid
     if (newX <= 0 || newY <= 0 || newX > props.cols || newY > props.rows) {
-        // Just move there to show error
-        bird.x += xDiff
-        bird.y += yDiff
+        // Bird stays at current position (last valid square before going out of bounds)
+        // Clamp position to valid grid bounds to prevent CSS grid issues
+        bird.x = Math.max(1, Math.min(bird.x || 1, props.cols || 1))
+        bird.y = Math.max(1, Math.min(bird.y || 1, props.rows || 1))
         bird.birdClasses.length = 0
         bird.birdClasses.push(toRaw(bird.direction))
         return dieBird('errors.outOfBoard', bird)
@@ -1128,7 +1139,8 @@ const moveBird = (bird: Bird): Promise<void> | void => {
     // Check for wall
     for (const tile of allTiles.value) {
         if (tile.name === 'BLCK' && tile.x === newX && tile.y === newY) {
-            // Just move there to show error (visual only, logic handles death)
+            // Bird stays at current position (last valid square before wall)
+            // Don't move the bird, just update visual state and die
             bird.birdClasses.length = 0
             bird.birdClasses.push(toRaw(bird.direction))
             return dieBird('errors.hitWall', bird)
@@ -1162,8 +1174,9 @@ const dieBird = async (message: string, bird: Bird, params?: Record<string, stri
     }
     reset()
 
-    // In wiki mode, automatically restart after error
+    // In wiki mode, emit event and automatically restart after error
     if (props.wikiMode && props.active) {
+        emit('birdDied')
         setTimeout(() => {
             playButton()
         }, 1000)
@@ -1378,14 +1391,36 @@ const step = async () => {
                     spawnBird,
                     allTiles: allTiles.value,
                     selectedTestCase: selectedTestCase.value,
+                    birds: birds.value,
+                    removeBird,
                 },
                 instruction,
             )
         }
         if (shouldMove === 'SKIP') {
+            // PRTI/PRTO already teleported the bird, so skip moveBird
             await sleep(2 * speed.value)
-        }
-        if (shouldMove === 'JUMP') {
+            // Move bird one step forward to exit the destination portal and prevent infinite loop
+            if (birdIsLoaded.value && bird.x !== null && bird.y !== null) {
+                const [xDiff, yDiff] = getXYDiff(bird.direction)
+                const newX = bird.x + xDiff
+                const newY = bird.y + yDiff
+                // Only move if the new position is valid and not a wall
+                if (newX > 0 && newY > 0 && newX <= props.cols && newY <= props.rows) {
+                    let hitBlock = false
+                    for (const tile of allTiles.value) {
+                        if (tile.name === 'BLCK' && tile.x === newX && tile.y === newY) {
+                            hitBlock = true
+                            break
+                        }
+                    }
+                    if (!hitBlock) {
+                        bird.x = newX
+                        bird.y = newY
+                    }
+                }
+            }
+        } else if (shouldMove === 'JUMP') {
             // JMP1 already moved the bird and handled animation, so skip moveBird
             // The jump animation delay is handled in the JMP1 instruction itself
         } else if (!birdIsLoaded.value) {
