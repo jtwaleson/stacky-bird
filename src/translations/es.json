@@ -458,8 +458,9 @@
     "viewWiki": "Ver Wiki de Bloques"
   },
   "wiki": {
+    "allBlocks": "Todos los Bloques",
     "backToMenu": "Volver al Menú",
-    "description": "Demostraciones interactivas de todos los bloques de instrucciones. Cada demo se reproduce automáticamente y se repite continuamente.",
+    "description": "Demostraciones interactivas de todos los bloques de instrucciones.",
     "title": "Wiki de Bloques"
   }
 }

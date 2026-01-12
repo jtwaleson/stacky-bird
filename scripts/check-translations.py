@@ -63,8 +63,8 @@ def find_translation_keys_in_file(file_path: Path) -> Set[str]:
         print(f"Warning: Could not read {file_path}: {e}", file=sys.stderr)
         return keys
 
-    # Pattern 1: $tr('key') or $tr("key")
-    pattern1 = r'\$tr\s*\(\s*["\']([^"\']+)["\']'
+    # Pattern 1: $tr('key') or $tr("key") or $t('key') or $t("key")
+    pattern1 = r'\$(?:tr|t)\s*\(\s*["\']([^"\']+)["\']'
     matches = re.findall(pattern1, content)
     keys.update(matches)
 
@@ -112,7 +112,7 @@ def find_translation_keys_in_file(file_path: Path) -> Set[str]:
         template_regions.append((match.start(), match.end()))
 
     # Now find string literals, but skip if they're inside template regions
-    pattern5 = r'["\']((?:errors|board|menu|instructions|common|levels)\.[^"\']+)["\']'
+    pattern5 = r'["\']((?:errors|board|menu|instructions|common|levels|wiki)\.[^"\']+)["\']'
     for match in re.finditer(pattern5, content):
         start, end = match.span(1)  # Get the key part, not the quotes
         # Check if this match is inside a template literal region

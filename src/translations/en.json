@@ -458,8 +458,9 @@
     "viewWiki": "View Block Wiki"
   },
   "wiki": {
+    "allBlocks": "All Blocks",
     "backToMenu": "Back to Menu",
-    "description": "Interactive demonstrations of all instruction blocks. Each demo plays automatically and loops continuously.",
+    "description": "Interactive demonstrations of all instruction blocks.",
     "title": "Block Wiki"
   }
 }

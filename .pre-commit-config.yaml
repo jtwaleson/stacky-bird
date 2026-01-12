@@ -18,7 +18,7 @@ repos:
         files: .*\.(js|vue|ts)$
       - id: vue-tsc
         name: vue-tsc
-        entry: bash -c "cd frontend; npm install; npm run type-check"
+        entry: bash -c "npm run type-check"
         language: system
         pass_filenames: false
         types: [file]
@@ -30,3 +30,10 @@ repos:
         pass_filenames: false
         types: [file]
         files: .*\.(js|vue|ts|json)$
+      - id: check-wiki-blocks
+        name: check-wiki-blocks
+        entry: bash -c "python3 scripts/check-wiki-blocks.py"
+        language: system
+        pass_filenames: false
+        types: [file]
+        files: .*\.(ts|vue)$

@@ -458,8 +458,9 @@
     "viewWiki": "Bekijk Blokken Wiki"
   },
   "wiki": {
+    "allBlocks": "Alle Blokken",
     "backToMenu": "Terug naar Menu",
-    "description": "Interactieve demonstraties van alle instructieblokken. Elke demo speelt automatisch af en herhaalt zich continu.",
+    "description": "Interactieve demonstraties van alle instructieblokken.",
     "title": "Blokken Wiki"
   }
 }

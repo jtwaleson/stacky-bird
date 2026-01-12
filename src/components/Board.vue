@@ -226,8 +226,8 @@
                 </div>
             </div>
 
-            <div class="validation-panel" v-if="validation && !wikiMode">
-                <div class="test-cases-header">
+            <div class="validation-panel" v-if="showValidationPanel">
+                <div class="test-cases-header" v-if="!wikiMode">
                     <span class="label">
                         <T textKey="board.testCases" />
                     </span>
@@ -272,7 +272,7 @@
                             </template>
                         </div>
                     </div>
-                    <div class="io-group">
+                    <div class="io-group" v-if="!wikiMode">
                         <span class="label"> <T textKey="board.expected" />: </span>
                         <div class="stack-view">
                             <span
@@ -526,6 +526,16 @@ const fastButtonUnlocked = computed(() => true)
 const multiplePlayButtons = computed(
     () => fastButtonUnlocked.value || ultraFastButtonUnlocked.value,
 )
+
+const showValidationPanel = computed(() => {
+    if (!props.validation || props.validation.length === 0) return false
+    if (!props.wikiMode) return true
+
+    // In wiki mode, only show if the current test case has input
+    // If selectedTestCase isn't set yet, check the first one from props
+    const currentInput = selectedTestCase.value?.input || props.validation[0]?.input
+    return currentInput && currentInput.length > 0
+})
 
 const birdIsLoaded = computed(() => {
     for (const bird of birds.value) {
@@ -1559,7 +1569,8 @@ watch(
                 }
             } else {
                 if (playing.value) {
-                    resetButton()
+                    shouldStopPlaying.value = true
+                    activeMode.value = null
                 }
             }
         }
