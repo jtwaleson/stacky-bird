@@ -227,6 +227,7 @@ const factoryReset = () => {
 .main-menu {
     padding-bottom: 50px;
     min-height: 100vh;
+    user-select: text;
 }
 
 .hero {

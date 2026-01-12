@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Survive The Maze',
+    hint: 'true',
     description: 'Get your way around the maze',
     unlocksLevels: ['0009', '0010'],
     unlocksInstructions: [],

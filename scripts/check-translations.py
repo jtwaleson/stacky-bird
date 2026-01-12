@@ -217,7 +217,7 @@ def main():
     # Define helper function to check if a level key corresponds to an existing level
     def is_valid_level_key(key: str) -> bool:
         """Check if a level key corresponds to an existing level file."""
-        match = re.match(r'levels\.(\d+)\.(displayName|description)', key)
+        match = re.match(r'levels\.(\d+)\.(displayName|description|hint)', key)
         if match:
             level_name = match.group(1)
             return level_name in existing_levels
@@ -268,7 +268,7 @@ def main():
     dynamic_patterns = [
         r'errors\..+',  # Error messages are used dynamically
         r'instructions\..+',  # Instruction descriptions are used dynamically
-        r'levels\.\d+\.(displayName|description)',  # Level keys are dynamically referenced via template literals
+        r'levels\.\d+\.(displayName|description|hint)',  # Level keys are dynamically referenced via template literals
     ]
 
     for pattern in dynamic_patterns:

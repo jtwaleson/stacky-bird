@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Count',
+    hint: 'true',
     description:
         'Read all the numbers in the input, and just return the total amount of numbers read.',
     unlocksLevels: ['2014'],

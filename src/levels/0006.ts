@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'The Stairway',
+    hint: 'true',
     description: 'In this level we have to go all the way round',
     unlocksLevels: ['0007'],
     unlocksInstructions: [],

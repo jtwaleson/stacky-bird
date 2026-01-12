@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Slalom',
+    hint: 'true',
     description: 'Find your way',
     unlocksLevels: ['0008'],
     unlocksInstructions: [],

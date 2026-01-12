@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Doubling Down',
+    hint: 'true',
     description: 'Pick up a number, copy it and finish with two numbers',
     unlocksLevels: ['2007'],
     unlocksInstructions: ['DUP1'],

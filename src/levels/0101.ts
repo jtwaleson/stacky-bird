@@ -2,8 +2,9 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Maze 101',
+    hint: 'true',
     description: 'Just another AldousBroder Maze',
-    unlocksLevels: ['0102'],
+    unlocksLevels: [],
     rows: 7,
     cols: 7,
     unlocksInstructions: [],

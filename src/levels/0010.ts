@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'You Only Live Once',
+    hint: 'true',
     description: 'In this level we introduce randomness, you have to escape it!',
     unlocksLevels: ['0101'],
     unlocksInstructions: ['JMP1'],

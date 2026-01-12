@@ -10,6 +10,7 @@
     "resetConfirm": "Dit verwijdert alles van het bord, weet je het zeker?",
     "searchBlocks": "Zoek blokken...",
     "selectBlock": "Selecteer een blok",
+    "showHint": "Toon hint",
     "tapHint": "Tik op het bord om een blok te plaatsen.",
     "testCaseDone": "Test {testCaseIndex} is goed!",
     "testCases": "Tests",
@@ -83,351 +84,163 @@
   "levels": {
     "0001": {
       "description": "In dit level hoef je nog niks te doen",
-      "displayName": "En zo beginnen we"
+      "displayName": "En zo beginnen we",
+      "hint": "Druk gewoon op de afspeelknop!"
     },
     "0002": {
       "description": "In dit level moeten we een pijl neerzetten",
-      "displayName": "En we gaan naar beneden"
+      "displayName": "En we gaan naar beneden",
+      "hint": "Plaats een BENEDEN blok op het bord om de vogel te sturen."
     },
     "0003": {
       "description": "In dit level moeten we een heel rondje maken.",
-      "displayName": "Rond en Rond"
+      "displayName": "Rond en Rond",
+      "hint": "Gebruik pijlen om de vogel om de obstakels heen te laten gaan."
     },
     "0004": {
       "description": "In dit level moeten we een heel rondje maken.",
-      "displayName": "ZigZag"
+      "displayName": "ZigZag",
+      "hint": "Zigzag om de obstakels te vermijden."
     },
     "0005": {
       "description": "In dit level moeten we een heel rondje maken.",
-      "displayName": "Helemaal rond"
+      "displayName": "Helemaal rond",
+      "hint": "Vind het pad dat naar het doel leidt."
     },
     "0006": {
       "description": "In dit level moeten we een heel rondje maken.",
-      "displayName": "De Trap"
+      "displayName": "De Trap",
+      "hint": "Ga omhoog en omlaag als een trap."
     },
     "0007": {
       "description": "Zoek de weg",
-      "displayName": "Slalom"
+      "displayName": "Slalom",
+      "hint": "Vermijd de blokken en bereik de finish."
     },
     "0008": {
       "description": "Vindt de weg door het doolhof.",
-      "displayName": "Overleef het Doolhof"
+      "displayName": "Overleef het Doolhof",
+      "hint": "Navigeer door het doolhof om de uitgang te vinden."
     },
     "0009": {
       "description": "Dit level lijkt misschien onmogelijk. Probeer eerst een ander level om een nieuw blok te krijgen waarmee je over muren kunt springen.",
-      "displayName": "De Muur"
+      "displayName": "De Muur",
+      "hint": "Je hebt misschien een speciaal blok nodig voor deze..."
     },
     "0010": {
       "description": "In dit level introduceren we willekeurigheid. Je moet er van ontsnappen.",
-      "displayName": "Je leeft maar een keer"
+      "displayName": "Je leeft maar een keer",
+      "hint": "Willekeurigheid kan lastig zijn, blijf proberen!"
     },
     "0101": {
       "description": "Nog een AldousBroder Doolhof",
-      "displayName": "Doolhof 101"
-    },
-    "0102": {
-      "description": "Nog een BacktrackingGenerator Doolhof",
-      "displayName": "Doolhof 102"
-    },
-    "0103": {
-      "description": "Nog een BinaryTree Doolhof",
-      "displayName": "Doolhof 103"
-    },
-    "0104": {
-      "description": "Nog een CellularAutomaton Doolhof",
-      "displayName": "Doolhof 104"
-    },
-    "0105": {
-      "description": "Nog een Division Doolhof",
-      "displayName": "Doolhof 105"
-    },
-    "0106": {
-      "description": "Nog een DungeonRooms Doolhof",
-      "displayName": "Doolhof 106"
-    },
-    "0107": {
-      "description": "Nog een Ellers Doolhof",
-      "displayName": "Doolhof 107"
-    },
-    "0108": {
-      "description": "Nog een GrowingTree Doolhof",
-      "displayName": "Doolhof 108"
-    },
-    "0109": {
-      "description": "Nog een HuntAndKill Doolhof",
-      "displayName": "Doolhof 109"
-    },
-    "0110": {
-      "description": "Nog een Kruskal Doolhof",
-      "displayName": "Doolhof 110"
-    },
-    "0111": {
-      "description": "Nog een Prims Doolhof",
-      "displayName": "Doolhof 111"
-    },
-    "0112": {
-      "description": "Nog een Sidewinder Doolhof",
-      "displayName": "Doolhof 112"
-    },
-    "0113": {
-      "description": "Nog een TrivialMaze Doolhof",
-      "displayName": "Doolhof 113"
-    },
-    "0114": {
-      "description": "Nog een Wilsons Doolhof",
-      "displayName": "Doolhof 114"
-    },
-    "0115": {
-      "description": "Nog een AldousBroder Doolhof",
-      "displayName": "Doolhof 115"
-    },
-    "0116": {
-      "description": "Nog een BacktrackingGenerator Doolhof",
-      "displayName": "Doolhof 116"
-    },
-    "0117": {
-      "description": "Nog een BinaryTree Doolhof",
-      "displayName": "Doolhof 117"
-    },
-    "0118": {
-      "description": "Nog een CellularAutomaton Doolhof",
-      "displayName": "Doolhof 118"
-    },
-    "0119": {
-      "description": "Nog een Division Doolhof",
-      "displayName": "Doolhof 119"
-    },
-    "0120": {
-      "description": "Nog een DungeonRooms Doolhof",
-      "displayName": "Doolhof 120"
-    },
-    "0121": {
-      "description": "Nog een Ellers Doolhof",
-      "displayName": "Doolhof 121"
-    },
-    "0122": {
-      "description": "Nog een GrowingTree Doolhof",
-      "displayName": "Doolhof 122"
-    },
-    "0123": {
-      "description": "Nog een HuntAndKill Doolhof",
-      "displayName": "Doolhof 123"
-    },
-    "0124": {
-      "description": "Nog een Kruskal Doolhof",
-      "displayName": "Doolhof 124"
-    },
-    "0125": {
-      "description": "Nog een Prims Doolhof",
-      "displayName": "Doolhof 125"
-    },
-    "0126": {
-      "description": "Nog een Sidewinder Doolhof",
-      "displayName": "Doolhof 126"
-    },
-    "0127": {
-      "description": "Nog een TrivialMaze Doolhof",
-      "displayName": "Doolhof 127"
-    },
-    "0128": {
-      "description": "Nog een Wilsons Doolhof",
-      "displayName": "Doolhof 128"
-    },
-    "0129": {
-      "description": "Nog een AldousBroder Doolhof",
-      "displayName": "Doolhof 129"
-    },
-    "0130": {
-      "description": "Nog een BacktrackingGenerator Doolhof",
-      "displayName": "Doolhof 130"
-    },
-    "0131": {
-      "description": "Nog een BinaryTree Doolhof",
-      "displayName": "Doolhof 131"
-    },
-    "0132": {
-      "description": "Nog een CellularAutomaton Doolhof",
-      "displayName": "Doolhof 132"
-    },
-    "0133": {
-      "description": "Nog een Division Doolhof",
-      "displayName": "Doolhof 133"
-    },
-    "0134": {
-      "description": "Nog een DungeonRooms Doolhof",
-      "displayName": "Doolhof 134"
-    },
-    "0135": {
-      "description": "Nog een Ellers Doolhof",
-      "displayName": "Doolhof 135"
-    },
-    "0136": {
-      "description": "Nog een GrowingTree Doolhof",
-      "displayName": "Doolhof 136"
-    },
-    "0137": {
-      "description": "Nog een HuntAndKill Doolhof",
-      "displayName": "Doolhof 137"
-    },
-    "0138": {
-      "description": "Nog een Kruskal Doolhof",
-      "displayName": "Doolhof 138"
-    },
-    "0139": {
-      "description": "Nog een Ellers Doolhof",
-      "displayName": "Doolhof 139"
-    },
-    "0140": {
-      "description": "Nog een Sidewinder Doolhof",
-      "displayName": "Doolhof 140"
-    },
-    "0141": {
-      "description": "Nog een TrivialMaze Doolhof",
-      "displayName": "Doolhof 141"
-    },
-    "0142": {
-      "description": "Nog een Wilsons Doolhof",
-      "displayName": "Doolhof 142"
-    },
-    "0143": {
-      "description": "Nog een AldousBroder Doolhof",
-      "displayName": "Doolhof 143"
-    },
-    "0144": {
-      "description": "Nog een BacktrackingGenerator Doolhof",
-      "displayName": "Doolhof 144"
-    },
-    "0145": {
-      "description": "Nog een BinaryTree Doolhof",
-      "displayName": "Doolhof 145"
-    },
-    "0146": {
-      "description": "Nog een CellularAutomaton Doolhof",
-      "displayName": "Doolhof 146"
-    },
-    "0147": {
-      "description": "Nog een Division Doolhof",
-      "displayName": "Doolhof 147"
-    },
-    "0148": {
-      "description": "Nog een DungeonRooms Doolhof",
-      "displayName": "Doolhof 148"
-    },
-    "0149": {
-      "description": "Nog een Ellers Doolhof",
-      "displayName": "Doolhof 149"
-    },
-    "0150": {
-      "description": "Nog een GrowingTree Doolhof",
-      "displayName": "Doolhof 150"
-    },
-    "0151": {
-      "description": "Nog een HuntAndKill Doolhof",
-      "displayName": "Doolhof 151"
-    },
-    "0152": {
-      "description": "Nog een Kruskal Doolhof",
-      "displayName": "Doolhof 152"
-    },
-    "0153": {
-      "description": "Nog een Prims Doolhof",
-      "displayName": "Doolhof 153"
-    },
-    "0154": {
-      "description": "Nog een Sidewinder Doolhof",
-      "displayName": "Doolhof 154"
-    },
-    "0155": {
-      "description": "Nog een TrivialMaze Doolhof",
-      "displayName": "Doolhof 155"
-    },
-    "0156": {
-      "description": "Nog een Wilsons Doolhof",
-      "displayName": "Doolhof 156"
+      "displayName": "Doolhof 101",
+      "hint": "Vind je weg door het doolhof."
     },
     "1001": {
       "description": "Vermijd de monsters",
-      "displayName": "Zit monster, zit"
+      "displayName": "Zit monster, zit I",
+      "hint": "Wacht tot het monster voorbij is."
     },
     "1002": {
       "description": "Vermijd de monsters",
-      "displayName": "Zit monster, zit"
+      "displayName": "Zit monster, zit II",
+      "hint": "Wacht tot het monster voorbij is."
     },
     "1003": {
       "description": "Vermijd de monsters",
-      "displayName": "Zit monster, zit"
+      "displayName": "Zit monster, zit III",
+      "hint": "Wacht tot het monster voorbij is."
     },
     "1004": {
       "description": "Vermijd de monsters",
-      "displayName": "Zit monster, zit"
+      "displayName": "Zit monster, zit IV",
+      "hint": "Wacht tot het monster voorbij is."
     },
     "2001": {
       "description": "In dit level pakken we een getal op en brengen het naar de finish.",
-      "displayName": "Pak een getal op"
+      "displayName": "Pak een getal op",
+      "hint": "Gebruik READ om het getal op te pakken."
     },
     "2002": {
       "description": "Pak twee getallen op en breng ze naar het einde",
-      "displayName": "Pak twee getallen op"
+      "displayName": "Pak twee getallen op I",
+      "hint": "Gebruik READ twee keer."
     },
     "2003": {
       "description": "Pak twee getallen op en breng ze naar het einde",
-      "displayName": "Pak twee getallen op"
+      "displayName": "Pak twee getallen op II",
+      "hint": "Gebruik READ twee keer."
     },
     "2004": {
       "description": "Pak twee getallen en tel ze op",
-      "displayName": "1 + 1 = 2"
+      "displayName": "1 + 1 = 2",
+      "hint": "Lees twee getallen en gebruik PLUS."
     },
     "2005": {
       "description": "Pak drie getallen op en tel ze bij elkaar op",
-      "displayName": "1 + 1 + 1 = 3"
+      "displayName": "1 + 1 + 1 = 3",
+      "hint": "Lees drie getallen en gebruik twee keer PLUS."
     },
     "2006": {
       "description": "Pak een getal, verdubbel het en finish met twee getallen.",
-      "displayName": "Verdubbelen"
+      "displayName": "Verdubbelen",
+      "hint": "Gebruik READ en dan DUP1."
     },
     "2007": {
       "description": "Pak een getal op, als het kleiner is dan 1, gooi het weg. Als het hoger is, breng het naar de finish.",
-      "displayName": "Logica"
+      "displayName": "Logica",
+      "hint": "Gebruik GEQ1 om te vertakken op basis van het getal."
     },
     "2008": {
       "description": "Pak een getal op, maak het één groter en breng het naar de finish.",
-      "displayName": "Voeg één toe"
+      "displayName": "Voeg één toe",
+      "hint": "Lees het getal en gebruik ADD1."
     },
     "2009": {
       "description": "Pak een getal op, maak het één kleiner en breng het naar de finish.",
-      "displayName": "Min één"
+      "displayName": "Min één",
+      "hint": "Lees het getal en gebruik SUB1."
     },
     "2010": {
       "description": "Pak een nummer op, zolang het groter is dan 0, maak het kleiner. Kom alleen naar de finish met 0. Let op dat alle nummers 0 of groter zijn.",
-      "displayName": "Markeer het nul"
+      "displayName": "Markeer het nul",
+      "hint": "Gebruik een loop met SUB1 en GEQ1."
     },
     "2011": {
       "description": "Lees alle nummers in de invoer en tel ze allemaal op. Let op, er is altijd minstens één item in de invoer.",
-      "displayName": "Som"
+      "displayName": "Som I",
+      "hint": "Lees alle getallen en gebruik PLUS."
     },
     "2012": {
       "description": "Lees alle nummers in de invoer en tel ze allemaal op. Nu zijn er ook gevallen zonder invoer. In dat geval moet 0 worden geretourneerd.",
-      "displayName": "Som"
+      "displayName": "Som II",
+      "hint": "Lees alle getallen en gebruik PLUS."
     },
     "2013": {
       "description": "Lees alle nummers in de invoer en geef gewoon het totale aantal gelezen nummers terug.",
-      "displayName": "Tel"
+      "displayName": "Tel",
+      "hint": "Gebruik READ en houd de telling bij."
     },
     "2014": {
       "description": "Er zullen twee getallen in de invoer zijn. Geef ze terug in omgekeerde volgorde.",
-      "displayName": "Wissel"
+      "displayName": "Wissel",
+      "hint": "Lees twee getallen en gebruik SWAP."
     },
     "2015": {
       "description": "Er zullen twee getallen in de invoer zijn. Geef alleen het grootste getal terug.",
-      "displayName": "Max"
+      "displayName": "Max",
+      "hint": "Lees twee getallen en vergelijk ze."
     },
     "2016": {
       "description": "Er zullen twee getallen in de invoer zijn. Geef alleen het kleinste getal terug.",
-      "displayName": "Min"
+      "displayName": "Min",
+      "hint": "Lees twee getallen en vergelijk ze."
     },
     "2017": {
       "description": "Neem twee getallen in de invoer, bijvoorbeeld 5 en 1. Geef vier getallen terug, 1 5 1 5",
-      "displayName": "Twee keer verdubbelen"
+      "displayName": "Twee keer verdubbelen",
+      "hint": "Lezen, dupliceren en ordenen."
     }
   },
   "menu": {

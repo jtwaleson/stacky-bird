@@ -148,10 +148,28 @@
                         <h1>
                             <span class="level-id">{{ name }}</span>
                             <T v-if="displayName" :textKey="`levels.${name}.displayName`" />
+                            <button
+                                v-if="hint"
+                                class="hint-btn"
+                                @click="showHint"
+                                :title="$t('board.showHint')"
+                            >
+                                <i class="bi-question-circle-fill"></i>
+                            </button>
                         </h1>
                         <p v-if="description" class="level-desc">
                             <T :textKey="`levels.${name}.description`" />
                         </p>
+                        <transition name="fade">
+                            <div v-if="showHintPanel && hint" class="hint-panel">
+                                <div class="hint-content">
+                                    <i class="bi-info-circle-fill"></i>
+                                    <span>
+                                        <T :textKey="`levels.${name}.hint`" />
+                                    </span>
+                                </div>
+                            </div>
+                        </transition>
                     </template>
                     <h1 v-else>
                         <T textKey="board.title" />
@@ -452,6 +470,7 @@ const props = withDefaults(
         name?: string
         unlocked?: boolean
         completed?: boolean
+        hint?: string
         validation?: TestCase[]
         creeps?: Creep[]
         wikiMode?: boolean
@@ -477,6 +496,7 @@ const speed = ref(100)
 const stepFunctionMutex = ref(false)
 const showLevelCompletedModal = ref(false)
 const showBlockSelectionModal = ref(false)
+const showHintPanel = ref(false)
 const selectedFieldX = ref<number | null>(null)
 const selectedFieldY = ref<number | null>(null)
 const highlightedSquareX = ref<number | null>(null)
@@ -1518,6 +1538,10 @@ const clear = () => {
     saveBoardToLocalStorage()
 }
 
+const showHint = () => {
+    showHintPanel.value = !showHintPanel.value
+}
+
 const saveBoardToLocalStorage = () => {
     if (!props.name) {
         return
@@ -1590,6 +1614,7 @@ watch(
     () => props.name,
     () => {
         initializeLevel()
+        showHintPanel.value = false
     },
     { immediate: false },
 )
@@ -1892,9 +1917,72 @@ onBeforeUnmount(() => {
     font-size: 1rem;
 }
 
+.hint-btn {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.hint-btn:hover {
+    transform: scale(1.1);
+    background: var(--primary-color);
+}
+
 .level-desc {
     margin: 5px 0 0 0;
     color: var(--text-light);
+}
+
+.hint-panel {
+    margin-top: 10px;
+    background: #e1f5fe;
+    border-left: 4px solid var(--accent-blue);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.hint-content {
+    padding: 10px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: #0277bd;
+}
+
+.hint-content i {
+    font-size: 1.1rem;
+    margin-top: 2px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        max-height 0.3s ease;
+    max-height: 100px;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-5px);
+    max-height: 0;
 }
 
 /* Controls */

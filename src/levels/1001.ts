@@ -1,7 +1,8 @@
 import instructions from '../instructions'
 
 export default {
-    displayName: 'Sit monster, sit',
+    displayName: 'Sit monster, sit I',
+    hint: 'true',
     description: 'Avoid the monsters',
     unlocksLevels: ['1002'],
     unlocksInstructions: [],

@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: '1 + 1 = 2',
+    hint: 'true',
     description: 'Pick up two numbers and add them together',
     unlocksLevels: ['2005'],
     unlocksInstructions: ['READ'],

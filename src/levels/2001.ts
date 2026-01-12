@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Pick up a number',
+    hint: 'true',
     description: 'In this level we have to pick up a number and deliver it to the finish line',
     unlocksLevels: ['2002'],
     unlocksInstructions: [],

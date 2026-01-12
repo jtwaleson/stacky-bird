@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Minus one',
+    hint: 'true',
     description: 'Pick up a number, make it one smaller and bring it to the finish.',
     unlocksLevels: ['2010'],
     unlocksInstructions: ['SUB1'],

@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Max',
+    hint: 'true',
     description: 'There will be two numbers in the input. Return only the largest number.',
     unlocksLevels: ['2016'],
     unlocksInstructions: ['MINU'],

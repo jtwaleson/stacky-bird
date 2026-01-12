@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'And So It Begins',
+    hint: 'true',
     description: "In this level we don't have to build anything yet",
     unlocksLevels: ['0002'],
     unlocksInstructions: ['DOWN'],

@@ -10,6 +10,7 @@
     "resetConfirm": "Esto reiniciará tu nivel, ¿estás seguro?",
     "searchBlocks": "Buscar bloques...",
     "selectBlock": "Selecciona un bloque",
+    "showHint": "Mostrar pista",
     "tapHint": "Toca el tablero para colocar un bloque.",
     "testCaseDone": "¡Caso de prueba {testCaseIndex} hecho!",
     "testCases": "Casos de prueba",
@@ -83,351 +84,163 @@
   "levels": {
     "0001": {
       "description": "En este nivel no tenemos que construir nada todavía",
-      "displayName": "Y así comienza"
+      "displayName": "Y así comienza",
+      "hint": "¡Simplemente presiona el botón de reproducir!"
     },
     "0002": {
       "description": "En este nivel tenemos que colocar una flecha",
-      "displayName": "Y baja"
+      "displayName": "Y baja",
+      "hint": "Coloca un bloque ABAJO en el tablero para guiar al pájaro."
     },
     "0003": {
       "description": "En este nivel tenemos que dar toda la vuelta",
-      "displayName": "Vueltas y vueltas"
+      "displayName": "Vueltas y vueltas",
+      "hint": "Usa flechas para que el pájaro rodee los obstáculos."
     },
     "0004": {
       "description": "En este nivel tenemos que dar toda la vuelta",
-      "displayName": "ZigZag"
+      "displayName": "ZigZag",
+      "hint": "Zigzaguea para evitar los obstáculos."
     },
     "0005": {
       "description": "En este nivel tenemos que dar toda la vuelta",
-      "displayName": "Todo el camino"
+      "displayName": "Todo el camino",
+      "hint": "Encuentra el camino que lleva a la meta."
     },
     "0006": {
       "description": "En este nivel tenemos que dar toda la vuelta",
-      "displayName": "La Escalera"
+      "displayName": "La Escalera",
+      "hint": "Sube y baja como una escalera."
     },
     "0007": {
       "description": "Encuentra tu camino",
-      "displayName": "Eslalon"
+      "displayName": "Eslalon",
+      "hint": "Evita los bloques y llega a la meta."
     },
     "0008": {
       "description": "Encuentra tu camino por el laberinto",
-      "displayName": "Sobrevive al laberinto"
+      "displayName": "Sobrevive al laberinto",
+      "hint": "Navega por el laberinto para encontrar la salida."
     },
     "0009": {
       "description": "Esto puede parecer imposible, tal vez tengas que terminar otro nivel primero",
-      "displayName": "El Muro"
+      "displayName": "El Muro",
+      "hint": "Puede que necesites un bloque especial para este..."
     },
     "0010": {
       "description": "En este nivel introducimos aleatoriedad, ¡tienes que escapar de ella!",
-      "displayName": "Solo se vive una vez"
+      "displayName": "Solo se vive una vez",
+      "hint": "La aleatoriedad puede ser difícil, ¡sigue intentándolo!"
     },
     "0101": {
       "description": "Solo otro Laberinto AldousBroder",
-      "displayName": "Laberinto 101"
-    },
-    "0102": {
-      "description": "Solo otro Laberinto BacktrackingGenerator",
-      "displayName": "Laberinto 102"
-    },
-    "0103": {
-      "description": "Solo otro Laberinto BinaryTree",
-      "displayName": "Laberinto 103"
-    },
-    "0104": {
-      "description": "Solo otro Laberinto CellularAutomaton",
-      "displayName": "Laberinto 104"
-    },
-    "0105": {
-      "description": "Solo otro Laberinto Division",
-      "displayName": "Laberinto 105"
-    },
-    "0106": {
-      "description": "Solo otro Laberinto DungeonRooms",
-      "displayName": "Laberinto 106"
-    },
-    "0107": {
-      "description": "Solo otro Laberinto Ellers",
-      "displayName": "Laberinto 107"
-    },
-    "0108": {
-      "description": "Solo otro Laberinto GrowingTree",
-      "displayName": "Laberinto 108"
-    },
-    "0109": {
-      "description": "Solo otro Laberinto HuntAndKill",
-      "displayName": "Laberinto 109"
-    },
-    "0110": {
-      "description": "Solo otro Laberinto Kruskal",
-      "displayName": "Laberinto 110"
-    },
-    "0111": {
-      "description": "Solo otro Laberinto Prims",
-      "displayName": "Laberinto 111"
-    },
-    "0112": {
-      "description": "Solo otro Laberinto Sidewinder",
-      "displayName": "Laberinto 112"
-    },
-    "0113": {
-      "description": "Solo otro Laberinto TrivialMaze",
-      "displayName": "Laberinto 113"
-    },
-    "0114": {
-      "description": "Solo otro Laberinto Wilsons",
-      "displayName": "Laberinto 114"
-    },
-    "0115": {
-      "description": "Solo otro Laberinto AldousBroder",
-      "displayName": "Laberinto 115"
-    },
-    "0116": {
-      "description": "Solo otro Laberinto BacktrackingGenerator",
-      "displayName": "Laberinto 116"
-    },
-    "0117": {
-      "description": "Solo otro Laberinto BinaryTree",
-      "displayName": "Laberinto 117"
-    },
-    "0118": {
-      "description": "Solo otro Laberinto CellularAutomaton",
-      "displayName": "Laberinto 118"
-    },
-    "0119": {
-      "description": "Solo otro Laberinto Division",
-      "displayName": "Laberinto 119"
-    },
-    "0120": {
-      "description": "Solo otro Laberinto DungeonRooms",
-      "displayName": "Laberinto 120"
-    },
-    "0121": {
-      "description": "Solo otro Laberinto Ellers",
-      "displayName": "Laberinto 121"
-    },
-    "0122": {
-      "description": "Solo otro Laberinto GrowingTree",
-      "displayName": "Laberinto 122"
-    },
-    "0123": {
-      "description": "Solo otro Laberinto HuntAndKill",
-      "displayName": "Laberinto 123"
-    },
-    "0124": {
-      "description": "Solo otro Laberinto Kruskal",
-      "displayName": "Laberinto 124"
-    },
-    "0125": {
-      "description": "Solo otro Laberinto Prims",
-      "displayName": "Laberinto 125"
-    },
-    "0126": {
-      "description": "Solo otro Laberinto Sidewinder",
-      "displayName": "Laberinto 126"
-    },
-    "0127": {
-      "description": "Solo otro Laberinto TrivialMaze",
-      "displayName": "Laberinto 127"
-    },
-    "0128": {
-      "description": "Solo otro Laberinto Wilsons",
-      "displayName": "Laberinto 128"
-    },
-    "0129": {
-      "description": "Solo otro Laberinto AldousBroder",
-      "displayName": "Laberinto 129"
-    },
-    "0130": {
-      "description": "Solo otro Laberinto BacktrackingGenerator",
-      "displayName": "Laberinto 130"
-    },
-    "0131": {
-      "description": "Solo otro Laberinto BinaryTree",
-      "displayName": "Laberinto 131"
-    },
-    "0132": {
-      "description": "Solo otro Laberinto CellularAutomaton",
-      "displayName": "Laberinto 132"
-    },
-    "0133": {
-      "description": "Solo otro Laberinto Division",
-      "displayName": "Laberinto 133"
-    },
-    "0134": {
-      "description": "Solo otro Laberinto DungeonRooms",
-      "displayName": "Laberinto 134"
-    },
-    "0135": {
-      "description": "Solo otro Laberinto Ellers",
-      "displayName": "Laberinto 135"
-    },
-    "0136": {
-      "description": "Solo otro Laberinto GrowingTree",
-      "displayName": "Laberinto 136"
-    },
-    "0137": {
-      "description": "Solo otro Laberinto HuntAndKill",
-      "displayName": "Laberinto 137"
-    },
-    "0138": {
-      "description": "Solo otro Laberinto Kruskal",
-      "displayName": "Laberinto 138"
-    },
-    "0139": {
-      "description": "Solo otro Laberinto Ellers",
-      "displayName": "Laberinto 139"
-    },
-    "0140": {
-      "description": "Solo otro Laberinto Sidewinder",
-      "displayName": "Laberinto 140"
-    },
-    "0141": {
-      "description": "Solo otro Laberinto TrivialMaze",
-      "displayName": "Laberinto 141"
-    },
-    "0142": {
-      "description": "Solo otro Laberinto Wilsons",
-      "displayName": "Laberinto 142"
-    },
-    "0143": {
-      "description": "Solo otro Laberinto AldousBroder",
-      "displayName": "Laberinto 143"
-    },
-    "0144": {
-      "description": "Solo otro Laberinto BacktrackingGenerator",
-      "displayName": "Laberinto 144"
-    },
-    "0145": {
-      "description": "Solo otro Laberinto BinaryTree",
-      "displayName": "Laberinto 145"
-    },
-    "0146": {
-      "description": "Solo otro Laberinto CellularAutomaton",
-      "displayName": "Laberinto 146"
-    },
-    "0147": {
-      "description": "Solo otro Laberinto Division",
-      "displayName": "Laberinto 147"
-    },
-    "0148": {
-      "description": "Solo otro Laberinto DungeonRooms",
-      "displayName": "Laberinto 148"
-    },
-    "0149": {
-      "description": "Solo otro Laberinto Ellers",
-      "displayName": "Laberinto 149"
-    },
-    "0150": {
-      "description": "Solo otro Laberinto GrowingTree",
-      "displayName": "Laberinto 150"
-    },
-    "0151": {
-      "description": "Solo otro Laberinto HuntAndKill",
-      "displayName": "Laberinto 151"
-    },
-    "0152": {
-      "description": "Solo otro Laberinto Kruskal",
-      "displayName": "Laberinto 152"
-    },
-    "0153": {
-      "description": "Solo otro Laberinto Prims",
-      "displayName": "Laberinto 153"
-    },
-    "0154": {
-      "description": "Solo otro Laberinto Sidewinder",
-      "displayName": "Laberinto 154"
-    },
-    "0155": {
-      "description": "Solo otro Laberinto TrivialMaze",
-      "displayName": "Laberinto 155"
-    },
-    "0156": {
-      "description": "Solo otro Laberinto Wilsons",
-      "displayName": "Laberinto 156"
+      "displayName": "Laberinto 101",
+      "hint": "Encuentra tu camino por el laberinto."
     },
     "1001": {
       "description": "Evita los monstruos",
-      "displayName": "Siéntate monstruo, siéntate"
+      "displayName": "Siéntate monstruo, siéntate I",
+      "hint": "Espera a que pase el monstruo."
     },
     "1002": {
       "description": "Evita los monstruos",
-      "displayName": "Siéntate monstruo, siéntate"
+      "displayName": "Siéntate monstruo, siéntate II",
+      "hint": "Espera a que pase el monstruo."
     },
     "1003": {
       "description": "Evita los monstruos",
-      "displayName": "Siéntate monstruo, siéntate"
+      "displayName": "Siéntate monstruo, siéntate III",
+      "hint": "Espera a que pase el monstruo."
     },
     "1004": {
       "description": "Evita los monstruos",
-      "displayName": "Siéntate monstruo, siéntate"
+      "displayName": "Siéntate monstruo, siéntate IV",
+      "hint": "Espera a que pase el monstruo."
     },
     "2001": {
       "description": "En este nivel tenemos que recoger un número y llevarlo a la meta",
-      "displayName": "Recoge un número"
+      "displayName": "Recoge un número",
+      "hint": "Usa READ para recoger el número."
     },
     "2002": {
       "description": "Recoge dos números y llévalos a la meta",
-      "displayName": "Recoge dos números"
+      "displayName": "Recoge dos números I",
+      "hint": "Usa READ dos veces."
     },
     "2003": {
       "description": "Recoge dos números y llévalos a la meta",
-      "displayName": "Recoge dos números"
+      "displayName": "Recoge dos números II",
+      "hint": "Usa READ dos veces."
     },
     "2004": {
       "description": "Recoge dos números y súmalos",
-      "displayName": "1 + 1 = 2"
+      "displayName": "1 + 1 = 2",
+      "hint": "Lee dos números y usa PLUS."
     },
     "2005": {
       "description": "Recoge tres números y súmalos",
-      "displayName": "1 + 1 + 1 = 3"
+      "displayName": "1 + 1 + 1 = 3",
+      "hint": "Lee tres números y usa PLUS dos veces."
     },
     "2006": {
       "description": "Recoge un número, cópialo y termina con dos números",
-      "displayName": "Doblando la apuesta"
+      "displayName": "Doblando la apuesta",
+      "hint": "Usa READ y luego DUP1."
     },
     "2007": {
       "description": "Recoge un número, si es menor que 1, deséchalo. Si es mayor, llévalo a la meta.",
-      "displayName": "Lógica"
+      "displayName": "Lógica",
+      "hint": "Usa GEQ1 para ramificar según el número."
     },
     "2008": {
       "description": "Recoge un número, hazlo uno más grande y llévalo a la meta.",
-      "displayName": "Suma uno"
+      "displayName": "Suma uno",
+      "hint": "Lee el número y usa ADD1."
     },
     "2009": {
       "description": "Recoge un número, hazlo uno más pequeño y llévalo a la meta.",
-      "displayName": "Menos uno"
+      "displayName": "Menos uno",
+      "hint": "Lee el número y usa SUB1."
     },
     "2010": {
       "description": "Recoge un número, mientras sea mayor que 0, hazlo más pequeño. Solo llega a la meta con 0. Ten en cuenta que todos los números son 0 o mayores.",
-      "displayName": "Márcalo cero"
+      "displayName": "Márcalo cero",
+      "hint": "Usa un bucle con SUB1 y GEQ1."
     },
     "2011": {
       "description": "Lee todos los números en la entrada y súmalos todos. Ten en cuenta que siempre hay al menos un elemento en la entrada.",
-      "displayName": "Suma"
+      "displayName": "Suma I",
+      "hint": "Lee todos los números y usa PLUS."
     },
     "2012": {
       "description": "Lee todos los números en la entrada y súmalos todos. Ahora también hay casos sin ninguna entrada. En ese caso se debe devolver 0.",
-      "displayName": "Suma"
+      "displayName": "Suma II",
+      "hint": "Lee todos los números y usa PLUS."
     },
     "2013": {
       "description": "Lee todos los números en la entrada y simplemente devuelve la cantidad total de números leídos.",
-      "displayName": "Cuenta"
+      "displayName": "Cuenta",
+      "hint": "Usa READ y mantén la cuenta."
     },
     "2014": {
       "description": "Habrá dos números en la entrada. Devuélvelos en orden inverso.",
-      "displayName": "Intercambiar"
+      "displayName": "Intercambiar",
+      "hint": "Lee dos números y usa SWAP."
     },
     "2015": {
       "description": "Habrá dos números en la entrada. Devuelve solo el número más grande.",
-      "displayName": "Máximo"
+      "displayName": "Máximo",
+      "hint": "Lee dos números y compáralos."
     },
     "2016": {
       "description": "Habrá dos números en la entrada. Devuelve solo el número más pequeño.",
-      "displayName": "Mínimo"
+      "displayName": "Mínimo",
+      "hint": "Lee dos números y compáralos."
     },
     "2017": {
       "description": "Toma dos números en la entrada, digamos 5 y 1. Devuelve cuatro números, 1 5 1 5",
-      "displayName": "Doblando dos veces"
+      "displayName": "Doblando dos veces",
+      "hint": "Leer, duplicar y organizar."
     }
   },
   "menu": {

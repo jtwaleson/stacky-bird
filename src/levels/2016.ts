@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Min',
+    hint: 'true',
     description: 'There will be two numbers in the input. Return only the smallest number.',
     unlocksLevels: ['2017'],
     unlocksInstructions: [],

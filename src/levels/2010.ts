@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Mark it zero',
+    hint: 'true',
     description:
         'Pick up a number, while it is larger than 0, make it smaller. Only come to the finish with 0. Note that all numbers are 0 or larger.',
     unlocksLevels: ['2011'],

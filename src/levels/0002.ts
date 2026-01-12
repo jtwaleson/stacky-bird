@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'And It Goes Down',
+    hint: 'true',
     description: 'In this level we have to place one arrow',
     unlocksLevels: ['0003'],
     unlocksInstructions: ['LEFT'],

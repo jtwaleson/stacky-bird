@@ -20,6 +20,7 @@ export interface Level {
     completed?: boolean
     displayName?: string
     description?: string
+    hint?: string
     unlocksInstructions?: string[]
     unlocksLevels?: string[]
     [key: string]: unknown

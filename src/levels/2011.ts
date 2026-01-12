@@ -1,7 +1,8 @@
 import instructions from '../instructions'
 
 export default {
-    displayName: 'Sum',
+    displayName: 'Sum I',
+    hint: 'true',
     description:
         'Read all the numbers in the input, and sum them all up. Note, there is always at least one item in the input.',
     unlocksLevels: ['2012'],

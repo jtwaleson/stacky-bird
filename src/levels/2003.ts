@@ -1,7 +1,8 @@
 import instructions from '../instructions'
 
 export default {
-    displayName: 'Pick up two numbers',
+    displayName: 'Pick up two numbers II',
+    hint: 'true',
     description: 'Pick up two numbers and deliver them to the finish line',
     unlocksLevels: ['2004'],
     unlocksInstructions: [],

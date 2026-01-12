@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'Swap',
+    hint: 'true',
     description: 'There will be two numbers in the input. Return them in reverse order.',
     unlocksLevels: ['2015'],
     unlocksInstructions: ['DUMP'],

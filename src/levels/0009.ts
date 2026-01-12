@@ -2,6 +2,7 @@ import instructions from '../instructions'
 
 export default {
     displayName: 'The Wall',
+    hint: 'true',
     description: 'This might seem impossible, maybe you have to finish another level first',
     unlocksLevels: ['2001', '1001'],
     unlocksInstructions: [],

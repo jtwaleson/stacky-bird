@@ -1,7 +1,8 @@
 import instructions from '../instructions'
 
 export default {
-    displayName: 'Sum',
+    displayName: 'Sum II',
+    hint: 'true',
     description:
         'Read all the numbers in the input, and sum them all up. Now, there are also cases without any input. In which case 0 should be returned.',
     unlocksLevels: ['2013'],
