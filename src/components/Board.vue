@@ -141,6 +141,9 @@
         <main class="game-main">
             <div v-if="!wikiMode" class="game-header">
                 <div class="level-info">
+                    <button class="back-btn mobile-only" @click="$router.push({ path: '/' })">
+                        <i class="bi-arrow-left"></i>
+                    </button>
                     <template v-if="name">
                         <h1>
                             <span class="level-id">{{ name }}</span>
@@ -516,8 +519,8 @@ const boardStyle = computed(() => {
         'grid-template-rows': `repeat(${props.rows}, minmax(0, 1fr))`,
         'aspect-ratio': `${props.cols} / ${props.rows}`,
         width: '100%',
-        'max-width': `min(1000px, 100%, calc((100vh - 350px) * ${ratio}))`,
-        'max-height': 'calc(100vh - 350px)',
+        'max-width': `min(1000px, 100%, calc((100vh - 250px) * ${ratio}))`, // Increased space by reducing subtracted amount (was 350px)
+        'max-height': 'calc(100vh - 250px)', // Increased max-height
     }
 })
 
@@ -1649,6 +1652,134 @@ onBeforeUnmount(() => {
     height: auto;
     overflow: visible;
     width: 100%;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-only {
+        display: block;
+    }
+
+    .game-layout {
+        grid-template-columns: 1fr;
+        height: 100vh;
+    }
+
+    .game-sidebar {
+        display: none !important;
+    }
+
+    .game-main {
+        padding: 10px;
+        padding-bottom: 90px; /* Space for fixed controls */
+    }
+
+    .game-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .game-header .level-info {
+        width: 100%;
+    }
+
+    /* Move controls to bottom */
+    .game-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        padding: 8px 16px;
+        border-radius: 50px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        z-index: 1000;
+        width: auto;
+        justify-content: center;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .board-container {
+        padding: 5px 0;
+        align-items: center;
+        height: auto;
+        flex-grow: 1;
+    }
+
+    /* Clever compact validation panel */
+    .validation-panel {
+        margin: 0 0 10px 0;
+        padding: 8px 12px;
+        border-radius: var(--radius-sm);
+    }
+
+    .test-cases-header {
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .test-case-tabs li {
+        padding: 2px 8px;
+        font-size: 0.85rem;
+    }
+
+    .test-case-details {
+        font-size: 0.85rem;
+        gap: 5px;
+    }
+
+    .io-group {
+        flex-wrap: wrap;
+    }
+
+    .io-group .label {
+        width: auto;
+        margin-right: 5px;
+    }
+
+    .stack-item {
+        padding: 2px 6px;
+        font-size: 0.8rem;
+    }
+
+    /* Make delete button larger on mobile */
+    :deep(button.delete) {
+        width: 30px;
+        height: 30px;
+        max-width: none;
+        max-height: none;
+        font-size: 16px;
+        right: -10px;
+        top: -10px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .level-info {
+        display: grid;
+        grid-template-columns: min-content 1fr;
+        grid-template-areas:
+            'back title'
+            'back desc';
+        align-items: center;
+        column-gap: 10px;
+    }
+    .back-btn.mobile-only {
+        grid-area: back;
+    }
+    .level-info h1 {
+        grid-area: title;
+    }
+    .level-desc {
+        grid-area: desc;
+    }
 }
 
 .game-sidebar {

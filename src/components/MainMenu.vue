@@ -36,9 +36,6 @@
                     <T textKey="menu.githubLink" />
                 </a>
             </p>
-            <p class="desktop-warning">
-                <T textKey="menu.bestOnDesktopWarning" />
-            </p>
         </header>
 
         <vue-final-modal
@@ -290,14 +287,6 @@ const factoryReset = () => {
     margin: 12px auto 0;
     color: var(--text-light);
     font-size: 0.98rem;
-    text-align: left;
-}
-
-.desktop-warning {
-    max-width: 60rem;
-    margin: 14px auto 0;
-    color: var(--danger-color);
-    font-weight: 600;
     text-align: left;
 }
 
