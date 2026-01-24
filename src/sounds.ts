@@ -110,6 +110,19 @@ export async function playSoundDirection() {
     synth?.triggerAttackRelease('A4', '0.05', Tone.now())
 }
 
+// YOLO - chaotic whirlwind sound
+export async function playSoundYolo() {
+    await ensureAudio()
+    // Random chaotic sequence - fast ascending and descending
+    synth?.triggerAttackRelease('E5', '0.03', Tone.now())
+    synth?.triggerAttackRelease('C4', '0.03', Tone.now() + 0.03)
+    synth?.triggerAttackRelease('G5', '0.03', Tone.now() + 0.06)
+    synth?.triggerAttackRelease('D4', '0.03', Tone.now() + 0.09)
+    synth?.triggerAttackRelease('A5', '0.03', Tone.now() + 0.12)
+    synth?.triggerAttackRelease('F4', '0.04', Tone.now() + 0.15)
+    noiseSynth?.triggerAttackRelease('0.05', Tone.now() + 0.19)
+}
+
 // Math operations
 export async function playSoundMath() {
     await ensureAudio()
@@ -260,8 +273,10 @@ export async function playSoundForInstruction(instructionName: string) {
         case 'LEFT':
         case 'RGHT':
         case 'REVR':
-        case 'YOLO':
             await playSoundDirection()
+            break
+        case 'YOLO':
+            await playSoundYolo()
             break
 
         // I/O
