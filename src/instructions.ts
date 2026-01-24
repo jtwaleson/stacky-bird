@@ -125,18 +125,17 @@ export default {
         symbol: '◍',
         description: 'instructions.FINI',
         async execute(bird: Bird, board: Board) {
-            // Remove this bird from the board
-            if (board.removeBird) {
-                board.removeBird(bird)
-            }
-
             // Check if there are other birds still in the game
             const otherBirds = (board.birds || []).filter((b) => b !== bird)
             if (otherBirds.length > 0) {
-                // Other birds still active, don't finish yet
+                // Other birds still active, remove this bird and don't finish yet
+                if (board.removeBird) {
+                    board.removeBird(bird)
+                }
                 return 'NOMOVE'
             }
 
+            // Last bird - don't remove it yet, keep it visible on FINI tile
             if (board.selectedTestCase) {
                 const expected = toRaw(board.selectedTestCase.finalStack || [])
                 const stack = toRaw(bird.stack).slice().reverse()

@@ -1041,6 +1041,8 @@ const selectBlock = (instruction: {
 
 const handleLevelCompletedNavigation = () => {
     showLevelCompletedModal.value = false
+    // Reset the board now that user has dismissed the modal
+    reset()
     const availableLevels = store.availableLevels
     if (availableLevels.length === 1 && availableLevels[0]?.name) {
         // Navigate directly to the single available level
@@ -1326,7 +1328,7 @@ const isTestCaseEqual = (a: TestCase | null | undefined, b: TestCase | null | un
 
 const finish = () => {
     sounds.playSoundLevelComplete()
-    reset()
+    // Don't reset() here - keep bird visible on FINI tile until user clicks OK
     let allLevelsFinished = true
     let nextTestCase: TestCase | null = null
 
@@ -1374,6 +1376,7 @@ const finish = () => {
         if (props.wikiMode) {
             console.log('Board finished in wiki mode, emitting finishLevel')
             // In wiki mode, automatically restart after completion
+            reset() // Reset for wiki mode auto-restart
             emit('finishLevel')
             setTimeout(() => {
                 completedTestCases.value = {}
@@ -1385,6 +1388,7 @@ const finish = () => {
                 }
             }, 1500)
         } else {
+            // Don't reset in normal mode - keep bird visible until user clicks OK
             if (props.name) {
                 store.completeLevel({
                     levelName: props.name,
