@@ -6,6 +6,11 @@ export default {
     description: 'Pick up two numbers and add them together',
     unlocksLevels: ['2005'],
     unlocksInstructions: ['READ'],
+    bestStats: {
+        cycles: 126,
+        blocksUsed: 4,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 4, ...instructions['STRT'] },
         { x: 4, y: 4, ...instructions['READ'] },

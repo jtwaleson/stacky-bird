@@ -33,6 +33,7 @@ export interface Level {
     unlocksLevels?: string[]
     unlocksSpeed?: Speed
     stats?: LevelStats
+    bestStats?: LevelStats
     [key: string]: unknown
 }
 
@@ -201,17 +202,42 @@ export const useStore = defineStore('main', {
                 throw new Error(`level ${levelName} not found, can not save stats`)
             }
 
-            // Only save if this is better than existing stats or first time
-            const existingStats = this.levelStats[levelName]
-            if (
-                !existingStats ||
-                stats.cycles < existingStats.cycles ||
-                stats.blocksUsed < existingStats.blocksUsed
-            ) {
-                this.levelStats[levelName] = stats
-                const level = this.levels[levelName]
+            const level = this.levels[levelName]
+
+            // Determine the current best: either saved stats, predefined stats, or both
+            const savedStats = this.levelStats[levelName]
+            const predefinedStats = level?.bestStats
+
+            // Start with existing stats or create new ones
+            const bestStats: LevelStats = savedStats
+                ? { ...savedStats }
+                : predefinedStats
+                  ? { ...predefinedStats }
+                  : { ...stats }
+
+            // Track each aspect independently - keep the best (lowest) value for each
+            let hasImprovement = false
+
+            if (stats.cycles < bestStats.cycles) {
+                bestStats.cycles = stats.cycles
+                hasImprovement = true
+            }
+
+            if (stats.blocksUsed < bestStats.blocksUsed) {
+                bestStats.blocksUsed = stats.blocksUsed
+                hasImprovement = true
+            }
+
+            if (stats.maxConcurrency < bestStats.maxConcurrency) {
+                bestStats.maxConcurrency = stats.maxConcurrency
+                hasImprovement = true
+            }
+
+            // Save if any aspect improved
+            if (hasImprovement) {
+                this.levelStats[levelName] = bestStats
                 if (level) {
-                    level.stats = stats
+                    level.stats = bestStats
                 }
                 localStorage.setItem('levelStats', JSON.stringify(this.levelStats))
             }

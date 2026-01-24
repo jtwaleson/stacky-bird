@@ -6,6 +6,11 @@ export default {
     description: 'Pick up a number, make it one larger and bring it to the finish.',
     unlocksLevels: ['2009'],
     unlocksInstructions: ['ADD1'],
+    bestStats: {
+        cycles: 104,
+        blocksUsed: 3,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 4, y: 4, ...instructions['ADD1'] },

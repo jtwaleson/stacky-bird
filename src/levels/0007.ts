@@ -6,6 +6,11 @@ export default {
     description: 'Find your way',
     unlocksLevels: ['0008'],
     unlocksInstructions: [],
+    bestStats: {
+        cycles: 31,
+        blocksUsed: 6,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
 

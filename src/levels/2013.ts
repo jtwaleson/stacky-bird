@@ -7,6 +7,11 @@ export default {
         'Read all the numbers in the input, and just return the total amount of numbers read.',
     unlocksLevels: ['2014'],
     unlocksInstructions: ['GEQ1'],
+    bestStats: {
+        cycles: 117,
+        blocksUsed: 3,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 7, y: 7, ...instructions['FINI'] },

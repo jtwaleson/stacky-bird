@@ -6,6 +6,11 @@ export default {
     description: 'Pick up a number, copy it and finish with two numbers',
     unlocksLevels: ['2007'],
     unlocksInstructions: ['DUP1'],
+    bestStats: {
+        cycles: 117,
+        blocksUsed: 3,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 4, y: 4, ...instructions['DUP1'] },

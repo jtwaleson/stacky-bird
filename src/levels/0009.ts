@@ -7,6 +7,11 @@ export default {
     unlocksLevels: ['2001', '1001'],
     unlocksInstructions: [],
     unlocksSpeed: 'fast' as const,
+    bestStats: {
+        cycles: 12,
+        blocksUsed: 2,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 3, y: 1, ...instructions['BLCK'] },

@@ -1,6 +1,5 @@
 {
   "board": {
-    "best": "Best",
     "blocks": "Blocks",
     "blocksUsed": "Blocks Used",
     "cancel": "Cancel",
@@ -14,6 +13,7 @@
     "levelCompleted": "You finished the level, great job!",
     "maxConcurrency": "Amount of Birds",
     "noBlocksAvailable": "No blocks available",
+    "ourBest": "Our best",
     "performanceStats": "Performance Stats",
     "playSpeed": "Play",
     "resetConfirm": "This will reset your level, are you sure?",
@@ -24,12 +24,13 @@
     "tapHintDesktop": "Tap the board to place a block, or drag from the left.",
     "testCaseDone": "Test case {testCaseIndex} done!",
     "testCases": "Test cases",
+    "this": "This",
     "title": "Board",
     "turboSpeed": "Turbo",
     "unlockedBlocks": "You have unlocked the following blocks",
     "unlockedLevels": "You have unlocked the following levels",
     "unlockedSpeed": "You have unlocked a new speed",
-    "yours": "Yours"
+    "yourBest": "Your best"
   },
   "common": {
     "unlocks": "Unlocks"
@@ -226,7 +227,7 @@
       "hint": "Read all numbers and use PLUS."
     },
     "2012": {
-      "description": "Read all the numbers in the input, and sum them all up. Now, there are also cases without any input. In which case 0 should be returned.",
+      "description": "Read all the numbers in the input, and sum them all up. Now, there are also cases without any input. In which case 0 should be brought to the finish.",
       "displayName": "Sum II",
       "hint": "Read all numbers and use PLUS."
     },

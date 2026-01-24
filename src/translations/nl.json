@@ -1,6 +1,5 @@
 {
   "board": {
-    "best": "Beste",
     "blocks": "Blokken",
     "blocksUsed": "Blokken Gebruikt",
     "cancel": "Annuleren",
@@ -14,6 +13,7 @@
     "levelCompleted": "Je hebt het level af! Goed gedaan!",
     "maxConcurrency": "Aantal Vogels",
     "noBlocksAvailable": "Geen blokken beschikbaar",
+    "ourBest": "Onze beste",
     "performanceStats": "Prestatie Statistieken",
     "playSpeed": "Afspelen",
     "resetConfirm": "Dit verwijdert alles van het bord, weet je het zeker?",
@@ -24,12 +24,13 @@
     "tapHintDesktop": "Tik op het bord om een blok te plaatsen, of sleep van links.",
     "testCaseDone": "Test {testCaseIndex} is goed!",
     "testCases": "Tests",
+    "this": "Deze",
     "title": "Bord",
     "turboSpeed": "Turbo",
     "unlockedBlocks": "Je kunt nu het volgende blok gebruiken",
     "unlockedLevels": "Je kan nu door naar dit level",
     "unlockedSpeed": "Je hebt een nieuwe snelheid ontgrendeld",
-    "yours": "Jouw"
+    "yourBest": "Jouw beste"
   },
   "common": {
     "unlocks": "Ontgrendelt"
@@ -226,7 +227,7 @@
       "hint": "Lees alle getallen en gebruik PLUS."
     },
     "2012": {
-      "description": "Lees alle nummers in de invoer en tel ze allemaal op. Nu zijn er ook gevallen zonder invoer. In dat geval moet 0 worden geretourneerd.",
+      "description": "Lees alle nummers in de invoer en tel ze allemaal op. Nu zijn er ook gevallen zonder invoer. In dat geval moet 0 naar de finish worden gebracht.",
       "displayName": "Som II",
       "hint": "Lees alle getallen en gebruik PLUS."
     },

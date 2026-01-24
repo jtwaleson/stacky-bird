@@ -6,6 +6,11 @@ export default {
     description: 'Avoid the monsters',
     unlocksLevels: ['1003'],
     unlocksInstructions: [],
+    bestStats: {
+        cycles: 6,
+        blocksUsed: 1,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 4, ...instructions['STRT'] },
         { x: 7, y: 4, ...instructions['FINI'] },

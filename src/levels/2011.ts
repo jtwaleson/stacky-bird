@@ -8,6 +8,11 @@ export default {
     unlocksLevels: ['2012'],
     unlocksInstructions: ['INSZ'],
     unlocksSpeed: 'turbo' as const,
+    bestStats: {
+        cycles: 397,
+        blocksUsed: 8,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 3, y: 3, ...instructions['INSZ'] },

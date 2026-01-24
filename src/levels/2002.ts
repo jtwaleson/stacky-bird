@@ -6,6 +6,11 @@ export default {
     description: 'Pick up two numbers and deliver them to the finish line',
     unlocksLevels: ['2003'],
     unlocksInstructions: [],
+    bestStats: {
+        cycles: 70,
+        blocksUsed: 1,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 4, ...instructions['STRT'] },
         { x: 3, y: 4, ...instructions['READ'] },

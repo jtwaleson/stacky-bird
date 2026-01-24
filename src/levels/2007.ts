@@ -7,6 +7,11 @@ export default {
         "Pick up a number, if it is less than 1, drop it. If it's higher, bring it to the finish line.",
     unlocksLevels: ['2008'],
     unlocksInstructions: ['VOID'],
+    bestStats: {
+        cycles: 104,
+        blocksUsed: 5,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 3, y: 2, ...instructions['DUP1'] },

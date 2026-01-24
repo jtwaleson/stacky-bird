@@ -6,6 +6,11 @@ export default {
     description: 'There will be two numbers in the input. Return only the largest number.',
     unlocksLevels: ['2016'],
     unlocksInstructions: ['MINU'],
+    bestStats: {
+        cycles: 143,
+        blocksUsed: 19,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 4, y: 4, ...instructions['MINU'] },

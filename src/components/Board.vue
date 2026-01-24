@@ -16,115 +16,170 @@
                 <div class="stats-section">
                     <h3><T textKey="board.performanceStats" /></h3>
 
-                    <div class="stats-grid">
-                        <!-- Cycles -->
-                        <div class="stat-item">
-                            <div class="stat-label">
-                                <T textKey="board.cycles" />
-                                <span class="less-is-better"
-                                    ><T textKey="board.lessIsBetter"
-                                /></span>
-                            </div>
+                    <div class="stats-list">
+                        <!-- Header Row -->
+                        <div class="stat-header-row">
+                            <div class="stat-label"></div>
                             <div class="stat-bars">
                                 <div class="bar-wrapper">
-                                    <div class="stat-bar-container">
-                                        <div
-                                            class="stat-bar your-bar"
-                                            :style="{
-                                                height: `${getCyclesPercentage(cyclesCount)}%`,
-                                            }"
-                                        ></div>
-                                    </div>
-                                    <div class="bar-value your-value">{{ cyclesCount }}</div>
-                                    <div class="bar-label"><T textKey="board.yours" /></div>
+                                    <div class="header-label"><T textKey="board.this" /></div>
                                 </div>
                                 <div class="bar-wrapper">
-                                    <div class="stat-bar-container">
-                                        <div
-                                            class="stat-bar best-bar"
-                                            :style="{
-                                                height: `${getCyclesPercentage(bestStats.cycles)}%`,
-                                            }"
-                                        ></div>
-                                    </div>
-                                    <div class="bar-value best-value">{{ bestStats.cycles }}</div>
-                                    <div class="bar-label"><T textKey="board.best" /></div>
+                                    <div class="header-label"><T textKey="board.yourBest" /></div>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="header-label"><T textKey="board.ourBest" /></div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Blocks Used -->
-                        <div class="stat-item">
+                        <div class="stat-row">
                             <div class="stat-label">
                                 <T textKey="board.blocksUsed" />
-                                <span class="less-is-better"
-                                    ><T textKey="board.lessIsBetter"
-                                /></span>
                             </div>
                             <div class="stat-bars">
                                 <div class="bar-wrapper">
                                     <div class="stat-bar-container">
                                         <div
-                                            class="stat-bar your-bar"
+                                            class="stat-bar this-bar"
                                             :style="{
                                                 height: `${getBlocksPercentage(userPlacedTiles.length)}%`,
                                             }"
                                         ></div>
                                     </div>
-                                    <div class="bar-value your-value">
+                                    <div class="bar-value this-value">
                                         {{ userPlacedTiles.length }}
                                     </div>
-                                    <div class="bar-label"><T textKey="board.yours" /></div>
                                 </div>
                                 <div class="bar-wrapper">
                                     <div class="stat-bar-container">
                                         <div
-                                            class="stat-bar best-bar"
+                                            v-if="savedStats"
+                                            class="stat-bar your-best-bar"
                                             :style="{
-                                                height: `${getBlocksPercentage(bestStats.blocksUsed)}%`,
+                                                height: `${getBlocksPercentage(savedStats.blocksUsed)}%`,
                                             }"
                                         ></div>
                                     </div>
-                                    <div class="bar-value best-value">
-                                        {{ bestStats.blocksUsed }}
+                                    <div class="bar-value your-best-value">
+                                        {{ savedStats ? savedStats.blocksUsed : '?' }}
                                     </div>
-                                    <div class="bar-label"><T textKey="board.best" /></div>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="stat-bar-container">
+                                        <div
+                                            v-if="props.bestStats"
+                                            class="stat-bar our-best-bar"
+                                            :style="{
+                                                height: `${getBlocksPercentage(props.bestStats.blocksUsed)}%`,
+                                            }"
+                                        ></div>
+                                    </div>
+                                    <div class="bar-value our-best-value">
+                                        {{ props.bestStats ? props.bestStats.blocksUsed : '?' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cycles -->
+                        <div class="stat-row">
+                            <div class="stat-label">
+                                <T textKey="board.cycles" />
+                            </div>
+                            <div class="stat-bars">
+                                <div class="bar-wrapper">
+                                    <div class="stat-bar-container">
+                                        <div
+                                            class="stat-bar this-bar"
+                                            :style="{
+                                                height: `${getCyclesPercentage(cyclesCount)}%`,
+                                            }"
+                                        ></div>
+                                    </div>
+                                    <div class="bar-value this-value">{{ cyclesCount }}</div>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="stat-bar-container">
+                                        <div
+                                            v-if="savedStats"
+                                            class="stat-bar your-best-bar"
+                                            :style="{
+                                                height: `${getCyclesPercentage(savedStats.cycles)}%`,
+                                            }"
+                                        ></div>
+                                    </div>
+                                    <div class="bar-value your-best-value">
+                                        {{ savedStats ? savedStats.cycles : '?' }}
+                                    </div>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="stat-bar-container">
+                                        <div
+                                            v-if="props.bestStats"
+                                            class="stat-bar our-best-bar"
+                                            :style="{
+                                                height: `${getCyclesPercentage(props.bestStats.cycles)}%`,
+                                            }"
+                                        ></div>
+                                    </div>
+                                    <div class="bar-value our-best-value">
+                                        {{ props.bestStats ? props.bestStats.cycles : '?' }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Max Concurrency -->
-                        <div class="stat-item">
+                        <div class="stat-row">
                             <div class="stat-label"><T textKey="board.maxConcurrency" /></div>
                             <div class="stat-bars">
                                 <div class="bar-wrapper">
                                     <div class="stat-bar-container">
                                         <div
-                                            class="stat-bar your-bar"
+                                            class="stat-bar this-bar"
                                             :style="{
                                                 height: `${getConcurrencyPercentage(maxBirdConcurrency)}%`,
                                             }"
                                         ></div>
                                     </div>
-                                    <div class="bar-value your-value">{{ maxBirdConcurrency }}</div>
-                                    <div class="bar-label"><T textKey="board.yours" /></div>
+                                    <div class="bar-value this-value">{{ maxBirdConcurrency }}</div>
                                 </div>
                                 <div class="bar-wrapper">
                                     <div class="stat-bar-container">
                                         <div
-                                            class="stat-bar best-bar"
+                                            v-if="savedStats"
+                                            class="stat-bar your-best-bar"
                                             :style="{
-                                                height: `${getConcurrencyPercentage(bestStats.maxConcurrency)}%`,
+                                                height: `${getConcurrencyPercentage(savedStats.maxConcurrency)}%`,
                                             }"
                                         ></div>
                                     </div>
-                                    <div class="bar-value best-value">
-                                        {{ bestStats.maxConcurrency }}
+                                    <div class="bar-value your-best-value">
+                                        {{ savedStats ? savedStats.maxConcurrency : '?' }}
                                     </div>
-                                    <div class="bar-label"><T textKey="board.best" /></div>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="stat-bar-container">
+                                        <div
+                                            v-if="props.bestStats"
+                                            class="stat-bar our-best-bar"
+                                            :style="{
+                                                height: `${getConcurrencyPercentage(props.bestStats.maxConcurrency)}%`,
+                                            }"
+                                        ></div>
+                                    </div>
+                                    <div class="bar-value our-best-value">
+                                        {{ props.bestStats ? props.bestStats.maxConcurrency : '?' }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="stats-subtitle">
+                        <T textKey="board.lessIsBetter" />
                     </div>
 
                     <div class="stats-hint">
@@ -650,6 +705,7 @@ const props = withDefaults(
         wikiMode?: boolean
         active?: boolean
         stats?: LevelStats
+        bestStats?: LevelStats
     }>(),
     {
         active: true,
@@ -696,6 +752,7 @@ const activeMode = ref<'regular' | 'fast' | 'lightning' | null>(null)
 // Performance tracking
 const cyclesCount = ref(0)
 const maxBirdConcurrency = ref(0)
+const previousBestStats = ref<(typeof store.levelStats)[string] | null>(null)
 
 const showTapHint = computed(() => {
     return (
@@ -763,30 +820,50 @@ const speedUnlockLevel = computed(() => {
     return levels
 })
 
-// Generate fake "best" stats (slightly better than current)
+// Get best stats - uses previousBestStats which is captured before saving new stats
+// Falls back to level's predefined bestStats if available
 const bestStats = computed(() => {
-    const cyclesReduction = Math.floor(cyclesCount.value * 0.15) + Math.floor(Math.random() * 3) + 1
-    const blocksReduction = Math.max(1, Math.floor(userPlacedTiles.value.length * 0.2))
-    return {
-        cycles: Math.max(1, cyclesCount.value - cyclesReduction),
-        blocksUsed: Math.max(1, userPlacedTiles.value.length - blocksReduction),
-        maxConcurrency: maxBirdConcurrency.value,
+    if (previousBestStats.value) {
+        return previousBestStats.value
     }
+    // Use level's predefined best stats if available
+    if (props.bestStats) {
+        return props.bestStats
+    }
+    return null
+})
+
+// Get user's saved stats from localStorage for this level
+const savedStats = computed(() => {
+    if (!props.name) return null
+    return store.levelStats[props.name] || null
 })
 
 // Calculate percentages for bar graphs (lower is better for cycles and blocks)
 const getCyclesPercentage = (value: number) => {
-    const max = Math.max(cyclesCount.value, bestStats.value.cycles)
+    const values = [cyclesCount.value, 10] // Start with current and min height
+    if (savedStats.value) values.push(savedStats.value.cycles)
+    if (props.bestStats) values.push(props.bestStats.cycles)
+    const max = Math.max(...values)
+    if (max === 0) return 100 // Avoid division by zero
     return (value / max) * 100
 }
 
 const getBlocksPercentage = (value: number) => {
-    const max = Math.max(userPlacedTiles.value.length, bestStats.value.blocksUsed)
+    const values = [userPlacedTiles.value.length, 5] // Start with current and min height
+    if (savedStats.value) values.push(savedStats.value.blocksUsed)
+    if (props.bestStats) values.push(props.bestStats.blocksUsed)
+    const max = Math.max(...values)
+    if (max === 0) return 100 // Avoid division by zero
     return (value / max) * 100
 }
 
 const getConcurrencyPercentage = (value: number) => {
-    const max = Math.max(maxBirdConcurrency.value, bestStats.value.maxConcurrency, 1)
+    const values = [maxBirdConcurrency.value, 5] // Start with current and min height
+    if (savedStats.value) values.push(savedStats.value.maxConcurrency)
+    if (props.bestStats) values.push(props.bestStats.maxConcurrency)
+    const max = Math.max(...values)
+    if (max === 0) return 100 // Avoid division by zero
     return (value / max) * 100
 }
 
@@ -1554,6 +1631,26 @@ const finish = () => {
         } else {
             // Don't reset in normal mode - keep bird visible until user clicks OK
             if (props.name) {
+                // Capture previous best stats before saving new ones (for comparison in modal)
+                // Merge saved stats and predefined stats, picking the best (lowest) value for each metric
+                const savedStats = store.levelStats[props.name]
+                const predefinedStats = props.bestStats
+
+                if (savedStats && predefinedStats) {
+                    // Both exist - pick the best of each metric
+                    previousBestStats.value = {
+                        cycles: Math.min(savedStats.cycles, predefinedStats.cycles),
+                        blocksUsed: Math.min(savedStats.blocksUsed, predefinedStats.blocksUsed),
+                        maxConcurrency: Math.min(
+                            savedStats.maxConcurrency,
+                            predefinedStats.maxConcurrency,
+                        ),
+                    }
+                } else {
+                    // Use whichever exists
+                    previousBestStats.value = savedStats || predefinedStats || null
+                }
+
                 store.completeLevel({
                     levelName: props.name,
                     isCompleted: true,
@@ -1575,8 +1672,8 @@ const finish = () => {
             showLevelCompletedModal.value = true
         }
     } else {
-        // More test cases to go - reset board for next test case
-        reset()
+        // More test cases to go - reset board for next test case (but keep stats)
+        reset(true)
         selectedTestCase.value = nextTestCase
     }
 }
@@ -1804,7 +1901,7 @@ const resetButton = async () => {
     reset()
 }
 
-const reset = () => {
+const reset = (keepStats = false) => {
     stepFunctionMutex.value = false
     loadedCreeps.value = cloneDeep(props.creeps)
     for (const tile of userPlacedTiles.value) {
@@ -1814,9 +1911,12 @@ const reset = () => {
     birds.value = []
     input.value = []
     originalInput.value = []
-    // Reset performance tracking
-    cyclesCount.value = 0
-    maxBirdConcurrency.value = 0
+    // Reset performance tracking (unless keeping stats for multi-test-case levels)
+    if (!keepStats) {
+        cyclesCount.value = 0
+        maxBirdConcurrency.value = 0
+        previousBestStats.value = null
+    }
     if (flappingInterval.value) {
         clearInterval(flappingInterval.value)
     }
@@ -2874,48 +2974,59 @@ onBeforeUnmount(() => {
 }
 
 .stats-section h3 {
-    margin: 0 0 15px 0;
+    margin: 0 0 10px 0;
     color: var(--heading-color);
     font-size: 18px;
 }
 
-.stats-grid {
-    display: flex;
-    gap: 20px;
-    justify-content: space-around;
-    margin-bottom: 15px;
+.stats-subtitle {
+    font-size: 11px;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
-.stat-item {
-    flex: 1;
+.stats-list {
     display: flex;
     flex-direction: column;
+    gap: 20px;
+    margin-bottom: 0;
+}
+
+.stat-header-row {
+    display: flex;
     align-items: center;
+    gap: 20px;
+    margin-bottom: -5px;
+}
+
+.stat-header-row .stat-bars {
+    height: auto;
+    align-items: center;
+}
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .stat-label {
     font-weight: 600;
     color: var(--heading-color);
-    font-size: 13px;
-    margin-bottom: 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.less-is-better {
-    font-weight: 400;
-    font-size: 10px;
-    color: var(--text-color);
-    opacity: 0.7;
+    font-size: 14px;
+    min-width: 120px;
+    text-align: left;
 }
 
 .stat-bars {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     align-items: flex-end;
-    height: 150px;
+    height: 100px;
+    flex: 1;
 }
 
 .bar-wrapper {
@@ -2926,8 +3037,8 @@ onBeforeUnmount(() => {
 }
 
 .stat-bar-container {
-    width: 50px;
-    height: 120px;
+    width: 60px;
+    height: 80px;
     background: var(--tile-bg);
     border-radius: 6px;
     display: flex;
@@ -2944,32 +3055,49 @@ onBeforeUnmount(() => {
     min-height: 2px;
 }
 
-.your-bar {
+.this-bar {
     background: linear-gradient(180deg, #4a90e2 0%, #357abd 100%);
 }
 
-.best-bar {
+.your-best-bar {
+    background: linear-gradient(180deg, #f5a623 0%, #d68910 100%);
+}
+
+.our-best-bar {
     background: linear-gradient(180deg, #50c878 0%, #3aa05f 100%);
 }
 
 .bar-value {
     font-weight: 700;
-    font-size: 14px;
+    font-size: 16px;
     margin-top: 5px;
 }
 
-.your-value {
+.this-value {
     color: #4a90e2;
 }
 
-.best-value {
+.your-best-value {
+    color: #f5a623;
+}
+
+.our-best-value {
     color: #50c878;
 }
 
+.header-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--heading-color);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
 .bar-label {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-color);
-    margin-top: 2px;
+    margin-top: 5px;
+    white-space: nowrap;
 }
 
 .stats-hint {

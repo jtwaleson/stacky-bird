@@ -8,6 +8,11 @@ export default {
     rows: 7,
     cols: 7,
     unlocksInstructions: [],
+    bestStats: {
+        cycles: 10,
+        blocksUsed: 4,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 4, y: 1, ...instructions['BLCK'] },

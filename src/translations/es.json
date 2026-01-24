@@ -1,6 +1,5 @@
 {
   "board": {
-    "best": "Mejor",
     "blocks": "Bloques",
     "blocksUsed": "Bloques Usados",
     "cancel": "Cancelar",
@@ -14,6 +13,7 @@
     "levelCompleted": "Has terminado el nivel, ¡buen trabajo!",
     "maxConcurrency": "Cantidad de Pájaros",
     "noBlocksAvailable": "No hay bloques disponibles",
+    "ourBest": "Nuestro mejor",
     "performanceStats": "Estadísticas de Rendimiento",
     "playSpeed": "Reproducir",
     "resetConfirm": "Esto reiniciará tu nivel, ¿estás seguro?",
@@ -24,12 +24,13 @@
     "tapHintDesktop": "Toca el tablero para colocar un bloque, o arrastra desde la izquierda.",
     "testCaseDone": "¡Caso de prueba {testCaseIndex} hecho!",
     "testCases": "Casos de prueba",
+    "this": "Este",
     "title": "Tablero",
     "turboSpeed": "Turbo",
     "unlockedBlocks": "Has desbloqueado los siguientes bloques",
     "unlockedLevels": "Has desbloqueado los siguientes niveles",
     "unlockedSpeed": "Has desbloqueado una nueva velocidad",
-    "yours": "Tuyo"
+    "yourBest": "Tu mejor"
   },
   "common": {
     "unlocks": "Desbloquea"
@@ -226,7 +227,7 @@
       "hint": "Lee todos los números y usa PLUS."
     },
     "2012": {
-      "description": "Lee todos los números en la entrada y súmalos todos. Ahora también hay casos sin ninguna entrada. En ese caso se debe devolver 0.",
+      "description": "Lee todos los números en la entrada y súmalos todos. Ahora también hay casos sin ninguna entrada. En ese caso se debe llevar 0 a la meta.",
       "displayName": "Suma II",
       "hint": "Lee todos los números y usa PLUS."
     },

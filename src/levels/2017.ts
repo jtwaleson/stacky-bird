@@ -6,6 +6,11 @@ export default {
     description: 'Take two numbers in the input, say 5 and 1. Return four numbers, 1 5 1 5',
     unlocksLevels: ['2018'],
     unlocksInstructions: ['DUP2'],
+    bestStats: {
+        cycles: 130,
+        blocksUsed: 16,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 7, y: 7, ...instructions['FINI'] },

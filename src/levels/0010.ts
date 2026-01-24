@@ -6,6 +6,11 @@ export default {
     description: 'In this level we introduce randomness, you have to escape it!',
     unlocksLevels: ['0101'],
     unlocksInstructions: ['JMP1'],
+    bestStats: {
+        cycles: 9,
+        blocksUsed: 3,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 4, ...instructions['STRT'] },
         { x: 4, y: 4, ...instructions['YOLO'] },

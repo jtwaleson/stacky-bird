@@ -6,6 +6,11 @@ export default {
     description: 'Get your way around the maze',
     unlocksLevels: ['0009', '0010'],
     unlocksInstructions: [],
+    bestStats: {
+        cycles: 17,
+        blocksUsed: 8,
+        maxConcurrency: 1,
+    },
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 1, y: 2, ...instructions['BLCK'] },
