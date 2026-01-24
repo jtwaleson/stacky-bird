@@ -210,8 +210,13 @@ export async function playSoundLevelComplete() {
 // Start/finish tiles
 export async function playSoundStart() {
     await ensureAudio()
-    synth?.triggerAttackRelease('C5', '0.1', Tone.now())
-    synth?.triggerAttackRelease('G5', '0.15', Tone.now() + 0.1)
+    // Exciting startup fanfare - ascending arpeggio
+    synth?.triggerAttackRelease('C4', '0.08', Tone.now())
+    synth?.triggerAttackRelease('E4', '0.08', Tone.now() + 0.08)
+    synth?.triggerAttackRelease('G4', '0.08', Tone.now() + 0.16)
+    synth?.triggerAttackRelease('C5', '0.12', Tone.now() + 0.24)
+    synth?.triggerAttackRelease('E5', '0.12', Tone.now() + 0.36)
+    synth?.triggerAttackRelease('G5', '0.2', Tone.now() + 0.48)
 }
 
 export async function playSoundFinish() {
