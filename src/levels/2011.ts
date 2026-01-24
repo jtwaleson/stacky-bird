@@ -7,6 +7,7 @@ export default {
         'Read all the numbers in the input, and sum them all up. Note, there is always at least one item in the input.',
     unlocksLevels: ['2012'],
     unlocksInstructions: ['INSZ'],
+    unlocksSpeed: 'turbo' as const,
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 3, y: 3, ...instructions['INSZ'] },

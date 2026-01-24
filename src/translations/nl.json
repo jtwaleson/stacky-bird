@@ -1,26 +1,35 @@
 {
   "board": {
+    "best": "Beste",
     "blocks": "Blokken",
+    "blocksUsed": "Blokken Gebruikt",
     "cancel": "Annuleren",
+    "cycles": "Cycli",
     "dragHint": "Sleep de blokken naar rechts.",
     "expected": "Verwachtte uitkomst",
     "fastSpeed": "Snel",
+    "futureBlocksHint": "Snellere oplossingen zijn mogelijk als je andere blokken ontgrendeld!",
     "input": "Input",
+    "lessIsBetter": "(minder is beter)",
     "levelCompleted": "Je hebt het level af! Goed gedaan!",
+    "maxConcurrency": "Aantal Vogels",
     "noBlocksAvailable": "Geen blokken beschikbaar",
+    "performanceStats": "Prestatie Statistieken",
     "playSpeed": "Afspelen",
     "resetConfirm": "Dit verwijdert alles van het bord, weet je het zeker?",
     "searchBlocks": "Zoek blokken...",
     "selectBlock": "Selecteer een blok",
     "showHint": "Toon hint",
     "tapHint": "Tik op het bord om een blok te plaatsen.",
+    "tapHintDesktop": "Tik op het bord om een blok te plaatsen, of sleep van links.",
     "testCaseDone": "Test {testCaseIndex} is goed!",
     "testCases": "Tests",
     "title": "Bord",
     "turboSpeed": "Turbo",
     "unlockedBlocks": "Je kunt nu het volgende blok gebruiken",
     "unlockedLevels": "Je kan nu door naar dit level",
-    "unlockedSpeed": "Je hebt een nieuwe snelheid ontgrendeld"
+    "unlockedSpeed": "Je hebt een nieuwe snelheid ontgrendeld",
+    "yours": "Jouw"
   },
   "common": {
     "unlocks": "Ontgrendelt"

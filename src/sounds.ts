@@ -91,7 +91,10 @@ export async function playSoundStackClear() {
 // Block/tile operations
 export async function playSoundBlockPlace() {
     await ensureAudio()
-    synth?.triggerAttackRelease('C4', '0.08', Tone.now())
+    // Play a happy upward arpeggio (C major chord)
+    synth?.triggerAttackRelease('C5', '0.08', Tone.now())
+    synth?.triggerAttackRelease('E5', '0.08', Tone.now() + 0.04)
+    synth?.triggerAttackRelease('G5', '0.12', Tone.now() + 0.08)
 }
 
 export async function playSoundBlockRemove() {

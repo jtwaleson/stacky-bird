@@ -17,6 +17,12 @@ interface Instruction {
 
 export type Speed = 'play' | 'fast' | 'turbo'
 
+export interface LevelStats {
+    cycles: number
+    blocksUsed: number
+    maxConcurrency: number
+}
+
 export interface Level {
     name: string
     completed?: boolean
@@ -26,6 +32,7 @@ export interface Level {
     unlocksInstructions?: string[]
     unlocksLevels?: string[]
     unlocksSpeed?: Speed
+    stats?: LevelStats
     [key: string]: unknown
 }
 
@@ -34,6 +41,7 @@ export const useStore = defineStore('main', {
         instructions: {} as Record<string, Instruction>,
         levels: {} as Record<string, Level>,
         locale: languageCode,
+        levelStats: {} as Record<string, LevelStats>,
     }),
     getters: {
         languages() {
@@ -155,9 +163,21 @@ export const useStore = defineStore('main', {
                 localStorage.removeItem('completedLevels')
             }
 
+            // Load level stats
+            try {
+                const stored = localStorage.getItem('levelStats')
+                if (stored) {
+                    this.levelStats = JSON.parse(stored)
+                }
+            } catch (e) {
+                console.warn('Failed to parse levelStats from localStorage, clearing it', e)
+                localStorage.removeItem('levelStats')
+            }
+
             this.levels[level.name] = {
                 ...level,
                 completed: completedLevels.indexOf(level.name) > -1,
+                stats: this.levelStats[level.name],
             }
         },
         completeLevel({ levelName, isCompleted }: { levelName: string; isCompleted: boolean }) {
@@ -175,6 +195,26 @@ export const useStore = defineStore('main', {
                 }
             }
             localStorage.setItem('completedLevels', JSON.stringify(completedLevels))
+        },
+        saveLevelStats({ levelName, stats }: { levelName: string; stats: LevelStats }) {
+            if (!(levelName in this.levels)) {
+                throw new Error(`level ${levelName} not found, can not save stats`)
+            }
+
+            // Only save if this is better than existing stats or first time
+            const existingStats = this.levelStats[levelName]
+            if (
+                !existingStats ||
+                stats.cycles < existingStats.cycles ||
+                stats.blocksUsed < existingStats.blocksUsed
+            ) {
+                this.levelStats[levelName] = stats
+                const level = this.levels[levelName]
+                if (level) {
+                    level.stats = stats
+                }
+                localStorage.setItem('levelStats', JSON.stringify(this.levelStats))
+            }
         },
     },
 })

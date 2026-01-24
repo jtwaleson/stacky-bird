@@ -1,26 +1,35 @@
 {
   "board": {
+    "best": "Mejor",
     "blocks": "Bloques",
+    "blocksUsed": "Bloques Usados",
     "cancel": "Cancelar",
+    "cycles": "Ciclos",
     "dragHint": "Arrastra al tablero de la derecha.",
     "expected": "Salida esperada",
     "fastSpeed": "Rápido",
+    "futureBlocksHint": "¡Soluciones más rápidas podrían ser posibles una vez desbloquees otros bloques!",
     "input": "Entrada",
+    "lessIsBetter": "(menos es mejor)",
     "levelCompleted": "Has terminado el nivel, ¡buen trabajo!",
+    "maxConcurrency": "Cantidad de Pájaros",
     "noBlocksAvailable": "No hay bloques disponibles",
+    "performanceStats": "Estadísticas de Rendimiento",
     "playSpeed": "Reproducir",
     "resetConfirm": "Esto reiniciará tu nivel, ¿estás seguro?",
     "searchBlocks": "Buscar bloques...",
     "selectBlock": "Selecciona un bloque",
     "showHint": "Mostrar pista",
     "tapHint": "Toca el tablero para colocar un bloque.",
+    "tapHintDesktop": "Toca el tablero para colocar un bloque, o arrastra desde la izquierda.",
     "testCaseDone": "¡Caso de prueba {testCaseIndex} hecho!",
     "testCases": "Casos de prueba",
     "title": "Tablero",
     "turboSpeed": "Turbo",
     "unlockedBlocks": "Has desbloqueado los siguientes bloques",
     "unlockedLevels": "Has desbloqueado los siguientes niveles",
-    "unlockedSpeed": "Has desbloqueado una nueva velocidad"
+    "unlockedSpeed": "Has desbloqueado una nueva velocidad",
+    "yours": "Tuyo"
   },
   "common": {
     "unlocks": "Desbloquea"

@@ -1,26 +1,35 @@
 {
   "board": {
+    "best": "Best",
     "blocks": "Blocks",
+    "blocksUsed": "Blocks Used",
     "cancel": "Cancel",
+    "cycles": "Cycles",
     "dragHint": "Drag to the board on the right.",
     "expected": "Expected",
     "fastSpeed": "Fast",
+    "futureBlocksHint": "Faster solutions might be possible once you unlock other blocks!",
     "input": "Input",
+    "lessIsBetter": "(less is better)",
     "levelCompleted": "You finished the level, great job!",
+    "maxConcurrency": "Amount of Birds",
     "noBlocksAvailable": "No blocks available",
+    "performanceStats": "Performance Stats",
     "playSpeed": "Play",
     "resetConfirm": "This will reset your level, are you sure?",
     "searchBlocks": "Search blocks...",
     "selectBlock": "Select a block",
     "showHint": "Show hint",
     "tapHint": "Tap the board to place a block.",
+    "tapHintDesktop": "Tap the board to place a block, or drag from the left.",
     "testCaseDone": "Test case {testCaseIndex} done!",
     "testCases": "Test cases",
     "title": "Board",
     "turboSpeed": "Turbo",
     "unlockedBlocks": "You have unlocked the following blocks",
     "unlockedLevels": "You have unlocked the following levels",
-    "unlockedSpeed": "You have unlocked a new speed"
+    "unlockedSpeed": "You have unlocked a new speed",
+    "yours": "Yours"
   },
   "common": {
     "unlocks": "Unlocks"

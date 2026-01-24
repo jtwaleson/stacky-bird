@@ -6,7 +6,6 @@ export default {
     description: 'Pick up two numbers and deliver them to the finish line',
     unlocksLevels: ['2004'],
     unlocksInstructions: [],
-    unlocksSpeed: 'turbo' as const,
     levelTiles: [
         { x: 1, y: 4, ...instructions['STRT'] },
         { x: 4, y: 4, ...instructions['READ'] },
