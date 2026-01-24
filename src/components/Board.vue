@@ -1328,7 +1328,7 @@ const isTestCaseEqual = (a: TestCase | null | undefined, b: TestCase | null | un
 
 const finish = () => {
     sounds.playSoundLevelComplete()
-    // Don't reset() here - keep bird visible on FINI tile until user clicks OK
+
     let allLevelsFinished = true
     let nextTestCase: TestCase | null = null
 
@@ -1372,6 +1372,7 @@ const finish = () => {
         }
     }
     if (allLevelsFinished) {
+        // All test cases complete - keep bird visible
         shouldStopPlaying.value = true
         if (props.wikiMode) {
             console.log('Board finished in wiki mode, emitting finishLevel')
@@ -1398,6 +1399,8 @@ const finish = () => {
             showLevelCompletedModal.value = true
         }
     } else {
+        // More test cases to go - reset board for next test case
+        reset()
         selectedTestCase.value = nextTestCase
     }
 }
