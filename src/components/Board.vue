@@ -1468,11 +1468,10 @@ const play = async () => {
     }
     playing.value = true
     while (playing.value) {
-        await step()
         if (shouldStopPlaying.value) {
             break
         }
-        await sleep(speed.value)
+        await step()
     }
     playing.value = false
     shouldStopPlaying.value = false
@@ -1510,11 +1509,14 @@ const step = async () => {
             input.value.length === originalInput.value.length &&
             instruction?.name === 'STRT'
 
+        // Play sound immediately when bird is at the block (fire and forget, don't await)
+        if (!isFirstStep && instruction && instruction.name) {
+            sounds.playSoundForInstruction(instruction.name).catch(() => {
+                // Ignore sound errors
+            })
+        }
+
         if (!isFirstStep && instruction && instruction.execute) {
-            // Play sound for this instruction
-            if (instruction.name) {
-                sounds.playSoundForInstruction(instruction.name)
-            }
             shouldMove = await instruction.execute(
                 bird,
                 {
@@ -1563,6 +1565,12 @@ const step = async () => {
             await moveBird(bird)
         }
     }
+
+    // Sleep after movement so next step waits before executing the new tile
+    if (playing.value && !shouldStopPlaying.value) {
+        await sleep(speed.value)
+    }
+
     for (const creep of loadedCreeps.value) {
         if (!birdIsLoaded.value) {
             break
