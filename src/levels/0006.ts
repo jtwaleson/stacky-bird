@@ -6,6 +6,7 @@ export default {
     description: 'In this level we have to go all the way round',
     unlocksLevels: ['0007'],
     unlocksInstructions: [],
+    unlocksSpeed: 'play' as const,
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 3, y: 1, ...instructions['BLCK'] },

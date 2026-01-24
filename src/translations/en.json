@@ -4,9 +4,11 @@
     "cancel": "Cancel",
     "dragHint": "Drag to the board on the right.",
     "expected": "Expected",
+    "fastSpeed": "Fast",
     "input": "Input",
     "levelCompleted": "You finished the level, great job!",
     "noBlocksAvailable": "No blocks available",
+    "playSpeed": "Play",
     "resetConfirm": "This will reset your level, are you sure?",
     "searchBlocks": "Search blocks...",
     "selectBlock": "Select a block",
@@ -15,8 +17,10 @@
     "testCaseDone": "Test case {testCaseIndex} done!",
     "testCases": "Test cases",
     "title": "Board",
+    "turboSpeed": "Turbo",
     "unlockedBlocks": "You have unlocked the following blocks",
-    "unlockedLevels": "You have unlocked the following levels"
+    "unlockedLevels": "You have unlocked the following levels",
+    "unlockedSpeed": "You have unlocked a new speed"
   },
   "common": {
     "unlocks": "Unlocks"

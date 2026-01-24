@@ -25,7 +25,10 @@
 
                 <div
                     class="level-unlocks"
-                    v-if="level.unlocksInstructions && level.unlocksInstructions.length > 0"
+                    v-if="
+                        (level.unlocksInstructions && level.unlocksInstructions.length > 0) ||
+                        level.unlocksSpeed
+                    "
                 >
                     <span class="unlock-label"><T textKey="common.unlocks" />:</span>
                     <div class="unlock-icons">
@@ -46,6 +49,17 @@
                                 />
                             </div>
                         </template>
+                        <div v-if="level.unlocksSpeed" class="speed-unlock-mini">
+                            <i
+                                :class="
+                                    level.unlocksSpeed === 'play'
+                                        ? 'bi-play-fill'
+                                        : level.unlocksSpeed === 'fast'
+                                          ? 'bi-skip-forward-fill'
+                                          : 'bi-lightning-fill'
+                                "
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,6 +77,7 @@ interface Level {
     description?: string
     unlocksInstructions?: string[]
     unlocksLevels?: string[]
+    unlocksSpeed?: 'play' | 'fast' | 'turbo'
     [key: string]: unknown
 }
 
@@ -181,5 +196,29 @@ const store = useStore()
 .mini-instruction :deep(.instruction) {
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.speed-unlock-mini {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    animation: speedBadgePulse 2s ease-in-out infinite;
+}
+
+@keyframes speedBadgePulse {
+    0%,
+    100% {
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.6);
+    }
 }
 </style>

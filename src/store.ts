@@ -15,6 +15,8 @@ interface Instruction {
     [key: string]: unknown
 }
 
+export type Speed = 'play' | 'fast' | 'turbo'
+
 export interface Level {
     name: string
     completed?: boolean
@@ -23,6 +25,7 @@ export interface Level {
     hint?: string
     unlocksInstructions?: string[]
     unlocksLevels?: string[]
+    unlocksSpeed?: Speed
     [key: string]: unknown
 }
 
@@ -99,6 +102,26 @@ export const useStore = defineStore('main', {
                 }
             }
             return result
+        },
+        availableSpeeds(): Speed[] {
+            const speeds: Speed[] = []
+            const completedLevels = this.completedLevels
+            for (const level of completedLevels) {
+                if (level.unlocksSpeed && !speeds.includes(level.unlocksSpeed)) {
+                    speeds.push(level.unlocksSpeed)
+                }
+            }
+            return speeds
+        },
+        unavailableButReachableSpeed(): Speed | null {
+            const availableLevels = this.availableLevels
+            const availableSpeeds = this.availableSpeeds
+            for (const level of availableLevels) {
+                if (level.unlocksSpeed && !availableSpeeds.includes(level.unlocksSpeed)) {
+                    return level.unlocksSpeed
+                }
+            }
+            return null
         },
     },
     actions: {

@@ -6,6 +6,7 @@ export default {
     description: 'This might seem impossible, maybe you have to finish another level first',
     unlocksLevels: ['2001', '1001'],
     unlocksInstructions: [],
+    unlocksSpeed: 'fast' as const,
     levelTiles: [
         { x: 1, y: 1, ...instructions['STRT'] },
         { x: 3, y: 1, ...instructions['BLCK'] },

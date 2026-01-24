@@ -4,9 +4,11 @@
     "cancel": "Annuleren",
     "dragHint": "Sleep de blokken naar rechts.",
     "expected": "Verwachtte uitkomst",
+    "fastSpeed": "Snel",
     "input": "Input",
     "levelCompleted": "Je hebt het level af! Goed gedaan!",
     "noBlocksAvailable": "Geen blokken beschikbaar",
+    "playSpeed": "Afspelen",
     "resetConfirm": "Dit verwijdert alles van het bord, weet je het zeker?",
     "searchBlocks": "Zoek blokken...",
     "selectBlock": "Selecteer een blok",
@@ -15,8 +17,10 @@
     "testCaseDone": "Test {testCaseIndex} is goed!",
     "testCases": "Tests",
     "title": "Bord",
+    "turboSpeed": "Turbo",
     "unlockedBlocks": "Je kunt nu het volgende blok gebruiken",
-    "unlockedLevels": "Je kan nu door naar dit level"
+    "unlockedLevels": "Je kan nu door naar dit level",
+    "unlockedSpeed": "Je hebt een nieuwe snelheid ontgrendeld"
   },
   "common": {
     "unlocks": "Ontgrendelt"

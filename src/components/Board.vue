@@ -44,6 +44,27 @@
                         </template>
                     </div>
                 </div>
+                <div v-if="unlocksSpeed" class="unlock-section speed-unlock">
+                    <p><T textKey="board.unlockedSpeed" />:</p>
+                    <div class="speed-unlock-badge">
+                        <i
+                            :class="
+                                unlocksSpeed === 'play'
+                                    ? 'bi-play-fill'
+                                    : unlocksSpeed === 'fast'
+                                      ? 'bi-skip-forward-fill'
+                                      : 'bi-lightning-fill'
+                            "
+                        />
+                        <span>{{
+                            unlocksSpeed === 'play'
+                                ? $t('board.playSpeed')
+                                : unlocksSpeed === 'fast'
+                                  ? $t('board.fastSpeed')
+                                  : $t('board.turboSpeed')
+                        }}</span>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="primary-btn" @click="handleLevelCompletedNavigation">OK</button>
@@ -198,10 +219,18 @@
                             <i class="bi-skip-end-fill" />
                         </button>
                         <button
-                            class="control-btn"
-                            @click="playButton"
-                            :disabled="playing && !multiplePlayButtons"
-                            :title="playing && activeMode === 'regular' ? 'Pause' : 'Play'"
+                            v-if="showPlayButton"
+                            class="control-btn speed-btn"
+                            :class="{ 'locked-button': !playButtonUnlocked }"
+                            @click="playButtonUnlocked ? playButton() : null"
+                            :disabled="!playButtonUnlocked || (playing && !multiplePlayButtons)"
+                            :title="
+                                playButtonUnlocked
+                                    ? playing && activeMode === 'regular'
+                                        ? 'Pause'
+                                        : 'Play'
+                                    : getSpeedTooltip('play', false)
+                            "
                         >
                             <i
                                 :class="
@@ -210,13 +239,24 @@
                                         : 'bi-play-fill'
                                 "
                             />
+                            <i v-if="!playButtonUnlocked" class="lock-icon bi-lock-fill" />
                         </button>
                         <button
-                            class="control-btn"
-                            v-if="fastButtonUnlocked"
-                            @click="fastButton"
-                            :disabled="playing && !multiplePlayButtons && activeMode !== 'fast'"
-                            :title="playing && activeMode === 'fast' ? 'Pause' : 'Fast Forward'"
+                            class="control-btn speed-btn"
+                            v-if="showFastButton"
+                            :class="{ 'locked-button': !fastButtonUnlocked }"
+                            @click="fastButtonUnlocked ? fastButton() : null"
+                            :disabled="
+                                !fastButtonUnlocked ||
+                                (playing && !multiplePlayButtons && activeMode !== 'fast')
+                            "
+                            :title="
+                                fastButtonUnlocked
+                                    ? playing && activeMode === 'fast'
+                                        ? 'Pause'
+                                        : 'Fast Forward'
+                                    : getSpeedTooltip('fast', false)
+                            "
                         >
                             <i
                                 :class="
@@ -225,15 +265,24 @@
                                         : 'bi-skip-forward-fill'
                                 "
                             />
+                            <i v-if="!fastButtonUnlocked" class="lock-icon bi-lock-fill" />
                         </button>
                         <button
-                            class="control-btn"
-                            v-if="ultraFastButtonUnlocked"
-                            @click="ultraFastButton"
+                            class="control-btn speed-btn"
+                            v-if="showUltraFastButton"
+                            :class="{ 'locked-button': !ultraFastButtonUnlocked }"
+                            @click="ultraFastButtonUnlocked ? ultraFastButton() : null"
                             :disabled="
-                                playing && !multiplePlayButtons && activeMode !== 'lightning'
+                                !ultraFastButtonUnlocked ||
+                                (playing && !multiplePlayButtons && activeMode !== 'lightning')
                             "
-                            :title="playing && activeMode === 'lightning' ? 'Pause' : 'Turbo'"
+                            :title="
+                                ultraFastButtonUnlocked
+                                    ? playing && activeMode === 'lightning'
+                                        ? 'Pause'
+                                        : 'Turbo'
+                                    : getSpeedTooltip('turbo', false)
+                            "
                         >
                             <i
                                 :class="
@@ -242,6 +291,7 @@
                                         : 'bi-lightning-fill'
                                 "
                             />
+                            <i v-if="!ultraFastButtonUnlocked" class="lock-icon bi-lock-fill" />
                         </button>
                     </div>
                 </div>
@@ -465,6 +515,7 @@ const props = withDefaults(
         levelTiles?: Tile[]
         unlocksLevels?: string[]
         unlocksInstructions?: string[]
+        unlocksSpeed?: 'play' | 'fast' | 'turbo'
         description?: string
         displayName?: string
         name?: string
@@ -557,11 +608,44 @@ const boardStyle = computed(() => {
     }
 })
 
-const ultraFastButtonUnlocked = computed(() => true)
-const fastButtonUnlocked = computed(() => true)
+const ultraFastButtonUnlocked = computed(() => store.availableSpeeds.includes('turbo'))
+const fastButtonUnlocked = computed(() => store.availableSpeeds.includes('fast'))
+const playButtonUnlocked = computed(() => store.availableSpeeds.includes('play'))
 const multiplePlayButtons = computed(
     () => fastButtonUnlocked.value || ultraFastButtonUnlocked.value,
 )
+
+// Determine which speed buttons to show
+const showPlayButton = computed(() => playButtonUnlocked.value || !fastButtonUnlocked.value)
+const showFastButton = computed(
+    () => fastButtonUnlocked.value || (playButtonUnlocked.value && !ultraFastButtonUnlocked.value),
+)
+const showUltraFastButton = computed(
+    () => ultraFastButtonUnlocked.value || fastButtonUnlocked.value,
+)
+
+// Get the level that unlocks each speed
+const speedUnlockLevel = computed(() => {
+    const levels: Record<string, string> = {}
+    for (const level of Object.values(store.levels)) {
+        if (level.unlocksSpeed) {
+            levels[level.unlocksSpeed] = level.name || ''
+        }
+    }
+    return levels
+})
+
+// Generate tooltip for locked speeds
+const getSpeedTooltip = (speed: 'play' | 'fast' | 'turbo', isUnlocked: boolean) => {
+    if (isUnlocked) {
+        return speed === 'play' ? 'Play' : speed === 'fast' ? 'Fast Forward' : 'Turbo'
+    }
+    const levelName = speedUnlockLevel.value[speed]
+    if (levelName) {
+        return `Unlocks at level ${levelName}`
+    }
+    return 'Locked'
+}
 
 const showValidationPanel = computed(() => {
     if (!props.validation || props.validation.length === 0) return false
@@ -2025,6 +2109,55 @@ onBeforeUnmount(() => {
     background: #fee2e2;
 }
 
+.control-btn.speed-btn:not(.locked-button) {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.control-btn.speed-btn:not(.locked-button):hover:not(:disabled) {
+    background: linear-gradient(135deg, #7c8ff0 0%, #8b5bb8 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    transform: translateY(-1px);
+}
+
+.control-btn.locked-button {
+    position: relative;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.control-btn.locked-button:hover {
+    background: white;
+    color: #555;
+    border-color: #ddd;
+    transform: none;
+}
+
+.control-btn.speed-btn.locked-button {
+    background: #e5e7eb;
+    color: #9ca3af;
+    border: 1px solid #d1d5db;
+}
+
+.control-btn.speed-btn.locked-button:hover {
+    background: #e5e7eb;
+    color: #9ca3af;
+    border-color: #d1d5db;
+}
+
+.lock-icon {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    font-size: 0.7rem;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 3px;
+    border-radius: 3px;
+}
+
 /* Validation Panel */
 .validation-panel {
     background: white;
@@ -2517,6 +2650,38 @@ onBeforeUnmount(() => {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+}
+
+.speed-unlock-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    animation: speedUnlockPulse 0.6s ease-out;
+}
+
+.speed-unlock-badge i {
+    font-size: 28px;
+}
+
+@keyframes speedUnlockPulse {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .unlocked-instruction {
