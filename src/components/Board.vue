@@ -450,6 +450,7 @@ import { useToast } from 'vue-toastification'
 import flappy1 from '@/assets/flappy1.png'
 import flappy2 from '@/assets/flappy2.png'
 import cloneDeep from 'lodash/cloneDeep'
+import * as sounds from '../sounds'
 
 defineOptions({
     name: 'GameBoard',
@@ -1032,6 +1033,7 @@ const selectBlock = (instruction: {
         userPlaced: true,
         state: null,
     } as Tile)
+    sounds.playSoundBlockPlace()
     completedTestCases.value = {}
     saveBoardToLocalStorage()
     closeBlockSelectionModal()
@@ -1194,6 +1196,7 @@ const drop = (x: number, y: number, event: DragEvent) => {
         userPlacedTiles.value = userPlacedTiles.value.filter(
             (item) => !(item.x === deleteX && item.y === deleteY),
         )
+        sounds.playSoundBlockMove()
     }
     const instructionCode = event.dataTransfer.getData('text')
     const instruction = store.instructions[instructionCode]
@@ -1205,6 +1208,7 @@ const drop = (x: number, y: number, event: DragEvent) => {
             userPlaced: true,
             state: null,
         } as Tile)
+        sounds.playSoundBlockPlace()
     }
     completedTestCases.value = {}
     saveBoardToLocalStorage()
@@ -1284,6 +1288,7 @@ const moveBird = (bird: Bird): Promise<void> | void => {
 const dieBird = async (message: string, bird: Bird, params?: Record<string, string | number>) => {
     shouldStopPlaying.value = true
     await sleep(0.5 * speed.value)
+    sounds.playSoundDeath()
     bird.birdClasses.push('dead')
     await sleep(500)
     if (!props.wikiMode) {
@@ -1320,6 +1325,7 @@ const isTestCaseEqual = (a: TestCase | null | undefined, b: TestCase | null | un
 }
 
 const finish = () => {
+    sounds.playSoundLevelComplete()
     reset()
     let allLevelsFinished = true
     let nextTestCase: TestCase | null = null
@@ -1398,6 +1404,7 @@ const playButton = () => {
         activeMode.value = null
         return
     }
+    sounds.playSoundSpeedPlay()
     speed.value = 200
     updateFlappingSpeed()
     if (playing.value) {
@@ -1415,6 +1422,7 @@ const ultraFastButton = () => {
         activeMode.value = null
         return
     }
+    sounds.playSoundSpeedTurbo()
     speed.value = 5
     updateFlappingSpeed()
     if (playing.value) {
@@ -1432,6 +1440,7 @@ const fastButton = () => {
         activeMode.value = null
         return
     }
+    sounds.playSoundSpeedFast()
     speed.value = 40
     updateFlappingSpeed()
     if (playing.value) {
@@ -1443,6 +1452,7 @@ const fastButton = () => {
 }
 
 const stepButton = async () => {
+    sounds.playSoundSpeedStep()
     speed.value = 200
     updateFlappingSpeed()
     shouldStopPlaying.value = true
@@ -1501,6 +1511,10 @@ const step = async () => {
             instruction?.name === 'STRT'
 
         if (!isFirstStep && instruction && instruction.execute) {
+            // Play sound for this instruction
+            if (instruction.name) {
+                sounds.playSoundForInstruction(instruction.name)
+            }
             shouldMove = await instruction.execute(
                 bird,
                 {
@@ -1617,6 +1631,7 @@ const clearWithWarning = () => {
 }
 
 const clear = () => {
+    sounds.playSoundStackClear()
     userPlacedTiles.value = []
     reset()
     saveBoardToLocalStorage()

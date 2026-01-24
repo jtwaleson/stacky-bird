@@ -55,6 +55,7 @@ async function getSynth(): Promise<ToneSynth> {
 import { toRaw } from 'vue'
 import isEqual from 'lodash.isequal'
 import { sleep } from './util'
+import * as sounds from './sounds'
 
 type Direction = 'up' | 'down' | 'left' | 'right'
 
