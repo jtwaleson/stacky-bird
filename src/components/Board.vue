@@ -199,7 +199,7 @@
 
                 <div class="game-controls">
                     <button
-                        :disabled="birdIsLoaded || playing"
+                        :disabled="birdIsLoaded || playing || userPlacedTiles.length === 0"
                         class="control-btn delete-btn"
                         @click="clearWithWarning"
                         title="Clear Board"
@@ -208,14 +208,14 @@
                     </button>
                     <div class="playback-controls">
                         <button
-                            class="control-btn"
+                            class="control-btn speed-btn"
                             @click="resetButton"
                             :disabled="!birdIsLoaded"
                             title="Stop"
                         >
                             <i class="bi-stop-fill" />
                         </button>
-                        <button class="control-btn" @click="stepButton" title="Step">
+                        <button class="control-btn speed-btn" @click="stepButton" title="Step">
                             <i class="bi-skip-end-fill" />
                         </button>
                         <button
